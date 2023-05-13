@@ -2,14 +2,19 @@
   let n: number = 0;
 </script>
 
-<section class="banner">
-  <div class="banner-img" />
+<section>
+  <div
+    class="bg-[url('$lib/stormseeker-rX12B5uX7QM-unsplash.jpg')] bg-fixed bg-[0_65%] w-full h-[20em] shadow-inner"
+  />
 </section>
 
-<section class="content">
+<section class="my-10 mx-16">
   游😶育是甲，這是真的!<br />
 
-  <button on:click={() => n++}>猜謎: 南一中第一甲是誰?</button>
+  <button
+    class="p-3 my-2 bg-gray-300 rounded-md border-2 transition-all hover:border-blue-400"
+    on:click={() => n++}>猜謎: 南一中第一甲是誰?</button
+  >
 
   {#each Array(n) as _}
     <br /> 游😲育
