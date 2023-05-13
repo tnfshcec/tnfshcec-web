@@ -1,4 +1,6 @@
 <script>
+  import "@skeletonlabs/skeleton/styles/skeleton.css";
+  import "../app.postcss";
   import vitamin from "$lib/vitamin-d.png";
 </script>
 
