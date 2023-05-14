@@ -2,9 +2,10 @@
   import "@skeletonlabs/skeleton/themes/theme-skeleton.css";
   import "@skeletonlabs/skeleton/styles/skeleton.css";
   import "../app.postcss";
-  import vitamin from "$lib/vitamin-d.png";
 
   import { AppBar, AppShell } from "@skeletonlabs/skeleton";
+
+  import vitamin from "$lib/assets/vitamin-d.png";
 </script>
 
 <AppShell>
@@ -26,21 +27,9 @@
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>
+  <!-- header -->
 
   <slot />
 </AppShell>
 
 <slot />
-
-<style>
-  #nav-links {
-    list-style: none;
-    margin: 0;
-  }
-
-  #nav-links li {
-    display: inline;
-    font-size: 110%;
-    margin-left: 2em;
-  }
-</style>
