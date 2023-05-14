@@ -7,6 +7,8 @@ const config = defineConfig({
     dashes: "oldschool"
   },
 
+  layout: "./src/lib/postLayout.svelte",
+
   remarkPlugins: [],
   rehypePlugins: []
 });

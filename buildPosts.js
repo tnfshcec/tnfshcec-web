@@ -46,4 +46,18 @@ async function buildDir(src) {
   });
 }
 
-buildDir(config.postDir);
+async function clearPosts(src) {
+  let files = await fs.readdir(src, { withFileTypes: true });
+
+  for (let file of files) {
+    if (file.isDirectory()) {
+      await fs.rm(path.join(src, file.name), { recursive: true });
+    } else {
+      await fs.unlink(path.join(src, file.name));
+    }
+    console.log("Delete", file.name);
+  }
+}
+
+await clearPosts(config.destDir);
+await buildDir(config.postDir);
