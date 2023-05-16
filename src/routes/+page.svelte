@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Weird from "$lib/weird.svelte";
+  export let data: { posts: Promise<App.PostData[]> };
 </script>
 
 <section>
@@ -9,5 +9,17 @@
 </section>
 
 <section class="my-10 mx-16">
-  <Weird />
+  <div class="flex flex-col justify-center">
+    {#await data.posts then posts}
+      {#each posts as post}
+        <a class="my-5 card card-hover variant-soft" href={post.url}>
+          <header class="card-header">
+            <span class="text-surface-500">{post?.author} / {post?.date}</span>
+            <br />
+            <span class="text-2xl font-bold">{post?.title}</span>
+          </header>
+        </a>
+      {/each}
+    {/await}
+  </div>
 </section>

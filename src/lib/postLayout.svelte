@@ -1,4 +1,5 @@
 <script>
+  /** @type {string | undefined} */
   export let title;
 </script>
 

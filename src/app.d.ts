@@ -6,7 +6,15 @@ declare global {
     // interface Locals {}
     // interface PageData {}
     // interface Platform {}
+    interface PostData {
+      title?: string;
+      author?: string;
+      date?: string;
+      url: string;
+    }
   }
+
+  namespace TnfshCec { }
 }
 
-export {};
+export { };
