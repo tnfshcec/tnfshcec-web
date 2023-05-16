@@ -20,11 +20,6 @@
         <br />
         <span class="text-3xl whitespace-nowrap">電機社</span>
       </span>
-
-      <svelte:fragment slot="trail">
-        <a href="#">主頁</a>
-        <a href="#">ABOUT</a>
-      </svelte:fragment>
     </AppBar>
   </svelte:fragment>
   <!-- header -->
