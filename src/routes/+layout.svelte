@@ -26,5 +26,3 @@
 
   <slot />
 </AppShell>
-
-<slot />

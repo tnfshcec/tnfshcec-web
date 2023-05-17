@@ -5,7 +5,7 @@ date: 2023-5-??
 ---
 
 <script>
-  import Weird from "$lib/weird.svelte";
+  import Weird from "$lib/post/weird.svelte";
 </script>
 
 <Weird />
