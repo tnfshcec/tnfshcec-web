@@ -64,9 +64,7 @@ async function buildDir(src) {
       [config.postRoute, config.assetRoute, config.componentRoute].forEach((route) => {
         let dir = path.join(route, file.name);
 
-        fs.mkdir(dir)
-          .then(() => console.log("Make directory", dir))
-          .catch(({ message }) => console.warn(message));
+        fs.mkdir(dir).catch(({ message }) => console.warn(message));
       });
 
       buildDir(fileSrc);
@@ -75,7 +73,6 @@ async function buildDir(src) {
 
     switch (getFileType(file.name)) {
       case "post":
-        console.log("mkpost", path.join(config.postRoute, file.name));
         mkPost(fileSrc).catch(({ message }) => console.warn(message));
         break;
       case "asset":

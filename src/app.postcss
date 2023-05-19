@@ -3,3 +3,11 @@ html,
 body {
   @apply h-full overflow-hidden;
 }
+
+.md-header a::after {
+  @apply pl-2 text-surface-300 transition-all content-['#'];
+}
+
+.md-header:hover a::after {
+  @apply text-primary-800;
+}
