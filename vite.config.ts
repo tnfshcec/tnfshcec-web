@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     watch({
       pattern: "cec/**/*",
-      command: "npm run build:posts"
+      command: (file) => `npm run build:posts ${file ? `-- ${file}` : ""}`
     }),
     sveltekit()
   ]

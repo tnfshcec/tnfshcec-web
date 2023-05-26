@@ -1,3 +1,5 @@
+// @ts-check
+
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -23,6 +25,7 @@ function getFileType(src) {
   // get rid of the dot
   let ext = path.extname(src).substring(1);
   for (let [type, exts] of Object.entries(config.ext)) {
+    // @ts-ignore (`type` is obviously `keyof config.ext`)
     if (exts.includes(ext)) return type;
   }
 
@@ -31,20 +34,53 @@ function getFileType(src) {
 }
 
 /**
+ * Get where the file route should be on the site. (Relative path from `cec`)
+ *
+ * @param {string} src Path of the file
+ * @returns {string} Where the file should end up in
+ */
+function getPostRoute(src) {
+  return path.relative("cec", src);
+}
+
+/**
  * Build a md post to their path in site route.
  *
  * @param {string} src Path of the post file
  */
 async function mkPost(src) {
-  let post = path.join(
-    config.postRoute,
-    src.replace(/cec\//, "").slice(0, -path.extname(src).length)
-  );
+  let post = path.join(config.postRoute, getPostRoute(src));
 
   await fs.mkdir(post);
   await fs.copyFile(src, path.join(post, `+page.md`));
 
   console.log("Post: ", post);
+}
+
+/**
+ * Copy a file to where it should be.
+ * Destinations are determined by its file type.
+ *
+ * @param {string} src Path to the file
+ */
+async function cpFile(src) {
+  let route = getPostRoute(src);
+
+  switch (getFileType(src)) {
+    case "post":
+      await mkPost(src).catch(({ message }) => console.warn(message));
+      break;
+    case "asset":
+      await fs
+        .copyFile(src, path.join(config.assetRoute, route))
+        .catch(({ message }) => console.warn(message));
+      break;
+    case "component":
+      await fs
+        .copyFile(src, path.join(config.componentRoute, route))
+        .catch(({ message }) => console.warn(message));
+      break;
+  }
 }
 
 /**
@@ -56,8 +92,8 @@ async function buildDir(src) {
   let files = await fs.readdir(src, { withFileTypes: true });
 
   files.forEach((file) => {
-    // file.name => path/to/post.md
-    // fileSrc   => cec/path/to/post.md
+    // file.name => path/to/post.md (actual route on the site)
+    // fileSrc   => cec/path/to/post.md (relative route from the project root)
     const fileSrc = path.join(src, file.name);
 
     if (file.isDirectory()) {
@@ -71,21 +107,7 @@ async function buildDir(src) {
       return;
     }
 
-    switch (getFileType(file.name)) {
-      case "post":
-        mkPost(fileSrc).catch(({ message }) => console.warn(message));
-        break;
-      case "asset":
-        fs.copyFile(fileSrc, path.join(config.assetRoute, file.name)).catch(({ message }) =>
-          console.warn(message)
-        );
-        break;
-      case "component":
-        fs.copyFile(fileSrc, path.join(config.componentRoute, file.name)).catch(({ message }) =>
-          console.warn(message)
-        );
-        break;
-    }
+    cpFile(fileSrc);
   });
 }
 
@@ -108,7 +130,7 @@ async function clearRoutes() {
 async function ensureRoutes() {
   for (let route of [config.postRoute, config.assetRoute, config.componentRoute]) {
     fs.mkdir(route).catch((err) => {
-      if (!err.code == "EEXIST") {
+      if (err.code != "EEXIST") {
         throw err;
       }
     });
@@ -116,5 +138,12 @@ async function ensureRoutes() {
 }
 
 await ensureRoutes();
-await clearRoutes();
-await buildDir(config.postDir);
+
+const argFile = process.argv[2];
+
+if (argFile) {
+  await cpFile(argFile);
+} else {
+  await clearRoutes();
+  await buildDir(config.postDir);
+}
