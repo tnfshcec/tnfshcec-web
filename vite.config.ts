@@ -1,18 +1,13 @@
-import path from "path";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
-import watchAndRun from "vite-plugin-watch-and-run";
+import { watch } from "./vite-plugin-watch";
 
 export default defineConfig({
   plugins: [
-    watchAndRun([
-      {
-        name: "buildPosts",
-        watchKind: ["add", "change", "unlink", "addDir", "unlinkDir"],
-        watch: path.resolve("cec/**/*"),
-        run: "npm run build:posts"
-      }
-    ]),
+    watch({
+      pattern: "cec/**/*",
+      command: "npm run build:posts"
+    }),
     sveltekit()
   ]
 });
