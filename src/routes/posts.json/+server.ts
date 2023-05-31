@@ -8,10 +8,23 @@ export const GET = (() => {
   });
 
   const posts = Object.entries(postFiles).map(([key, val]) => {
-    return {
+    let data: App.PostData = {
       ...val,
       url: key.substring(11, key.length - 9)
-    } as App.PostData;
+    };
+
+    if (data.date) {
+      let date = new Date(data.date);
+      data.date = isNaN(date.valueOf())
+        ? data.date
+        : date.toLocaleString("zh-TW", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          });
+    }
+
+    return data;
   });
 
   return json(posts);

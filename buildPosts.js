@@ -51,7 +51,9 @@ function getPostRoute(src) {
 async function mkPost(src) {
   let post = path.join(config.postRoute, getPostRoute(src));
 
-  await fs.mkdir(post);
+  await fs.mkdir(post).catch((error) => {
+    if (error.code != "EEXIST") throw error;
+  });
   await fs.copyFile(src, path.join(post, `+page.md`));
 
   console.log("Post: ", post);
