@@ -13,8 +13,6 @@ declare global {
       url: string;
     }
   }
-
-  namespace TnfshCec { }
 }
 
 export { };
