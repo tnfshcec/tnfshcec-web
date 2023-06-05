@@ -3,17 +3,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-const config = {
+const config = /** @type {const} */ ({
   postDir: "cec",
   postRoute: "src/routes/post",
   assetRoute: "static/post",
   componentRoute: "src/lib/post",
   ext: {
     asset: ["jpg", "png", "webp", "avif"],
-    post: ["md"],
+    post: ["svelte.md", "md", "svx"], // `md` placed after `svelte.md` so svelte would match first
     component: ["svelte"]
   }
-};
+});
 
 /**
  * Get file type from its path name.
@@ -22,11 +22,10 @@ const config = {
  * @returns {keyof typeof config.ext} File type
  */
 function getFileType(src) {
-  // get rid of the dot
-  let ext = path.extname(src).substring(1);
   for (let [type, exts] of Object.entries(config.ext)) {
-    // @ts-ignore (`type` is obviously `keyof config.ext`)
-    if (exts.includes(ext)) return type;
+    for (const ext of exts) {
+      if (src.endsWith(ext)) return /** @type {keyof typeof config.ext} */ (type);
+    }
   }
 
   // for any other files
@@ -49,14 +48,22 @@ function getPostRoute(src) {
  * @param {string} src Path of the post file
  */
 async function mkPost(src) {
-  let post = path.join(config.postRoute, getPostRoute(src));
+  let route = path.join(config.postRoute, getPostRoute(src));
+  let srcExt = "md";
 
-  await fs.mkdir(post).catch((error) => {
+  config.ext.post.forEach((ext) => {
+    if (route.endsWith(ext)) {
+      srcExt = ext;
+      route = route.slice(0, -ext.length - 1);
+    }
+  });
+
+  await fs.mkdir(route).catch((error) => {
     if (error.code != "EEXIST") throw error;
   });
-  await fs.copyFile(src, path.join(post, `+page.md`));
+  await fs.copyFile(src, path.join(route, `+page.${srcExt}`));
 
-  console.log("Post: ", post);
+  console.log("Post: ", route);
 }
 
 /**
