@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import HomeSection from "$lib/homeSection.svelte";
 
@@ -14,7 +15,7 @@
 <div class="my-10 mx-auto max-w-[65rem] min-w-[20rem] w-[80%]">
   <HomeSection title="最新">
     {#each data.posts.slice(0, 5) as post}
-      <a class="block p-2 w-full card card-hover variant-soft" href={post.url}>
+      <a class="block p-2 w-full card card-hover variant-soft" href="{base}/{post.url}">
         <header class="card-header">
           <span class="block text-surface-500">
             {post.author || ""}
