@@ -43,6 +43,24 @@ function getPostRoute(src) {
 }
 
 /**
+ * Clear any given directory's contents.
+ * @param  {...string} routes Routes to clear
+ */
+async function clearRoutes(...routes) {
+  for (let route of routes) {
+    let files = await fs.readdir(route, { withFileTypes: true });
+
+    for (let file of files) {
+      if (file.isDirectory()) {
+        await fs.rm(path.join(route, file.name), { recursive: true });
+      } else {
+        await fs.unlink(path.join(route, file.name));
+      }
+    }
+  }
+}
+
+/**
  * Build a md post to their path in site route.
  *
  * @param {string} src Path of the post file
@@ -61,6 +79,7 @@ async function mkPost(src) {
   await fs.mkdir(route).catch((error) => {
     if (error.code != "EEXIST") throw error;
   });
+  await clearRoutes(route);
   await fs.copyFile(src, path.join(route, `+page.${srcExt}`));
 
   console.log("Post: ", route);
@@ -100,7 +119,7 @@ async function cpFile(src) {
 async function buildDir(src) {
   let files = await fs.readdir(src, { withFileTypes: true });
 
-  files.forEach((file) => {
+  for (const file of files) {
     // file.name => path/to/post.md (actual route on the site)
     // fileSrc   => cec/path/to/post.md (relative route from the project root)
     const fileSrc = path.join(src, file.name);
@@ -112,27 +131,11 @@ async function buildDir(src) {
         fs.mkdir(dir).catch(({ message }) => console.warn(message));
       });
 
-      buildDir(fileSrc);
-      return;
+      await buildDir(fileSrc);
+      continue;
     }
 
-    cpFile(fileSrc);
-  });
-}
-
-async function clearRoutes() {
-  console.log("Clearing posts...");
-
-  for (let route of [config.postRoute, config.assetRoute, config.componentRoute]) {
-    let files = await fs.readdir(route, { withFileTypes: true });
-
-    for (let file of files) {
-      if (file.isDirectory()) {
-        await fs.rm(path.join(route, file.name), { recursive: true });
-      } else {
-        await fs.unlink(path.join(route, file.name));
-      }
-    }
+    await cpFile(fileSrc);
   }
 }
 
@@ -153,6 +156,8 @@ const argFile = process.argv[2];
 if (argFile) {
   await cpFile(argFile);
 } else {
-  await clearRoutes();
+  console.log("(Re-)Generating posts...");
+
+  await clearRoutes(config.postRoute, config.assetRoute, config.componentRoute);
   await buildDir(config.postDir);
 }
