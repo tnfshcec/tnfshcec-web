@@ -1,31 +1,34 @@
 import { fade, fly, type FadeParams, type FlyParams } from "svelte/transition";
 
+const duration = 200;
+const delay = 150;
+
 export function fadeIn(node: Element, params?: FadeParams) {
   return fade(node, {
-    delay: 300,
-    duration: 200,
+    delay,
+    duration,
     ...params
   });
 }
 
 export function fadeOut(node: Element, params?: FadeParams) {
   return fade(node, {
-    duration: 200,
+    duration,
     ...params
   });
 }
 
 export function flyIn(node: Element, params?: FlyParams) {
   return fly(node, {
-    delay: 300,
-    duration: 200,
+    delay,
+    duration,
     ...params
   });
 }
 
 export function flyOut(node: Element, params?: FlyParams) {
   return fly(node, {
-    duration: 200,
+    duration,
     ...params
   });
 }

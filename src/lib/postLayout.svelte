@@ -6,8 +6,8 @@
 
 <div class="flex justify-center">
   <div
-    class="p-6 my-4 rounded-2xl shadow-lg max-w-[65rem] min-w-[20rem] w-[80%]
-           shadow-surface-400 bg-surface-200 space-y-4 dark:shadow-surface-500 dark:bg-surface-700"
+    class="p-6 my-4 rounded-xl shadow-md max-w-[65rem] min-w-[20rem] w-[80%]
+           shadow-surface-400 bg-surface-100 space-y-4 dark:shadow-surface-500 dark:bg-surface-800"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >

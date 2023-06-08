@@ -17,7 +17,7 @@
     {#each data.posts.slice(0, 5) as post}
       <a class="block p-2 w-full card card-hover variant-soft" href="{base}/{post.url}">
         <header class="card-header">
-          <span class="block text-surface-500">
+          <span class="block text-surface-600 dark:text-surface-300">
             {post.author || ""}
             {post.author && post.date ? "/" : ""}
             {post.date || ""}
