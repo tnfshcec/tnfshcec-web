@@ -2,29 +2,53 @@ import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 
 export const GET = (async () => {
-  const postFiles = import.meta.glob<App.PostData>("/src/routes/post/**/+page.{md,svelte.md,svx}", {
-    import: "metadata"
-  });
+  const postFiles = import.meta.glob<Partial<App.PostData>>(
+    "/src/routes/post/**/+page.{md,svelte.md,svx}",
+    {
+      import: "metadata"
+    }
+  );
 
-  const posts = Object.entries(postFiles).map(async ([key, val]) => {
-    let data: App.PostData = {
-      ...(await val().catch((error) => console.log(error))),
-      url: key.substring(12, key.lastIndexOf("/"))
+  const asyncPosts = Object.entries(postFiles).map(async ([key, val]) => {
+    const postPath = key.substring(12, key.lastIndexOf("/"));
+
+    let frontmatter = await val();
+    frontmatter ??= {
+      timestamp: 0,
+      url: postPath
     };
 
-    if (data.date) {
-      let date = new Date(data.date);
-      data.date = isNaN(date.valueOf())
-        ? data.date
-        : date.toLocaleString("zh-TW", {
-          year: "numeric",
-          month: "long",
-          day: "numeric"
-        });
-    }
+    const date = new Date(frontmatter.date || "");
+    const localDate = isNaN(date.valueOf())
+      ? frontmatter.date
+      : date.toLocaleString("zh-TW", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+    const data: App.PostData = {
+      ...frontmatter,
+      date: localDate,
+      timestamp: date.getTime() || 0,
+      url: postPath
+    };
 
     return data;
   });
 
-  return json(await Promise.all(posts));
+  const posts = await Promise.all(asyncPosts);
+  posts.sort((a, b) => {
+    const pin = +(b.pinned || 0) - +(a.pinned || 0);
+
+    if (pin != 0) {
+      return pin;
+    }
+
+    return b.timestamp - a.timestamp;
+  });
+
+  console.log(posts);
+
+  return json(posts);
 }) satisfies RequestHandler;
