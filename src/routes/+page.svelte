@@ -1,30 +1,32 @@
 <script lang="ts">
-	let n: number = 0;
+  import HomeSection from "$lib/homeSection.svelte";
+  import PostCard from "$lib/postCard.svelte";
+  import Banner from "$lib/banner.svelte";
+
+  import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
+
+  export let data: { posts: App.PostData[] };
 </script>
 
-<section class="banner">
-	<div class="banner-img" />
-</section>
+<Banner img={storm} />
 
-<section class="content">
-	游😶育是甲，這是真的!<br />
+<div class="my-10 mx-auto max-w-[65rem] min-w-[20rem] w-[80%]">
+  <HomeSection title="最新">
+    {#each data.posts.slice(0, 5) as post}
+      <PostCard {post} />
+    {/each}
+  </HomeSection>
 
-	<button on:click={() => n++}>猜謎: 南一中第一甲是誰?</button>
+  <hr class="!border-dotted my-8" />
 
-	{#each Array(n) as _}
-		<br /> 游😲育
-	{/each}
-</section>
-
-<style>
-	.banner-img {
-		background: url('$lib/stormseeker-rX12B5uX7QM-unsplash.jpg') fixed 0 65%;
-		width: 100%;
-		height: 20em;
-		box-shadow: inset 0 0 50px 2px black;
-	}
-
-  .content {
-    margin: 3em 10em;
-  }
-</style>
+  <HomeSection title="關於">
+    電機社～新樓醫院心臟科 Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
+    enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim
+    cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet
+    voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit
+    irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris
+    cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt
+    duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
+    Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+  </HomeSection>
+</div>

@@ -1,0 +1,13 @@
+/* Write your global styles here, in PostCSS syntax */
+html,
+body {
+  @apply h-full overflow-hidden;
+}
+
+.md-header a::after {
+  @apply pl-2 text-surface-200 transition-all content-['#'] dark:text-surface-700;
+}
+
+.md-header:hover a::after {
+  @apply text-primary-800 dark:text-primary-100;
+}
