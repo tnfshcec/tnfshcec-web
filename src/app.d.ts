@@ -11,7 +11,6 @@ declare global {
       author?: string;
       date?: string;
       pinned?: boolean;
-      timestamp: number;
       url: string;
     }
   }

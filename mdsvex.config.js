@@ -3,6 +3,21 @@ import rehypeAddClasses from "rehype-add-classes";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 
+const remarkFm =
+  () =>
+    /**
+     * @param {import("unist").Node<import("unist").Data>} tree
+     * @param {{ data: { fm?: Record<String, Unknown>}, filename?: string}} param1
+     */
+    (tree, { data, filename }) => {
+      const postPath = filename
+        ? filename.slice(filename.indexOf("/src/routes") + 12, filename.lastIndexOf("/"))
+        : "Unknown";
+
+      data.fm ??= {};
+      data.fm.url = postPath;
+    };
+
 const config = defineConfig({
   extensions: [".svelte.md", ".md", ".svx"],
 
@@ -12,7 +27,7 @@ const config = defineConfig({
 
   layout: "./src/lib/postLayout.svelte",
 
-  remarkPlugins: [],
+  remarkPlugins: [remarkFm],
   rehypePlugins: [
     [
       rehypeAddClasses,
