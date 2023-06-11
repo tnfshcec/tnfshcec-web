@@ -1,16 +1,14 @@
 <script lang="ts">
-  import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import HomeSection from "$lib/homeSection.svelte";
   import PostCard from "$lib/postCard.svelte";
+  import Banner from "$lib/banner.svelte";
+
+  import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
 
   export let data: { posts: App.PostData[] };
 </script>
 
-<div
-  class="bg-[url('$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg')] bg-fixed bg-[0_65%] w-full h-[25em] shadow-inner"
-  in:fadeIn
-  out:fadeOut
-/>
+<Banner img={storm} />
 
 <div class="my-10 mx-auto max-w-[65rem] min-w-[20rem] w-[80%]">
   <HomeSection title="最新">
