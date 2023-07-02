@@ -8,9 +8,9 @@
   export let data: { posts: App.PostData[] };
 </script>
 
-<Banner img={storm} />
+<Banner img={storm} parallaxRate={-0.2} />
 
-<div class="my-10 mx-auto max-w-[65rem] min-w-[20rem] w-[80%]">
+<div class="mx-auto w-full max-w-5xl min-w-[20rem]">
   <HomeSection title="最新">
     {#each data.posts.slice(0, 5) as post}
       <PostCard {post} />

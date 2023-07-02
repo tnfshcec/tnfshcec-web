@@ -6,9 +6,10 @@
   import { AppBar, AppShell } from "@skeletonlabs/skeleton";
 
   import vitamin from "$lib/assets/vitamin-d.png";
+  import { onScroll } from "$lib/stores/scroll";
 </script>
 
-<AppShell>
+<AppShell on:scroll={(e) => onScroll.fireEvent(e)}>
   <svelte:fragment slot="header">
     <AppBar slotTrail="space-x-8">
       <svelte:fragment slot="lead">
