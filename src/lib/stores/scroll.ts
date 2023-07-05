@@ -1,7 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 
-type ScrollEvent = UIEvent & { currentTarget: EventTarget & HTMLDivElement };
-type Scroll = { event?: UIEvent; scrollX: number; scrollY: number };
+type ScrollEvent = Event & { currentTarget: EventTarget & HTMLDivElement };
+type Scroll = { event?: Event; scrollX: number; scrollY: number };
 
 function getScroll(event?: ScrollEvent) {
   const target = event?.currentTarget || {

@@ -5,18 +5,18 @@ import rehypeSlug from "rehype-slug";
 
 const remarkFm =
   () =>
-    /**
-     * @param {import("unist").Node<import("unist").Data>} tree
-     * @param {{ data: { fm?: Record<String, Unknown>}, filename?: string}} param1
-     */
-    (tree, { data, filename }) => {
-      const postPath = filename
-        ? filename.slice(filename.indexOf("/src/routes") + 12, filename.lastIndexOf("/"))
-        : "Unknown";
+  /**
+   * @param {import("unist").Node<import("unist").Data>} tree
+   * @param {{ data: { fm?: Record<String, Unknown>}, filename?: string}} param1
+   */
+  (tree, { data, filename }) => {
+    const postPath = filename
+      ? filename.slice(filename.indexOf("/src/routes") + 12, filename.lastIndexOf("/"))
+      : "Unknown";
 
-      data.fm ??= {};
-      data.fm.url = postPath;
-    };
+    data.fm ??= {};
+    data.fm.url = postPath;
+  };
 
 const config = defineConfig({
   extensions: [".svelte.md", ".md", ".svx"],
@@ -37,7 +37,11 @@ const config = defineConfig({
         h3: "h3 md-header",
         h4: "h4 md-header",
         h5: "h5 md-header",
-        h6: "h6 md-header"
+        h6: "h6 md-header",
+        a: "anchor",
+        blockquote: "blockquote",
+        pre: "pre",
+        code: "code"
       }
     ],
     rehypeSlug,
