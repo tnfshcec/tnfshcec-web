@@ -4,10 +4,9 @@ body {
   @apply h-full overflow-hidden;
 }
 
-.md-header a::after {
-  @apply pl-2 text-surface-200 transition-all content-['#'] dark:text-surface-700;
+.prose {
+  @apply prose-headings:font-normal prose-h2:!h2 prose-h3:!h3 prose-h4:!h4 prose-h5:!h5 prose-h6:!h6;
+  @apply prose-a:anchor prose-code:code prose-blockquote:blockquote prose-pre:pre;
 }
 
-.md-header:hover a::after {
-  @apply text-primary-800 dark:text-primary-100;
-}
+/* vim: set ft=css: */

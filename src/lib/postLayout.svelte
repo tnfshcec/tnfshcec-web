@@ -24,7 +24,7 @@
       </span>
       <h1 class="h1">{title}</h1>
     </header>
-    <section class="p-4">
+    <section class="p-4 prose">
       <slot />
     </section>
   </div>
