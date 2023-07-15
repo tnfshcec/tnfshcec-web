@@ -7,7 +7,17 @@ const config = {
   ],
 
   theme: {
-    extend: {}
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            pre: false,
+            code: false,
+            "pre code": false
+          }
+        }
+      }
+    }
   },
 
   plugins: [

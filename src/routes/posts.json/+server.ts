@@ -1,12 +1,11 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { listPosts, parsePost } from "$lib/server/posts";
 
 export const GET = (async () => {
-  const postFiles = import.meta.glob<App.PostData>("/src/routes/post/**/+page.{md,svelte.md,svx}", {
-    import: "metadata"
-  });
-
-  const posts = await Promise.all(Object.entries(postFiles).map(([key, val]) => val()));
+  const posts: App.PostData[] = await listPosts().then((paths) =>
+    Promise.all(paths.map((p) => parsePost(p, false)))
+  );
 
   posts.sort((a, b) => {
     const pin = +(b.pinned || 0) - +(a.pinned || 0);
