@@ -16,7 +16,7 @@
   let date = localeDate(data.data.date);
 </script>
 
-<div class="flex flex-col items-center gap-4 md:py-4 xl:flex-row">
+<div class="flex flex-col gap-4 md:py-4 xl:flex-row">
   <div class="flex-1" in:fadeIn out:fadeOut />
 
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
@@ -25,7 +25,7 @@
 
   <div
     id="post-content"
-    class="flex-none p-4 card w-full max-w-screen-md md:shadow-lg"
+    class="flex-none self-center p-4 card w-full max-w-screen-md md:shadow-lg"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >

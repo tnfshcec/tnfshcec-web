@@ -7,7 +7,6 @@ import CodeBlockBridge from "../components/CodeBlockBridge.svelte";
 export const codeBlockPlugin: Plugin = {
   remarkPlugin: () => (tree) => {
     visit(tree, "code", (node) => {
-      console.log(node);
       // Change type to remove additional <pre> element
       node.type = "CodeBlock";
       node.data = {

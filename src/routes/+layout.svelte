@@ -2,6 +2,7 @@
   import "@skeletonlabs/skeleton/styles/skeleton.css";
   import "../app.postcss";
   import "../theme.postcss";
+  import "../typography-prose.css";
 
   import hljs from "highlight.js";
   import "highlight.js/styles/github-dark.css";

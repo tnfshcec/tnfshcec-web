@@ -17,7 +17,7 @@ export const GET = (async () => {
     return Date.parse(b.date || "") - Date.parse(a.date || "");
   });
 
-  console.log(posts);
+  // console.log(posts);
 
   return json(posts);
 }) satisfies RequestHandler;
