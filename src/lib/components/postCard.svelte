@@ -1,6 +1,6 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import { localeDate } from "./utils/date";
+  import { localeDate } from "../utils/date";
 
   export let post: App.PostData;
 

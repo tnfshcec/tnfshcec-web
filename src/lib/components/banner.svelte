@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onScroll } from "./stores/scroll";
-  import { fadeIn, fadeOut } from "./utils/transitions";
+  import { onScroll } from "../stores/scroll";
+  import { fadeIn, fadeOut } from "../utils/transitions";
 
   export let img: string;
   export let parallaxRate = 0;

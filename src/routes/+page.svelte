@@ -1,6 +1,6 @@
 <script lang="ts">
-  import HomeSection from "$lib/homeSection.svelte";
-  import PostCard from "$lib/postCard.svelte";
+  import HomeSection from "$lib/components/homeSection.svelte";
+  import PostCard from "$lib/components/postCard.svelte";
 
   import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
   import { fadeIn, fadeOut } from "$lib/utils/transitions";

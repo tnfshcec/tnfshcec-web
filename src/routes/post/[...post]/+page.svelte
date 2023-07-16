@@ -1,42 +1,31 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
-  import type { Plugin } from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { visit } from "unist-util-visit";
-  import MdCodeBlock from "$lib/MdCodeBlock.svelte";
 
-  import { flyIn, flyOut } from "$lib/utils/transitions";
+  import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
+  import { rawPlugin, codeBlockPlugin } from "$lib/utils/exmarkdown-plugins";
+  import { localeDate } from "$lib/utils/date.js";
+  import { TableOfContents } from "@skeletonlabs/skeleton";
 
   export let data;
   let {
     md,
-    data: { title, author, date, pinned }
+    data: { title, author, pinned }
   } = data;
 
-  export const codeBlockPlugin: Plugin = {
-    remarkPlugin: () => (tree) => {
-      visit(tree, "code", (node) => {
-        // Change type to remove additional <pre> element
-        node.type = "CodeBlock";
-        node.data = {
-          hName: "CodeBlock",
-          hProperties: {
-            language: node.lang,
-            code: node.value
-          }
-        };
-      });
-      return tree;
-    },
-    renderer: {
-      CodeBlock: MdCodeBlock
-    }
-  };
+  let date = localeDate(data.data.date);
 </script>
 
-<div class="grid md:grid-cols-[repeat(3,auto)]">
+<div class="flex flex-col items-center gap-4 md:py-4 xl:flex-row">
+  <div class="flex-1" in:fadeIn out:fadeOut />
+
+  <div class="flex-1 order-last" in:fadeIn out:fadeOut>
+    <TableOfContents target="#post-content" spacing="space-y-4 sticky top-0" />
+  </div>
+
   <div
-    class="p-4 self-center card w-full max-w-screen-md md:my-4 md:shadow-lg md:col-start-2"
+    id="post-content"
+    class="flex-none p-4 card w-full max-w-screen-md md:shadow-lg"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >
@@ -50,7 +39,7 @@
       <h1 class="h1">{title}</h1>
     </header>
     <section class="p-4 space-y-4 !max-w-none prose">
-      <Markdown {md} plugins={[gfmPlugin, codeBlockPlugin]} />
+      <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin]} />
     </section>
   </div>
 </div>
