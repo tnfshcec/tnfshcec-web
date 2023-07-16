@@ -9,7 +9,7 @@
   import { storeHighlightJs } from "@skeletonlabs/skeleton";
   storeHighlightJs.set(hljs);
 
-  import { AppBar, AppShell } from "@skeletonlabs/skeleton";
+  import { AppBar, AppShell, Drawer, TableOfContents, drawerStore } from "@skeletonlabs/skeleton";
 
   import vitamin from "$lib/assets/vitamin-d.png";
   import { onScroll } from "$lib/stores/scroll";
@@ -21,6 +21,12 @@
 
   $: scrolled = $onScroll.scrollY > 100;
 </script>
+
+<Drawer>
+  {#if $drawerStore.id === "post-toc"}
+    <TableOfContents target="#post-content" on:click={() => drawerStore.close()} />
+  {/if}
+</Drawer>
 
 <AppShell on:scroll={scrollEvent}>
   <svelte:fragment slot="header">
