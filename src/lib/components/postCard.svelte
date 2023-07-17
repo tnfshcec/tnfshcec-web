@@ -9,7 +9,7 @@
 
 <a class="block p-2 w-full card card-hover variant-soft" href="{base}/{post.url}">
   <header class="card-header">
-    <span class="block text-surface-600 dark:text-surface-300">
+    <span class="block text-surface-600-300-token">
       {post.pinned ? "📌" : ""}
       {post.author || ""}
       {post.author && post.date ? "/" : ""}

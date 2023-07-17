@@ -5,11 +5,18 @@
   import "../typography-prose.css";
 
   import hljs from "highlight.js";
-  import "highlight.js/styles/github-dark.css";
-  import { storeHighlightJs } from "@skeletonlabs/skeleton";
-  storeHighlightJs.set(hljs);
+  import "highlight.js/styles/atom-one-dark.css";
 
-  import { AppBar, AppShell, Drawer, TableOfContents, drawerStore } from "@skeletonlabs/skeleton";
+  import {
+    AppBar,
+    AppShell,
+    Drawer,
+    TableOfContents,
+    LightSwitch,
+    storeHighlightJs,
+    drawerStore
+  } from "@skeletonlabs/skeleton";
+  storeHighlightJs.set(hljs);
 
   import vitamin from "$lib/assets/vitamin-d.png";
   import { onScroll } from "$lib/stores/scroll";
@@ -40,6 +47,10 @@
             style="height: {scrolled ? '3rem' : '5rem'}"
           /></a
         >
+      </svelte:fragment>
+
+      <svelte:fragment slot="trail">
+        <LightSwitch />
       </svelte:fragment>
 
       <span>

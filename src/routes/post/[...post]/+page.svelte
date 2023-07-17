@@ -3,7 +3,7 @@
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
-  import { rawPlugin, codeBlockPlugin } from "$lib/utils/exmarkdown-plugins";
+  import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDate } from "$lib/utils/date.js";
   import { TableOfContents, drawerStore } from "@skeletonlabs/skeleton";
 
@@ -41,10 +41,13 @@
         {date || ""}
       </span>
       <h1 class="h1">
-        <button class="btn-icon btn-icon-sm hover:variant-soft" on:click={tocDrawer}>
+        <button
+          class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base xl:hidden"
+          on:click={tocDrawer}
+        >
           <svg
             viewBox="0 0 24 24"
-            class="stroke-surface-600 dark:stroke-surface-300 w-7 h-7 inline mb-1 mx-1"
+            class="stroke-surface-600 dark:stroke-surface-300 inline mb-1 mx-1"
           >
             <path d="M20 7L4 7" stroke-width="1.5" stroke-linecap="round" />
             <path d="M15 12L4 12" stroke-width="1.5" stroke-linecap="round" />
@@ -55,7 +58,7 @@
       </h1>
     </header>
     <section class="p-4 space-y-4 !max-w-none prose">
-      <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin]} />
+      <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin, componentsPlugin]} />
     </section>
   </div>
 </div>
