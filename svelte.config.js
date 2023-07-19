@@ -4,6 +4,7 @@ import adapterStatic from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 
 const dev = process.argv.includes("dev");
+const base = dev ? "" : process.env.BASE_PATH;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -24,10 +25,18 @@ const config = {
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
     adapter: process.env.PRERENDER ? adapterStatic() : adapterAuto(),
     paths: {
-      base: dev ? "" : process.env.BASE_PATH
+      base
     },
     prerender: {
-      handleMissingId: "warn"
+      handleMissingId: "warn",
+      handleHttpError: ({ path, referrer, message }) => {
+        // TODO: Build auth pages. Currently using pages from Auth.js
+        if (path.startsWith(base + "/auth")) {
+          return;
+        }
+
+        throw new Error(message);
+      }
     }
   }
 };

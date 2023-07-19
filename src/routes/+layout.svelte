@@ -88,10 +88,10 @@
               <small>Signed in as {data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
               <strong>{data.session.user?.email ?? data.session.user?.name}</strong>
             </div>
-            <a href="/auth/signout" class="btn variant-filled">Sign out</a>
+            <a href="{base}/auth/signout" class="btn variant-filled">Sign out</a>
           {:else}
             <div>hello there</div>
-            <a href="/auth/signin" class="btn variant-filled">Sign in</a>
+            <a href="{base}/auth/signin" class="btn variant-filled">Sign in</a>
           {/if}
         </div>
       </svelte:fragment>
