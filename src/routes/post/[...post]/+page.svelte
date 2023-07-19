@@ -6,6 +6,7 @@
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDate } from "$lib/utils/date.js";
   import { TableOfContents, drawerStore } from "@skeletonlabs/skeleton";
+  import { page } from "$app/stores";
 
   export let data;
   let {
@@ -33,7 +34,7 @@
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >
-    <header class="card-header">
+    <header class="card-header relative">
       <span class="block text-surface-600-300-token">
         {pinned ? "📌" : ""}
         {author || ""}
@@ -47,7 +48,7 @@
         >
           <svg
             viewBox="0 0 24 24"
-            class="stroke-surface-600 dark:stroke-surface-300 inline mb-1 mx-1"
+            class="stroke-surface-600 dark:stroke-surface-300 fill-none inline mb-1 mx-1"
           >
             <path d="M20 7L4 7" stroke-width="1.5" stroke-linecap="round" />
             <path d="M15 12L4 12" stroke-width="1.5" stroke-linecap="round" />
@@ -56,6 +57,22 @@
         </button>
         {title}
       </h1>
+
+      {#if $page.data.session?.user?.role === "admin"}
+        <button class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1">
+          <svg viewBox="0 0 24 24" class="stroke-surface-600 dark:stroke-surface-300 stroke-2">
+            <path d="M10 16H3" stroke-width="1.5" stroke-linecap="round" />
+            <path
+              d="M14 15L17.5 18L21 15"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M20 11L3 11" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M3 6L13.5 6M20 6L17.75 6" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      {/if}
     </header>
     <section class="p-4 space-y-4 !max-w-none prose">
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin, componentsPlugin]} />

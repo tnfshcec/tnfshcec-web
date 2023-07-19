@@ -39,11 +39,11 @@
   let authPopup: PopupSettings = {
     event: "click",
     target: "auth-popup",
-    placement: "bottom",
+    placement: "bottom-end",
     middleware: {
       offset: {
         mainAxis: 15,
-        crossAxis: -110
+        crossAxis: -35
       }
     }
   };
@@ -73,22 +73,20 @@
         <button class="btn-icon {scrolled ? 'w-10' : 'w-14'}" use:popup={authPopup}>
           <Avatar
             src={$page.data.session?.user?.image ?? undefined}
-            fallback="GS"
+            initials="UW"
             width="transition-all duration-300 "
           />
         </button>
 
-        <div class="card variant-filled-surface p-4 space-y-4" data-popup="auth-popup">
+        <div class="card variant-ghost-surface p-4 space-y-4" data-popup="auth-popup">
           {#if $page.data.session}
             <div>
-              <small>Signed in as</small><br />
-              <strong>{$page.data.session?.user?.email ?? $page.data.session?.user?.name}</strong>
+              <small>Signed in as {$page.data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
+              <strong>{$page.data.session.user?.email ?? $page.data.session.user?.name}</strong>
             </div>
             <a href="/auth/signout" class="btn variant-filled">Sign out</a>
           {:else}
-            <div>
-              <strong>You are not logged in!</strong>
-            </div>
+            <div>hello there</div>
             <a href="/auth/signin" class="btn variant-filled">Sign in</a>
           {/if}
         </div>
