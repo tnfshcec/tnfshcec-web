@@ -7,7 +7,11 @@
   let date = localeDate(post.date);
 </script>
 
-<a class="block p-2 w-full card card-hover variant-soft" href="{base}/{post.url}">
+<a
+  class="block p-2 w-full card card-hover variant-soft"
+  href="{base}/{post.url}"
+  data-sveltekit-preload-data="hover"
+>
   <header class="card-header">
     <span class="block text-surface-600-300-token">
       {post.pinned ? "📌" : ""}

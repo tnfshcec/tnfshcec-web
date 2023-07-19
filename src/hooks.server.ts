@@ -2,7 +2,9 @@ import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
 import { GITHUB_ID, GITHUB_SECRET, ADMINS } from "$env/static/private";
 
-const admins = ADMINS.split(",").map((s) => s.trim());
+const admins = ADMINS.split(",")
+  .map((s) => s.trim())
+  .filter((s) => s);
 
 export const handle = SvelteKitAuth({
   providers: [

@@ -9,10 +9,7 @@ export async function listPosts() {
 export async function parsePost<B extends boolean = true>(
   path: string,
   withContent?: B
-): Promise<
-  App.PostData &
-  (B extends true ? { __content: string } : Record<string, never>)
->;
+): Promise<App.PostData & (B extends true ? { md: string } : Record<string, never>)>;
 
 export async function parsePost(path: string, withContent = true) {
   const file = await fs.readFile(path, { encoding: "utf8" });
@@ -23,11 +20,11 @@ export async function parsePost(path: string, withContent = true) {
     return {
       ...fm,
       url,
-      __content,
+      md: __content
     };
   }
   return {
     ...fm,
-    url,
+    url
   };
 }

@@ -1,12 +1,17 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
+  import {
+    TableOfContents,
+    modalStore,
+    drawerStore,
+    popup,
+    type PopupSettings
+  } from "@skeletonlabs/skeleton";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDate } from "$lib/utils/date.js";
-  import { TableOfContents, drawerStore } from "@skeletonlabs/skeleton";
-  import { page } from "$app/stores";
 
   export let data;
   let {
@@ -16,8 +21,25 @@
 
   let date = localeDate(data.data.date);
 
+  let adminPopup: PopupSettings = {
+    event: "click",
+    target: "admin-popup",
+    placement: "bottom"
+  };
+
   function tocDrawer() {
     drawerStore.open({ id: "post-toc", width: "auto", regionDrawer: "p-4" });
+  }
+
+  function editPost() {}
+
+  function deletePost() {
+    modalStore.trigger({
+      type: "confirm",
+      title: "YOU'RE DELETING THE POST",
+      body: "proceed?",
+      response: (r: boolean) => console.log("delete", r)
+    });
   }
 </script>
 
@@ -58,8 +80,11 @@
         {title}
       </h1>
 
-      {#if $page.data.session?.user?.role === "admin"}
-        <button class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1">
+      {#if data.session?.user?.role === "admin"}
+        <button
+          class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1"
+          use:popup={adminPopup}
+        >
           <svg viewBox="0 0 24 24" class="stroke-surface-600 dark:stroke-surface-300 stroke-2">
             <path d="M10 16H3" stroke-width="1.5" stroke-linecap="round" />
             <path
@@ -72,6 +97,13 @@
             <path d="M3 6L13.5 6M20 6L17.75 6" stroke-width="1.5" stroke-linecap="round" />
           </svg>
         </button>
+
+        <div data-popup="admin-popup">
+          <div class="btn-group-vertical variant-ghost-primary">
+            <button on:click={editPost}>Edit</button>
+            <button class="!text-error-300-600-token" on:click={deletePost}>Delete</button>
+          </div>
+        </div>
       {/if}
     </header>
     <section class="p-4 space-y-4 !max-w-none prose">

@@ -8,13 +8,13 @@ export const GET = (async () => {
   );
 
   posts.sort((a, b) => {
-    const pin = +(b.pinned || 0) - +(a.pinned || 0);
+    const pin = +(b.pinned ?? 0) - +(a.pinned ?? 0);
 
     if (pin != 0) {
       return pin;
     }
 
-    return Date.parse(b.date || "") - Date.parse(a.date || "");
+    return Date.parse(b.date ?? "") - Date.parse(a.date ?? "");
   });
 
   // console.log(posts);

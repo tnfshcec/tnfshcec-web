@@ -16,6 +16,7 @@
     Drawer,
     TableOfContents,
     LightSwitch,
+    Modal,
     popup,
     storeHighlightJs,
     drawerStore,
@@ -28,7 +29,8 @@
   import vitamin from "$lib/assets/vitamin-d.png";
   import { onScroll } from "$lib/stores/scroll";
   import { base } from "$app/paths";
-  import { page } from "$app/stores";
+
+  export let data;
 
   function scrollEvent(e: Event) {
     onScroll.fireEvent(e as Event & { currentTarget: EventTarget & HTMLDivElement });
@@ -48,6 +50,8 @@
     }
   };
 </script>
+
+<Modal />
 
 <Drawer>
   {#if $drawerStore.id === "post-toc"}
@@ -72,17 +76,17 @@
         <LightSwitch />
         <button class="btn-icon {scrolled ? 'w-10' : 'w-14'}" use:popup={authPopup}>
           <Avatar
-            src={$page.data.session?.user?.image ?? undefined}
+            src={data.session?.user?.image ?? undefined}
             initials="UW"
             width="transition-all duration-300 "
           />
         </button>
 
         <div class="card variant-ghost-surface p-4 space-y-4" data-popup="auth-popup">
-          {#if $page.data.session}
+          {#if data.session}
             <div>
-              <small>Signed in as {$page.data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
-              <strong>{$page.data.session.user?.email ?? $page.data.session.user?.name}</strong>
+              <small>Signed in as {data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
+              <strong>{data.session.user?.email ?? data.session.user?.name}</strong>
             </div>
             <a href="/auth/signout" class="btn variant-filled">Sign out</a>
           {:else}
