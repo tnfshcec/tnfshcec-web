@@ -12,7 +12,6 @@ export const handle = SvelteKitAuth({
       clientId: GITHUB_ID,
       clientSecret: GITHUB_SECRET,
       profile(profile) {
-        console.log(profile);
         return {
           id: profile.id.toString(),
           name: profile.name,

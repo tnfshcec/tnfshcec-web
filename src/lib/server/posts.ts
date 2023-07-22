@@ -28,3 +28,8 @@ export async function parsePost(path: string, withContent = true) {
     url
   };
 }
+
+export async function deletePost(path: string) {
+  console.log("Delete post OHNO");
+  return Promise.resolve();
+}

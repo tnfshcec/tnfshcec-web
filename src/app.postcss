@@ -4,8 +4,10 @@ body {
   @apply h-full overflow-hidden;
 }
 
+/* prose */
+
 .prose {
-  @apply prose-headings:font-normal;
+  @apply prose-headings:font-normal max-w-none;
 }
 
 .prose a.permalink {
@@ -14,6 +16,37 @@ body {
 
 .prose :is(h1, h2, h3, h4, h5, h6):hover a.permalink {
   @apply opacity-100;
+}
+
+/* easymde editor */
+.CodeMirror {
+  @apply !bg-transparent !text-inherit selection:!bg-inherit;
+}
+
+.CodeMirror,
+.editor-toolbar {
+  @apply !border-surface-500-400-token;
+}
+
+.editor-preview {
+  @apply bg-surface-100-800-token;
+}
+
+.CodeMirror-cursor {
+  @apply !border-surface-800-100-token;
+}
+
+.editor-toolbar button {
+  @apply btn-icon btn-icon-sm !bg-transparent;
+}
+
+.editor-toolbar button:active,
+.editor-toolbar button:hover {
+  @apply !variant-ghost-primary !rounded-lg;
+}
+
+.cm-comment {
+  @apply font-mono text-primary-900-50-token;
 }
 
 /* vim: set ft=css: */

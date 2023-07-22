@@ -12,6 +12,8 @@
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDate } from "$lib/utils/date.js";
+  import { enhance } from "$app/forms";
+  import type { SubmitFunction } from "@sveltejs/kit";
 
   export let data;
   let {
@@ -31,16 +33,18 @@
     drawerStore.open({ id: "post-toc", width: "auto", regionDrawer: "p-4" });
   }
 
-  function editPost() {}
-
-  function deletePost() {
-    modalStore.trigger({
-      type: "confirm",
-      title: "YOU'RE DELETING THE POST",
-      body: "proceed?",
-      response: (r: boolean) => console.log("delete", r)
-    });
-  }
+  const adminActions: SubmitFunction = async ({ formData, cancel }) => {
+    if (formData.has("delete")) {
+      await new Promise((resolve) => {
+        modalStore.trigger({
+          type: "confirm",
+          title: "YOU'RE DELETING THE POST",
+          body: "proceed?",
+          response: (r: boolean) => resolve(r)
+        });
+      }).then((r) => (!r ? cancel() : undefined));
+    }
+  };
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
@@ -99,10 +103,17 @@
         </button>
 
         <div data-popup="admin-popup">
-          <div class="btn-group-vertical variant-ghost-primary">
-            <button on:click={editPost}>Edit</button>
-            <button class="!text-error-300-600-token" on:click={deletePost}>Delete</button>
-          </div>
+          <!-- using form feels kinda weird tbh -->
+          <form
+            class="btn-group-vertical variant-ghost-primary"
+            method="post"
+            use:enhance={adminActions}
+          >
+            <button name="edit" formaction="?/edit">Edit</button>
+            <button class="!text-error-300-600-token" name="delete" formaction="?/delete">
+              Delete
+            </button>
+          </form>
         </div>
       {/if}
     </header>
