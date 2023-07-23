@@ -6,4 +6,4 @@ export const load: LayoutServerLoad = async (event) => {
   };
 };
 
-export const prerender = !!process.env.PRERENDER;
+export const prerender = Boolean(process.env.PRERENDER);

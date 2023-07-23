@@ -37,12 +37,12 @@ body {
 }
 
 .editor-toolbar button {
-  @apply btn-icon btn-icon-sm !bg-transparent;
+  @apply transition-all !rounded-lg;
 }
 
-.editor-toolbar button:active,
+.editor-toolbar button.active,
 .editor-toolbar button:hover {
-  @apply !variant-ghost-primary !rounded-lg;
+  @apply !bg-primary-500/20;
 }
 
 .cm-comment {

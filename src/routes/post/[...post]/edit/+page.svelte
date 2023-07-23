@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
   import type EasyMDE from "easymde";
   import { onDestroy, onMount } from "svelte";
 
@@ -29,7 +30,11 @@
   <div class="flex-1" />
   <div class="flex-1 order-last" />
 
-  <div class="flex-none self-center p-4 card w-full max-w-screen-md md:shadow-lg">
+  <div
+    class="flex-none self-center p-4 card w-full max-w-screen-md md:shadow-lg"
+    in:fadeIn
+    out:fadeOut
+  >
     <textarea bind:this={textarea} />
   </div>
 </div>
