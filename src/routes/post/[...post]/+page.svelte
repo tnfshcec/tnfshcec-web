@@ -37,9 +37,9 @@
       type: "confirm",
       title: "YOU'RE DELETING THE POST",
       body: "proceed?",
-      response: (r: boolean) => {
+      response: async (r: boolean) => {
         if (r)
-          fetch(`${base}/${url}/delete`, {
+          await fetch(`${base}/${url}/delete`, {
             method: "POST",
             body: JSON.stringify({ confirm: true })
           });
@@ -57,7 +57,7 @@
 
   <div
     id="post-content"
-    class="flex-none self-center p-4 card w-full max-w-screen-md md:shadow-lg"
+    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >
