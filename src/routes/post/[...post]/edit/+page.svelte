@@ -6,6 +6,7 @@
   import { onDestroy, onMount } from "svelte";
   import type EasyMDE from "easymde";
   import "easymde/dist/easymde.min.css";
+  import { base } from "$app/paths";
 
   export let data;
 
@@ -33,8 +34,12 @@
     if (easymde) easymde.cleanup();
   });
 
-  function savePost() {
+  async function savePost() {
     console.log("saving with data: ", postData);
+    await fetch(`${base}/${postData.url}/endpoint`, {
+      method: "POST",
+      body: JSON.stringify({ data: postData, md })
+    });
   }
 </script>
 

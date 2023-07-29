@@ -21,7 +21,7 @@ export async function parsePost(path: string, withContent = true) {
     return {
       ...fm,
       url,
-      md: __content
+      md: __content.trim()
     };
   }
   return {
@@ -36,29 +36,16 @@ export async function deletePost(path: string) {
 }
 
 export async function editPost(path: string, data: App.PostData, content: string) {
-  const fm = yaml.dump(data);
+  const { url, ...fmData } = data;
+  const fm = yaml.dump(fmData);
 
-  await writePost(path, fm, content);
-}
-
-export async function editPostData(path: string, data: App.PostData) {
-  const file = await fs.readFile(path, { encoding: "utf8" });
-  const fm = yaml.dump(data);
-  // regex from yaml-front-matter source <3
-  const match = file.match(/^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/) ?? [];
-
-  await writePost(path, fm, match[3]);
-}
-
-export async function editPostContent(path: string, content: string) {
-  const file = await fs.readFile(path, { encoding: "utf8" });
-  const match = file.match(/^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/) ?? [];
-
-  await writePost(path, match[2], content);
+  return writePost(path, fm, content.trim());
 }
 
 async function writePost(path: string, fm: string, content: string) {
-  content = `---\n${fm}\n---\n\n${content}`;
+  content = `---\n${fm}---\n\n${content}\n`;
 
   await fs.writeFile(path, content);
+
+  return content;
 }

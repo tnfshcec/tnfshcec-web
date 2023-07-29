@@ -39,9 +39,8 @@
       body: "proceed?",
       response: async (r: boolean) => {
         if (r)
-          await fetch(`${base}/${url}/delete`, {
-            method: "POST",
-            body: JSON.stringify({ confirm: true })
+          await fetch(`${base}/${url}/endpoint`, {
+            method: "DELETE"
           });
       }
     });
