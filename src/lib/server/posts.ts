@@ -1,6 +1,7 @@
 import fg from "fast-glob";
 import fs from "fs/promises";
 import yamlFront from "yaml-front-matter";
+import yaml from "js-yaml";
 
 export async function listPosts() {
   return await fg("cec/**/*.md");
@@ -32,4 +33,32 @@ export async function parsePost(path: string, withContent = true) {
 export async function deletePost(path: string) {
   console.log("Delete post OHNO");
   return Promise.resolve();
+}
+
+export async function editPost(path: string, data: App.PostData, content: string) {
+  const fm = yaml.dump(data);
+
+  await writePost(path, fm, content);
+}
+
+export async function editPostData(path: string, data: App.PostData) {
+  const file = await fs.readFile(path, { encoding: "utf8" });
+  const fm = yaml.dump(data);
+  // regex from yaml-front-matter source <3
+  const match = file.match(/^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/) ?? [];
+
+  await writePost(path, fm, match[3]);
+}
+
+export async function editPostContent(path: string, content: string) {
+  const file = await fs.readFile(path, { encoding: "utf8" });
+  const match = file.match(/^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/) ?? [];
+
+  await writePost(path, match[2], content);
+}
+
+async function writePost(path: string, fm: string, content: string) {
+  content = `---\n${fm}\n---\n\n${content}`;
+
+  await fs.writeFile(path, content);
 }

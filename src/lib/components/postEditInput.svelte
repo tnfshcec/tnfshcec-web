@@ -15,6 +15,16 @@
     : ["file", "checkbox", "radio", "range", "color"].includes(type)
     ? type // input styles from skeleton
     : "input";
+
+  function handleChange(e: Event) {
+    const target = e.target as EventTarget & HTMLInputElement;
+    value =
+      type === "checkbox"
+        ? target.checked
+        : type.match(/^(number|range)$/)
+        ? +target.value
+        : target.value;
+  }
 </script>
 
 <span>
@@ -28,6 +38,7 @@
     {type}
     class="accent-primary-400 {inputClass} {className}"
     id={label}
+    on:change={handleChange}
     on:focusin={() => (isActive = true)}
     on:focusout={() => (isActive = false)}
   />

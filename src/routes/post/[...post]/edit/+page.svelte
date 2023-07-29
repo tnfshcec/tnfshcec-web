@@ -3,17 +3,15 @@
   import { localeDate } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
-  import type EasyMDE from "easymde";
   import { onDestroy, onMount } from "svelte";
+  import type EasyMDE from "easymde";
+  import "easymde/dist/easymde.min.css";
 
   export let data;
 
-  let {
-    md,
-    data: { title, author, pinned }
-  } = data;
+  let { md, data: postData } = data;
 
-  let date = localeDate(data.data.date);
+  $: date = localeDate(postData.date);
   let dateInputActive = false;
 
   let textarea: HTMLTextAreaElement;
@@ -21,7 +19,6 @@
 
   onMount(async () => {
     const EasyMDE = await import("easymde").then((m) => m.default);
-    await import("easymde/dist/easymde.min.css");
 
     easymde = new EasyMDE({
       element: textarea,
@@ -35,6 +32,10 @@
   onDestroy(() => {
     if (easymde) easymde.cleanup();
   });
+
+  function savePost() {
+    console.log("saving with data: ", postData);
+  }
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
@@ -48,11 +49,11 @@
   >
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
-        {pinned ? "📌" : ""}
-        {#if author}
-          <PostEditInput value={author || ""} inline />
+        {postData.pinned ? "📌" : ""}
+        {#if postData.author}
+          <PostEditInput bind:value={postData.author} inline />
         {/if}
-        {author && date ? "/" : ""}
+        {postData.author && date ? "/" : ""}
         {#if date}
           <PostEditInput
             inline
@@ -62,22 +63,31 @@
         {/if}
       </span>
       <h1 class="h1">
-        <PostEditInput value={title} inline />
+        <PostEditInput bind:value={postData.title} inline />
       </h1>
+
+      <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
+        Save
+      </button>
     </header>
     <Accordion>
       <AccordionItem>
         <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
         <svelte:fragment slot="content">
           <div class="grid grid-cols-2 gap-6">
-            <PostEditInput label="title" value={title ?? ""} className="px-2" />
-            <PostEditInput label="author" value={author ?? ""} className="px-2" />
-            <PostEditInput label="date" value={date ?? ""} type="date" className="px-2" />
-            <PostEditInput label="pinned" value={pinned} type="checkbox" className="px-2" />
+            <PostEditInput label="title" bind:value={postData.title} className="px-2" />
+            <PostEditInput label="author" bind:value={postData.author} className="px-2" />
+            <PostEditInput label="date" bind:value={date} type="date" className="px-2" />
+            <PostEditInput
+              label="pinned"
+              bind:value={postData.pinned}
+              type="checkbox"
+              className="px-2"
+            />
           </div>
         </svelte:fragment>
       </AccordionItem>
     </Accordion>
-    <textarea bind:this={textarea} />
+    <textarea class="hidden" bind:this={textarea} />
   </div>
 </div>
