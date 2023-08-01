@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit";
-import { deletePost, editPost, parsePost } from "$lib/server/posts";
+import { deletePost, savePost, parsePost } from "$lib/server/posts";
 import type { RequestHandler } from "./$types";
 
 export const GET = (async ({ params }) => {
@@ -17,11 +17,13 @@ export const GET = (async ({ params }) => {
 }) satisfies RequestHandler;
 
 export const POST = (async ({ request, params }) => {
-  const { data, md } = await request.json();
+  const { data, md } = await request.json().catch(() => {
+    throw error(400);
+  });
 
   if (!data || !md) throw error(400, "Required fields not found");
 
-  const content = await editPost(`cec/${params.post}.md`, data, md);
+  const content = await savePost(`cec/${params.post}.md`, data, md);
 
   return json({
     message: `Post '${params.post}' is saved with data received.`,

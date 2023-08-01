@@ -35,7 +35,7 @@ export async function deletePost(path: string) {
   return Promise.resolve();
 }
 
-export async function editPost(path: string, data: App.PostData, content: string) {
+export async function savePost(path: string, data: App.PostData, content: string) {
   const { url, ...fmData } = data;
   const fm = yaml.dump(fmData);
 

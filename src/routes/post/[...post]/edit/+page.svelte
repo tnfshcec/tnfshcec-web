@@ -35,10 +35,12 @@
   });
 
   async function savePost() {
-    console.log("saving with data: ", postData);
+    const data = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
+    console.log("saving with data: ", data);
+
     await fetch(`${base}/${postData.url}/endpoint`, {
       method: "POST",
-      body: JSON.stringify({ data: postData, md })
+      body: JSON.stringify({ data, md })
     });
   }
 </script>
@@ -55,17 +57,9 @@
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
         {postData.pinned ? "📌" : ""}
-        {#if postData.author}
-          <PostEditInput bind:value={postData.author} inline />
-        {/if}
+        {postData.author || ""}
         {postData.author && date ? "/" : ""}
-        {#if date}
-          <PostEditInput
-            inline
-            value={(dateInputActive ? data.data.date : date) || ""}
-            bind:isActive={dateInputActive}
-          />
-        {/if}
+        {date || ""}
       </span>
       <h1 class="h1">
         <PostEditInput bind:value={postData.title} inline />
@@ -82,7 +76,7 @@
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput label="title" bind:value={postData.title} className="px-2" />
             <PostEditInput label="author" bind:value={postData.author} className="px-2" />
-            <PostEditInput label="date" bind:value={date} type="date" className="px-2" />
+            <PostEditInput label="date" bind:value={date} className="px-2" /><!-- type="date" -->
             <PostEditInput
               label="pinned"
               bind:value={postData.pinned}

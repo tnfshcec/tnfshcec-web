@@ -16,6 +16,8 @@
     ? type // input styles from skeleton
     : "input";
 
+  $: if (value === undefined || value === null) value = "";
+
   function handleChange(e: Event) {
     const target = e.target as EventTarget & HTMLInputElement;
     value =
@@ -28,7 +30,7 @@
 </script>
 
 <span>
-  {#if label}
+  {#if !inline}
     <label for={label} class="capitalize label">{label}</label>
   {/if}
 
@@ -38,6 +40,7 @@
     {type}
     class="accent-primary-400 {inputClass} {className}"
     id={label}
+    placeholder={label}
     on:change={handleChange}
     on:focusin={() => (isActive = true)}
     on:focusout={() => (isActive = false)}
