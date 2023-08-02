@@ -51,7 +51,7 @@
   <div class="flex-1" in:fadeIn out:fadeOut />
 
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
-    <TableOfContents target="#post-content" spacing="space-y-4 sticky top-0 hidden xl:block" />
+    <TableOfContents target="#post-content" spacing="space-y-4 sticky top-4 hidden xl:block" />
   </div>
 
   <div

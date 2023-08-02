@@ -11,9 +11,7 @@
   export let data;
 
   let { md, data: postData } = data;
-
   $: date = localeDate(postData.date);
-  let dateInputActive = false;
 
   let textarea: HTMLTextAreaElement;
   let easymde: EasyMDE | undefined;
@@ -28,6 +26,7 @@
       spellChecker: false,
       previewClass: ["editor-preview", "prose"]
     });
+    // TODO: render custom components on preview
   });
 
   onDestroy(() => {
@@ -62,7 +61,7 @@
         {date || ""}
       </span>
       <h1 class="h1">
-        <PostEditInput bind:value={postData.title} inline />
+        <PostEditInput bind:value={postData.title} label="title" inline />
       </h1>
 
       <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
@@ -76,7 +75,8 @@
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput label="title" bind:value={postData.title} className="px-2" />
             <PostEditInput label="author" bind:value={postData.author} className="px-2" />
-            <PostEditInput label="date" bind:value={date} className="px-2" /><!-- type="date" -->
+            <!-- TODO: type="date" -->
+            <PostEditInput label="date" bind:value={postData.date} className="px-2" />
             <PostEditInput
               label="pinned"
               bind:value={postData.pinned}
