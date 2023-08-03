@@ -16,12 +16,15 @@ export const GET = (async ({ params }) => {
   });
 }) satisfies RequestHandler;
 
-export const POST = (async ({ request, params }) => {
+export const POST = (async ({ request, params, locals }) => {
+  const session = await locals.getSession();
+  if (session?.user.role != "admin") throw error(401, "NO U");
+
   const { data, md } = await request.json().catch(() => {
     throw error(400);
   });
 
-  if (!data || !md) throw error(400, "Required fields not found");
+  if (data === undefined || md === undefined) throw error(400, "Required fields not found");
 
   const content = await savePost(`cec/${params.post}.md`, data, md);
 
