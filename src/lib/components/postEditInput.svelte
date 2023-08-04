@@ -3,60 +3,55 @@
   import type { HTMLInputTypeAttribute } from "svelte/elements";
 
   export let value: unknown;
-  export let label = "";
+  export let id = "";
+  export let label = id;
   export let type: HTMLInputTypeAttribute = "text";
-  export let className = "px-2";
-  export let container = "";
-  export let inline = false;
-  export let isActive = false;
+  export let className = "";
   export let validate: (value: unknown) => boolean = () => true;
 
   const dispatch = createEventDispatcher();
 
   let checked = type === "checkbox" && Boolean(value);
 
-  let inputClass = inline // inline input class
-    ? "bg-transparent rounded-container-token hover:bg-primary-hover-token"
-    : ["file", "checkbox", "radio", "range", "color"].includes(type)
-    ? type // input styles from skeleton
-    : "input";
+  // input styles from skeleton
+  let inputClass = ["file", "checkbox", "radio", "range", "color"].includes(type) ? type : "input";
 
   let isValid = validate(value);
 
   $: if (value === undefined || value === null) value = "";
 
-  function doValidation(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
-    isValid = validate(e.currentTarget.value);
+  function doValidation(newValue: unknown) {
+    isValid = validate(newValue);
+    return isValid;
   }
 
-  function handleChange(e: Event) {
-    const target = e.target as EventTarget & HTMLInputElement;
-    value =
+  function handleInput(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+    const target = e.currentTarget;
+    const newValue =
       type === "checkbox"
         ? target.checked
         : type.match(/^(number|range)$/)
         ? +target.value
         : target.value;
 
-    dispatch("change");
+    if (!doValidation(newValue)) return;
+
+    value = newValue;
+
+    dispatch("input");
   }
 </script>
 
-<span class={container}>
-  {#if !inline}
-    <label for={label} class="capitalize label">{label}</label>
-  {/if}
+<span class={className}>
+  <label for={id} class="capitalize label">{label}</label>
 
   <input
     {value}
     {checked}
     {type}
-    class="accent-primary-400 {inputClass} {className} {!isValid ? 'input-error' : ''}"
-    id={label}
+    {id}
+    class="accent-primary-400 px-2 {inputClass} {!isValid ? 'input-error' : ''}"
     placeholder={label}
-    on:change={handleChange}
-    on:input={doValidation}
-    on:focusin={() => (isActive = true)}
-    on:focusout={() => (isActive = false)}
+    on:input={handleInput}
   />
 </span>

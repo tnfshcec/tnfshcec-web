@@ -37,6 +37,7 @@
     const data = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
     console.log("saving with data: ", data);
 
+    // TODO: remove old one when url changed
     await fetch(`${base}/${postData.url}/endpoint`, {
       method: "POST",
       body: JSON.stringify({ data, md })
@@ -61,7 +62,12 @@
         {date || ""}
       </span>
       <h1 class="h1">
-        <PostEditInput bind:value={postData.title} label="title" inline className="" />
+        <input
+          class="bg-transparent rounded-container-token hover:bg-primary-hover-token"
+          type="text"
+          placeholder="title"
+          bind:value={postData.title}
+        />
       </h1>
 
       <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
@@ -76,19 +82,14 @@
             <PostEditInput
               label="url"
               value={postData.url}
-              container="col-span-2"
+              className="col-span-2"
               validate={(v) => Boolean(v)}
             />
-            <PostEditInput label="title" bind:value={postData.title} />
-            <PostEditInput label="author" bind:value={postData.author} />
+            <PostEditInput id="title" bind:value={postData.title} />
+            <PostEditInput id="author" bind:value={postData.author} />
             <!-- TODO: type="date" -->
-            <PostEditInput label="date" bind:value={postData.date} />
-            <PostEditInput
-              label="pinned"
-              bind:value={postData.pinned}
-              type="checkbox"
-              className="px-2"
-            />
+            <PostEditInput id="date" bind:value={postData.date} />
+            <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
           </div>
         </svelte:fragment>
       </AccordionItem>
