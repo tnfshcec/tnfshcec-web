@@ -22,7 +22,7 @@
                   title: "New Post",
                   author: data.session?.user.name,
                   date: new Date().toString(),
-                  url: `post/new-post`
+                  url: `new-post`
                 },
                 md: ""
               })

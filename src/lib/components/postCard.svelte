@@ -9,7 +9,7 @@
 
 <a
   class="block p-2 w-full card card-hover variant-soft"
-  href="{base}/{post.url}"
+  href="{base}/post/{post.url}"
   data-sveltekit-preload-data="hover"
 >
   <header class="card-header">

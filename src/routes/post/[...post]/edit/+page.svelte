@@ -61,7 +61,7 @@
         {date || ""}
       </span>
       <h1 class="h1">
-        <PostEditInput bind:value={postData.title} label="title" inline />
+        <PostEditInput bind:value={postData.title} label="title" inline className="" />
       </h1>
 
       <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
@@ -73,10 +73,16 @@
         <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
         <svelte:fragment slot="content">
           <div class="grid grid-cols-2 gap-6">
-            <PostEditInput label="title" bind:value={postData.title} className="px-2" />
-            <PostEditInput label="author" bind:value={postData.author} className="px-2" />
+            <PostEditInput
+              label="url"
+              value={postData.url}
+              container="col-span-2"
+              validate={(v) => Boolean(v)}
+            />
+            <PostEditInput label="title" bind:value={postData.title} />
+            <PostEditInput label="author" bind:value={postData.author} />
             <!-- TODO: type="date" -->
-            <PostEditInput label="date" bind:value={postData.date} className="px-2" />
+            <PostEditInput label="date" bind:value={postData.date} />
             <PostEditInput
               label="pinned"
               bind:value={postData.pinned}

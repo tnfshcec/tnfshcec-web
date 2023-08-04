@@ -15,7 +15,7 @@ export async function parsePost<B extends boolean = true>(
 export async function parsePost(path: string, withContent = true) {
   const file = await fs.readFile(path, { encoding: "utf8" });
   const { __content, ...fm } = yamlFront.loadFront(file);
-  const url = `post/${path.slice(4, -3)}`;
+  const url = `${path.slice(4, -3)}`;
 
   if (withContent) {
     return {

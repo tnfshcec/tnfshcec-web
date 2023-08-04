@@ -39,7 +39,7 @@
       body: "proceed?",
       response: async (r: boolean) => {
         if (r)
-          await fetch(`${base}/${url}/endpoint`, {
+          await fetch(`${base}/post/${url}/endpoint`, {
             method: "DELETE"
           });
       }
@@ -104,7 +104,7 @@
 
         <div data-popup="admin-popup">
           <div class="btn-group-vertical variant-ghost-primary">
-            <a href="/{url}/edit">Edit</a>
+            <a href="{base}/post/{url}/edit">Edit</a>
             <button class="!text-error-300-600-token" on:click={deletePost}>Delete</button>
           </div>
         </div>
