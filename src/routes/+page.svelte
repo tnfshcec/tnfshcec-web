@@ -16,7 +16,7 @@
           name: "New Post",
           action: async () => {
             const res = await fetch(`${base}/api/newpost`, { method: "POST" });
-            goto(await res.json().then((d) => d.postUrl + "/edit"));
+            await goto(await res.json().then((d) => d.postUrl + "/edit"));
           }
         };
 </script>

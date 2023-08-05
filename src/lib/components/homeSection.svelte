@@ -20,7 +20,12 @@
   </div>
 
   {#if action}
-    <button class="absolute right-2 top-2 btn variant-filled-primary" on:click={action.action}>
+    <button
+      class="absolute right-2 top-2 btn variant-filled-primary"
+      on:click={action.action}
+      in:fadeIn
+      out:fadeOut
+    >
       {action.name}
     </button>
   {/if}

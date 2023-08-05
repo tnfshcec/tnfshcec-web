@@ -1,47 +1,34 @@
 <script lang="ts">
   import PostEditInput from "$lib/components/postEditInput.svelte";
+  import EasyMde from "$lib/components/EasyMde.svelte";
   import { localeDate } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
-  import { onDestroy, onMount } from "svelte";
-  import type EasyMDE from "easymde";
-  import "easymde/dist/easymde.min.css";
   import { base } from "$app/paths";
+  import { goto } from "$app/navigation";
 
   export let data;
 
   let { md, data: postData } = data;
   $: date = localeDate(postData.date);
 
-  let textarea: HTMLTextAreaElement;
-  let easymde: EasyMDE | undefined;
-
-  onMount(async () => {
-    const EasyMDE = await import("easymde").then((m) => m.default);
-
-    easymde = new EasyMDE({
-      element: textarea,
-      initialValue: md,
-      hideIcons: ["fullscreen", "side-by-side"],
-      spellChecker: false,
-      previewClass: ["editor-preview", "prose"]
-    });
-    // TODO: render custom components on preview
-  });
-
-  onDestroy(() => {
-    if (easymde) easymde.cleanup();
-  });
+  const originalUrl = postData.url;
 
   async function savePost() {
     const data = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
     console.log("saving with data: ", data);
 
-    // TODO: remove old one when url changed
     await fetch(`${base}/api/post?path=${postData.url}`, {
       method: "POST",
       body: JSON.stringify({ data, md })
     });
+
+    if (postData.url !== originalUrl) {
+      await fetch(`${base}/api/post?path=${originalUrl}`, {
+        method: "DELETE"
+      });
+      await goto(`${base}/post/${postData.url}/edit`);
+    }
   }
 </script>
 
@@ -81,7 +68,7 @@
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput
               label="url"
-              value={postData.url}
+              bind:value={postData.url}
               className="col-span-2"
               validate={(v) => Boolean(v)}
             />
@@ -94,6 +81,6 @@
         </svelte:fragment>
       </AccordionItem>
     </Accordion>
-    <textarea class="hidden" bind:this={textarea} />
+    <EasyMde bind:md />
   </div>
 </div>
