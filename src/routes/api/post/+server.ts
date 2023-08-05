@@ -49,10 +49,11 @@ export const DELETE = (async ({ url, locals }) => {
   if (session?.user.role != "admin") throw error(401, "NO U");
 
   const path = url.searchParams.get("path");
+  if (path === null) throw error(400, "Required fields not found");
 
-  await deletePost(`cec/${path}.md`);
+  await deletePost(path);
   return json({
-    message: `Post '${path}' should have been deleted. This is not yet implemented tho :)`
+    message: `Post '${path}' is now deleted.`
   });
 }) satisfies RequestHandler;
 

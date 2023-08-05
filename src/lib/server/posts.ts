@@ -35,19 +35,23 @@ export async function parsePost(path: string, withContent = true) {
 }
 
 export async function deletePost(path: string) {
-  console.log("Delete post OHNO", filePath(path));
-  return Promise.resolve();
+  console.log("DELETING POST", filePath(path));
+  await fs.rm(filePath(path));
 }
 
 export async function savePost(path: string, data: App.PostData, content: string) {
   const { url, ...fmData } = data;
-  const fm = yaml.dump(fmData);
+  const fm = Object.keys(fmData).length ? yaml.dump(fmData) : "";
 
   return writePost(filePath(path), fm, content.trim());
 }
 
 async function writePost(filePath: string, fm: string, content: string) {
-  content = `---\n${fm}---\n\n${content}\n`;
+  if (fm) {
+    content = `---\n${fm}---\n\n${content}`;
+  }
+
+  content += "\n";
 
   await fs.writeFile(filePath, content);
 

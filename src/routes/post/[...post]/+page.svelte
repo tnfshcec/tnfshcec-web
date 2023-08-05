@@ -13,6 +13,7 @@
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDate } from "$lib/utils/date.js";
   import { base } from "$app/paths";
+  import { goto } from "$app/navigation";
 
   export let data;
   let {
@@ -32,16 +33,18 @@
     drawerStore.open({ id: "post-toc", width: "auto", regionDrawer: "p-4" });
   }
 
-  function deletePost() {
+  async function deletePost() {
     modalStore.trigger({
       type: "confirm",
       title: "YOU'RE DELETING THE POST",
       body: "proceed?",
       response: async (r: boolean) => {
-        if (r)
-          await fetch(`${base}/api/post?path=${url}`, {
+        if (r) {
+          const res = await fetch(`${base}/api/post?path=${url}`, {
             method: "DELETE"
           });
+          if (res.ok) await goto(base || "/");
+        }
       }
     });
   }
