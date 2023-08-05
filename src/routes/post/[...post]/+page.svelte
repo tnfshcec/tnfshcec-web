@@ -44,6 +44,7 @@
             method: "DELETE"
           });
           if (res.ok) await goto(base || "/");
+          // TODO: toast notification
         }
       }
     });

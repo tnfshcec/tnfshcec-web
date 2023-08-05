@@ -41,7 +41,7 @@ export async function deletePost(path: string) {
 
 export async function savePost(path: string, data: App.PostData, content: string) {
   const { url, ...fmData } = data;
-  const fm = Object.keys(fmData).length ? yaml.dump(fmData) : "";
+  const fm = Object.keys(fmData).length ? yaml.dump(fmData, { schema: yaml.JSON_SCHEMA }) : "";
 
   return writePost(filePath(path), fm, content.trim());
 }

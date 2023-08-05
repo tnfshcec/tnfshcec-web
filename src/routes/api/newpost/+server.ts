@@ -1,6 +1,7 @@
 import { error, json } from "@sveltejs/kit";
 import { base } from "$app/paths";
 import { listPosts, savePost } from "$lib/server/posts";
+import { htmlDateString } from "$lib/utils/date";
 import type { RequestHandler } from "./$types";
 
 export const POST = (async ({ locals }) => {
@@ -12,7 +13,7 @@ export const POST = (async ({ locals }) => {
   const data: App.PostData = {
     title: "New Post",
     author: session.user.name ?? undefined,
-    date: new Date().toISOString().substring(0, 10),
+    date: htmlDateString(new Date()),
     url: path
   };
   const md = "";

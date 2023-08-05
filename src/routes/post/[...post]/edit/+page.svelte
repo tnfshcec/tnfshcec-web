@@ -29,6 +29,8 @@
       });
       await goto(`${base}/post/${postData.url}/edit`);
     }
+
+    // TODO: toast notification
   }
 </script>
 
