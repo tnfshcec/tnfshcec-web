@@ -38,7 +38,7 @@
     console.log("saving with data: ", data);
 
     // TODO: remove old one when url changed
-    await fetch(`${base}/${postData.url}/endpoint`, {
+    await fetch(`${base}/api/post?path=${postData.url}`, {
       method: "POST",
       body: JSON.stringify({ data, md })
     });

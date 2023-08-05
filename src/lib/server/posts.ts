@@ -3,8 +3,13 @@ import fs from "fs/promises";
 import yamlFront from "yaml-front-matter";
 import yaml from "js-yaml";
 
-export async function listPosts() {
-  return await fg("cec/**/*.md");
+const filePath = (postPath: string) => `cec/${postPath}.md`;
+
+export async function listPosts(pattern = "**/*.md") {
+  const list = await fg(pattern, { cwd: "cec" });
+
+  // omit the `.md` part
+  return list.map((path) => path.substring(0, path.length - 3));
 }
 
 export async function parsePost<B extends boolean = true>(
@@ -13,25 +18,24 @@ export async function parsePost<B extends boolean = true>(
 ): Promise<App.PostData & (B extends true ? { md: string } : Record<string, never>)>;
 
 export async function parsePost(path: string, withContent = true) {
-  const file = await fs.readFile(path, { encoding: "utf8" });
+  const file = await fs.readFile(filePath(path), { encoding: "utf8" });
   const { __content, ...fm } = yamlFront.loadFront(file);
-  const url = `${path.slice(4, -3)}`;
 
   if (withContent) {
     return {
       ...fm,
-      url,
+      url: path,
       md: __content.trim()
     };
   }
   return {
     ...fm,
-    url
+    url: path
   };
 }
 
 export async function deletePost(path: string) {
-  console.log("Delete post OHNO");
+  console.log("Delete post OHNO", filePath(path));
   return Promise.resolve();
 }
 
@@ -39,13 +43,13 @@ export async function savePost(path: string, data: App.PostData, content: string
   const { url, ...fmData } = data;
   const fm = yaml.dump(fmData);
 
-  return writePost(path, fm, content.trim());
+  return writePost(filePath(path), fm, content.trim());
 }
 
-async function writePost(path: string, fm: string, content: string) {
+async function writePost(filePath: string, fm: string, content: string) {
   content = `---\n${fm}---\n\n${content}\n`;
 
-  await fs.writeFile(path, content);
+  await fs.writeFile(filePath, content);
 
   return content;
 }

@@ -15,19 +15,8 @@
       : {
           name: "New Post",
           action: async () => {
-            await fetch(`${base}/post/new-post/endpoint`, {
-              method: "POST",
-              body: JSON.stringify({
-                data: {
-                  title: "New Post",
-                  author: data.session?.user.name,
-                  date: new Date().toString(),
-                  url: `new-post`
-                },
-                md: ""
-              })
-            });
-            goto(`${base}/post/new-post/edit`);
+            const res = await fetch(`${base}/api/newpost`, { method: "POST" });
+            goto(await res.json().then((d) => d.postUrl + "/edit"));
           }
         };
 </script>

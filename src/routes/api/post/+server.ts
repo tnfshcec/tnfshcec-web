@@ -1,9 +1,15 @@
 import { error, json } from "@sveltejs/kit";
 import { deletePost, savePost, parsePost } from "$lib/server/posts";
 import type { RequestHandler } from "./$types";
+import { base } from "$app/paths";
 
-export const GET = (async ({ params }) => {
-  const post = await parsePost(`cec/${params.post}.md`).catch((e) => {
+// TODO: use tRPC at some point
+
+export const GET = (async ({ url }) => {
+  const path = url.searchParams.get("path");
+  if (path === null) throw error(400, "Required fields not found");
+
+  const post = await parsePost(path).catch((e) => {
     if (e.code === "ENOENT") throw error(404, "post not found");
     throw e;
   });
@@ -16,9 +22,12 @@ export const GET = (async ({ params }) => {
   });
 }) satisfies RequestHandler;
 
-export const POST = (async ({ request, params, locals }) => {
+export const POST = (async ({ request, url, locals }) => {
   const session = await locals.getSession();
   if (session?.user.role != "admin") throw error(401, "NO U");
+
+  const path = url.searchParams.get("path");
+  if (path === null) throw error(400, "Required fields not found");
 
   const { data, md } = await request.json().catch(() => {
     throw error(400);
@@ -26,21 +35,24 @@ export const POST = (async ({ request, params, locals }) => {
 
   if (data === undefined || md === undefined) throw error(400, "Required fields not found");
 
-  const content = await savePost(`cec/${params.post}.md`, data, md);
+  const content = await savePost(path, data, md);
 
   return json({
-    message: `Post '${params.post}' is saved with data received.`,
+    message: `Post '${path}' is saved with data received.`,
+    postUrl: `${base}/post/${path}`,
     postContent: content
   });
 }) satisfies RequestHandler;
 
-export const DELETE = (async ({ params, locals }) => {
+export const DELETE = (async ({ url, locals }) => {
   const session = await locals.getSession();
   if (session?.user.role != "admin") throw error(401, "NO U");
 
-  await deletePost(`cec/${params.post}.md`);
+  const path = url.searchParams.get("path");
+
+  await deletePost(`cec/${path}.md`);
   return json({
-    message: `Post '${params.post}' should have been deleted. This is not yet implemented tho :)`
+    message: `Post '${path}' should have been deleted. This is not yet implemented tho :)`
   });
 }) satisfies RequestHandler;
 

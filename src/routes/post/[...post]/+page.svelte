@@ -39,7 +39,7 @@
       body: "proceed?",
       response: async (r: boolean) => {
         if (r)
-          await fetch(`${base}/post/${url}/endpoint`, {
+          await fetch(`${base}/api/post?path=${url}`, {
             method: "DELETE"
           });
       }
