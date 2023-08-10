@@ -8,4 +8,3 @@ COPY . .
 RUN npm run build
 
 CMD ["node", "build"]
-EXPOSE 3000
