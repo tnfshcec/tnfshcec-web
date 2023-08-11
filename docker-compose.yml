@@ -7,7 +7,3 @@ services:
     volumes:
       - ./cec/:/app/cec
     env_file: .env
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3000
-      - ORIGIN=http://localhost:3000
