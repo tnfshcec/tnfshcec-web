@@ -1,15 +1,19 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import { localeDate } from "./utils/date";
+  import { localeDate } from "../utils/date";
 
   export let post: App.PostData;
 
   let date = localeDate(post.date);
 </script>
 
-<a class="block p-2 w-full card card-hover variant-soft" href="{base}/{post.url}">
+<a
+  class="block p-2 w-full card card-hover variant-soft"
+  href="{base}/post/{post.url}"
+  data-sveltekit-preload-data="hover"
+>
   <header class="card-header">
-    <span class="block text-surface-600 dark:text-surface-300">
+    <span class="block text-surface-600-300-token">
       {post.pinned ? "📌" : ""}
       {post.author || ""}
       {post.author && post.date ? "/" : ""}

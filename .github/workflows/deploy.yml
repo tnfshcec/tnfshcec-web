@@ -27,8 +27,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create .env file
+        run: |
+          touch .env
+          echo AUTH_SECRET=${{ secrets.AUTH_SECRET }} >> .env
+          echo GITHUB_ID="" >> .env
+          echo GITHUB_SECRET="" >> .env
+          echo ADMINS="" >> .env
+
       - name: build
         env:
+          PRERENDER: true
+          AUTH_TRUST_HOST: true
           BASE_PATH: "/tnfshcec-web"
         run: |
           npm run build

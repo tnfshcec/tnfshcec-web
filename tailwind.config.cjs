@@ -7,10 +7,23 @@ const config = {
   ],
 
   theme: {
-    extend: {}
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            pre: false,
+            code: false,
+            "pre code": false
+          }
+        }
+      }
+    }
   },
 
-  plugins: [...require("@skeletonlabs/skeleton/tailwind/skeleton.cjs")()]
+  plugins: [
+    require("@tailwindcss/typography"),
+    ...require("@skeletonlabs/skeleton/tailwind/skeleton.cjs")(),
+  ],
 };
 
 module.exports = config;

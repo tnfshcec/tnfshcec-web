@@ -1,19 +1,18 @@
-import { mdsvex } from "mdsvex";
-import mdsvexConfig from "./mdsvex.config.js";
 import preprocess from "svelte-preprocess";
-import adapter from "@sveltejs/adapter-static";
+import adapterAuto from "@sveltejs/adapter-auto";
+import adapterStatic from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 
 const dev = process.argv.includes("dev");
+const base = dev ? "" : process.env.BASE_PATH ?? "";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  extensions: [".svelte", ...mdsvexConfig.extensions],
+  extensions: [".svelte"],
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors
   preprocess: [
-    mdsvex(mdsvexConfig),
     vitePreprocess(),
     preprocess({
       postcss: true
@@ -24,9 +23,20 @@ const config = {
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
     // If your environment is not supported or you settled on a specific environment, switch out the adapter.
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
-    adapter: adapter(),
+    adapter: process.env.PRERENDER ? adapterStatic({ strict: false }) : adapterAuto(),
     paths: {
-      base: dev ? "" : process.env.BASE_PATH
+      base
+    },
+    prerender: {
+      handleMissingId: "warn",
+      handleHttpError: ({ path, referrer, message }) => {
+        // TODO: Build auth pages. Currently using pages from Auth.js
+        if (path.startsWith(base + "/auth")) {
+          return;
+        }
+
+        throw new Error(message);
+      }
     }
   }
 };

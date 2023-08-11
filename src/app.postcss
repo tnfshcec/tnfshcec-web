@@ -4,10 +4,53 @@ body {
   @apply h-full overflow-hidden;
 }
 
-.md-header a::after {
-  @apply pl-2 text-surface-200 transition-all content-['#'] dark:text-surface-700;
+/* prose */
+
+.prose {
+  @apply prose-headings:font-normal max-w-none;
 }
 
-.md-header:hover a::after {
-  @apply text-primary-800 dark:text-primary-100;
+.prose a.permalink {
+  @apply opacity-0 pl-2 transition-all text-sm no-underline leading-4;
 }
+
+.prose :is(h1, h2, h3, h4, h5, h6):hover a.permalink {
+  @apply opacity-100;
+}
+
+/* easymde editor */
+.CodeMirror {
+  @apply !bg-transparent !text-inherit selection:!bg-inherit;
+}
+
+.CodeMirror,
+.editor-toolbar {
+  @apply !border-surface-500-400-token;
+}
+
+.editor-preview {
+  @apply bg-surface-100-800-token;
+}
+
+.CodeMirror-cursor {
+  @apply !border-surface-800-100-token;
+}
+
+.editor-toolbar button {
+  @apply transition-all !rounded-lg;
+}
+
+.editor-toolbar button.active,
+.editor-toolbar button:hover {
+  @apply !bg-primary-500/20;
+}
+
+.CodeMirror-selected {
+  @apply !bg-primary-500/30;
+}
+
+.cm-comment {
+  @apply font-mono text-primary-900-50-token;
+}
+
+/* vim: set ft=css: */
