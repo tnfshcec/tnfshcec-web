@@ -1,0 +1,9 @@
+services:
+  app:
+    image: tnfshcec/web
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./cec/:/app/cec
+    env_file: .env
