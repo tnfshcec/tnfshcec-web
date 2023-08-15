@@ -14,9 +14,10 @@
     AppShell,
     Avatar,
     Drawer,
-    TableOfContents,
     LightSwitch,
     Modal,
+    TableOfContents,
+    Toast,
     popup,
     storeHighlightJs,
     drawerStore,
@@ -52,6 +53,8 @@
 </script>
 
 <Modal />
+
+<Toast />
 
 <Drawer>
   {#if $drawerStore.id === "post-toc"}

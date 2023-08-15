@@ -3,9 +3,10 @@
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
   import {
     TableOfContents,
-    modalStore,
     drawerStore,
+    modalStore,
     popup,
+    toastStore,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
 
@@ -43,8 +44,21 @@
           const res = await fetch(`${base}/api/post?path=${url}`, {
             method: "DELETE"
           });
-          if (res.ok) await goto(base || "/");
-          // TODO: toast notification
+          if (res.ok) {
+            toastStore.trigger({
+              message: "DELETE SUCCESSFUL. You will no longer see the post.",
+              classes: "rounded-full",
+              hideDismiss: true
+            });
+            await goto(base || "/");
+          } else {
+            toastStore.trigger({
+              message: "Delete failed. Try doing it again later.",
+              background: "variant-filled-error",
+              classes: "rounded-full",
+              hideDismiss: true
+            });
+          }
         }
       }
     });

@@ -3,7 +3,7 @@
   import EasyMde from "$lib/components/EasyMde.svelte";
   import { localeDate } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import { Accordion, AccordionItem, toastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
 
@@ -12,25 +12,41 @@
   let { md, data: postData } = data;
   $: date = localeDate(postData.date);
 
-  const originalUrl = postData.url;
+  let editUrl = postData.url;
 
   async function savePost() {
-    const data = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
-    console.log("saving with data: ", data);
+    const currentUrl = postData.url;
+    postData.url = editUrl;
 
-    await fetch(`${base}/api/post?path=${postData.url}`, {
+    const fmData = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
+    console.log("saving with data: ", fmData);
+
+    const res = await fetch(`${base}/api/post?path=${editUrl}`, {
       method: "POST",
-      body: JSON.stringify({ data, md })
+      body: JSON.stringify({ data: fmData, md })
     });
 
-    if (postData.url !== originalUrl) {
-      await fetch(`${base}/api/post?path=${originalUrl}`, {
-        method: "DELETE"
+    if (res.ok) {
+      toastStore.trigger({
+        message: "Edit saved.",
+        classes: "!rounded-full",
+        hideDismiss: true
       });
-      await goto(`${base}/post/${postData.url}/edit`);
+    } else {
+      toastStore.trigger({
+        message: "Save action was not successful. Try doing it again later.",
+        background: "variant-filled-error",
+        classes: "!rounded-full",
+        hideDismiss: true
+      });
     }
 
-    // TODO: toast notification
+    if (currentUrl !== editUrl) {
+      await fetch(`${base}/api/post?path=${currentUrl}`, {
+        method: "DELETE"
+      });
+      await goto(`${base}/post/${editUrl}/edit`);
+    }
   }
 </script>
 
@@ -70,7 +86,7 @@
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput
               label="url"
-              bind:value={postData.url}
+              bind:value={editUrl}
               className="col-span-2"
               validate={(v) => Boolean(v)}
             />
