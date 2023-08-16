@@ -15,7 +15,7 @@
 <section class="relative">
   <h1 class="mb-3 h1" id={title.replaceAll(" ", "-")} in:fadeIn out:fadeOut># {title}</h1>
 
-  <div class="space-y-3" in:flyIn={{ x: 20 }} out:flyOut={{ x: -20 }}>
+  <div in:flyIn={{ x: 20 }} out:flyOut={{ x: -20 }}>
     <slot />
   </div>
 

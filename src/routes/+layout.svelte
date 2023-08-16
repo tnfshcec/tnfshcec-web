@@ -62,9 +62,9 @@
   {/if}
 </Drawer>
 
-<AppShell slotPageHeader="sticky top-0 shadow-md" on:scroll={scrollEvent}>
+<AppShell slotPageHeader="sticky top-0 z-10 shadow-md" on:scroll={scrollEvent}>
   <svelte:fragment slot="pageHeader">
-    <AppBar regionRowMain="outline-red-600" slotTrail="space-x-8">
+    <AppBar slotTrail="space-x-8">
       <svelte:fragment slot="lead">
         <a href="{base}/">
           <img

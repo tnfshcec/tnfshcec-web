@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="mx-auto w-full max-w-5xl min-w-[15rem]">
+  <div class="mx-auto w-full max-w-screen-xl">
     <HomeSection title="最新" action={newPostAction}>
       {#each data.posts.slice(0, 5) as post}
         <PostCard {post} />

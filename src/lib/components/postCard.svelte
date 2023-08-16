@@ -8,7 +8,7 @@
 </script>
 
 <a
-  class="block p-2 w-full card card-hover variant-soft"
+  class="block my-3 p-2 w-full card card-hover variant-soft"
   href="{base}/post/{post.url}"
   data-sveltekit-preload-data="hover"
 >
