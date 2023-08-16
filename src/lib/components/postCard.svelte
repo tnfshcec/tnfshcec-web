@@ -1,6 +1,7 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import { localeDate } from "../utils/date";
+  import { flyIn, flyOut } from "$lib/utils/transitions";
+  import { localeDate } from "$lib/utils/date";
 
   export let post: App.PostData;
 
@@ -11,6 +12,8 @@
   class="block my-3 p-2 w-full card card-hover variant-soft"
   href="{base}/post/{post.url}"
   data-sveltekit-preload-data="hover"
+  in:flyIn={{ x: 20 }}
+  out:flyOut={{ x: -20 }}
 >
   <header class="card-header">
     <span class="block text-surface-600-300-token">
