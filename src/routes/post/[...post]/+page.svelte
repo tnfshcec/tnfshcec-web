@@ -9,6 +9,7 @@
     toastStore,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
+  import { Bars3BottomLeft, BarsArrowDown } from "@inqling/svelte-icons/heroicon-24-outline";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
@@ -90,14 +91,7 @@
           class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base xl:hidden"
           on:click={tocDrawer}
         >
-          <svg
-            viewBox="0 0 24 24"
-            class="stroke-surface-600 dark:stroke-surface-300 fill-none inline mb-1 mx-1"
-          >
-            <path d="M20 7L4 7" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M15 12L4 12" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M9 17H4" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <Bars3BottomLeft class="text-surface-600-300-token inline mb-1 mx-1" />
         </button>
         {title}
       </h1>
@@ -107,17 +101,7 @@
           class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1"
           use:popup={adminPopup}
         >
-          <svg viewBox="0 0 24 24" class="stroke-surface-600 dark:stroke-surface-300 stroke-2">
-            <path d="M10 16H3" stroke-width="1.5" stroke-linecap="round" />
-            <path
-              d="M14 15L17.5 18L21 15"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path d="M20 11L3 11" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M3 6L13.5 6M20 6L17.75 6" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <BarsArrowDown class="text-surface-600-300-token" />
         </button>
 
         <div data-popup="admin-popup">
