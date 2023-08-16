@@ -13,17 +13,14 @@
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
-  import { localeDate } from "$lib/utils/date.js";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
 
   export let data;
   let {
     md,
-    data: { title, author, pinned, url }
+    data: { title, author, dateString: date, pinned, url }
   } = data;
-
-  let date = localeDate(data.data.date);
 
   let adminPopup: PopupSettings = {
     event: "click",

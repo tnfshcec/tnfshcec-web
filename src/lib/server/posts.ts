@@ -2,6 +2,7 @@ import fg from "fast-glob";
 import fs from "fs/promises";
 import yamlFront from "yaml-front-matter";
 import yaml from "js-yaml";
+import { localeDate } from "$lib/utils/date";
 
 const filePath = (postPath: string) => `cec/${postPath}.md`;
 
@@ -19,7 +20,16 @@ export async function parsePost<B extends boolean = true>(
 
 export async function parsePost(path: string, withContent = true) {
   const file = await fs.readFile(filePath(path), { encoding: "utf8" });
-  const { __content, ...fm } = yamlFront.loadFront(file);
+  const { __content, ...yamlFm } = yamlFront.loadFront(file);
+
+  const fm: Record<string, unknown> = yamlFm;
+
+  if (typeof fm.date === "string") {
+    const date = new Date(fm.date);
+
+    fm.dateString = localeDate(date, fm.date);
+    fm.date = isNaN(date.valueOf()) ? undefined : date;
+  }
 
   if (withContent) {
     return {

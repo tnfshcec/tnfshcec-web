@@ -1,8 +1,9 @@
-export function localeDate(s: string | undefined) {
-  const date = new Date(s || "");
+export function localeDate(date: Date): string | null;
+export function localeDate<T>(date: Date, fallback: T): string | T;
 
+export function localeDate<T>(date: Date, fallback?: T) {
   return isNaN(date.valueOf())
-    ? s
+    ? fallback ?? null
     : date.toLocaleString("zh-TW", {
       year: "numeric",
       month: "long",

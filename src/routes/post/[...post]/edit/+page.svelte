@@ -10,7 +10,13 @@
   export let data;
 
   let { md, data: postData } = data;
-  $: date = localeDate(postData.date);
+  // TODO: there might be some timezone issues here
+  let dateISO = postData.date?.toISOString().substring(0, 10);
+  $: if (dateISO) {
+    const date = new Date(dateISO);
+    postData.date = isNaN(date.valueOf()) ? undefined : date;
+    postData.dateString = localeDate(date, dateISO);
+  }
 
   let editUrl = postData.url;
 
@@ -63,8 +69,8 @@
       <span class="block text-surface-600-300-token">
         {postData.pinned ? "📌" : ""}
         {postData.author || ""}
-        {postData.author && date ? "/" : ""}
-        {date || ""}
+        {postData.author && postData.dateString ? "/" : ""}
+        {postData.dateString || ""}
       </span>
       <h1 class="h1">
         <input
@@ -92,8 +98,7 @@
             />
             <PostEditInput id="title" bind:value={postData.title} />
             <PostEditInput id="author" bind:value={postData.author} />
-            <!-- TODO: type="date" -->
-            <PostEditInput id="date" bind:value={postData.date} />
+            <PostEditInput id="date" type="date" bind:value={dateISO} />
             <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
           </div>
         </svelte:fragment>
