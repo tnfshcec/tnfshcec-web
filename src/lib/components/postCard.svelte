@@ -1,8 +1,11 @@
 <script lang="ts">
   import { base } from "$app/paths";
+  import { localeDateFromString } from "$lib/utils/date";
   import { flyIn, flyOut } from "$lib/utils/transitions";
 
   export let post: App.PostData;
+
+  let localeDate = localeDateFromString(post.date ?? "");
 </script>
 
 <a
@@ -16,8 +19,8 @@
     <span class="block text-surface-600-300-token">
       {post.pinned ? "📌" : ""}
       {post.author || ""}
-      {post.author && post.dateString ? "/" : ""}
-      {post.dateString || ""}
+      {post.author && localeDate ? "/" : ""}
+      {localeDate || ""}
     </span>
     <div class="block text-2xl font-bold">{post.title}</div>
   </header>

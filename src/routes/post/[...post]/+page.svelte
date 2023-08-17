@@ -15,12 +15,14 @@
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
+  import { localeDateFromString } from "$lib/utils/date.js";
 
   export let data;
   let {
     md,
-    data: { title, author, dateString: date, pinned, url }
+    data: { title, author, date, pinned, url }
   } = data;
+  let localeDate = localeDateFromString(date ?? "");
 
   let adminPopup: PopupSettings = {
     event: "click",
@@ -80,8 +82,8 @@
       <span class="block text-surface-600-300-token">
         {pinned ? "📌" : ""}
         {author || ""}
-        {author && date ? "/" : ""}
-        {date || ""}
+        {author && localeDate ? "/" : ""}
+        {localeDate || ""}
       </span>
       <h1 class="h1">
         <button

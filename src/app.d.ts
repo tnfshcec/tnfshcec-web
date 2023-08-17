@@ -11,8 +11,7 @@ declare global {
     interface PostData {
       title?: string;
       author?: string;
-      date?: Date;
-      dateString?: string;
+      date?: string;
       pinned?: boolean;
       url: string;
     }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import PostEditInput from "$lib/components/postEditInput.svelte";
   import EasyMde from "$lib/components/EasyMde.svelte";
-  import { localeDate } from "$lib/utils/date.js";
+  import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
   import { Accordion, AccordionItem, toastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
@@ -10,13 +10,7 @@
   export let data;
 
   let { md, data: postData } = data;
-  // TODO: there might be some timezone issues here
-  let dateISO = postData.date?.toISOString().substring(0, 10);
-  $: if (dateISO) {
-    const date = new Date(dateISO);
-    postData.date = isNaN(date.valueOf()) ? undefined : date;
-    postData.dateString = localeDate(date, dateISO);
-  }
+  $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
 
@@ -69,8 +63,8 @@
       <span class="block text-surface-600-300-token">
         {postData.pinned ? "📌" : ""}
         {postData.author || ""}
-        {postData.author && postData.dateString ? "/" : ""}
-        {postData.dateString || ""}
+        {postData.author && localeDate ? "/" : ""}
+        {localeDate || ""}
       </span>
       <h1 class="h1">
         <input
@@ -98,7 +92,7 @@
             />
             <PostEditInput id="title" bind:value={postData.title} />
             <PostEditInput id="author" bind:value={postData.author} />
-            <PostEditInput id="date" type="date" bind:value={dateISO} />
+            <PostEditInput id="date" type="date" bind:value={postData.date} />
             <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
           </div>
         </svelte:fragment>
