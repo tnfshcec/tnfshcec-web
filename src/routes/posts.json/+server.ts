@@ -19,18 +19,10 @@ export const GET = (async () => {
       return pin;
     }
 
-    return timestamp(b.date) - timestamp(a.date);
+    return +(b.date ?? 0) - +(a.date ?? 0);
   });
 
   // console.log(posts);
 
   return json(posts);
 }) satisfies RequestHandler;
-
-function timestamp(s: string | undefined) {
-  if (!s) return 0;
-
-  const date = Date.parse(s);
-
-  return isNaN(date) ? 0 : date;
-}

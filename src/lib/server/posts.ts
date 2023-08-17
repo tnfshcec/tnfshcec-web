@@ -16,7 +16,7 @@ export async function listPosts(pattern = "**/*.md") {
 export async function parsePost<B extends boolean = true>(
   path: string,
   withContent?: B
-): Promise<App.PostData & (B extends true ? { md: string } : Record<string, never>)>;
+): Promise<B extends true ? App.PostData & { md: string } : App.PostData>;
 
 export async function parsePost(path: string, withContent = true) {
   const file = await fs.readFile(filePath(path), { encoding: "utf8" });
