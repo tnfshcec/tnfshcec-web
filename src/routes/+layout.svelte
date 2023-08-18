@@ -85,7 +85,7 @@
           />
         </button>
 
-        <div class="card variant-ghost-surface p-4 space-y-4" data-popup="auth-popup">
+        <div class="card variant-ghost-surface p-4 space-y-4 backdrop-blur" data-popup="auth-popup">
           {#if data.session}
             <div>
               <small>Signed in as {data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />

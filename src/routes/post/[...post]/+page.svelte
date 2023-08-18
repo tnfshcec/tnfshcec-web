@@ -20,7 +20,7 @@
   export let data;
   let {
     md,
-    data: { title, author, date, pinned, url }
+    data: { title, author, date, image, pinned, url }
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
@@ -65,16 +65,25 @@
   }
 </script>
 
-<div class="flex flex-col gap-4 md:py-4 xl:flex-row">
+<div class="flex flex-col py-4 xl:gap-4 xl:flex-row">
+  <div
+    class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
+    style="background-image: url({image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
+    in:fadeIn
+    out:fadeOut
+  />
   <div class="flex-1" in:fadeIn out:fadeOut />
 
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
-    <TableOfContents target="#post-content" spacing="space-y-4 sticky top-4 hidden xl:block" />
+    <TableOfContents
+      target="#post-content"
+      spacing="space-y-4 p-2 sticky top-4 hidden backdrop-blur bg-surface-100/30 dark:bg-surface-800/30 rounded-xl xl:block"
+    />
   </div>
 
   <div
     id="post-content"
-    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
+    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md shadow-lg"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >

@@ -22,19 +22,22 @@
         };
 </script>
 
-<div class="m-10 space-y-8">
+<div class="m-10 space-y-12">
   <div
     class="flex flex-col gap-4 p-3 mx-auto w-full max-w-3xl text-center md:flex-row md:gap-8 md:text-left"
     in:fadeIn
     out:fadeOut
   >
     <div
-      class="flex-shrink-0 my-auto mx-auto w-32 h-32 rounded-full"
-      style="background-image: url({storm}); background-position: 50% 30%; background-size: 300px;"
+      class="flex-shrink-0 my-auto mx-auto w-40 h-40 rounded-full bg-cover"
+      style="background-image: url({storm}); background-position: 50% 30%;"
     />
     <div class="space-y-2">
-      <h2 class="h2">電機社～新樓醫院心臟科</h2>
-      Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+      <h1 class="h1">電機社～新樓醫院心臟科</h1>
+      <p>
+        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur
+        cupidatat.
+      </p>
       <div class="flex flex-row gap-2 justify-center md:justify-start">
         <a class="btn-icon btn-icon-sm variant-filled p-1" href="https://www.facebook.com/TNFSHCEC">
           <Facebook class="text-surface-100-800-token" />

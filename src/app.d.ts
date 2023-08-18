@@ -12,6 +12,7 @@ declare global {
       title?: string;
       author?: string;
       date?: string;
+      image?: string;
       pinned?: boolean;
       url: string;
     }
@@ -37,5 +38,4 @@ declare module "@auth/core/jwt" {
     role?: Role;
   }
 }
-
 export { };
