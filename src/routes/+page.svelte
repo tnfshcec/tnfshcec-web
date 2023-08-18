@@ -3,10 +3,12 @@
   import HomeSection, { type SectionAction } from "$lib/components/homeSection.svelte";
   import PostCard from "$lib/components/postCard.svelte";
 
-  import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
+
+  import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
+  import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
 
   export let data;
 
@@ -39,15 +41,34 @@
         cupidatat.
       </p>
       <div class="flex flex-row gap-2 justify-center md:justify-start">
-        <a class="btn-icon btn-icon-sm variant-filled p-1" href="https://www.facebook.com/TNFSHCEC">
-          <Facebook class="text-surface-100-800-token" />
+        <a
+          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          href="https://www.tnfsh.tn.edu.tw/form/Details.aspx?Parser=28,4,28,,,,34"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div
+            class="w-full h-full bg-current"
+            style="mask: url({TNFSH_emblem}) center / contain no-repeat;"
+          />
         </a>
         <a
-          class="btn-icon btn-icon-sm variant-filled p-1"
-          href="https://www.instagram.com/tnfshcec/"
+          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          href="https://www.facebook.com/TNFSHCEC"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <Instagram class="text-surface-100-800-token" />
+          <Facebook class="text-inherit" />
         </a>
+        <a
+          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          href="https://www.instagram.com/tnfshcec/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Instagram class="text-inherit" />
+        </a>
+        <!-- links -->
       </div>
     </div>
   </div>

@@ -67,7 +67,7 @@
 
 <div class="flex flex-col py-4 xl:gap-4 xl:flex-row">
   <div
-    class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
+    class="fixed top-0 w-full h-2/3 -z-50 bg-cover variant-glass"
     style="background-image: url({image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
     in:fadeIn
     out:fadeOut
@@ -75,9 +75,10 @@
   <div class="flex-1" in:fadeIn out:fadeOut />
 
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
+    <!-- TODO: text might have contrast issue with background -->
     <TableOfContents
       target="#post-content"
-      spacing="space-y-4 p-2 sticky top-4 hidden backdrop-blur bg-surface-100/30 dark:bg-surface-800/30 rounded-xl xl:block"
+      spacing="space-y-4 p-2 sticky top-4 hidden rounded-xl backdrop-blur bg-surface-50/50 dark:bg-surface-900/50 xl:block"
     />
   </div>
 
