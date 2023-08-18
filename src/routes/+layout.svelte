@@ -27,7 +27,7 @@
   storeHighlightJs.set(hljs);
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-  import vitamin from "$lib/assets/vitamin-d.png";
+  import icon from "$lib/assets/global-icon.png";
   import { onScroll } from "$lib/stores/scroll";
   import { base } from "$app/paths";
 
@@ -68,7 +68,7 @@
       <svelte:fragment slot="lead">
         <a href="{base}/">
           <img
-            src={vitamin}
+            src={icon}
             alt=""
             class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}"
           /></a

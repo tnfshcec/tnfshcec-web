@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Facebook, Instagram } from "@inqling/svelte-icons/simple-icons";
   import HomeSection, { type SectionAction } from "$lib/components/homeSection.svelte";
   import PostCard from "$lib/components/postCard.svelte";
 
@@ -7,7 +6,9 @@
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
 
-  import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
+  import Facebook from "~icons/mdi/facebook";
+  import Instagram from "~icons/mdi/instagram";
+  import welcome from "$lib/assets/welcome-icon.jpg";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
 
   export let data;
@@ -32,7 +33,7 @@
   >
     <div
       class="flex-shrink-0 my-auto mx-auto w-40 h-40 rounded-full bg-cover"
-      style="background-image: url({storm}); background-position: 50% 30%;"
+      style="background-image: url({welcome}); background-position: 50% 30%;"
     />
     <div class="space-y-2">
       <h1 class="h1">電機社～新樓醫院心臟科</h1>
@@ -58,7 +59,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Facebook class="text-inherit" />
+          <Facebook width="100%" height="100%" />
         </a>
         <a
           class="btn-icon btn-icon-sm variant-filled-surface p-1"
@@ -66,7 +67,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Instagram class="text-inherit" />
+          <Instagram width="100%" height="100%" />
         </a>
         <!-- links -->
       </div>
@@ -83,7 +84,7 @@
       </div>
     </HomeSection>
     <HomeSection title="資訊">
-      <div class="space-y-4">
+      <div class="space-y-4" in:fadeIn out:fadeOut>
         <h3 class="h3">臺南一中電機社——開啟電機世界的夢想舞台！</h3>
         <p>
           過去，我們以機器人社的身份活躍於校園，以樂高程式機器人為主要探索領域。

@@ -6,6 +6,7 @@
   import { Accordion, AccordionItem, toastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
+  import Pin from "~icons/mdi/pin";
 
   export let data;
 
@@ -67,7 +68,9 @@
   >
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
-        {postData.pinned ? "📌" : ""}
+        {#if postData.pinned}
+          <Pin class="inline -mt-1 text-primary-400-500-token" />
+        {/if}
         {postData.author || ""}
         {postData.author && localeDate ? "/" : ""}
         {localeDate || ""}

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Pin from "~icons/mdi/pin";
+
   import { base } from "$app/paths";
   import { localeDateFromString } from "$lib/utils/date";
   import { flyIn, flyOut } from "$lib/utils/transitions";
@@ -22,7 +24,9 @@
 
   <header class="card-header">
     <span class="block text-surface-600-300-token">
-      {post.pinned ? "📌" : ""}
+      {#if post.pinned}
+        <Pin class="inline -mt-1 text-primary-500-400-token" />
+      {/if}
       {post.author || ""}
       {post.author && localeDate ? "/" : ""}
       {localeDate || ""}

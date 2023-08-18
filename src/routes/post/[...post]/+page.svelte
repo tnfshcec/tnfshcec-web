@@ -9,7 +9,9 @@
     toastStore,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
-  import { Bars3BottomLeft, BarsArrowDown } from "@inqling/svelte-icons/heroicon-24-outline";
+  import MenuOpen from "~icons/mdi/menu-open";
+  import PlaylistEdit from "~icons/mdi/playlist-edit";
+  import Pin from "~icons/mdi/pin";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
@@ -90,7 +92,9 @@
   >
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
-        {pinned ? "📌" : ""}
+        {#if pinned}
+          <Pin class="inline -mt-1 text-primary-500-400-token" />
+        {/if}
         {author || ""}
         {author && localeDate ? "/" : ""}
         {localeDate || ""}
@@ -100,7 +104,7 @@
           class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base xl:hidden"
           on:click={tocDrawer}
         >
-          <Bars3BottomLeft class="text-surface-600-300-token inline mb-1 mx-1" />
+          <MenuOpen width="100%" height="100%" class="text-surface-600-300-token inline" />
         </button>
         {title}
       </h1>
@@ -110,7 +114,7 @@
           class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1"
           use:popup={adminPopup}
         >
-          <BarsArrowDown class="text-surface-600-300-token" />
+          <PlaylistEdit width="100%" height="100%" class="text-surface-600-300-token" />
         </button>
 
         <div data-popup="admin-popup">
