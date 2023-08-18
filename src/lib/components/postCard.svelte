@@ -9,12 +9,17 @@
 </script>
 
 <a
-  class="block my-3 p-2 w-full card card-hover variant-soft"
+  class="block my-3 p-2 w-full card card-hover variant-soft relative overflow-hidden"
   href="{base}/post/{post.url}"
   data-sveltekit-preload-data="hover"
   in:flyIn={{ x: 20 }}
   out:flyOut={{ x: -20 }}
 >
+  <div
+    class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover"
+    style="background-image: url({post.image}); mask-image: linear-gradient(to left, white, 70%, transparent 95%);"
+  />
+
   <header class="card-header">
     <span class="block text-surface-600-300-token">
       {post.pinned ? "📌" : ""}

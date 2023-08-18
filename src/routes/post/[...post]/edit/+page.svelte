@@ -99,6 +99,7 @@
             <PostEditInput id="title" bind:value={postData.title} />
             <PostEditInput id="author" bind:value={postData.author} />
             <PostEditInput id="date" type="date" bind:value={postData.date} />
+            <PostEditInput id="image" bind:value={postData.image} />
             <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
           </div>
         </svelte:fragment>
