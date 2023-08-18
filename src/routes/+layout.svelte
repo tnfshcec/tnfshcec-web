@@ -30,7 +30,6 @@
   import vitamin from "$lib/assets/vitamin-d.png";
   import { onScroll } from "$lib/stores/scroll";
   import { base } from "$app/paths";
-  import { PUBLIC_BAR_PRE, PUBLIC_BAR_NAME } from "$env/static/public";
 
   export let data;
 
@@ -72,15 +71,9 @@
             src={vitamin}
             alt=""
             class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}"
-          />
-        </a>
+          /></a
+        >
       </svelte:fragment>
-
-      <a href="{base}/">
-        <span class="text-base whitespace-nowrap">{PUBLIC_BAR_PRE}</span>
-        <br />
-        <span class="text-3xl whitespace-nowrap">{PUBLIC_BAR_NAME}</span>
-      </a>
 
       <svelte:fragment slot="trail">
         <LightSwitch />
@@ -105,6 +98,12 @@
           {/if}
         </div>
       </svelte:fragment>
+
+      <span>
+        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
+        <br />
+        <span class="text-3xl whitespace-nowrap">電機社</span>
+      </span>
     </AppBar>
   </svelte:fragment>
   <!-- header -->

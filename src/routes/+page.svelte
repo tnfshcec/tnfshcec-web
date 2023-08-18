@@ -2,17 +2,13 @@
   import { Facebook, Instagram } from "@inqling/svelte-icons/simple-icons";
   import HomeSection, { type SectionAction } from "$lib/components/homeSection.svelte";
   import PostCard from "$lib/components/postCard.svelte";
-  import Markdown from "svelte-exmarkdown";
 
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
-  import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { rawPlugin } from "$lib/utils/exmarkdown-plugins";
 
   import storm from "$lib/assets/stormseeker-rX12B5uX7QM-unsplash.jpg";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
-  import { PUBLIC_TITLE, PUBLIC_DESC, PUBLIC_INFO } from "$env/static/public";
 
   export let data;
 
@@ -39,8 +35,11 @@
       style="background-image: url({storm}); background-position: 50% 30%;"
     />
     <div class="space-y-2">
-      <h1 class="h1">{PUBLIC_TITLE}</h1>
-      <p>{PUBLIC_DESC}</p>
+      <h1 class="h1">電機社～新樓醫院心臟科</h1>
+      <p>
+        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur
+        cupidatat.
+      </p>
       <div class="flex flex-row gap-2 justify-center md:justify-start">
         <a
           class="btn-icon btn-icon-sm variant-filled-surface p-1"
@@ -84,8 +83,20 @@
       </div>
     </HomeSection>
     <HomeSection title="資訊">
-      <div class="space-y-4 !max-w-none prose">
-        <Markdown md={PUBLIC_INFO} plugins={[gfmPlugin, rawPlugin]} />
+      <div class="space-y-4">
+        <h3 class="h3">臺南一中電機社——開啟電機世界的夢想舞台！</h3>
+        <p>
+          過去，我們以機器人社的身份活躍於校園，以樂高程式機器人為主要探索領域。
+          <br />
+          如今，<strong>我們以嶄新面貌——電機社</strong>，
+          以電腦軟硬體和開發板相關教學和討論作為社團的核心，將啟動更繽紛的社團活動！
+        </p>
+        <p>
+          和其他社團不同，我們的特色在於不僅局限於競程或網管等課程，
+          而是專注於探索電腦資訊領域的各個角落，包羅萬象。
+          無論你是對電腦軟體、硬體、電子產品還是零組件有著廣泛興趣，
+          甚至只是對電機領域抱持好奇心的新手，我們都對你敞開大門，歡迎大家的加入！
+        </p>
       </div>
     </HomeSection>
   </div>
