@@ -6,13 +6,13 @@ import type { RequestHandler } from "./$types";
 
 export const POST = (async ({ locals }) => {
   const session = await locals.getSession();
-  if (session?.user.role != "admin") throw error(401, "NO U");
+  if (session?.user?.role != "admin") throw error(401, "NO U");
 
   const path = `new-post${(await maxPostN()) + 1 || ""}`;
 
   const data: App.PostData = {
     title: "New Post",
-    author: session.user.name ?? undefined,
+    author: session.user?.name ?? undefined,
     date: isoDateString(new Date()),
     url: path
   };

@@ -12,8 +12,7 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "dependencies": {
-    "@auth/core": "^0.9.0",
-    "@auth/sveltekit": "^0.3.5",
+    "@auth/sveltekit": "^0.3.6",
     "@floating-ui/dom": "^1.4.5",
     "@inqling/svelte-icons": "^3.4.3",
     "@skeletonlabs/skeleton": "^1.5.1",

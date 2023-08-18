@@ -11,7 +11,7 @@
   export let data;
 
   const newPostAction: SectionAction | undefined =
-    data.session?.user.role !== "admin"
+    data.session?.user?.role !== "admin"
       ? undefined
       : {
           name: "New Post",

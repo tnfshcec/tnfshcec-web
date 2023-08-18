@@ -19,7 +19,10 @@ export const GET = (async () => {
       return pin;
     }
 
-    return +(b.date ?? 0) - +(a.date ?? 0);
+    const dateA = a.date ? Date.parse(a.date) : 0;
+    const dateB = b.date ? Date.parse(b.date) : 0;
+
+    return dateB - dateA;
   });
 
   // console.log(posts);

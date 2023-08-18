@@ -24,7 +24,7 @@ export const GET = (async ({ url }) => {
 
 export const POST = (async ({ request, url, locals }) => {
   const session = await locals.getSession();
-  if (session?.user.role != "admin") throw error(401, "NO U");
+  if (session?.user?.role != "admin") throw error(401, "NO U");
 
   const path = url.searchParams.get("path");
   if (path === null) throw error(400, "Required fields not found");
@@ -46,7 +46,7 @@ export const POST = (async ({ request, url, locals }) => {
 
 export const DELETE = (async ({ url, locals }) => {
   const session = await locals.getSession();
-  if (session?.user.role != "admin") throw error(401, "NO U");
+  if (session?.user?.role != "admin") throw error(401, "NO U");
 
   const path = url.searchParams.get("path");
   if (path === null) throw error(400, "Required fields not found");

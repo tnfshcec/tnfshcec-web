@@ -26,7 +26,7 @@ declare module "@auth/core/types" {
   }
 
   interface Session {
-    user: {
+    user?: {
       role?: Role;
     } & DefaultSession["user"];
   }
