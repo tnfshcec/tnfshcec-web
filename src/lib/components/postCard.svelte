@@ -17,10 +17,12 @@
   in:flyIn={{ x: 20 }}
   out:flyOut={{ x: -20 }}
 >
-  <div
-    class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover"
-    style="background-image: url({post.image}); mask-image: linear-gradient(to left, white, 70%, transparent 95%);"
-  />
+  {#if post.image}
+    <div
+      class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover"
+      style="background-image: url({post.image}); mask-image: linear-gradient(to left, white, 70%, transparent 95%);"
+    />
+  {/if}
 
   <header class="card-header">
     <span class="block text-surface-600-300-token">
