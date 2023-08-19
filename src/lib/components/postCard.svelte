@@ -19,7 +19,7 @@
 >
   {#if post.image}
     <div
-      class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover"
+      class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover -z-10"
       style="background-image: url({post.image}); mask-image: linear-gradient(to left, white, 70%, transparent 95%);"
     />
   {/if}
