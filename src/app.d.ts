@@ -1,3 +1,4 @@
+import "unplugin-icons/types/svelte";
 import { DefaultSession } from "@auth/core";
 
 // See https://kit.svelte.dev/docs/types#app

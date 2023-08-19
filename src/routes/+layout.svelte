@@ -67,13 +67,15 @@
     <AppBar slotTrail="space-x-8">
       <svelte:fragment slot="lead">
         <a href="{base}/">
-          <img
-            src={icon}
-            alt=""
-            class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}"
-          /></a
-        >
+          <img src={icon} alt="" class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}" />
+        </a>
       </svelte:fragment>
+
+      <a href="{base}/">
+        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
+        <br />
+        <span class="text-3xl whitespace-nowrap">電機社</span>
+      </a>
 
       <svelte:fragment slot="trail">
         <LightSwitch />
@@ -98,12 +100,6 @@
           {/if}
         </div>
       </svelte:fragment>
-
-      <span>
-        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
-        <br />
-        <span class="text-3xl whitespace-nowrap">電機社</span>
-      </span>
     </AppBar>
   </svelte:fragment>
   <!-- header -->

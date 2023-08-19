@@ -1,6 +1,7 @@
 <script lang="ts">
   import HomeSection, { type SectionAction } from "$lib/components/homeSection.svelte";
   import PostCard from "$lib/components/postCard.svelte";
+  import GlowImg from "$lib/components/GlowImg.svelte";
 
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
@@ -9,6 +10,7 @@
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
   import welcome from "$lib/assets/welcome-icon.jpg";
+  import icon from "$lib/assets/global-icon.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
 
   export let data;
@@ -36,7 +38,11 @@
       style="background-image: url({welcome}); background-position: 50% 30%;"
     />
     <div class="space-y-2">
-      <h1 class="h1">電機社～新樓醫院心臟科</h1>
+      <h1 class="h1">
+        電機社～
+        <span class="whitespace-pre">新樓醫院心臟科</span>
+        <!-- hack to prevent bad word breaking -->
+      </h1>
       <p>
         Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur
         cupidatat.
@@ -84,20 +90,23 @@
       </div>
     </HomeSection>
     <HomeSection title="資訊">
-      <div class="space-y-4" in:fadeIn out:fadeOut>
-        <h3 class="h3">臺南一中電機社——開啟電機世界的夢想舞台！</h3>
-        <p>
-          過去，我們以機器人社的身份活躍於校園，以樂高程式機器人為主要探索領域。
-          <br />
-          如今，<strong>我們以嶄新面貌——電機社</strong>，
-          以電腦軟硬體和開發板相關教學和討論作為社團的核心，將啟動更繽紛的社團活動！
-        </p>
-        <p>
-          和其他社團不同，我們的特色在於不僅局限於競程或網管等課程，
-          而是專注於探索電腦資訊領域的各個角落，包羅萬象。
-          無論你是對電腦軟體、硬體、電子產品還是零組件有著廣泛興趣，
-          甚至只是對電機領域抱持好奇心的新手，我們都對你敞開大門，歡迎大家的加入！
-        </p>
+      <div class="flex flex-col gap-6 md:flex-row">
+        <GlowImg src={icon} className="w-32 h-32 self-center bg-contain bg-no-repeat flex-none" />
+        <div class="space-y-4" in:fadeIn out:fadeOut>
+          <h3 class="h3">臺南一中電機社——開啟電機世界的夢想舞台！</h3>
+          <p>
+            過去，我們以機器人社的身份活躍於校園，以樂高程式機器人為主要探索領域。
+            <br />
+            如今，<strong>我們以嶄新面貌——電機社</strong>，
+            以電腦軟硬體和開發板相關教學和討論作為社團的核心，將啟動更繽紛的社團活動！
+          </p>
+          <p>
+            和其他社團不同，我們的特色在於不僅局限於競程或網管等課程，
+            而是專注於探索電腦資訊領域的各個角落，包羅萬象。
+            無論你是對電腦軟體、硬體、電子產品還是零組件有著廣泛興趣，
+            甚至只是對電機領域抱持好奇心的新手，我們都對你敞開大門，歡迎大家的加入！
+          </p>
+        </div>
       </div>
     </HomeSection>
   </div>
