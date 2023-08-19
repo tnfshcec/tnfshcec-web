@@ -12,18 +12,13 @@
   export let action: SectionAction | undefined = undefined;
 </script>
 
-<section class="relative">
-  <h1 class="mb-3 h1" id={title.replaceAll(" ", "-")} in:fadeIn out:fadeOut># {title}</h1>
+<section class="relative" in:fadeIn out:fadeOut>
+  <h1 class="mb-3 h1" id={title.replaceAll(" ", "-")}># {title}</h1>
 
   <slot />
 
   {#if action}
-    <button
-      class="absolute right-2 top-2 btn variant-filled-primary"
-      on:click={action.action}
-      in:fadeIn
-      out:fadeOut
-    >
+    <button class="absolute right-2 top-2 btn variant-filled-primary" on:click={action.action}>
       {action.name}
     </button>
   {/if}

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fadeIn, fadeOut } from "$lib/utils/transitions";
+
   export let src: string;
   export let className: string = "";
   export let blur: number = 8;
@@ -9,6 +11,8 @@
   style:--blur-amt="{blur}px"
   id="glow-img"
   class={className}
+  in:fadeIn
+  out:fadeOut
 />
 
 <style>

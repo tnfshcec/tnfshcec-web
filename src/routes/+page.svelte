@@ -1,5 +1,5 @@
 <script lang="ts">
-  import HomeSection, { type SectionAction } from "$lib/components/homeSection.svelte";
+  import HomeSection, { type SectionAction } from "$lib/components/HomeSection.svelte";
   import PostCard from "$lib/components/postCard.svelte";
   import GlowImg from "$lib/components/GlowImg.svelte";
 
@@ -86,13 +86,13 @@
         <PostCard {post} />
       {/each}
       <div class="text-center">
-        <a class="btn variant-filled-primary" href="{base}/posts" in:fadeIn out:fadeOut>查看全部</a>
+        <a class="btn variant-filled-primary" href="{base}/posts">查看全部</a>
       </div>
     </HomeSection>
     <HomeSection title="資訊">
       <div class="flex flex-col gap-6 md:flex-row">
         <GlowImg src={icon} className="w-32 h-32 self-center bg-contain bg-no-repeat flex-none" />
-        <div class="space-y-4" in:fadeIn out:fadeOut>
+        <div class="space-y-4">
           <h3 class="h3">臺南一中電機社——開啟電機世界的夢想舞台！</h3>
           <p>
             過去，我們以機器人社的身份活躍於校園，以樂高程式機器人為主要探索領域。
