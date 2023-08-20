@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, locals }) => {
   const session = await locals.getSession();
-  if (session?.user.role != "admin") throw error(401, "NO U");
+  if (session?.user?.role != "admin") throw error(401, "NO U");
 
   const post = await parsePost(params.post).catch((e) => {
     if (e.code === "ENOENT") throw error(404, "post not found");

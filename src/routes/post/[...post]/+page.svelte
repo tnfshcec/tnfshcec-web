@@ -3,25 +3,28 @@
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
   import {
     TableOfContents,
-    modalStore,
     drawerStore,
+    modalStore,
     popup,
+    toastStore,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
+  import MenuOpen from "~icons/mdi/menu-open";
+  import PlaylistEdit from "~icons/mdi/playlist-edit";
+  import Pin from "~icons/mdi/pin";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
-  import { localeDate } from "$lib/utils/date.js";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
+  import { localeDateFromString } from "$lib/utils/date.js";
 
   export let data;
   let {
     md,
-    data: { title, author, pinned, url }
+    data: { title, author, date, image, pinned, url }
   } = data;
-
-  let date = localeDate(data.data.date);
+  let localeDate = localeDateFromString(date ?? "");
 
   let adminPopup: PopupSettings = {
     event: "click",
@@ -43,47 +46,67 @@
           const res = await fetch(`${base}/api/post?path=${url}`, {
             method: "DELETE"
           });
-          if (res.ok) await goto(base || "/");
-          // TODO: toast notification
+          if (res.ok) {
+            toastStore.trigger({
+              message: "DELETE SUCCESSFUL. You will no longer see the post.",
+              classes: "rounded-full",
+              hideDismiss: true
+            });
+            await goto(base || "/");
+          } else {
+            toastStore.trigger({
+              message: "Delete failed. Try doing it again later.",
+              background: "variant-filled-error",
+              classes: "rounded-full",
+              hideDismiss: true
+            });
+          }
         }
       }
     });
   }
 </script>
 
-<div class="flex flex-col gap-4 md:py-4 xl:flex-row">
+<div class="flex flex-col py-4 xl:gap-4 xl:flex-row">
+  {#if image}
+    <div
+      class="fixed top-0 w-full h-2/3 -z-50 bg-cover variant-glass"
+      style="background-image: url({image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
+      in:fadeIn
+      out:fadeOut
+    />
+  {/if}
   <div class="flex-1" in:fadeIn out:fadeOut />
 
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
-    <TableOfContents target="#post-content" spacing="space-y-4 sticky top-4 hidden xl:block" />
+    <!-- TODO: text might have contrast issue with background -->
+    <TableOfContents
+      target="#post-content"
+      spacing="space-y-4 p-2 sticky top-4 hidden rounded-xl backdrop-blur bg-surface-50/50 dark:bg-surface-900/50 xl:block"
+    />
   </div>
 
   <div
     id="post-content"
-    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
+    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md shadow-lg"
     in:flyIn={{ y: 100 }}
     out:flyOut={{ y: -100 }}
   >
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
-        {pinned ? "📌" : ""}
+        {#if pinned}
+          <Pin class="inline -mt-1 text-primary-500-400-token" />
+        {/if}
         {author || ""}
-        {author && date ? "/" : ""}
-        {date || ""}
+        {author && localeDate ? "/" : ""}
+        {localeDate || ""}
       </span>
       <h1 class="h1">
         <button
           class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base xl:hidden"
           on:click={tocDrawer}
         >
-          <svg
-            viewBox="0 0 24 24"
-            class="stroke-surface-600 dark:stroke-surface-300 fill-none inline mb-1 mx-1"
-          >
-            <path d="M20 7L4 7" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M15 12L4 12" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M9 17H4" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <MenuOpen width="100%" height="100%" class="text-surface-600-300-token inline" />
         </button>
         {title}
       </h1>
@@ -93,17 +116,7 @@
           class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1"
           use:popup={adminPopup}
         >
-          <svg viewBox="0 0 24 24" class="stroke-surface-600 dark:stroke-surface-300 stroke-2">
-            <path d="M10 16H3" stroke-width="1.5" stroke-linecap="round" />
-            <path
-              d="M14 15L17.5 18L21 15"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path d="M20 11L3 11" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M3 6L13.5 6M20 6L17.75 6" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <PlaylistEdit width="100%" height="100%" class="text-surface-600-300-token" />
         </button>
 
         <div data-popup="admin-popup">

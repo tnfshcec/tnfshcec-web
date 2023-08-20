@@ -1,3 +1,4 @@
+import "unplugin-icons/types/svelte";
 import { DefaultSession } from "@auth/core";
 
 // See https://kit.svelte.dev/docs/types#app
@@ -12,6 +13,7 @@ declare global {
       title?: string;
       author?: string;
       date?: string;
+      image?: string;
       pinned?: boolean;
       url: string;
     }
@@ -26,7 +28,7 @@ declare module "@auth/core/types" {
   }
 
   interface Session {
-    user: {
+    user?: {
       role?: Role;
     } & DefaultSession["user"];
   }
@@ -37,5 +39,4 @@ declare module "@auth/core/jwt" {
     role?: Role;
   }
 }
-
 export { };

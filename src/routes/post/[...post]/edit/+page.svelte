@@ -1,40 +1,63 @@
 <script lang="ts">
   import PostEditInput from "$lib/components/postEditInput.svelte";
   import EasyMde from "$lib/components/EasyMde.svelte";
-  import { localeDate } from "$lib/utils/date.js";
+  import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import { Accordion, AccordionItem, toastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
+  import Pin from "~icons/mdi/pin";
 
   export let data;
 
   let { md, data: postData } = data;
-  $: date = localeDate(postData.date);
+  $: localeDate = localeDateFromString(postData.date ?? "");
 
-  const originalUrl = postData.url;
+  let editUrl = postData.url;
 
   async function savePost() {
-    const data = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
-    console.log("saving with data: ", data);
+    const currentUrl = postData.url;
+    postData.url = editUrl;
 
-    await fetch(`${base}/api/post?path=${postData.url}`, {
+    const fmData = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
+    console.log("saving with data: ", fmData);
+
+    const res = await fetch(`${base}/api/post?path=${editUrl}`, {
       method: "POST",
-      body: JSON.stringify({ data, md })
+      body: JSON.stringify({ data: fmData, md })
     });
 
-    if (postData.url !== originalUrl) {
-      await fetch(`${base}/api/post?path=${originalUrl}`, {
-        method: "DELETE"
+    if (res.ok) {
+      toastStore.trigger({
+        message: "Edit saved.",
+        classes: "!rounded-full",
+        hideDismiss: true
       });
-      await goto(`${base}/post/${postData.url}/edit`);
+    } else {
+      toastStore.trigger({
+        message: "Save action was not successful. Try doing it again later.",
+        background: "variant-filled-error",
+        classes: "!rounded-full",
+        hideDismiss: true
+      });
     }
 
-    // TODO: toast notification
+    if (currentUrl !== editUrl) {
+      await fetch(`${base}/api/post?path=${currentUrl}`, {
+        method: "DELETE"
+      });
+      await goto(`${base}/post/${editUrl}/edit`);
+    }
   }
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
+  <div
+    class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
+    style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
+    in:fadeIn
+    out:fadeOut
+  />
   <div class="flex-1" />
   <div class="flex-1 order-last" />
 
@@ -45,10 +68,12 @@
   >
     <header class="card-header relative">
       <span class="block text-surface-600-300-token">
-        {postData.pinned ? "📌" : ""}
+        {#if postData.pinned}
+          <Pin class="inline -mt-1 text-primary-400-500-token" />
+        {/if}
         {postData.author || ""}
-        {postData.author && date ? "/" : ""}
-        {date || ""}
+        {postData.author && localeDate ? "/" : ""}
+        {localeDate || ""}
       </span>
       <h1 class="h1">
         <input
@@ -70,14 +95,14 @@
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput
               label="url"
-              bind:value={postData.url}
+              bind:value={editUrl}
               className="col-span-2"
               validate={(v) => Boolean(v)}
             />
             <PostEditInput id="title" bind:value={postData.title} />
             <PostEditInput id="author" bind:value={postData.author} />
-            <!-- TODO: type="date" -->
-            <PostEditInput id="date" bind:value={postData.date} />
+            <PostEditInput id="date" type="date" bind:value={postData.date} />
+            <PostEditInput id="image" bind:value={postData.image} />
             <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
           </div>
         </svelte:fragment>

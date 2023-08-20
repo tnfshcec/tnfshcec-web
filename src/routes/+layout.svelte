@@ -14,9 +14,10 @@
     AppShell,
     Avatar,
     Drawer,
-    TableOfContents,
     LightSwitch,
     Modal,
+    TableOfContents,
+    Toast,
     popup,
     storeHighlightJs,
     drawerStore,
@@ -26,7 +27,7 @@
   storeHighlightJs.set(hljs);
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-  import vitamin from "$lib/assets/vitamin-d.png";
+  import icon from "$lib/assets/global-icon.png";
   import { onScroll } from "$lib/stores/scroll";
   import { base } from "$app/paths";
 
@@ -53,24 +54,28 @@
 
 <Modal />
 
+<Toast />
+
 <Drawer>
   {#if $drawerStore.id === "post-toc"}
     <TableOfContents target="#post-content" on:click={() => drawerStore.close()} />
   {/if}
 </Drawer>
 
-<AppShell on:scroll={scrollEvent}>
+<AppShell slotHeader="z-10 shadow-md" on:scroll={scrollEvent}>
   <svelte:fragment slot="header">
     <AppBar slotTrail="space-x-8">
       <svelte:fragment slot="lead">
         <a href="{base}/">
-          <img
-            src={vitamin}
-            alt=""
-            class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}"
-          /></a
-        >
+          <img src={icon} alt="" class="transition-all duration-300 {scrolled ? 'w-12' : 'w-20'}" />
+        </a>
       </svelte:fragment>
+
+      <a href="{base}/">
+        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
+        <br />
+        <span class="text-3xl whitespace-nowrap">電機社</span>
+      </a>
 
       <svelte:fragment slot="trail">
         <LightSwitch />
@@ -82,7 +87,7 @@
           />
         </button>
 
-        <div class="card variant-ghost-surface p-4 space-y-4" data-popup="auth-popup">
+        <div class="card variant-ghost-surface p-4 space-y-4 backdrop-blur" data-popup="auth-popup">
           {#if data.session}
             <div>
               <small>Signed in as {data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
@@ -95,12 +100,6 @@
           {/if}
         </div>
       </svelte:fragment>
-
-      <span>
-        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
-        <br />
-        <span class="text-3xl whitespace-nowrap">電機社</span>
-      </span>
     </AppBar>
   </svelte:fragment>
   <!-- header -->
