@@ -3,12 +3,14 @@
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
   import {
     TableOfContents,
-    drawerStore,
-    modalStore,
+    getDrawerStore,
+    getModalStore,
+    getToastStore,
     popup,
-    toastStore,
+    tocCrawler,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
+
   import MenuOpen from "~icons/mdi/menu-open";
   import PlaylistEdit from "~icons/mdi/playlist-edit";
   import Pin from "~icons/mdi/pin";
@@ -20,6 +22,11 @@
   import { localeDateFromString } from "$lib/utils/date.js";
 
   export let data;
+
+  const drawerStore = getDrawerStore();
+  const modalStore = getModalStore();
+  const toastStore = getToastStore();
+
   let {
     md,
     data: { title, author, date, image, pinned, url }
@@ -81,8 +88,7 @@
   <div class="flex-1 order-last" in:fadeIn out:fadeOut>
     <!-- TODO: text might have contrast issue with background -->
     <TableOfContents
-      target="#post-content"
-      spacing="space-y-4 p-2 sticky top-4 hidden rounded-xl backdrop-blur bg-surface-50/50 dark:bg-surface-900/50 xl:block"
+      class="w-full max-w-xs px-4 py-2 sticky top-4 hidden rounded-xl backdrop-blur bg-surface-50/50 dark:bg-surface-900/50 xl:block"
     />
   </div>
 
@@ -127,7 +133,10 @@
         </div>
       {/if}
     </header>
-    <section class="p-4 space-y-4 !max-w-none prose">
+    <section
+      class="p-4 space-y-4 !max-w-none prose"
+      use:tocCrawler={{ mode: "generate", scrollTarget: "#page", queryElements: "h1,h2" }}
+    >
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin, componentsPlugin]} />
     </section>
   </div>

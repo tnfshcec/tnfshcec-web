@@ -16,14 +16,13 @@
     Modal,
     TableOfContents,
     Toast,
+    getDrawerStore,
+    initializeStores,
     popup,
     storeHighlightJs,
-    drawerStore,
     storePopup,
     type PopupSettings
   } from "@skeletonlabs/skeleton";
-  storeHighlightJs.set(hljs);
-  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
   import icon from "$lib/assets/global-icon.png";
   import { onScroll } from "$lib/stores/scroll";
@@ -31,11 +30,11 @@
 
   export let data;
 
-  function scrollEvent(e: Event) {
-    onScroll.fireEvent(e as Event & { currentTarget: EventTarget & HTMLDivElement });
-  }
+  initializeStores();
+  storeHighlightJs.set(hljs);
+  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-  $: scrolled = $onScroll.scrollY > 100;
+  const drawerStore = getDrawerStore();
 
   let authPopup: PopupSettings = {
     event: "click",
@@ -48,6 +47,8 @@
       }
     }
   };
+
+  $: scrolled = $onScroll.scrollY > 100;
 </script>
 
 <Modal />
@@ -56,11 +57,12 @@
 
 <Drawer>
   {#if $drawerStore.id === "post-toc"}
-    <TableOfContents target="#post-content" on:click={() => drawerStore.close()} />
+    <TableOfContents on:click={() => drawerStore.close()} />
   {/if}
 </Drawer>
 
-<AppShell slotHeader="z-10 shadow-md" on:scroll={scrollEvent}>
+<!-- NOTE: AppShell doesn't support scroll-margin -->
+<AppShell slotHeader="z-10 shadow-md" regionPage="scroll-smooth" on:scroll={onScroll.fireEvent}>
   <svelte:fragment slot="header">
     <AppBar slotTrail="space-x-8">
       <svelte:fragment slot="lead">

@@ -3,12 +3,14 @@
   import EasyMde from "$lib/components/EasyMde.svelte";
   import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import { Accordion, AccordionItem, toastStore } from "@skeletonlabs/skeleton";
+  import { Accordion, AccordionItem, getToastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
   import Pin from "~icons/mdi/pin";
 
   export let data;
+
+  const toastStore = getToastStore();
 
   let { md, data: postData } = data;
   $: localeDate = localeDateFromString(postData.date ?? "");
