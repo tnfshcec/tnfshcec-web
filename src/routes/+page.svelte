@@ -9,6 +9,7 @@
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
+  import Github from "~icons/mdi/github";
   import welcome from "$lib/assets/welcome-icon.jpg";
   import icon from "$lib/assets/global-icon.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
@@ -74,6 +75,14 @@
           rel="noopener noreferrer"
         >
           <Instagram width="100%" height="100%" />
+        </a>
+        <a
+          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          href="https://github.com/tnfshcec"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Github width="100%" height="100%" />
         </a>
         <!-- links -->
       </div>

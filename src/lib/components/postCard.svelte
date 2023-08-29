@@ -35,4 +35,7 @@
     </span>
     <div class="block text-2xl font-bold">{post.title}</div>
   </header>
+  <div class="mx-4 my-2 text-surface-600-300-token">
+    {post.desc || ""}
+  </div>
 </a>
