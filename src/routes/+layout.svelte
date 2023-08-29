@@ -1,7 +1,5 @@
 <script lang="ts">
-  import "@skeletonlabs/skeleton/styles/skeleton.css";
   import "../app.postcss";
-  import "../theme.postcss";
   import "../typography-prose.css";
 
   import hljs from "highlight.js";
