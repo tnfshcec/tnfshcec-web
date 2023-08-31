@@ -1,6 +1,5 @@
 <script lang="ts">
   import "../app.postcss";
-  import "../typography-prose.css";
 
   import hljs from "highlight.js";
   import "highlight.js/styles/atom-one-dark.css";
