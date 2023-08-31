@@ -86,16 +86,16 @@ export const rosePineMoonTheme: CustomThemeConfig = {
     "--color-error-700": "176 83 110", // #b0536e
     "--color-error-800": "141 67 88", // #8d4358
     "--color-error-900": "115 54 72", // #733648
-    // surface | #393552
-    "--color-surface-50": "225 225 229", // #e1e1e5
-    "--color-surface-100": "215 215 220", // #d7d7dc
-    "--color-surface-200": "206 205 212", // #cecdd4
-    "--color-surface-300": "176 174 186", // #b0aeba
-    "--color-surface-400": "116 114 134", // #747286
-    "--color-surface-500": "57 53 82", // #393552
-    "--color-surface-600": "51 48 74", // #33304a
-    "--color-surface-700": "43 40 62", // #2b283e
-    "--color-surface-800": "34 32 49", // #222031
-    "--color-surface-900": "28 26 40" // #1c1a28
+    // surface | #2a273f
+    "--color-surface-50": "223 223 226", // #dfdfe2
+    "--color-surface-100": "212 212 217", // #d4d4d9
+    "--color-surface-200": "202 201 207", // #cac9cf
+    "--color-surface-300": "170 169 178", // #aaa9b2
+    "--color-surface-400": "106 104 121", // #6a6879
+    "--color-surface-500": "42 39 63", // #2a273f
+    "--color-surface-600": "38 35 57", // #262339
+    "--color-surface-700": "32 29 47", // #201d2f
+    "--color-surface-800": "25 23 38", // #191726
+    "--color-surface-900": "21 19 31" // #15131f
   }
 };
