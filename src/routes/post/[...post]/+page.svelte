@@ -16,7 +16,12 @@
   import Pin from "~icons/mdi/pin";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
-  import { rawPlugin, codeBlockPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
+  import {
+    rawPlugin,
+    slugPlugin,
+    codeBlockPlugin,
+    componentsPlugin
+  } from "$lib/utils/exmarkdown-plugins";
   import { base } from "$app/paths";
   import { goto } from "$app/navigation";
   import { localeDateFromString } from "$lib/utils/date.js";
@@ -135,9 +140,12 @@
     </header>
     <section
       class="p-4 space-y-4 !max-w-none prose"
-      use:tocCrawler={{ mode: "generate", scrollTarget: "#page", queryElements: "h1,h2" }}
+      use:tocCrawler={{ scrollTarget: "#page", queryElements: "h2,h3" }}
     >
-      <Markdown {md} plugins={[gfmPlugin, rawPlugin, codeBlockPlugin, componentsPlugin]} />
+      <Markdown
+        {md}
+        plugins={[gfmPlugin, rawPlugin, slugPlugin, codeBlockPlugin, componentsPlugin]}
+      />
     </section>
   </div>
 </div>
