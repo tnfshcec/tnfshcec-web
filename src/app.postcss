@@ -1,4 +1,9 @@
 /* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
 html,
 body {
   @apply h-full overflow-hidden;
@@ -7,15 +12,20 @@ body {
 /* prose */
 
 .prose {
-  @apply prose-headings:font-normal max-w-none;
+  @apply max-w-none text-base font-token text-token;
+
+  @apply prose-headings:font-heading-token prose-headings:font-normal prose-li:text-base;
+  @apply prose-headings:text-token prose-figcaption:text-token prose-strong:text-token;
+  @apply prose-h1:h1 prose-h2:h2 prose-h3:h3 prose-h4:h4 prose-h5:h5 prose-h6:h6;
+  @apply prose-a:anchor prose-blockquote:blockquote;
+  @apply prose-table:table prose-table:table-hover;
 }
 
-.prose a.permalink {
-  @apply opacity-0 pl-2 transition-all text-sm no-underline leading-4;
+.prose pre:not(.codeblock pre) {
+  @apply pre;
 }
-
-.prose :is(h1, h2, h3, h4, h5, h6):hover a.permalink {
-  @apply opacity-100;
+.prose code:is(:not(pre *)) {
+  @apply code;
 }
 
 /* easymde editor */
@@ -37,7 +47,7 @@ body {
 }
 
 .editor-toolbar button {
-  @apply transition-all !rounded-lg;
+  @apply transition-all !rounded-container-token;
 }
 
 .editor-toolbar button.active,

@@ -27,7 +27,7 @@
   <header class="card-header">
     <span class="block text-surface-600-300-token">
       {#if post.pinned}
-        <Pin class="inline -mt-1 text-primary-500-400-token" />
+        <Pin class="inline -mt-1 text-secondary-500-400-token" />
       {/if}
       {post.author || ""}
       {post.author && localeDate ? "/" : ""}

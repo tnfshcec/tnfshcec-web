@@ -1,7 +1,11 @@
 import { fade, fly, type FadeParams, type FlyParams } from "svelte/transition";
+import { prefersReducedMotionStore } from "@skeletonlabs/skeleton";
+import { get } from "svelte/store";
 
-const duration = 150;
-const delay = 200;
+const animate = !get(prefersReducedMotionStore);
+
+const duration = animate ? 150 : 0;
+const delay = animate ? 200 : 0;
 
 export function fadeIn(node: Element, params?: FadeParams) {
   return fade(node, {

@@ -1,6 +1,7 @@
 import type { Plugin } from "svelte-exmarkdown";
 import { visit } from "unist-util-visit";
 import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
 
 import CodeBlockBridge from "../components/CodeBlockBridge.svelte";
 import Weird from "../components/weird.svelte";
@@ -27,6 +28,10 @@ export const codeBlockPlugin: Plugin = {
 
 export const rawPlugin: Plugin = {
   rehypePlugin: rehypeRaw
+};
+
+export const slugPlugin: Plugin = {
+  rehypePlugin: rehypeSlug
 };
 
 export const componentsPlugin: Plugin = {
