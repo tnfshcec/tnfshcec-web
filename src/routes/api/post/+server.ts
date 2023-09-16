@@ -9,9 +9,8 @@ export const GET = (async ({ url }) => {
   const path = url.searchParams.get("path");
   if (path === null) throw error(400, "Required fields not found");
 
-  const post = await parsePost(path).catch((e) => {
-    if (e.code === "ENOENT") throw error(404, "post not found");
-    throw e;
+  const post = await parsePost(path).catch(() => {
+    throw error(404, "post not found");
   });
 
   const { md, ...data } = post;

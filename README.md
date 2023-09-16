@@ -33,9 +33,13 @@ Using a reverse proxy can probably be the fix for now.
 
 ### The post system
 
-Posts are stored in the `cec/` folder, as markdown files.
-The server reads the file everytime it's requested,
-and offers adding, editing, and deleting posts for admin users.
+Posts are stored similar to flat-file cms systems, in the `cec/` folder, as markdown files.
+The server reads them directly and caches the markdown content once loaded.
+
+As for why a typical database is not used, this is because:
+1. The project was initially implemented as a static site.
+2. This allows easy inspection directly on the filesystem.
+3. With caching in place, it should be sufficient for a simple posting system.
 
 Post route in the url is directly mapped to the filesystem, eg:
 
