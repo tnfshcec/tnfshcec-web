@@ -18,6 +18,23 @@ export async function listPosts(): Promise<Map<string, App.PostData>> {
   return posts();
 }
 
+// TODO: storing the sorted array (making `limit` arg useful)
+export async function listSortedPosts(): Promise<App.PostData[]> {
+  const p = await posts();
+  return [...p.values()].sort((a, b) => {
+    const pin = +(b.pinned ?? 0) - +(a.pinned ?? 0);
+
+    if (pin != 0) {
+      return pin;
+    }
+
+    const dateA = a.date ? Date.parse(a.date) : 0;
+    const dateB = b.date ? Date.parse(b.date) : 0;
+
+    return dateB - dateA;
+  });
+}
+
 export async function parsePost(path: string): Promise<App.PostData & { md: string }> {
   const p = await posts();
 

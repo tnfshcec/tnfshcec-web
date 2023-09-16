@@ -28,12 +28,12 @@ export const POST = (async ({ locals }) => {
 }) satisfies RequestHandler;
 
 async function maxPostN() {
-  const names = await listPosts("new-post*.md");
+  const names = await listPosts();
   const postRegex = /^new-post([0-9]*)$/;
 
   let maxN = -1;
 
-  for (const name of names) {
+  for (const name of names.keys()) {
     const groups = postRegex.exec(name) ?? [];
     const n = parseInt(groups[1] || "0");
     console.log(name, n);
