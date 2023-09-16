@@ -95,7 +95,7 @@
         <PostCard {post} />
       {/each}
       <div class="text-center">
-        <a class="btn variant-filled-primary" href="{base}/posts">查看全部</a>
+        <a class="btn variant-filled-primary" href="{base}/post">查看全部</a>
       </div>
     </HomeSection>
     <HomeSection title="資訊">
