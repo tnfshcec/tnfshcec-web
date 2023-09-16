@@ -1,4 +1,5 @@
 import thunky from "thunky/promise";
+import { LRUCache } from "lru-cache";
 import fg from "fast-glob";
 import fs from "fs/promises";
 import yamlFront from "yaml-front-matter";
@@ -8,36 +9,26 @@ import { isoDateString } from "$lib/utils/date";
 const filePath = (postPath: string) => `cec/${postPath}.md`;
 
 const posts = thunky(loadPosts);
+const postCache: LRUCache<string, string, unknown> = new LRUCache({
+  max: 200,
+  fetchMethod: fetchPost
+});
 
-export async function listPosts() {
+export async function listPosts(): Promise<Map<string, App.PostData>> {
   return posts();
 }
 
-export async function parsePost<B extends boolean = true>(
-  path: string,
-  withContent?: B
-): Promise<B extends true ? App.PostData & { md: string } : App.PostData>;
+export async function parsePost(path: string): Promise<App.PostData & { md: string }> {
+  const p = await posts();
 
-export async function parsePost(path: string, withContent = true) {
-  const file = await fs.readFile(filePath(path), { encoding: "utf8" });
-  const { __content, ...yamlFm } = yamlFront.loadFront(file, { schema: yaml.JSON_SCHEMA });
+  if (!p.has(path)) throw new Error("Cannot find post");
 
-  const fm: Omit<App.PostData, "url"> = yamlFm;
+  const fm = p.get(path) as App.PostData;
+  const content = await postCache.fetch(path);
 
-  if (fm.date !== undefined) {
-    fm.date = isoDateString(new Date(fm.date), fm.date);
-  }
-
-  if (withContent) {
-    return {
-      ...fm,
-      url: path,
-      md: __content.trim()
-    };
-  }
   return {
     ...fm,
-    url: path
+    md: content ?? ""
   };
 }
 
@@ -46,40 +37,60 @@ export async function deletePost(path: string) {
   await fs.rm(filePath(path));
 }
 
-export async function savePost(path: string, data: App.PostData, content: string) {
-  const { url, ...fmData } = data;
-  const fm = Object.keys(fmData).length ? yaml.dump(fmData, { schema: yaml.JSON_SCHEMA }) : "";
+export async function savePost(path: string, data: App.PostData, content: string): Promise<string> {
+  const p = await posts();
+  p.set(path, data);
 
-  return writePost(filePath(path), fm, content.trim());
+  return writePost(path, data, content.trim());
 }
 
-type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 async function loadPosts(): Promise<Map<string, App.PostData>> {
   const list = await fg("**/*.md", { cwd: "cec" });
 
   let posts: Map<string, App.PostData> = new Map();
 
   for (const path of list) {
-    const file = await fs.readFile("cec/" + path, { encoding: "utf8" });
+    const filePath = `cec/${path}`;
+    const urlPath = path.substring(0, path.length - 3);
+
+    const file = await fs.readFile(filePath, { encoding: "utf8" });
     const { __content, ...frontmatter } = yamlFront.loadFront(file, {
       schema: yaml.JSON_SCHEMA
-    }) as Writeable<ReturnType<typeof yamlFront.loadFront>>;
+    });
 
-    frontmatter.url = path.substring(0, path.length - 3);
-    posts.set("path", frontmatter as { url: string;[x: string]: unknown });
+    // WARN: potentially not type-safe
+    let fm = frontmatter as App.PostData;
+    if (fm.date !== undefined) {
+      fm.date = isoDateString(new Date(fm.date), fm.date);
+    }
+    fm.url = urlPath;
+    // set `url` property - it's non-nullable
+
+    posts.set(urlPath, fm);
   }
 
   return posts;
 }
 
-async function writePost(filePath: string, fm: string, content: string): Promise<string> {
+async function fetchPost(path: string): Promise<string> {
+  const file = await fs.readFile(filePath(path), { encoding: "utf8" });
+  const match = file.match(/^(?:---[\w\W]+?---)?([\w\W]*)/);
+  return match ? match[1] : "";
+}
+
+async function writePost(path: string, fm: App.PostData, content: string): Promise<string> {
+  const { url, ...fmData } = fm;
+  const fmString = Object.keys(fmData).length
+    ? yaml.dump(fmData, { schema: yaml.JSON_SCHEMA })
+    : "";
+
   if (fm) {
-    content = `---\n${fm}---\n\n${content}`;
+    content = `---\n${fmString}---\n\n${content}`;
   }
 
   content += "\n";
 
-  await fs.writeFile(filePath, content);
+  await fs.writeFile(filePath(path), content);
 
   return content;
 }
