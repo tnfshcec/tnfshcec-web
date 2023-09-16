@@ -11,6 +11,7 @@ const filePath = (postPath: string) => `cec/${postPath}.md`;
 const posts = thunky(loadPosts);
 const postCache: LRUCache<string, string, unknown> = new LRUCache({
   max: 200,
+  ttl: 1000 * 60 * 30, // 30 min
   fetchMethod: fetchPost
 });
 
