@@ -58,8 +58,13 @@ export async function deletePost(path: string) {
 export async function savePost(path: string, data: App.PostData, content: string): Promise<string> {
   const p = await posts();
   p.set(path, data);
+  postCache.delete(path);
 
   return writePost(path, data, content.trim());
+}
+
+export async function deletePostCache(path: string): Promise<boolean> {
+  return postCache.delete(path);
 }
 
 async function loadPosts(): Promise<Map<string, App.PostData>> {
