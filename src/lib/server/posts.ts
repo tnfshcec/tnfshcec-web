@@ -1,3 +1,4 @@
+import thunky from "thunky/promise";
 import fg from "fast-glob";
 import fs from "fs/promises";
 import yamlFront from "yaml-front-matter";
@@ -6,11 +7,10 @@ import { isoDateString } from "$lib/utils/date";
 
 const filePath = (postPath: string) => `cec/${postPath}.md`;
 
-export async function listPosts(pattern = "**/*.md") {
-  const list = await fg(pattern, { cwd: "cec" });
+const posts = thunky(loadPosts);
 
-  // omit the `.md` part
-  return list.map((path) => path.substring(0, path.length - 3));
+export async function listPosts() {
+  return posts();
 }
 
 export async function parsePost<B extends boolean = true>(
@@ -53,7 +53,26 @@ export async function savePost(path: string, data: App.PostData, content: string
   return writePost(filePath(path), fm, content.trim());
 }
 
-async function writePost(filePath: string, fm: string, content: string) {
+type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+async function loadPosts(): Promise<Map<string, App.PostData>> {
+  const list = await fg("**/*.md", { cwd: "cec" });
+
+  let posts: Map<string, App.PostData> = new Map();
+
+  for (const path of list) {
+    const file = await fs.readFile("cec/" + path, { encoding: "utf8" });
+    const { __content, ...frontmatter } = yamlFront.loadFront(file, {
+      schema: yaml.JSON_SCHEMA
+    }) as Writeable<ReturnType<typeof yamlFront.loadFront>>;
+
+    frontmatter.url = path.substring(0, path.length - 3);
+    posts.set("path", frontmatter as { url: string;[x: string]: unknown });
+  }
+
+  return posts;
+}
+
+async function writePost(filePath: string, fm: string, content: string): Promise<string> {
   if (fm) {
     content = `---\n${fm}---\n\n${content}`;
   }
