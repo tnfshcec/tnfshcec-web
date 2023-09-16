@@ -54,12 +54,14 @@
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
-  <div
-    class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
-    style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
-    in:fadeIn
-    out:fadeOut
-  />
+  {#if postData.image}
+    <div
+      class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
+      style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
+      in:fadeIn
+      out:fadeOut
+    />
+  {/if}
   <div class="flex-1" />
   <div class="flex-1 order-last" />
 
