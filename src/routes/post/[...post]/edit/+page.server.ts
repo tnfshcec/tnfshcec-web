@@ -1,5 +1,5 @@
 import { parsePost } from "$lib/server/posts";
-import { error } from "@sveltejs/kit";
+import { error, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, locals }) => {
@@ -17,5 +17,14 @@ export const load = (async ({ params, locals }) => {
     data
   };
 }) satisfies PageServerLoad;
+
+export const actions = {
+  save: async () => {
+    // TODO: do save
+  },
+  delete: async () => {
+    // TODO: do delete
+  }
+} satisfies Actions;
 
 export const prerender = false;

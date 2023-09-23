@@ -1,15 +1,7 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import {
-    TableOfContents,
-    getDrawerStore,
-    getModalStore,
-    getToastStore,
-    popup,
-    tocCrawler,
-    type PopupSettings
-  } from "@skeletonlabs/skeleton";
+  import { TableOfContents, getDrawerStore, tocCrawler } from "@skeletonlabs/skeleton";
 
   import MenuOpen from "~icons/mdi/menu-open";
   import PlaylistEdit from "~icons/mdi/playlist-edit";
@@ -23,14 +15,11 @@
     componentsPlugin
   } from "$lib/utils/exmarkdown-plugins";
   import { base } from "$app/paths";
-  import { goto } from "$app/navigation";
   import { localeDateFromString } from "$lib/utils/date.js";
 
   export let data;
 
   const drawerStore = getDrawerStore();
-  const modalStore = getModalStore();
-  const toastStore = getToastStore();
 
   let {
     md,
@@ -38,44 +27,8 @@
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
-  let adminPopup: PopupSettings = {
-    event: "click",
-    target: "admin-popup",
-    placement: "bottom"
-  };
-
   function tocDrawer() {
     drawerStore.open({ id: "post-toc", width: "auto", regionDrawer: "p-4" });
-  }
-
-  async function deletePost() {
-    modalStore.trigger({
-      type: "confirm",
-      title: "YOU'RE DELETING THE POST",
-      body: "proceed?",
-      response: async (r: boolean) => {
-        if (r) {
-          const res = await fetch(`${base}/api/post?path=${url}`, {
-            method: "DELETE"
-          });
-          if (res.ok) {
-            toastStore.trigger({
-              message: "DELETE SUCCESSFUL. You will no longer see the post.",
-              classes: "rounded-full",
-              hideDismiss: true
-            });
-            await goto(base || "/");
-          } else {
-            toastStore.trigger({
-              message: "Delete failed. Try doing it again later.",
-              background: "variant-filled-error",
-              classes: "rounded-full",
-              hideDismiss: true
-            });
-          }
-        }
-      }
-    });
   }
 </script>
 
@@ -123,19 +76,12 @@
       </h1>
 
       {#if data.session?.user?.role === "admin"}
-        <button
+        <a
           class="btn-icon btn-icon-sm variant-soft-surface absolute top-4 right-2 p-1"
-          use:popup={adminPopup}
+          href="{base}/post/{url}/edit"
         >
           <PlaylistEdit width="100%" height="100%" class="text-surface-600-300-token" />
-        </button>
-
-        <div data-popup="admin-popup">
-          <div class="btn-group-vertical variant-ghost-primary">
-            <a href="{base}/post/{url}/edit">Edit</a>
-            <button class="!text-error-300-600-token" on:click={deletePost}>Delete</button>
-          </div>
-        </div>
+        </a>
       {/if}
     </header>
     <section

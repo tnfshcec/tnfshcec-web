@@ -63,7 +63,15 @@
     />
   {/if}
   <div class="flex-1" />
-  <div class="flex-1 order-last" />
+  <div class="flex-1 order-last">
+    <form
+      class="btn-group-vertical variant-ghost-primary backdrop-blur !bg-primary-500/40 max-w-xs w-full"
+      method="POST"
+    >
+      <button formaction="?/save">Save</button>
+      <button formaction="?/delete" class="!text-error-300-600-token">DELETE</button>
+    </form>
+  </div>
 
   <div
     class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
@@ -87,10 +95,6 @@
           bind:value={postData.title}
         />
       </h1>
-
-      <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
-        Save
-      </button>
     </header>
     <Accordion>
       <AccordionItem>
