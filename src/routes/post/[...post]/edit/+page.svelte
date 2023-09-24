@@ -5,8 +5,8 @@
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
   import { Accordion, AccordionItem, getToastStore } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
-  import { goto } from "$app/navigation";
   import Pin from "~icons/mdi/pin";
+  import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
 
   export let data;
 
@@ -16,41 +16,6 @@
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
-
-  async function savePost() {
-    const currentUrl = postData.url;
-    postData.url = editUrl;
-
-    const fmData = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
-    console.log("saving with data: ", fmData);
-
-    const res = await fetch(`${base}/api/post?path=${editUrl}`, {
-      method: "POST",
-      body: JSON.stringify({ data: fmData, md })
-    });
-
-    if (res.ok) {
-      toastStore.trigger({
-        message: "Edit saved.",
-        classes: "!rounded-full",
-        hideDismiss: true
-      });
-    } else {
-      toastStore.trigger({
-        message: "Save action was not successful. Try doing it again later.",
-        background: "variant-filled-error",
-        classes: "!rounded-full",
-        hideDismiss: true
-      });
-    }
-
-    if (currentUrl !== editUrl) {
-      await fetch(`${base}/api/post?path=${currentUrl}`, {
-        method: "DELETE"
-      });
-      await goto(`${base}/post/${editUrl}/edit`);
-    }
-  }
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
@@ -63,15 +28,7 @@
     />
   {/if}
   <div class="flex-1" />
-  <div class="flex-1 order-last">
-    <form
-      class="btn-group-vertical variant-ghost-primary backdrop-blur !bg-primary-500/40 max-w-xs w-full"
-      method="POST"
-    >
-      <button formaction="?/save">Save</button>
-      <button formaction="?/delete" class="!text-error-300-600-token">DELETE</button>
-    </form>
-  </div>
+  <div class="flex-1 order-last" />
 
   <div
     class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
@@ -88,13 +45,19 @@
         {localeDate || ""}
       </span>
       <h1 class="h1">
-        <input
-          class="bg-transparent rounded-container-token hover:bg-primary-hover-token"
-          type="text"
-          placeholder="title"
-          bind:value={postData.title}
-        />
+        <a
+          href="{base}/post/{postData.url}"
+          class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base"
+        >
+          <LeftCircleOutline width="100%" height="100%" class="text-surface-600-300-token inline" />
+        </a>
+        {postData.title}
       </h1>
+
+      <form class="absolute top-4 right-2 space-x-2" method="POST">
+        <button class="btn variant-filled-primary" formaction="?/save">Save</button>
+        <button class="btn variant-filled-warning" formaction="?/delete">DELETE</button>
+      </form>
     </header>
     <Accordion>
       <AccordionItem>
