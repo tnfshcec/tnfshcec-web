@@ -21,10 +21,7 @@
       ? undefined
       : {
           name: "New Post",
-          action: async () => {
-            const res = await fetch(`${base}/api/newpost`, { method: "POST" });
-            await goto(await res.json().then((d) => d.postUrl + "/edit"));
-          }
+          action: "post/?/newpost"
         };
 </script>
 
