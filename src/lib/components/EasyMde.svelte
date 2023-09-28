@@ -29,4 +29,4 @@
   });
 </script>
 
-<textarea name="md" bind:this={textarea} />
+<textarea name="md" class="w-full rounded-container-token" bind:this={textarea} value={md} />
