@@ -7,6 +7,8 @@
   import { base } from "$app/paths";
   import Pin from "~icons/mdi/pin";
   import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
+  import { enhance } from "$app/forms";
+  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
 
   export let data;
 
@@ -54,31 +56,33 @@
         {postData.title}
       </h1>
 
-      <form class="absolute top-4 right-2 space-x-2" method="POST">
-        <button class="btn variant-filled-primary" formaction="?/save">Save</button>
-        <button class="btn variant-filled-warning" formaction="?/delete">DELETE</button>
+      <form class="absolute top-4 right-2 space-x-2" method="POST" use:enhance>
+        <button class="btn variant-filled-primary" formaction="?/save" formmethod="POST">
+          Save
+        </button>
+        <button class="btn variant-filled-warning" formaction="?/delete" formmethod="POST">
+          DELETE
+        </button>
       </form>
     </header>
-    <Accordion>
-      <AccordionItem>
-        <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
-        <svelte:fragment slot="content">
-          <div class="grid grid-cols-2 gap-6">
-            <PostEditInput
-              label="url"
-              bind:value={editUrl}
-              className="col-span-2"
-              validate={(v) => Boolean(v)}
-            />
-            <PostEditInput id="title" bind:value={postData.title} />
-            <PostEditInput id="author" bind:value={postData.author} />
-            <PostEditInput id="date" type="date" bind:value={postData.date} />
-            <PostEditInput id="image" bind:value={postData.image} />
-            <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
-          </div>
-        </svelte:fragment>
-      </AccordionItem>
-    </Accordion>
+    <PostMetadataExpand>
+      <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
+      <svelte:fragment slot="content">
+        <div class="grid grid-cols-2 gap-6">
+          <PostEditInput
+            label="url"
+            bind:value={editUrl}
+            className="col-span-2"
+            validate={(v) => Boolean(v)}
+          />
+          <PostEditInput id="title" bind:value={postData.title} />
+          <PostEditInput id="author" bind:value={postData.author} />
+          <PostEditInput id="date" type="date" bind:value={postData.date} />
+          <PostEditInput id="image" bind:value={postData.image} />
+          <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
+        </div>
+      </svelte:fragment>
+    </PostMetadataExpand>
     <EasyMde bind:md />
   </div>
 </div>
