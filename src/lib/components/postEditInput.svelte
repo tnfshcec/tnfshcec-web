@@ -51,6 +51,7 @@
     {type}
     {id}
     class="accent-primary-400 px-2 {inputClass} {!isValid ? 'input-error' : ''}"
+    name={id}
     placeholder={label}
     on:input={handleInput}
   />

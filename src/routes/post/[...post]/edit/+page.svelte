@@ -1,14 +1,16 @@
 <script lang="ts">
-  import PostEditInput from "$lib/components/postEditInput.svelte";
-  import EasyMde from "$lib/components/EasyMde.svelte";
+  import { getToastStore } from "@skeletonlabs/skeleton";
+  import { base } from "$app/paths";
+  import { applyAction, enhance } from "$app/forms";
+  import type { SubmitFunction } from "@sveltejs/kit";
+
   import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import { Accordion, AccordionItem, getToastStore } from "@skeletonlabs/skeleton";
-  import { base } from "$app/paths";
+  import PostEditInput from "$lib/components/postEditInput.svelte";
+  import EasyMde from "$lib/components/EasyMde.svelte";
+  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
   import Pin from "~icons/mdi/pin";
   import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
-  import { enhance } from "$app/forms";
-  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
 
   export let data;
 
@@ -18,6 +20,12 @@
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
+
+  const handleSubmit = (() => {
+    return async ({ result }) => {
+      await applyAction(result);
+    };
+  }) satisfies SubmitFunction;
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
@@ -47,42 +55,41 @@
         {localeDate || ""}
       </span>
       <h1 class="h1">
-        <a
-          href="{base}/post/{postData.url}"
-          class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base"
-        >
+        <a href="{base}/post/{postData.url}" class="btn-icon btn-icon-sm hover:variant-soft">
           <LeftCircleOutline width="100%" height="100%" class="text-surface-600-300-token inline" />
         </a>
-        {postData.title}
+        <span>{postData.title}</span>
       </h1>
 
-      <form class="absolute top-4 right-2 space-x-2" method="POST" use:enhance>
-        <button class="btn variant-filled-primary" formaction="?/save" formmethod="POST">
+      <div class="absolute top-4 right-2 space-x-2">
+        <button class="btn variant-filled-primary" form="post-edit" formaction="?/save">
           Save
         </button>
-        <button class="btn variant-filled-warning" formaction="?/delete" formmethod="POST">
+        <button class="btn variant-filled-warning" form="post-edit" formaction="?/delete">
           DELETE
         </button>
-      </form>
+      </div>
     </header>
-    <PostMetadataExpand>
-      <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
-      <svelte:fragment slot="content">
-        <div class="grid grid-cols-2 gap-6">
-          <PostEditInput
-            label="url"
-            bind:value={editUrl}
-            className="col-span-2"
-            validate={(v) => Boolean(v)}
-          />
-          <PostEditInput id="title" bind:value={postData.title} />
-          <PostEditInput id="author" bind:value={postData.author} />
-          <PostEditInput id="date" type="date" bind:value={postData.date} />
-          <PostEditInput id="image" bind:value={postData.image} />
-          <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
-        </div>
-      </svelte:fragment>
-    </PostMetadataExpand>
-    <EasyMde bind:md />
+    <form id="post-edit" method="POST" use:enhance={handleSubmit}>
+      <PostMetadataExpand>
+        <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
+        <svelte:fragment slot="content">
+          <div class="grid grid-cols-2 gap-6">
+            <PostEditInput
+              id="url"
+              bind:value={editUrl}
+              className="col-span-2"
+              validate={(v) => Boolean(v)}
+            />
+            <PostEditInput id="title" bind:value={postData.title} />
+            <PostEditInput id="author" bind:value={postData.author} />
+            <PostEditInput id="date" type="date" bind:value={postData.date} />
+            <PostEditInput id="image" bind:value={postData.image} />
+            <PostEditInput id="pinned" type="checkbox" bind:value={postData.pinned} />
+          </div>
+        </svelte:fragment>
+      </PostMetadataExpand>
+      <EasyMde bind:md />
+    </form>
   </div>
 </div>

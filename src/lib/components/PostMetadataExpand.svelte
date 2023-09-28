@@ -54,8 +54,8 @@
   <!-- Panel -->
   <!-- TODO: transition is bad -->
   <div
-    class="accordion-panel overflow-hidden transition-[max-height] duration-[200ms] rounded-container-token
-           {!open ? 'max-h-0' : 'max-h-[9999px]'}"
+    class="accordion-panel overflow-y-scroll transition-all duration-[200ms] rounded-container-token
+           {!open ? 'max-h-0 opacity-0 overflow-hidden' : 'max-h-[500px] opacity-100'}"
     id="accordion-panel-{id}"
     role="region"
     aria-hidden={!open}
