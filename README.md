@@ -1,6 +1,8 @@
 # tnfshcec-web
 
-Demo prerendered site running at https://eggrror404.github.io/tnfshcec-web
+Demo prerendered site running at https://tnfshcec.github.io/tnfshcec-web
+
+_There may be some pages missing, that's just because they can't be prerendered._
 
 ## How to build
 
@@ -48,6 +50,7 @@ Post route in the url is directly mapped to the filesystem, eg:
 ## Prerender
 
 Prerendering is enabled through the `PRERENDER` environment variable.
+_It only serves for previewing/demoing purpose; not all pages work with prerendering._
 
 Note that `AUTH_SECRET` and `AUTH_TRUST_HOST` variables needs to be set
 for Auth.js to load correctly.
