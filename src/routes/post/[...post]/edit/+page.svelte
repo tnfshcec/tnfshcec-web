@@ -11,6 +11,7 @@
   import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
   import Pin from "~icons/mdi/pin";
   import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
+  import { goto } from "$app/navigation";
 
   export let data;
 
@@ -28,29 +29,37 @@
 
     const isDeleting = submitter.formAction.endsWith("/delete");
 
-    const submit = async () => {
-      const res = await fetch(submitter.formAction, {
-        method: "POST",
-        body: formData
-      });
-      const result = deserialize(await res.text());
-
-      applyAction(result);
-    };
-
     if (isDeleting) {
-      modalStore.trigger({
-        type: "confirm",
-        title: "DELETE",
-        body: "You are deleting the post!",
-        response: (r: boolean) => {
-          if (r) submit();
-        }
+      const r = await new Promise<boolean>((resolve) => {
+        modalStore.trigger({
+          type: "confirm",
+          title: "DELETE",
+          body: "You are deleting the post!",
+          response: resolve
+        });
       });
-      return;
+      if (!r) return;
     }
 
-    await submit();
+    const res = await fetch(submitter.formAction, {
+      method: "POST",
+      body: formData
+    });
+    const result = deserialize(await res.text());
+
+    applyAction(result);
+
+    const message = isDeleting ? "Post deleted." : "Post is saved.";
+    const background = isDeleting ? "variant-filled-warning" : "variant-filled-primary";
+    toastStore.trigger({
+      message,
+      hideDismiss: true,
+      background
+    });
+
+    if (isDeleting) {
+      goto(`${base}/post`);
+    }
   }
 </script>
 
