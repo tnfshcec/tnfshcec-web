@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { getToastStore } from "@skeletonlabs/skeleton";
+  import { getModalStore, getToastStore, type SvelteEvent } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
-  import { applyAction, enhance } from "$app/forms";
+  import { applyAction, deserialize, enhance } from "$app/forms";
   import type { SubmitFunction } from "@sveltejs/kit";
 
   import { localeDateFromString } from "$lib/utils/date.js";
@@ -15,17 +15,43 @@
   export let data;
 
   const toastStore = getToastStore();
+  const modalStore = getModalStore();
 
   let { md, data: postData } = data;
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
 
-  const handleSubmit = (() => {
-    return async ({ result }) => {
-      await applyAction(result);
+  async function handleSubmit(e: SvelteEvent<SubmitEvent, HTMLFormElement>) {
+    const formData = new FormData(e.currentTarget);
+    const submitter = e.submitter as HTMLButtonElement;
+
+    const isDeleting = submitter.formAction.endsWith("/delete");
+
+    const submit = async () => {
+      const res = await fetch(submitter.formAction, {
+        method: "POST",
+        body: formData
+      });
+      const result = deserialize(await res.text());
+
+      applyAction(result);
     };
-  }) satisfies SubmitFunction;
+
+    if (isDeleting) {
+      modalStore.trigger({
+        type: "confirm",
+        title: "DELETE",
+        body: "You are deleting the post!",
+        response: (r: boolean) => {
+          if (r) submit();
+        }
+      });
+      return;
+    }
+
+    await submit();
+  }
 </script>
 
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
@@ -70,7 +96,7 @@
         </button>
       </div>
     </header>
-    <form id="post-edit" method="POST" use:enhance={handleSubmit}>
+    <form id="post-edit" method="POST" on:submit|preventDefault={handleSubmit}>
       <PostMetadataExpand>
         <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
         <svelte:fragment slot="content">
