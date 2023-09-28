@@ -56,6 +56,10 @@ export async function deletePost(path: string) {
 }
 
 export async function savePost(path: string, data: App.PostData, content: string): Promise<string> {
+  data = Object.fromEntries(
+    Object.entries(data).filter(([k, v]) => v !== undefined && v !== "")
+  ) as App.PostData;
+
   const p = await posts();
   p.set(path, data);
   postCache.delete(path);

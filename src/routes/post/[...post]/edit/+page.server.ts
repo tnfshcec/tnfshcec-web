@@ -1,4 +1,4 @@
-import { parsePost, savePost } from "$lib/server/posts";
+import { deletePost, parsePost, savePost } from "$lib/server/posts";
 import { error, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
@@ -23,25 +23,26 @@ export const actions = {
     const formData = await request.formData();
 
     // TODO: do type validation
-    const md = formData.get("md") as string;
+    // NOTE: replacing CRLF with LF only
+    const md = (formData.get("md") as string).replace(/\r\n/g, "\n");
     const url = formData.get("url") as string;
     formData.delete("md");
 
     const data = Object.fromEntries(formData.entries()) as { url: string; [k: string]: unknown };
-
-    console.log("save: ");
-    console.log(data);
-    console.log(md);
 
     // NOTE: do necessarry type change
     if (data.pinned !== undefined) {
       data.pinned = Boolean(data.pinned);
     }
 
-    savePost(url, data, md);
+    await savePost(url, data, md);
   },
-  delete: async () => {
-    // TODO: do delete
+  delete: async ({ request }) => {
+    const formData = await request.formData();
+
+    const url = formData.get("url") as string;
+
+    await deletePost(url);
   }
 } satisfies Actions;
 
