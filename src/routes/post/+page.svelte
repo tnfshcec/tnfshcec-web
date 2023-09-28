@@ -9,9 +9,13 @@
 <div class="mx-auto px-10 py-4 w-full max-w-screen-xl">
   <div class="relative">
     <h1 class="h1" in:fadeIn out:fadeOut># 列表</h1>
-    <form class="absolute right-1 top-1" method="POST" action="?/newpost" use:enhance>
-      <button class="btn variant-filled-primary">New Post</button>
-    </form>
+
+    {#if data.session?.user?.role === "admin"}
+      <form class="absolute right-1 top-1" method="POST" action="?/newpost" use:enhance>
+        <button class="btn variant-filled-primary">New Post</button>
+      </form>
+    {/if}
+
     {#each data.posts as post}
       <PostCard {post} />
     {/each}

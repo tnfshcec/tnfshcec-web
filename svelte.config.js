@@ -31,7 +31,7 @@ const config = {
       handleMissingId: "warn",
       handleHttpError: ({ path, referrer, message }) => {
         // TODO: Build auth pages. Currently using pages from Auth.js
-        if (path.startsWith(base + "/auth")) {
+        if (path.startsWith(base + "/auth") || path === `${base}/post`) {
           return;
         }
 

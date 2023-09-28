@@ -5,7 +5,6 @@
 
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
-  import { goto } from "$app/navigation";
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";

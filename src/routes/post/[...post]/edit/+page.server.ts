@@ -19,7 +19,10 @@ export const load = (async ({ params, locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-  save: async ({ request }) => {
+  save: async ({ locals, request }) => {
+    const session = await locals.getSession();
+    if (session?.user?.role != "admin") throw error(401, "NO U");
+
     const formData = await request.formData();
 
     // TODO: do type validation
@@ -37,7 +40,10 @@ export const actions = {
 
     await savePost(url, data, md);
   },
-  delete: async ({ request }) => {
+  delete: async ({ locals, request }) => {
+    const session = await locals.getSession();
+    if (session?.user?.role != "admin") throw error(401, "NO U");
+
     const formData = await request.formData();
 
     const url = formData.get("url") as string;
