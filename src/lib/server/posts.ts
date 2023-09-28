@@ -52,6 +52,11 @@ export async function parsePost(path: string): Promise<App.PostData & { md: stri
 
 export async function deletePost(path: string) {
   console.log("DELETING POST", filePath(path));
+
+  const p = await posts();
+  p.delete(path);
+  postCache.delete(path);
+
   await fs.rm(filePath(path));
 }
 
