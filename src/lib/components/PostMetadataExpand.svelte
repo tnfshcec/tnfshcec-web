@@ -2,9 +2,8 @@
 <!-- https://github.com/skeletonlabs/skeleton/blob/master/packages/skeleton/src/lib/components/Accordion/AccordionItem.svelte -->
 
 <script lang="ts">
-  let id = "1234";
-  let open = true;
-  let disabled = false;
+  export let open = true;
+  export let disabled = false;
 
   // Change open behavior based on auto-collapse mode
   function setActive(): void {
@@ -18,14 +17,14 @@
   <button
     type="button"
     class="accordion-control text-left w-full flex items-center space-x-4 py-2 px-4 hover:bg-primary-hover-token rounded-container-token"
-    id="accordion-control-{id}"
+    id="metadata-expand-control"
     on:click={setActive}
     on:click
     on:keydown
     on:keyup
     on:keypress
     aria-expanded={open}
-    aria-controls="accordion-panel-{id}"
+    aria-controls="metadata-expand-panel"
     {disabled}
   >
     <!-- Lead -->
@@ -56,10 +55,10 @@
   <div
     class="accordion-panel overflow-y-scroll transition-all duration-[200ms] rounded-container-token
            {!open ? 'max-h-0 opacity-0 overflow-hidden' : 'max-h-[500px] opacity-100'}"
-    id="accordion-panel-{id}"
+    id="metadata-expand-panel"
     role="region"
     aria-hidden={!open}
-    aria-labelledby="accordion-control-{id}"
+    aria-labelledby="metadata-expand-control"
   >
     <div class="py-2 px-4">
       <slot name="content">(content)</slot>
