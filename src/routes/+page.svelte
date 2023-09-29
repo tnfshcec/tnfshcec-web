@@ -26,12 +26,12 @@
 
 <div class="m-10 space-y-12">
   <div
-    class="flex flex-col gap-4 p-3 mx-auto w-full max-w-3xl text-center md:flex-row md:gap-8 md:text-left"
+    class="mx-auto flex w-full max-w-3xl flex-col gap-4 p-3 text-center md:flex-row md:gap-8 md:text-left"
     in:fadeIn
     out:fadeOut
   >
     <div
-      class="flex-shrink-0 my-auto mx-auto w-40 h-40 rounded-full bg-cover"
+      class="mx-auto my-auto h-40 w-40 flex-shrink-0 rounded-full bg-cover"
       style="background-image: url({welcome}); background-position: 50% 30%;"
     />
     <div class="space-y-2">
@@ -44,20 +44,20 @@
         Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur
         cupidatat.
       </p>
-      <div class="flex flex-row gap-2 justify-center md:justify-start">
+      <div class="flex flex-row justify-center gap-2 md:justify-start">
         <a
-          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          class="variant-filled-surface btn-icon btn-icon-sm p-1"
           href="https://www.tnfsh.tn.edu.tw/form/Details.aspx?Parser=28,4,28,,,,34"
           target="_blank"
           rel="noopener noreferrer"
         >
           <div
-            class="w-full h-full bg-current"
+            class="h-full w-full bg-current"
             style="mask: url({TNFSH_emblem}) center / contain no-repeat;"
           />
         </a>
         <a
-          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          class="variant-filled-surface btn-icon btn-icon-sm p-1"
           href="https://www.facebook.com/TNFSHCEC"
           target="_blank"
           rel="noopener noreferrer"
@@ -65,7 +65,7 @@
           <Facebook width="100%" height="100%" />
         </a>
         <a
-          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          class="variant-filled-surface btn-icon btn-icon-sm p-1"
           href="https://www.instagram.com/tnfshcec/"
           target="_blank"
           rel="noopener noreferrer"
@@ -73,7 +73,7 @@
           <Instagram width="100%" height="100%" />
         </a>
         <a
-          class="btn-icon btn-icon-sm variant-filled-surface p-1"
+          class="variant-filled-surface btn-icon btn-icon-sm p-1"
           href="https://github.com/tnfshcec"
           target="_blank"
           rel="noopener noreferrer"
@@ -91,7 +91,7 @@
         <PostCard {post} />
       {/each}
       <div class="text-center">
-        <a class="btn variant-filled-primary" href="{base}/post">查看全部</a>
+        <a class="variant-filled-primary btn" href="{base}/post">查看全部</a>
       </div>
     </HomeSection>
     <HomeSection title="資訊">

@@ -10,10 +10,10 @@ export function localeDate<T>(date: Date, fallback?: T) {
   return isNaN(date.valueOf())
     ? fallback
     : date.toLocaleString("zh-TW", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
 }
 
 /**

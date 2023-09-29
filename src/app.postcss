@@ -12,9 +12,9 @@ body {
 /* prose */
 
 .prose {
-  @apply max-w-none text-base font-token text-token;
+  @apply text-token max-w-none text-base font-token;
 
-  @apply prose-headings:font-heading-token prose-headings:font-normal prose-li:text-base;
+  @apply prose-headings:font-normal prose-headings:font-heading-token prose-li:text-base;
   @apply prose-headings:text-token prose-figcaption:text-token prose-strong:text-token;
   @apply prose-h1:h1 prose-h2:h2 prose-h3:h3 prose-h4:h4 prose-h5:h5 prose-h6:h6;
   @apply prose-a:anchor prose-blockquote:blockquote;
@@ -60,7 +60,7 @@ body {
 }
 
 .cm-comment {
-  @apply font-mono text-primary-900-50-token;
+  @apply text-primary-900-50-token font-mono;
 }
 
 /* vim: set ft=css: */

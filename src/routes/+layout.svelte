@@ -71,9 +71,9 @@
       </svelte:fragment>
 
       <a href="{base}/">
-        <span class="text-base whitespace-nowrap">新樓醫院心臟科附屬</span>
+        <span class="whitespace-nowrap text-base">新樓醫院心臟科附屬</span>
         <br />
-        <span class="text-3xl whitespace-nowrap">電機社</span>
+        <span class="whitespace-nowrap text-3xl">電機社</span>
       </a>
 
       <svelte:fragment slot="trail">
@@ -86,16 +86,16 @@
           />
         </button>
 
-        <div class="card variant-ghost-surface p-4 space-y-4 backdrop-blur" data-popup="auth-popup">
+        <div class="card variant-ghost-surface space-y-4 p-4 backdrop-blur" data-popup="auth-popup">
           {#if data.session}
             <div>
               <small>Signed in as {data.session.user?.role?.toUpperCase() ?? "USER"}</small><br />
               <strong>{data.session.user?.email ?? data.session.user?.name}</strong>
             </div>
-            <a href="{base}/auth/signout" class="btn variant-filled-primary">Sign out</a>
+            <a href="{base}/auth/signout" class="variant-filled-primary btn">Sign out</a>
           {:else}
             <div>hello there</div>
-            <a href="{base}/auth/signin" class="btn variant-filled-primary">Sign in</a>
+            <a href="{base}/auth/signin" class="variant-filled-primary btn">Sign in</a>
           {/if}
         </div>
       </svelte:fragment>

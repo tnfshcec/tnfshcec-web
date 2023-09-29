@@ -6,13 +6,13 @@
   export let data;
 </script>
 
-<div class="mx-auto px-10 py-4 w-full max-w-screen-xl">
+<div class="mx-auto w-full max-w-screen-xl px-10 py-4">
   <div class="relative">
     <h1 class="h1" in:fadeIn out:fadeOut># 列表</h1>
 
     {#if data.session?.user?.role === "admin"}
       <form class="absolute right-1 top-1" method="POST" action="?/newpost" use:enhance>
-        <button class="btn variant-filled-primary">New Post</button>
+        <button class="variant-filled-primary btn">New Post</button>
       </form>
     {/if}
 

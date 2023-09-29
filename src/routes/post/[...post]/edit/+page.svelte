@@ -66,24 +66,24 @@
 <div class="flex flex-col gap-4 md:py-4 xl:flex-row">
   {#if postData.image}
     <div
-      class="fixed top-0 w-full h-2/3 -z-50 bg-cover"
+      class="fixed top-0 -z-50 h-2/3 w-full bg-cover"
       style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
       in:fadeIn
       out:fadeOut
     />
   {/if}
   <div class="flex-1" />
-  <div class="flex-1 order-last" />
+  <div class="order-last flex-1" />
 
   <div
-    class="flex-none self-center p-4 card w-full space-y-4 max-w-screen-md md:shadow-lg"
+    class="card w-full max-w-screen-md flex-none space-y-4 self-center p-4 md:shadow-lg"
     in:fadeIn
     out:fadeOut
   >
     <header class="card-header relative">
-      <span class="block text-surface-600-300-token">
+      <span class="text-surface-600-300-token block">
         {#if postData.pinned}
-          <Pin class="inline -mt-1 text-primary-400-500-token" />
+          <Pin class="text-primary-400-500-token -mt-1 inline" />
         {/if}
         {postData.author || ""}
         {postData.author && localeDate ? "/" : ""}
@@ -96,11 +96,11 @@
         <span>{postData.title}</span>
       </h1>
 
-      <div class="absolute top-4 right-2 space-x-2">
-        <button class="btn variant-filled-primary" form="post-edit" formaction="?/save">
+      <div class="absolute right-2 top-4 space-x-2">
+        <button class="variant-filled-primary btn" form="post-edit" formaction="?/save">
           Save
         </button>
-        <button class="btn variant-filled-warning" form="post-edit" formaction="?/delete">
+        <button class="variant-filled-warning btn" form="post-edit" formaction="?/delete">
           DELETE
         </button>
       </div>
