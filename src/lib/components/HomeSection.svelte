@@ -1,11 +1,13 @@
 <script lang="ts" context="module">
   export type SectionAction = {
     name: string;
-    action: (e: Event) => void;
+    action: string;
   };
 </script>
 
 <script lang="ts">
+  import { enhance } from "$app/forms";
+
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
 
   export let title: string;
@@ -18,8 +20,10 @@
   <slot />
 
   {#if action}
-    <button class="absolute right-2 top-2 btn variant-filled-primary" on:click={action.action}>
-      {action.name}
-    </button>
+    <form class="absolute right-2 top-2" method="POST" action={action.action} use:enhance>
+      <button class="btn variant-filled-primary">
+        {action.name}
+      </button>
+    </form>
   {/if}
 </section>

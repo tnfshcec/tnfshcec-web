@@ -1,54 +1,64 @@
 <script lang="ts">
-  import PostEditInput from "$lib/components/postEditInput.svelte";
-  import EasyMde from "$lib/components/EasyMde.svelte";
+  import { getModalStore, getToastStore, type SvelteEvent } from "@skeletonlabs/skeleton";
+  import { base } from "$app/paths";
+  import { applyAction, deserialize, enhance } from "$app/forms";
+  import type { SubmitFunction } from "@sveltejs/kit";
+
   import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import { Accordion, AccordionItem, getToastStore } from "@skeletonlabs/skeleton";
-  import { base } from "$app/paths";
-  import { goto } from "$app/navigation";
+  import PostEditInput from "$lib/components/postEditInput.svelte";
+  import EasyMde from "$lib/components/EasyMde.svelte";
+  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
   import Pin from "~icons/mdi/pin";
+  import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
+  import { goto } from "$app/navigation";
 
   export let data;
 
   const toastStore = getToastStore();
+  const modalStore = getModalStore();
 
   let { md, data: postData } = data;
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
 
-  async function savePost() {
-    const currentUrl = postData.url;
-    postData.url = editUrl;
+  async function handleSubmit(e: SvelteEvent<SubmitEvent, HTMLFormElement>) {
+    const formData = new FormData(e.currentTarget);
+    const submitter = e.submitter as HTMLButtonElement;
 
-    const fmData = Object.fromEntries(Object.entries(postData).filter(([_k, v]) => v !== ""));
-    console.log("saving with data: ", fmData);
+    const isDeleting = submitter.formAction.endsWith("/delete");
 
-    const res = await fetch(`${base}/api/post?path=${editUrl}`, {
-      method: "POST",
-      body: JSON.stringify({ data: fmData, md })
-    });
-
-    if (res.ok) {
-      toastStore.trigger({
-        message: "Edit saved.",
-        classes: "!rounded-full",
-        hideDismiss: true
+    if (isDeleting) {
+      const r = await new Promise<boolean>((resolve) => {
+        modalStore.trigger({
+          type: "confirm",
+          title: "DELETE",
+          body: "You are deleting the post!",
+          response: resolve
+        });
       });
-    } else {
-      toastStore.trigger({
-        message: "Save action was not successful. Try doing it again later.",
-        background: "variant-filled-error",
-        classes: "!rounded-full",
-        hideDismiss: true
-      });
+      if (!r) return;
     }
 
-    if (currentUrl !== editUrl) {
-      await fetch(`${base}/api/post?path=${currentUrl}`, {
-        method: "DELETE"
-      });
-      await goto(`${base}/post/${editUrl}/edit`);
+    const res = await fetch(submitter.formAction, {
+      method: "POST",
+      body: formData
+    });
+    const result = deserialize(await res.text());
+
+    applyAction(result);
+
+    const message = isDeleting ? "Post deleted." : "Post is saved.";
+    const background = isDeleting ? "variant-filled-warning" : "variant-filled-primary";
+    toastStore.trigger({
+      message,
+      hideDismiss: true,
+      background
+    });
+
+    if (isDeleting) {
+      goto(`${base}/post`);
     }
   }
 </script>
@@ -80,25 +90,28 @@
         {localeDate || ""}
       </span>
       <h1 class="h1">
-        <input
-          class="bg-transparent rounded-container-token hover:bg-primary-hover-token"
-          type="text"
-          placeholder="title"
-          bind:value={postData.title}
-        />
+        <a href="{base}/post/{postData.url}" class="btn-icon btn-icon-sm hover:variant-soft">
+          <LeftCircleOutline width="100%" height="100%" class="text-surface-600-300-token inline" />
+        </a>
+        <span>{postData.title}</span>
       </h1>
 
-      <button class="btn variant-filled-primary absolute top-4 right-2" on:click={savePost}>
-        Save
-      </button>
+      <div class="absolute top-4 right-2 space-x-2">
+        <button class="btn variant-filled-primary" form="post-edit" formaction="?/save">
+          Save
+        </button>
+        <button class="btn variant-filled-warning" form="post-edit" formaction="?/delete">
+          DELETE
+        </button>
+      </div>
     </header>
-    <Accordion>
-      <AccordionItem>
+    <form id="post-edit" method="POST" on:submit|preventDefault={handleSubmit}>
+      <PostMetadataExpand>
         <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
         <svelte:fragment slot="content">
           <div class="grid grid-cols-2 gap-6">
             <PostEditInput
-              label="url"
+              id="url"
               bind:value={editUrl}
               className="col-span-2"
               validate={(v) => Boolean(v)}
@@ -107,11 +120,12 @@
             <PostEditInput id="author" bind:value={postData.author} />
             <PostEditInput id="date" type="date" bind:value={postData.date} />
             <PostEditInput id="image" bind:value={postData.image} />
-            <PostEditInput id="pinned" bind:value={postData.pinned} type="checkbox" />
+            <PostEditInput id="desc" label="Description" bind:value={postData.desc} />
+            <PostEditInput id="pinned" type="checkbox" bind:value={postData.pinned} />
           </div>
         </svelte:fragment>
-      </AccordionItem>
-    </Accordion>
-    <EasyMde bind:md />
+      </PostMetadataExpand>
+      <EasyMde bind:md />
+    </form>
   </div>
 </div>

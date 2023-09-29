@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import PostCard from "$lib/components/postCard.svelte";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
 
@@ -6,8 +7,17 @@
 </script>
 
 <div class="mx-auto px-10 py-4 w-full max-w-screen-xl">
-  <h1 class="h1" in:fadeIn out:fadeOut># 列表</h1>
-  {#each data.posts as post}
-    <PostCard {post} />
-  {/each}
+  <div class="relative">
+    <h1 class="h1" in:fadeIn out:fadeOut># 列表</h1>
+
+    {#if data.session?.user?.role === "admin"}
+      <form class="absolute right-1 top-1" method="POST" action="?/newpost" use:enhance>
+        <button class="btn variant-filled-primary">New Post</button>
+      </form>
+    {/if}
+
+    {#each data.posts as post}
+      <PostCard {post} />
+    {/each}
+  </div>
 </div>

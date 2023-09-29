@@ -16,6 +16,7 @@
       initialValue: md,
       hideIcons: ["fullscreen", "side-by-side"],
       spellChecker: false,
+      forceSync: true,
       previewClass: ["editor-preview", "prose"]
     });
     // TODO: render custom components on preview
@@ -28,4 +29,4 @@
   });
 </script>
 
-<textarea class="hidden" bind:this={textarea} />
+<textarea name="md" class="w-full rounded-container-token" bind:this={textarea} value={md} />

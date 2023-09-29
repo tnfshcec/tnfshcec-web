@@ -42,20 +42,29 @@ export async function parsePost(path: string): Promise<App.PostData & { md: stri
   if (!p.has(path)) throw new Error("Cannot find post");
 
   const fm = p.get(path) as App.PostData;
-  const content = await postCache.fetch(path);
+  const content = (await postCache.fetch(path)) ?? "";
 
   return {
     ...fm,
-    md: content ?? ""
+    md: content.trim()
   };
 }
 
 export async function deletePost(path: string) {
   console.log("DELETING POST", filePath(path));
+
+  const p = await posts();
+  p.delete(path);
+  postCache.delete(path);
+
   await fs.rm(filePath(path));
 }
 
 export async function savePost(path: string, data: App.PostData, content: string): Promise<string> {
+  data = Object.fromEntries(
+    Object.entries(data).filter(([k, v]) => v !== undefined && v !== "")
+  ) as App.PostData;
+
   const p = await posts();
   p.set(path, data);
   postCache.delete(path);
@@ -70,7 +79,7 @@ export async function deletePostCache(path: string): Promise<boolean> {
 async function loadPosts(): Promise<Map<string, App.PostData>> {
   const list = await fg("**/*.md", { cwd: "cec" });
 
-  let posts: Map<string, App.PostData> = new Map();
+  const posts: Map<string, App.PostData> = new Map();
 
   for (const path of list) {
     const filePath = `cec/${path}`;
@@ -82,7 +91,7 @@ async function loadPosts(): Promise<Map<string, App.PostData>> {
     });
 
     // WARN: potentially not type-safe
-    let fm = frontmatter as App.PostData;
+    const fm = frontmatter as App.PostData;
     if (fm.date !== undefined) {
       fm.date = isoDateString(new Date(fm.date), fm.date);
     }

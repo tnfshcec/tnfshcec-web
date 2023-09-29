@@ -5,7 +5,6 @@
 
   import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
-  import { goto } from "$app/navigation";
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
@@ -21,10 +20,7 @@
       ? undefined
       : {
           name: "New Post",
-          action: async () => {
-            const res = await fetch(`${base}/api/newpost`, { method: "POST" });
-            await goto(await res.json().then((d) => d.postUrl + "/edit"));
-          }
+          action: "post/?/newpost"
         };
 </script>
 
