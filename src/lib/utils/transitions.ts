@@ -1,8 +1,6 @@
 import { fade, fly, type FadeParams, type FlyParams } from "svelte/transition";
-import { prefersReducedMotionStore } from "@skeletonlabs/skeleton";
-import { get } from "svelte/store";
 
-const animate = !get(prefersReducedMotionStore);
+const animate = true; // TODO: prefersReducedMotion
 
 const duration = animate ? 150 : 0;
 const delay = animate ? 200 : 0;

@@ -7,6 +7,13 @@ const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
 
   theme: {
+    colors: {
+      text: "var(--text)",
+      background: "var(--background)",
+      primary: "var(--primary)",
+      secondary: "var(--secondary)",
+      accent: "var(--accent)"
+    },
     extend: {
       typography: {
         DEFAULT: {
@@ -18,14 +25,6 @@ const config = {
         }
       }
     }
-  },
-
-  colors: {
-    text: "var(--text)",
-    background: "var(--background)",
-    primary: "var(--primary)",
-    secondary: "var(--secondary)",
-    accent: "var(--accent)"
   },
 
   plugins: [typography]

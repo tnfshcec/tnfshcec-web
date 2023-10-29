@@ -23,61 +23,61 @@
 
 html,
 body {
-  @apply h-full overflow-hidden;
+  @apply text-text bg-background h-full overflow-hidden;
 }
 
 /* prose */
 
-.prose {
-  @apply text-token max-w-none text-base font-token;
-
-  @apply prose-headings:font-normal prose-headings:font-heading-token prose-li:text-base;
-  @apply prose-headings:text-token prose-figcaption:text-token prose-strong:text-token;
-  @apply prose-h1:h1 prose-h2:h2 prose-h3:h3 prose-h4:h4 prose-h5:h5 prose-h6:h6;
-  @apply prose-a:anchor prose-blockquote:blockquote;
-  @apply prose-table:table prose-table:table-hover;
-}
-
-.prose pre:not(.codeblock pre) {
-  @apply pre;
-}
-.prose code:is(:not(pre *)) {
-  @apply code;
-}
+/* .prose { */
+/*   @apply text-token max-w-none text-base font-token; */
+/**/
+/*   @apply prose-headings:font-normal prose-headings:font-heading-token prose-li:text-base; */
+/*   @apply prose-headings:text-token prose-figcaption:text-token prose-strong:text-token; */
+/*   @apply prose-h1:h1 prose-h2:h2 prose-h3:h3 prose-h4:h4 prose-h5:h5 prose-h6:h6; */
+/*   @apply prose-a:anchor prose-blockquote:blockquote; */
+/*   @apply prose-table:table prose-table:table-hover; */
+/* } */
+/**/
+/* .prose pre:not(.codeblock pre) { */
+/*   @apply pre; */
+/* } */
+/* .prose code:is(:not(pre *)) { */
+/*   @apply code; */
+/* } */
 
 /* easymde editor */
-.CodeMirror {
-  @apply !bg-transparent !text-inherit selection:!bg-inherit;
-}
-
-.CodeMirror,
-.editor-toolbar {
-  @apply !border-surface-500-400-token;
-}
-
-.editor-preview {
-  @apply bg-surface-100-800-token;
-}
-
-.CodeMirror-cursor {
-  @apply !border-surface-800-100-token;
-}
-
-.editor-toolbar button {
-  @apply transition-all !rounded-container-token;
-}
-
-.editor-toolbar button.active,
-.editor-toolbar button:hover {
-  @apply !bg-primary-500/20;
-}
-
-.CodeMirror-selected {
-  @apply !bg-primary-500/30;
-}
-
-.cm-comment {
-  @apply text-primary-900-50-token font-mono;
-}
+/* .CodeMirror { */
+/*   @apply !bg-transparent !text-inherit selection:!bg-inherit; */
+/* } */
+/**/
+/* .CodeMirror, */
+/* .editor-toolbar { */
+/*   @apply !border-surface-500-400-token; */
+/* } */
+/**/
+/* .editor-preview { */
+/*   @apply bg-surface-100-800-token; */
+/* } */
+/**/
+/* .CodeMirror-cursor { */
+/*   @apply !border-surface-800-100-token; */
+/* } */
+/**/
+/* .editor-toolbar button { */
+/*   @apply transition-all !rounded-container-token; */
+/* } */
+/**/
+/* .editor-toolbar button.active, */
+/* .editor-toolbar button:hover { */
+/*   @apply !bg-primary-500/20; */
+/* } */
+/**/
+/* .CodeMirror-selected { */
+/*   @apply !bg-primary-500/30; */
+/* } */
+/**/
+/* .cm-comment { */
+/*   @apply text-primary-900-50-token font-mono; */
+/* } */
 
 /* vim: set ft=css: */
