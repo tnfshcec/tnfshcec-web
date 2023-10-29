@@ -11,8 +11,8 @@
   // TODO: scroll response
 </script>
 
-<nav class="border-text/90 bg-background/20 h-24 w-full border-b p-4 backdrop-blur-lg">
-  <div class="mx-auto flex w-full max-w-4xl items-center justify-between">
+<nav class="border-text/10 bg-background/70 h-24 w-full border-b p-4 backdrop-blur-lg">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a href={base} class="flex gap-2">
       <img src={icon} class="h-16 w-16" alt="TNFSHCEC icon" />
       <div>
