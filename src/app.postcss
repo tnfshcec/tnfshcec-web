@@ -4,6 +4,23 @@
 @tailwind utilities;
 @tailwind variants;
 
+@layer base {
+  :root {
+    --text: #0d1a1c;
+    --background: #f5fafa;
+    --primary: #314468;
+    --secondary: #e0e7f0;
+    --accent: #275c62;
+  }
+  .dark {
+    --text: #e3f0f2;
+    --background: #050a0a;
+    --primary: #97aace;
+    --secondary: #0f161f;
+    --accent: #9dd1d8;
+  }
+}
+
 html,
 body {
   @apply h-full overflow-hidden;

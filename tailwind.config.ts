@@ -1,17 +1,10 @@
-import { join } from "path";
 import type { Config } from "tailwindcss";
 
 import typography from "@tailwindcss/typography";
-import { skeleton } from "@skeletonlabs/tw-plugin";
-
-import { rosePineMoonTheme } from "./rose-pine-moon";
 
 const config = {
   darkMode: "class",
-  content: [
-    "./src/**/*.{html,js,svelte,ts}",
-    join(require.resolve("@skeletonlabs/skeleton"), "../**/*.{html,js,svelte,ts}")
-  ],
+  content: ["./src/**/*.{html,js,svelte,ts}"],
 
   theme: {
     extend: {
@@ -27,14 +20,15 @@ const config = {
     }
   },
 
-  plugins: [
-    typography,
-    skeleton({
-      themes: {
-        custom: [rosePineMoonTheme]
-      }
-    })
-  ]
+  colors: {
+    text: "var(--text)",
+    background: "var(--background)",
+    primary: "var(--primary)",
+    secondary: "var(--secondary)",
+    accent: "var(--accent)"
+  },
+
+  plugins: [typography]
 } satisfies Config;
 
 export default config;
