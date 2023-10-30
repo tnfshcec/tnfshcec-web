@@ -11,31 +11,21 @@
 </script>
 
 <a
-  class="block my-3 p-2 w-full card card-hover variant-soft relative overflow-hidden"
+  class="flex w-[512px] flex-col items-start gap-2 rounded-2xl bg-secondary px-4 py-6"
   href="{base}/post/{post.url}"
-  data-sveltekit-preload-data="hover"
-  in:flyIn={{ x: 20 }}
-  out:flyOut={{ x: -20 }}
 >
-  {#if post.image}
-    <div
-      class="absolute top-0 bottom-0 right-0 w-2/3 bg-cover -z-10"
-      style="background-image: url({post.image}); mask-image: linear-gradient(to left, white, 70%, transparent 95%);"
-    />
-  {/if}
-
-  <header class="card-header">
-    <span class="block text-surface-600-300-token">
+  <header>
+    <div class="text-xl text-primary/80">
       {#if post.pinned}
-        <Pin class="inline -mt-1 text-secondary-500-400-token" />
+        <Pin class="inline h-5 w-5 text-primary" />
       {/if}
-      {post.author || ""}
-      {post.author && localeDate ? "/" : ""}
-      {localeDate || ""}
-    </span>
-    <div class="block text-2xl font-bold">{post.title}</div>
+      {post.author ?? ""}
+      {post.author && post.date ? "/" : ""}
+      {localeDate}
+    </div>
+    <div class="text-3xl font-bold">{post.title}</div>
   </header>
-  <div class="mx-4 my-2 text-surface-600-300-token">
-    {post.desc || ""}
-  </div>
+  {#if post.desc}
+    <div class="text-2xl text-primary">{post.desc}</div>
+  {/if}
 </a>
