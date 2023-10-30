@@ -31,18 +31,18 @@
           rel="noopener noreferrer"
         >
           <div
-            class="h-8 w-8 bg-text"
+            class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
             style="mask: url({TNFSH_emblem}) center / contain no-repeat;"
           />
         </a>
         <a href="https://www.facebook.com/TNFSHCEC" target="_blank" rel="noopener noreferrer">
-          <Facebook class="h-8 w-8" />
+          <Facebook class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
         <a href="https://www.instagram.com/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <Instagram class="h-8 w-8" />
+          <Instagram class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
         <a href="https://github.com/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <Github class="h-8 w-8" />
+          <Github class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
       </div>
     </div>
@@ -58,21 +58,20 @@
     電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
     玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
   </div>
-  <div class="inline-flex items-center justify-center gap-2">
+  <a class="flex items-center gap-2 transition-colors hover:text-accent" href="#news">
     <ArrowDrop class="h-6 w-6" />
     <div class="text-xl">更多資訊</div>
-  </div>
+  </a>
 </section>
 
 <style>
   #hero-gradient {
     background: radial-gradient(
         43% 43% at 64% 81%,
-        var(--primary) 0%,
-        rgba(157, 209, 216, 0) 100% /* transparent primary color */
-          /* INFO: use "relative color syntax" when better browser support comes */
+        rgb(var(--primary)) 0%,
+        rgb(var(--primary) / 0) 100%
       ),
-      radial-gradient(46% 79% at 67% 29%, var(--secondary) 0%, rgba(15, 22, 31, 0) 100%),
-      radial-gradient(51% 63% at 41% 39%, var(--accent) 0%, rgba(151, 170, 206, 0) 100%);
+      radial-gradient(46% 79% at 67% 29%, rgb(var(--secondary)) 0%, rgb(var(--secondary) / 0) 100%),
+      radial-gradient(51% 63% at 41% 39%, rgb(var(--accent)) 0%, rgb(var(--accent) / 0) 100%);
   }
 </style>
