@@ -1,25 +1,51 @@
 <script lang="ts">
-  import PostCard from "$lib/components/postCard.svelte";
-
-  import { fadeIn, fadeOut } from "$lib/utils/transitions";
   import { base } from "$app/paths";
+  import type { ComponentProps } from "svelte";
 
+  import Comment from "$lib/components/Comment.svelte";
+  import IconButton from "$lib/components/IconButton.svelte";
+  import PostCard from "$lib/components/PostCard.svelte";
+  import { fadeIn, fadeOut } from "$lib/utils/transitions";
+
+  import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
-  import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
-  import IconButton from "$lib/components/IconButton.svelte";
-    import Comment from "$lib/components/Comment.svelte";
 
   export let data;
+
+  const comments: ComponentProps<Comment>[][] = [
+    [
+      { username: "原批", handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
+      { username: "我要AI色圖！！", handle: "@horn_yart", comment: "啥時會有4090玩 😡" },
+      { username: "荖蒿", handle: "@haolao", comment: "這就資訊社吧，根本抄襲！" }
+    ],
+    [
+      {
+        username: "✨✨",
+        handle: "@yun._.0618",
+        comment: "這網站都在複製可愛ㄉ文案\n可惜我的可愛不能複製 UwU"
+      },
+      { username: "鈍棄疾", handle: "@nobleg", comment: "我打了一學期手遊，好像沒人發現我 🫥" }
+    ],
+    [
+      { username: "顆粒玩家", handle: "@kleeplayer", comment: "哈哈，電機社，啟動！" },
+      {
+        username: "欸冷握可",
+        handle: "@alan_wolk",
+        comment:
+          "看這網站，花了我0.1%的電量，1M的流量，幾秒的時間，73焦耳的熱量，還浪費我用26鍵打了60個漢字，9個逗號，1個句號，13個阿拉伯數字，讓我原本不富裕的家庭雪上加霜。"
+      }
+    ]
+  ];
 </script>
 
-<section class="h-[640px] w-full items-center px-4 py-4">
+<section class="h-[65vh] w-full items-center px-4 py-4">
   <div class="relative mx-auto h-full max-w-7xl">
     <div
-      class="absolute left-0 top-1/2 z-10 flex w-[512px] -translate-y-1/2 flex-col items-start justify-start gap-4"
+      class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
         <header class="text-4xl font-bold">電🐔社</header>
@@ -56,7 +82,7 @@
   </div>
 </section>
 
-<section class="flex h-[288px] w-full flex-col items-center justify-center gap-4 px-16 py-24">
+<section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
   <div class="max-w-4xl text-lg">
     電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
     玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
@@ -67,20 +93,21 @@
 </section>
 
 <section class="w-full px-4 py-16" id="news">
-  <div class="mx-auto flex h-full max-w-7xl items-center justify-between">
-    <div class="flex w-[512px] flex-col items-center gap-4">
-      <header class="text-2xl font-bold">最新消息</header>
+  <div class="mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-6 lg:flex-row">
+    <div class="max-w-lg space-y-4">
+      <header class="text-center text-2xl font-bold">最新消息</header>
       <div class="text-lg">
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
       </div>
       <IconButton
-        class="rounded-2xl border border-accent/80 p-2 text-accent transition-colors hover:border-accent hover:shadow hover:shadow-accent"
+        class="mx-auto w-fit rounded-2xl border border-accent/80 p-2 text-accent transition-colors hover:border-accent hover:shadow hover:shadow-accent"
         href="{base}/post"
         text="查看其他"
       >
         <ArrowRight class="h-6 w-6" />
       </IconButton>
     </div>
+    <div class="flex-grow" />
     <div class="flex flex-col items-center justify-center gap-4">
       {#each data.posts.slice(0, 3) as post}
         <PostCard {post} />
@@ -89,9 +116,9 @@
   </div>
 </section>
 
-<section class="w-full px-4 py-16">
-  <div class="mx-auto flex h-full max-w-7xl items-center justify-between gap-4">
-    <div class="flex w-[512px] flex-col items-center gap-4">
+<section class="w-full px-4 py-16" id="interests">
+  <div class="mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-4 lg:flex-row">
+    <div class="flex max-w-lg flex-col items-center gap-4">
       <header class="text-2xl font-bold">社團活動</header>
       <div class="text-lg">
         應該永遠不會去玩了😡😡<br />
@@ -104,40 +131,54 @@
         為什麼評論會這麼兩極化🥺😒
       </div>
     </div>
-    <div class="grid grid-cols-2 grid-rows-2 items-center justify-center gap-4">
-      <div class="h-60 w-56 rounded-[32px] border border-text/80 p-4">
-          <header class="text-2xl font-bold">機器人</header>
-          <div class="text-text/80 text-lg">
-            區區幾個人類…我一個一個ㄅㄧㄢˇ
-          </div>
+    <div class="flex-grow" />
+    <div class="grid grid-cols-2 grid-rows-2 gap-4">
+      <!-- TODO: hover effect -->
+      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+        <header class="text-xl font-bold">機器人</header>
+        <div class="text-lg text-text/80">區區幾個人類…我一個一個ㄅㄧㄢˇ</div>
       </div>
-      <div class="h-60 w-56 rounded-[32px] border border-text/80 p-4">
-          <header class="text-2xl font-bold">硬體</header>
-          <div class="text-text/80 text-lg">
-            據說社部沒有電池？
-          </div>
+      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+        <header class="text-xl font-bold">硬體</header>
+        <div class="text-lg text-text/80">據說社部沒有電池？</div>
       </div>
-      <div class="h-60 w-56 rounded-[32px] border border-text/80 p-4">
-          <header class="text-2xl font-bold">軟體 / 網頁</header>
-          <div class="text-text/80 text-lg">
-            還是JS最棒了！（X
-          </div>
+      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+        <header class="text-xl font-bold">軟體 / 網頁</header>
+        <div class="text-lg text-text/80">還是 JS 最棒了！（X</div>
       </div>
-      <div class="h-60 w-56 rounded-[32px] border border-text/80 p-4">
-          <header class="text-2xl font-bold">你的興趣！</header>
-          <div class="text-text/80 text-lg">
-            我們讓你將熱情消耗殆盡~ <br> （好的方面）
-          </div>
+      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+        <header class="text-xl font-bold">你的興趣！</header>
+        <div class="text-lg text-text/80">我們讓你將熱情消耗殆盡~（好的方面）</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="w-full px-4 py-16">
-  <div class="mx-auto flex flex-col h-full max-w-7xl items-center gap-4">
+<section class="w-full px-4 py-16" id="comments">
+  <div class="mx-auto flex h-full max-w-7xl flex-col items-center gap-4">
     <div class="text-2xl font-bold">大家都說…</div>
-    <Comment />
+    <div class="flex w-full justify-center gap-4 overflow-x-auto">
+      {#each comments as comList}
+        <div class="flex flex-col gap-4">
+          {#each comList as comment}
+            <Comment {...comment} />
+          {/each}
+        </div>
+      {/each}
+    </div>
   </div>
+</section>
+
+<section class="w-full p-2 text-[0.25rem] text-text/20">
+  <span class="font-bold">DISCLAIMER</span><br />
+  *The text content on the site may not be true, or be referring to any real-world events.<br />
+  *The “comments” above this section may not be real, nor are they made by any real person.<br />
+  <br />
+  *This page is HEAVILY inspired by
+  <a class="underline" href="https://orm.drizzle.team">Drizzle ORM's landing page</a>, I must
+  attribute them for the hard work.<br />
+  <br />
+  Also if you are reading this, you're weird. ;)
 </section>
 
 <style>

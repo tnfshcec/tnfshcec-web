@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import PostCard from "$lib/components/postCard.svelte";
+  import PostCard from "$lib/components/PostCard.svelte";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
 
   export let data;
