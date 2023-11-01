@@ -1,7 +1,7 @@
 <script lang="ts">
   export let text: string;
   export let href = "";
-  export let textClass = "text-xl";
+  export let textClass = "";
 
   // TODO: <button /> variant
 </script>
