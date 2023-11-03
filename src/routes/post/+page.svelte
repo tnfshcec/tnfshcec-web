@@ -1,23 +1,28 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import PageTitle from "$lib/components/PageTitle.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
 
   export let data;
 </script>
 
-<div class="mx-auto w-full max-w-screen-xl px-10 py-4">
-  <div class="relative">
-    <h1 class="h1" in:fadeIn out:fadeOut># 列表</h1>
+<div class="w-full px-4 py-4">
+  <div class="mx-auto flex max-w-screen-xl flex-col gap-4">
+    <PageTitle current="postList" />
 
-    {#if data.session?.user?.role === "admin"}
-      <form class="absolute right-1 top-1" method="POST" action="?/newpost" use:enhance>
-        <button class="variant-filled-primary btn">New Post</button>
-      </form>
-    {/if}
+    <div class="text-xl">
+      在電梯遇到了一個女生<br />
+      她對我笑了一下<br />
+      按下了第8層<br />
+      呵 真會暗示<br />
+      她8層有點喜歡我吧<br />
+      但我是不會暈的 (ゝ∀･)⌒☆
+    </div>
 
-    {#each data.posts as post}
-      <PostCard {post} />
-    {/each}
+    <div class="flex flex-col gap-4 py-4">
+      {#each data.posts as post}
+        <PostCard {post} />
+      {/each}
+    </div>
   </div>
 </div>

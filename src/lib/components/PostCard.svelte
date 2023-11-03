@@ -10,10 +10,7 @@
   let localeDate = localeDateFromString(post.date ?? "");
 </script>
 
-<a
-  class="flex w-full max-w-lg flex-col items-start gap-2 rounded bg-secondary px-4 py-6"
-  href="{base}/post/{post.url}"
->
+<a class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6" href="{base}/post/{post.url}">
   <header>
     <div class="text-primary/80">
       {#if post.pinned}

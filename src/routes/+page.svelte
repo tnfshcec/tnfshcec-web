@@ -43,7 +43,7 @@
 </script>
 
 <section class="h-[65vh] w-full items-center px-4 py-4">
-  <div class="relative mx-auto h-full max-w-7xl">
+  <div class="relative mx-auto h-full max-w-screen-xl">
     <div
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
@@ -93,7 +93,9 @@
 </section>
 
 <section class="w-full px-4 py-16" id="news">
-  <div class="mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-6 lg:flex-row">
+  <div
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-6 lg:flex-row"
+  >
     <div class="max-w-lg space-y-4">
       <header class="text-center text-2xl font-bold">最新消息</header>
       <div class="text-lg">
@@ -108,7 +110,7 @@
       </IconButton>
     </div>
     <div class="flex-grow" />
-    <div class="flex flex-col items-center justify-center gap-4">
+    <div class="flex max-w-lg flex-col items-center justify-center gap-4">
       {#each data.posts.slice(0, 3) as post}
         <PostCard {post} />
       {/each}
@@ -117,7 +119,9 @@
 </section>
 
 <section class="w-full px-4 py-16" id="interests">
-  <div class="mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-4 lg:flex-row">
+  <div
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 lg:flex-row"
+  >
     <div class="flex max-w-lg flex-col items-center gap-4">
       <header class="text-2xl font-bold">社團活動</header>
       <div class="text-lg">
@@ -163,7 +167,7 @@
 </section>
 
 <section class="w-full px-4 py-16" id="comments">
-  <div class="mx-auto flex h-full max-w-7xl flex-col items-center gap-4">
+  <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
     <div class="text-2xl font-bold">大家都說…</div>
     <div class="flex max-w-full gap-4 overflow-x-auto">
       {#each comments as comList}
