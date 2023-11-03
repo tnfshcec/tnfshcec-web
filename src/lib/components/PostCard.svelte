@@ -11,7 +11,7 @@
 </script>
 
 <a
-  class="flex w-full max-w-lg flex-col items-start gap-2 rounded-2xl bg-secondary px-4 py-6"
+  class="flex w-full max-w-lg flex-col items-start gap-2 rounded bg-secondary px-4 py-6"
   href="{base}/post/{post.url}"
 >
   <header>

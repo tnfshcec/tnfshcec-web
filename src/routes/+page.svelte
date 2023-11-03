@@ -100,7 +100,7 @@
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
       </div>
       <IconButton
-        class="mx-auto w-fit rounded-2xl border border-accent/80 p-2 text-accent transition-colors hover:border-accent hover:shadow hover:shadow-accent"
+        class="mx-auto w-fit rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
         href="{base}/post"
         text="查看其他"
       >
@@ -132,21 +132,29 @@
       </div>
     </div>
     <div class="flex-grow" />
-    <div class="grid grid-cols-2 grid-rows-2 gap-4">
+    <div class="grid grid-cols-2 grid-rows-2 gap-2">
       <!-- TODO: hover effect -->
-      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+      <div
+        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
+      >
         <header class="text-xl font-bold">機器人</header>
         <div class="text-lg text-text/80">區區幾個人類…我一個一個ㄅㄧㄢˇ</div>
       </div>
-      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+      <div
+        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
+      >
         <header class="text-xl font-bold">硬體</header>
         <div class="text-lg text-text/80">據說社部沒有電池？</div>
       </div>
-      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+      <div
+        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
+      >
         <header class="text-xl font-bold">軟體 / 網頁</header>
         <div class="text-lg text-text/80">還是 JS 最棒了！（X</div>
       </div>
-      <div class="aspect-square max-h-60 rounded-[32px] border border-text/80 p-4">
+      <div
+        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
+      >
         <header class="text-xl font-bold">你的興趣！</header>
         <div class="text-lg text-text/80">我們讓你將熱情消耗殆盡~（好的方面）</div>
       </div>
@@ -157,7 +165,7 @@
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-7xl flex-col items-center gap-4">
     <div class="text-2xl font-bold">大家都說…</div>
-    <div class="flex w-full justify-center gap-4 overflow-x-auto">
+    <div class="flex max-w-full gap-4 overflow-x-auto">
       {#each comments as comList}
         <div class="flex flex-col gap-4">
           {#each comList as comment}

@@ -7,6 +7,13 @@ const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
 
   theme: {
+    borderRadius: {
+      none: "0",
+      sm: "0.5rem",
+      DEFAULT: "1rem",
+      lg: "2rem",
+      full: "9999px"
+    },
     colors: {
       text: "rgb(var(--text) / <alpha-value>)",
       background: "rgb(var(--background) / <alpha-value>)",
@@ -23,6 +30,10 @@ const config = {
       "4xl": "4rem"
     },
     extend: {
+      boxShadow: {
+        "glow-sm": "0 0 8px rgba(0, 0, 0, 0.25)",
+        glow: "0 0 16px rgba(0, 0, 0, 0.25)"
+      },
       typography: {
         DEFAULT: {
           css: {
