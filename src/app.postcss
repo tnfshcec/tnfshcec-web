@@ -23,7 +23,11 @@
 
 html,
 body {
-  @apply h-full bg-background text-text overflow-auto;
+  @apply h-full overflow-auto bg-background text-text;
+}
+
+::selection {
+  @apply bg-primary/60;
 }
 
 /* prose */

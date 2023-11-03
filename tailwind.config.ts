@@ -48,14 +48,14 @@ const config = {
             "--tw-prose-bold": "rgb(var(--text))",
             "--tw-prose-counters": "rgb(var(--primary))",
             "--tw-prose-bullets": "rgb(var(--primary))",
-            "--tw-prose-hr": "rgb(var(--secondary))",
+            "--tw-prose-hr": "rgb(var(--text) / 50%)",
             "--tw-prose-quotes": "rgb(var(--primary))",
             "--tw-prose-quote-borders": "rgb(var(--primary))",
             "--tw-prose-captions": "rgb(var(--text))",
             "--tw-prose-kbd": "rgb(var(--text))",
             "--tw-prose-kbd-shadows": "rgb(var(--secondary))",
-            "--tw-prose-th-borders": "rgb(var(--secondary))",
-            "--tw-prose-td-borders": "rgb(var(--secondary))"
+            "--tw-prose-th-borders": "rgb(var(--text) / 50%)",
+            "--tw-prose-td-borders": "rgb(var(--text) / 50%)"
           }
         }
       }

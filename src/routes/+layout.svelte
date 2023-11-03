@@ -12,10 +12,10 @@
 </script>
 
 <nav
-  class="sticky top-0 h-20 w-full border-b border-text/10 bg-background/70 px-8 py-2 backdrop-blur z-[999]"
+  class="sticky top-0 z-[999] h-20 w-full border-b border-text/10 bg-background/70 px-8 py-2 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
-    <a href={base} class="flex items-center gap-2">
+    <a href="{base}/" class="flex items-center gap-2">
       <img src={icon} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
         <span class="font-bold">新樓醫院心臟科附屬</span>
