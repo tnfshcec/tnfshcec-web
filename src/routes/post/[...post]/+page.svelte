@@ -32,9 +32,9 @@
         {#if pinned}
           <Pin class="-mt-1 inline h-4 w-4 text-primary" />
         {/if}
-        {author || ""}
+        {author ? `By ${author}` : ""}
         {author && date ? "/" : ""}
-        {localeDate || ""}
+        {localeDate}
       </div>
     </PageTitle>
 

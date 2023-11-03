@@ -22,16 +22,16 @@
 </script>
 
 <header class="flex flex-col justify-center">
-  <div class="flex items-center">
+  <span>
     {#each navigate[current].path as page}
-      <div class="transition-colors hover:text-accent">
+      <span class="transition-colors hover:text-accent">
         <a href="{base}/{navigate[page].url}">
           {navigate[page].title}
         </a>
         <ChevronRight class="inline h-4 w-4" />
-      </div>
+      </span>
     {/each}
-  </div>
+  </span>
   <h1 class="text-3xl font-bold">{title}</h1>
 
   <slot />

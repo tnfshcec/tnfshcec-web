@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { getModalStore, getToastStore, type SvelteEvent } from "@skeletonlabs/skeleton";
   import { base } from "$app/paths";
   import { applyAction, deserialize, enhance } from "$app/forms";
-  import type { SubmitFunction } from "@sveltejs/kit";
 
   import { localeDateFromString } from "$lib/utils/date.js";
   import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
@@ -14,9 +12,6 @@
   import { goto } from "$app/navigation";
 
   export let data;
-
-  const toastStore = getToastStore();
-  const modalStore = getModalStore();
 
   let { md, data: postData } = data;
   $: localeDate = localeDateFromString(postData.date ?? "");
@@ -31,12 +26,12 @@
 
     if (isDeleting) {
       const r = await new Promise<boolean>((resolve) => {
-        modalStore.trigger({
-          type: "confirm",
-          title: "DELETE",
-          body: "You are deleting the post!",
-          response: resolve
-        });
+        // modalStore.trigger({
+        //   type: "confirm",
+        //   title: "DELETE",
+        //   body: "You are deleting the post!",
+        //   response: resolve
+        // });
       });
       if (!r) return;
     }
@@ -51,11 +46,11 @@
 
     const message = isDeleting ? "Post deleted." : "Post is saved.";
     const background = isDeleting ? "variant-filled-warning" : "variant-filled-primary";
-    toastStore.trigger({
-      message,
-      hideDismiss: true,
-      background
-    });
+    // toastStore.trigger({
+    //   message,
+    //   hideDismiss: true,
+    //   background
+    // });
 
     if (isDeleting) {
       goto(`${base}/post`);
