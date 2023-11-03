@@ -6,7 +6,7 @@
   export let data;
 </script>
 
-<div class="w-full px-4 py-4">
+<div class="w-full p-4">
   <div class="mx-auto flex max-w-screen-xl flex-col gap-4">
     <PageTitle current="postList" />
 

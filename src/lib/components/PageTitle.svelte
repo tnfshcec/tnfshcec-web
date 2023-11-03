@@ -21,7 +21,7 @@
   export let title: string = navigate[current].title;
 </script>
 
-<div class="flex flex-col justify-center">
+<header class="flex flex-col justify-center">
   <div class="flex items-center">
     {#each navigate[current].path as page}
       <div class="transition-colors hover:text-accent">
@@ -33,4 +33,6 @@
     {/each}
   </div>
   <h1 class="text-3xl font-bold">{title}</h1>
-</div>
+
+  <slot />
+</header>

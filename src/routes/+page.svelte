@@ -42,7 +42,7 @@
   ];
 </script>
 
-<section class="h-[65vh] w-full items-center px-4 py-4">
+<section class="h-[65vh] w-full items-center p-4">
   <div class="relative mx-auto h-full max-w-screen-xl">
     <div
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
