@@ -60,13 +60,15 @@
       </div>
     </PageTitle>
 
-    <IconButton
-      class="absolute right-4 top-10 rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
-      text="Edit"
-      href="{base}/post/{url}/edit"
-    >
-      <Pencil class="h-4 w-4" />
-    </IconButton>
+    {#if data.session?.user?.role === "admin"}
+      <IconButton
+        class="absolute right-4 top-10 rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
+        text="Edit"
+        href="{base}/post/{url}/edit"
+      >
+        <Pencil class="h-4 w-4" />
+      </IconButton>
+    {/if}
 
     {#if image}
       <div class="p-4">
