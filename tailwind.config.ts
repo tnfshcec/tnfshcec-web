@@ -54,7 +54,7 @@ const config = {
             "--tw-prose-bullets": "rgb(var(--primary))",
             "--tw-prose-hr": "rgb(var(--text) / 50%)",
             "--tw-prose-quotes": "rgb(var(--primary))",
-            "--tw-prose-quote-borders": "rgb(var(--primary))",
+            "--tw-prose-quote-borders": "rgb(var(--primary) / 50%)",
             "--tw-prose-captions": "rgb(var(--text))",
             "--tw-prose-kbd": "rgb(var(--text))",
             "--tw-prose-kbd-shadows": "rgb(var(--secondary))",

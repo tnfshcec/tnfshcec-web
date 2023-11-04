@@ -39,18 +39,18 @@
     >
       <div
         use:melt={$item}
-        class="flex items-center border-b border-text/20 px-4 py-2 transition-colors hover:bg-primary/20"
+        class="flex items-center px-4 py-2 transition-colors hover:bg-primary/20"
       >
         <Moon class="h-4 w-4" />
         <span>Dark Theme</span>
       </div>
 
-      <div use:melt={$separator} />
+      <div use:melt={$separator} class="h-[1px] bg-text/20" />
 
       {#if session?.user?.role !== "admin"}
         <a
           use:melt={$item}
-          class="block border-b border-text/20 px-4 py-2 transition-colors hover:bg-primary/20"
+          class="block px-4 py-2 transition-colors hover:bg-primary/20"
           href="{base}/auth/signin"
         >
           Sign In
@@ -61,7 +61,7 @@
         </span>
         <a
           use:melt={$item}
-          class="block border-b border-text/20 px-4 py-2 transition-colors hover:bg-primary/20"
+          class="block px-4 py-2 transition-colors hover:bg-primary/20"
           href="{base}/auth/signout"
         >
           Sign Out
