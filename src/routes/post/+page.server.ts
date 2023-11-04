@@ -1,6 +1,6 @@
 import { base } from "$app/paths";
 import { error, redirect, type Actions } from "@sveltejs/kit";
-import { listPosts, savePost } from "$lib/server/posts";
+import { deletePostCache, listPosts, savePost } from "$lib/server/posts";
 import { isoDateString } from "$lib/utils/date";
 
 export const prerender = false;
@@ -23,6 +23,12 @@ export const actions = {
     await savePost(path, data, md);
 
     throw redirect(303, `${base}/post/${path}/edit`);
+  },
+  deletecache: async ({ locals }) => {
+    const session = await locals.getSession();
+    if (session?.user?.role != "admin") throw error(401, "NO U");
+
+    await deletePostCache();
   }
 } satisfies Actions;
 
@@ -35,7 +41,7 @@ async function maxPostN() {
   for (const name of names.keys()) {
     const groups = postRegex.exec(name) ?? [];
     const n = parseInt(groups[1] || "0");
-    console.log(name, n);
+    // console.log(name, n);
     maxN = Math.max(maxN, n);
   }
 

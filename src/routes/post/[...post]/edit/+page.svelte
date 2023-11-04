@@ -153,8 +153,8 @@
           bind:value={postData.desc}
         />
         <input
-          use:editField={{ id: "pinned", label: "Pinned", className: "space-x-2" }}
-          class="h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
+          use:editField={{ id: "pinned", label: "Pinned" }}
+          class="block h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
           type="checkbox"
           bind:checked={postData.pinned}
         />

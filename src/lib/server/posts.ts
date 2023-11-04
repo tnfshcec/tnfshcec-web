@@ -72,8 +72,13 @@ export async function savePost(path: string, data: App.PostData, content: string
   return writePost(path, data, content.trim());
 }
 
-export async function deletePostCache(path: string): Promise<boolean> {
-  return postCache.delete(path);
+export async function deletePostCache(path?: string): Promise<boolean> {
+  if (path === undefined) {
+    postCache.clear();
+    return true;
+  } else {
+    return postCache.delete(path);
+  }
 }
 
 async function loadPosts(): Promise<Map<string, App.PostData>> {

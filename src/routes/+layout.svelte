@@ -13,8 +13,8 @@
   export let data;
   const { session } = data;
 
-  async function newPost() {
-    const res = await fetch(`${base}/post?/newpost`, {
+  async function postAction(action: string) {
+    const res = await fetch(`${base}/post?/${action}`, {
       method: "POST",
       body: new FormData()
     });
@@ -70,9 +70,16 @@
         <div
           use:melt={$item}
           class="block px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={newPost}
+          on:m-click={() => postAction("newpost")}
         >
           New Post
+        </div>
+        <div
+          use:melt={$item}
+          class="block px-4 py-2 transition-colors hover:bg-primary/20"
+          on:m-click={() => postAction("deletepost")}
+        >
+          Delete Post Cache
         </div>
         <a
           use:melt={$item}
