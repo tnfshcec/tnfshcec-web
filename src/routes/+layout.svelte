@@ -3,8 +3,8 @@
 
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { base } from "$app/paths";
+  import { applyAction, deserialize } from "$app/forms";
 
-  import IconButton from "$lib/components/IconButton.svelte";
   import icon from "$lib/assets/global-icon.png";
   import Menu from "~icons/mdi/menu";
   import Bright from "~icons/mdi/brightness-5";
@@ -12,7 +12,15 @@
 
   export let data;
   const { session } = data;
-  // TODO: session validation & display avatar
+
+  async function newPost() {
+    const res = await fetch(`${base}/post?/newpost`, {
+      method: "POST",
+      body: new FormData()
+    });
+    const result = deserialize(await res.text());
+    applyAction(result);
+  }
 
   const {
     elements: { menu, item, trigger, separator }
@@ -56,9 +64,16 @@
           Sign In
         </a>
       {:else}
-        <span class="text-sm px-4">
+        <span class="px-4 text-sm">
           Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
         </span>
+        <div
+          use:melt={$item}
+          class="block px-4 py-2 transition-colors hover:bg-primary/20"
+          on:m-click={newPost}
+        >
+          New Post
+        </div>
         <a
           use:melt={$item}
           class="block px-4 py-2 transition-colors hover:bg-primary/20"
