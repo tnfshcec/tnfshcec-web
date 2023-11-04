@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 import typography from "@tailwindcss/typography";
+import forms from "@tailwindcss/forms";
 
 const config = {
   darkMode: "class",
@@ -19,7 +20,9 @@ const config = {
       background: "rgb(var(--background) / <alpha-value>)",
       primary: "rgb(var(--primary) / <alpha-value>)",
       secondary: "rgb(var(--secondary) / <alpha-value>)",
-      accent: "rgb(var(--accent) / <alpha-value>)"
+      accent: "rgb(var(--accent) / <alpha-value>)",
+      transparent: "transparent",
+      inherit: "inherit"
     },
     fontSize: {
       sm: "0.75rem",
@@ -66,7 +69,7 @@ const config = {
     }
   },
 
-  plugins: [typography]
+  plugins: [typography, forms]
 } satisfies Config;
 
 export default config;

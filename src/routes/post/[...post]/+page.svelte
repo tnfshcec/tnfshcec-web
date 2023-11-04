@@ -5,11 +5,14 @@
 
   import PageTitle from "$lib/components/PageTitle.svelte";
   import Toc from "$lib/components/TableOfContents.svelte";
+  import IconButton from "$lib/components/IconButton.svelte";
   import Pin from "~icons/mdi/pin";
+  import Pencil from "~icons/mdi/pencil-circle";
 
   import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
+  import { base } from "$app/paths";
 
   export let data;
 
@@ -45,9 +48,9 @@
     </div>
   </div>
 
-  <div id="post-content" class="flex w-full max-w-screen-xl flex-col gap-4">
+  <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" {title}>
-      <div class="">
+      <div>
         {#if pinned}
           <Pin class="-mt-1 inline h-4 w-4 text-primary" />
         {/if}
@@ -57,13 +60,23 @@
       </div>
     </PageTitle>
 
-    <div class="p-4">
-      <img
-        src={image}
-        alt=""
-        class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
-      />
-    </div>
+    <IconButton
+      class="absolute right-4 top-10 rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
+      text="Edit"
+      href="{base}/post/{url}/edit"
+    >
+      <Pencil class="h-4 w-4" />
+    </IconButton>
+
+    {#if image}
+      <div class="p-4">
+        <img
+          src={image}
+          alt=""
+          class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
+        />
+      </div>
+    {/if}
 
     <article class="prose space-y-4">
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />

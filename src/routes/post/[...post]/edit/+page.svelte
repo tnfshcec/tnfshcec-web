@@ -1,15 +1,17 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { applyAction, deserialize, enhance } from "$app/forms";
-
-  import { localeDateFromString } from "$lib/utils/date.js";
-  import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import PostEditInput from "$lib/components/postEditInput.svelte";
-  import EasyMde from "$lib/components/EasyMde.svelte";
-  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
-  import Pin from "~icons/mdi/pin";
-  import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
   import { goto } from "$app/navigation";
+  import type { Action } from "svelte/action";
+
+  import EasyMde from "$lib/components/EasyMde.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import IconButton from "$lib/components/IconButton.svelte";
+  import { localeDateFromString } from "$lib/utils/date.js";
+
+  import Pin from "~icons/mdi/pin";
+  import Save from "~icons/mdi/content-save-edit";
+  import Alert from "~icons/mdi/alert";
 
   export let data;
 
@@ -18,7 +20,27 @@
 
   let editUrl = postData.url;
 
-  async function handleSubmit(e: SvelteEvent<SubmitEvent, HTMLFormElement>) {
+  const editField: Action<HTMLInputElement, { id: string; label: string; className?: string }> = (
+    node,
+    { id, label: labelText, className }
+  ) => {
+    const fs = document.createElement("fieldset");
+    const label = document.createElement("label");
+
+    node.placeholder = labelText;
+    node.id = id;
+    node.name = id;
+
+    fs.className = className;
+    label.setAttribute("for", id);
+    label.innerText = labelText;
+
+    node.replaceWith(fs);
+    fs.appendChild(label);
+    fs.appendChild(node);
+  };
+
+  async function handleSubmit(e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
     const formData = new FormData(e.currentTarget);
     const submitter = e.submitter as HTMLButtonElement;
 
@@ -32,6 +54,7 @@
         //   body: "You are deleting the post!",
         //   response: resolve
         // });
+        resolve(true);
       });
       if (!r) return;
     }
@@ -58,68 +81,85 @@
   }
 </script>
 
-<div class="flex flex-col gap-4 md:py-4 xl:flex-row">
-  {#if postData.image}
-    <div
-      class="fixed top-0 -z-50 h-2/3 w-full bg-cover"
-      style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
-      in:fadeIn
-      out:fadeOut
-    />
-  {/if}
+<div class="flex w-full p-4">
+  <!-- left space -->
   <div class="flex-1" />
+
+  <!-- right space (TOC) -->
   <div class="order-last flex-1" />
 
-  <div
-    class="card w-full max-w-screen-md flex-none space-y-4 self-center p-4 md:shadow-lg"
-    in:fadeIn
-    out:fadeOut
-  >
-    <header class="card-header relative">
-      <span class="text-surface-600-300-token block">
+  <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
+    <PageTitle current="post" title={postData.title}>
+      <div>
         {#if postData.pinned}
-          <Pin class="text-primary-400-500-token -mt-1 inline" />
+          <Pin class="-mt-1 inline h-4 w-4 text-primary" />
         {/if}
-        {postData.author || ""}
-        {postData.author && localeDate ? "/" : ""}
-        {localeDate || ""}
-      </span>
-      <h1 class="h1">
-        <a href="{base}/post/{postData.url}" class="btn-icon btn-icon-sm hover:variant-soft">
-          <LeftCircleOutline width="100%" height="100%" class="text-surface-600-300-token inline" />
-        </a>
-        <span>{postData.title}</span>
-      </h1>
-
-      <div class="absolute right-2 top-4 space-x-2">
-        <button class="variant-filled-primary btn" form="post-edit" formaction="?/save">
-          Save
-        </button>
-        <button class="variant-filled-warning btn" form="post-edit" formaction="?/delete">
-          DELETE
-        </button>
+        {postData.author ? `By ${postData.author}` : ""}
+        {postData.author && postData.date ? "/" : ""}
+        {localeDate}
       </div>
-    </header>
-    <form id="post-edit" method="POST" on:submit|preventDefault={handleSubmit}>
-      <PostMetadataExpand>
-        <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
-        <svelte:fragment slot="content">
-          <div class="grid grid-cols-2 gap-6">
-            <PostEditInput
-              id="url"
-              bind:value={editUrl}
-              className="col-span-2"
-              validate={(v) => Boolean(v)}
-            />
-            <PostEditInput id="title" bind:value={postData.title} />
-            <PostEditInput id="author" bind:value={postData.author} />
-            <PostEditInput id="date" type="date" bind:value={postData.date} />
-            <PostEditInput id="image" bind:value={postData.image} />
-            <PostEditInput id="desc" label="Description" bind:value={postData.desc} />
-            <PostEditInput id="pinned" type="checkbox" bind:value={postData.pinned} />
-          </div>
-        </svelte:fragment>
-      </PostMetadataExpand>
+    </PageTitle>
+
+    <div class="absolute right-4 top-10 flex gap-2">
+      <button
+        class="rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
+        form="post-edit"
+        formaction="?/save"
+      >
+        <Save class="-mt-1 inline h-4 w-4" />
+        Save
+      </button>
+      <button
+        class="rounded border border-text/80 p-2 text-text transition-all hover:border-text hover:shadow-glow hover:shadow-text/40"
+        form="post-edit"
+        formaction="?/delete"
+      >
+        <Alert class="-mt-1 inline h-4 w-4" />
+        Delete
+      </button>
+    </div>
+
+    <form id="post-edit" class="space-y-4" method="POST" on:submit|preventDefault={handleSubmit}>
+      <section class="grid grid-cols-2 gap-6">
+        <input
+          use:editField={{ id: "url", label: "URL", className: "col-span-2" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={editUrl}
+        />
+        <input
+          use:editField={{ id: "title", label: "Title" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.title}
+        />
+        <input
+          use:editField={{ id: "author", label: "Author" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.author}
+        />
+        <input
+          use:editField={{ id: "date", label: "Date" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          type="date"
+          bind:value={postData.date}
+        />
+        <input
+          use:editField={{ id: "image", label: "Image" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.image}
+        />
+        <input
+          use:editField={{ id: "desc", label: "Description" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.desc}
+        />
+        <input
+          use:editField={{ id: "pinned", label: "Pinned", className: "space-x-2" }}
+          class="h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
+          type="checkbox"
+          bind:checked={postData.pinned}
+        />
+      </section>
+
       <EasyMde bind:md />
     </form>
   </div>
