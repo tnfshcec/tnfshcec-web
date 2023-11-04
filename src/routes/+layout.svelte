@@ -2,6 +2,7 @@
   import "../app.postcss";
 
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
+  import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
 
@@ -9,6 +10,8 @@
   import Menu from "~icons/mdi/menu";
   import Bright from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
+
+  // TODO: light/dark theme switching
 
   export let data;
   const { session } = data;
@@ -23,8 +26,9 @@
   }
 
   const {
-    elements: { menu, item, trigger, separator }
-  } = createDropdownMenu();
+    elements: { menu, item, trigger, separator },
+    states: { open }
+  } = createDropdownMenu({ forceVisible: true });
 </script>
 
 <nav
@@ -41,55 +45,58 @@
     </a>
     <button use:melt={$trigger}><Menu class="h-12 w-12" /></button>
 
-    <div
-      use:melt={$menu}
-      class="z-top max-w-xs overflow-hidden rounded border border-primary/60 bg-background/60 backdrop-blur"
-    >
+    {#if $open}
       <div
-        use:melt={$item}
-        class="flex items-center px-4 py-2 transition-colors hover:bg-primary/20"
+        use:melt={$menu}
+        class="z-top max-w-xs overflow-hidden rounded border border-primary/60 bg-background/60 backdrop-blur"
+        transition:fly={{ duration: 150, y: -10 }}
       >
-        <Moon class="h-4 w-4" />
-        <span>Dark Theme</span>
+        <div
+          use:melt={$item}
+          class="flex items-center px-4 py-2 transition-colors hover:bg-primary/20"
+        >
+          <Moon class="h-4 w-4" />
+          <span>Dark Theme</span>
+        </div>
+
+        <div use:melt={$separator} class="h-[1px] bg-text/20" />
+
+        {#if session?.user?.role !== "admin"}
+          <a
+            use:melt={$item}
+            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            href="{base}/auth/signin"
+          >
+            Sign In
+          </a>
+        {:else}
+          <span class="px-4 text-sm">
+            Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
+          </span>
+          <div
+            use:melt={$item}
+            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            on:m-click={() => postAction("newpost")}
+          >
+            New Post
+          </div>
+          <div
+            use:melt={$item}
+            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            on:m-click={() => postAction("deletepost")}
+          >
+            Delete Post Cache
+          </div>
+          <a
+            use:melt={$item}
+            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            href="{base}/auth/signout"
+          >
+            Sign Out
+          </a>
+        {/if}
       </div>
-
-      <div use:melt={$separator} class="h-[1px] bg-text/20" />
-
-      {#if session?.user?.role !== "admin"}
-        <a
-          use:melt={$item}
-          class="block px-4 py-2 transition-colors hover:bg-primary/20"
-          href="{base}/auth/signin"
-        >
-          Sign In
-        </a>
-      {:else}
-        <span class="px-4 text-sm">
-          Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
-        </span>
-        <div
-          use:melt={$item}
-          class="block px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => postAction("newpost")}
-        >
-          New Post
-        </div>
-        <div
-          use:melt={$item}
-          class="block px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => postAction("deletepost")}
-        >
-          Delete Post Cache
-        </div>
-        <a
-          use:melt={$item}
-          class="block px-4 py-2 transition-colors hover:bg-primary/20"
-          href="{base}/auth/signout"
-        >
-          Sign Out
-        </a>
-      {/if}
-    </div>
+    {/if}
   </div>
 </nav>
 

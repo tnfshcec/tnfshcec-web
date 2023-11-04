@@ -1,12 +1,11 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import { applyAction, deserialize, enhance } from "$app/forms";
+  import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
   import type { Action } from "svelte/action";
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import IconButton from "$lib/components/IconButton.svelte";
   import { localeDateFromString } from "$lib/utils/date.js";
 
   import Pin from "~icons/mdi/pin";
@@ -74,6 +73,8 @@
     //   hideDismiss: true,
     //   background
     // });
+
+    // TODO: modal and toaster
 
     if (isDeleting) {
       goto(`${base}/post`);

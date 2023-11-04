@@ -4,6 +4,8 @@
   export let href = "";
   export let textClass = "";
 
+  // TODO: make into action
+
   let className = "";
   export { className as class };
 </script>

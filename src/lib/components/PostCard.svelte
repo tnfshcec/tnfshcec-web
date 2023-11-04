@@ -3,14 +3,16 @@
 
   import { base } from "$app/paths";
   import { localeDateFromString } from "$lib/utils/date";
-  import { flyIn, flyOut } from "$lib/utils/transitions";
 
   export let post: App.PostData;
 
   let localeDate = localeDateFromString(post.date ?? "");
 </script>
 
-<a class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6" href="{base}/post/{post.url}">
+<a
+  class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6 transition-all hover:scale-[1.01] hover:shadow-glow hover:shadow-secondary/80"
+  href="{base}/post/{post.url}"
+>
   <header>
     <div class="text-primary/80">
       {#if post.pinned}

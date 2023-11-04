@@ -5,7 +5,6 @@
   import Comment from "$lib/components/Comment.svelte";
   import IconButton from "$lib/components/IconButton.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
-  import { fadeIn, fadeOut } from "$lib/utils/transitions";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
