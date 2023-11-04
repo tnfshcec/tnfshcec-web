@@ -22,6 +22,7 @@ const config = {
       accent: "rgb(var(--accent) / <alpha-value>)"
     },
     fontSize: {
+      sm: "0.75rem",
       base: "1rem",
       lg: "1.25rem",
       xl: "1.5rem",
@@ -33,6 +34,9 @@ const config = {
       boxShadow: {
         "glow-sm": "0 0 8px rgba(0, 0, 0, 0.25)",
         glow: "0 0 16px rgba(0, 0, 0, 0.25)"
+      },
+      zIndex: {
+        top: "9999"
       },
       typography: {
         DEFAULT: {

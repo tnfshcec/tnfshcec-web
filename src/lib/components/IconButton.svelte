@@ -1,12 +1,21 @@
 <script lang="ts">
+  export let type: "anchor" | "button" = "anchor";
   export let text: string;
   export let href = "";
   export let textClass = "";
 
-  // TODO: <button /> variant
+  let className = "";
+  export { className as class };
 </script>
 
-<a class="flex items-center gap-2 {$$props.class}" {href}>
-  <slot />
-  <div class={textClass}>{text}</div>
-</a>
+{#if type == "anchor"}
+  <a class="flex items-center gap-2 {className}" {href} on:click>
+    <slot />
+    <div class={textClass}>{text}</div>
+  </a>
+{:else if type == "button"}
+  <button class="flex items-center gap-2 {className}" on:click>
+    <slot />
+    <div class={textClass}>{text}</div>
+  </button>
+{/if}
