@@ -1,5 +1,7 @@
 import type { Action } from "svelte/action";
 
+// TODO: smooth scroll with <a />
+
 export const withIcon: Action = (node) => {
   // NOTE: may need tailwind-merge
   node.classList.add("flex", "items-center", "gap-2");

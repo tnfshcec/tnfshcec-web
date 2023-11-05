@@ -32,7 +32,10 @@
       </span>
     {/each}
   </span>
-  <h1 class="text-3xl font-bold">{title}</h1>
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold">{title}</h1>
+    <slot name="title" />
+  </div>
 
   <slot />
 </header>

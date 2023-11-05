@@ -69,21 +69,21 @@
           {localeDate}
         </span>
       </div>
-    </PageTitle>
 
-    <div class="absolute right-4 top-10 flex gap-2">
-      <button class="btn-text flex items-center gap-2 md:hidden" use:melt={$trigger}>
-        <!-- NOTE: cannot use withIcon because of melt -->
-        <List class="h-4 w-4" />
-        <span>Contents</span>
-      </button>
-      {#if data.session?.user?.role === "admin"}
-        <a class="btn-accent" href="{base}/post/{url}/edit" use:withIcon>
-          <Pencil class="h-4 w-4" />
-          <span>Edit</span>
-        </a>
-      {/if}
-    </div>
+      <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
+        <button class="btn-text flex items-center gap-2 md:hidden" use:melt={$trigger}>
+          <!-- NOTE: cannot use withIcon because of melt -->
+          <List class="h-4 w-4" />
+          <span>Contents</span>
+        </button>
+        {#if data.session?.user?.role === "admin"}
+          <a class="btn-accent" href="{base}/post/{url}/edit" use:withIcon>
+            <Pencil class="h-4 w-4" />
+            <span>Edit</span>
+          </a>
+        {/if}
+      </div>
+    </PageTitle>
 
     <div use:melt={$portalled}>
       {#if $open}

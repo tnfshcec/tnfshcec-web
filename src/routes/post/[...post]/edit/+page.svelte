@@ -82,18 +82,18 @@
           {localeDate}
         </span>
       </div>
-    </PageTitle>
 
-    <div class="absolute right-4 top-10 flex gap-2">
-      <button class="btn-accent" use:withIcon on:click={savePost}>
-        <Save class="h-4 w-4" />
-        Save
-      </button>
-      <button class="btn-text" use:withIcon on:click={deletePost}>
-        <Alert class="h-4 w-4" />
-        Delete
-      </button>
-    </div>
+      <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
+        <button class="btn-accent" use:withIcon on:click={savePost}>
+          <Save class="h-4 w-4" />
+          Save
+        </button>
+        <button class="btn-text" use:withIcon on:click={deletePost}>
+          <Alert class="h-4 w-4" />
+          Delete
+        </button>
+      </div>
+    </PageTitle>
 
     <div use:melt={$portalled}>
       {#if $open}
