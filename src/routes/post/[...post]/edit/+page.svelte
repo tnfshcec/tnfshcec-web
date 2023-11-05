@@ -3,6 +3,7 @@
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
+  import { fade, fly } from "svelte/transition";
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
@@ -96,12 +97,17 @@
 
     <div use:melt={$portalled}>
       {#if $open}
-        <div use:melt={$overlay} class="fixed inset-0 z-top bg-background/60" />
+        <div
+          use:melt={$overlay}
+          class="fixed inset-0 z-top bg-background/60"
+          transition:fade={{ duration: 150 }}
+        />
         <div
           class="fixed left-1/2 top-1/2 z-top max-h-screen w-full max-w-lg -translate-x-1/2
             -translate-y-1/2 rounded border border-accent/60 bg-background p-6
             shadow-glow-sm shadow-accent/60"
           use:melt={$content}
+          transition:fly={{ duration: 150, y: 10 }}
         >
           <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
           <p use:melt={$description} class="leading-normal text-text/80">
@@ -110,7 +116,7 @@
           </p>
 
           <div class="mt-6 flex justify-end gap-4">
-            <button use:melt={$close} class="btn-text opacity-90">Cancel</button>
+            <button use:melt={$close} class="btn-text opacity-80">Cancel</button>
             <button
               use:melt={$close}
               class="btn-accent"

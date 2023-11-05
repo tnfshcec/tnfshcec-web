@@ -14,8 +14,6 @@
   import Moon from "~icons/mdi/moon-waning-crescent";
   import icon from "$lib/assets/global-icon.png";
 
-  // TODO: light/dark theme switching
-
   export let data;
   const { session } = data;
 
