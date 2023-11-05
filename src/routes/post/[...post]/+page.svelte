@@ -1,17 +1,19 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { createTableOfContents } from "@melt-ui/svelte";
+  import { createTableOfContents, createDialog, melt } from "@melt-ui/svelte";
 
   import PageTitle from "$lib/components/PageTitle.svelte";
   import Toc from "$lib/components/TableOfContents.svelte";
   import Pin from "~icons/mdi/pin";
+  import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
   import { withIcon } from "$lib/components/actions.js";
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
   import { base } from "$app/paths";
+  import { fade, fly } from "svelte/transition";
 
   export let data;
 
@@ -30,6 +32,13 @@
     activeType: "all",
     headingFilterFn: (heading) => !heading.hasAttribute("data-toc-ignore")
   });
+
+  const {
+    elements: { trigger, overlay, content, title: dTitle, portalled },
+    states: { open }
+  } = createDialog({
+    forceVisible: true
+  });
 </script>
 
 <div class="flex w-full p-4">
@@ -37,7 +46,7 @@
   <div class="flex-1" />
 
   <div class="order-last flex-1">
-    <div class="sticky top-20 w-max max-w-xs p-4">
+    <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block">
       <p class="font-bold">On This Page</p>
       <nav>
         {#key $headingsTree}
@@ -47,7 +56,7 @@
     </div>
   </div>
 
-  <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
+  <div id="post-content" class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" {title}>
       <div use:withIcon>
         {#if pinned}
@@ -62,12 +71,41 @@
       </div>
     </PageTitle>
 
-    {#if data.session?.user?.role === "admin"}
-      <a class="btn-accent absolute right-4 top-10" href="{base}/post/{url}/edit" use:withIcon>
-        <Pencil class="h-4 w-4" />
-        <span>Edit</span>
-      </a>
-    {/if}
+    <div class="absolute right-4 top-10 flex gap-2">
+      <button class="btn-text flex items-center gap-2 md:hidden" use:melt={$trigger}>
+        <!-- NOTE: cannot use withIcon because of melt -->
+        <List class="h-4 w-4" />
+        <span>Contents</span>
+      </button>
+      {#if data.session?.user?.role === "admin"}
+        <a class="btn-accent" href="{base}/post/{url}/edit" use:withIcon>
+          <Pencil class="h-4 w-4" />
+          <span>Edit</span>
+        </a>
+      {/if}
+    </div>
+
+    <div use:melt={$portalled}>
+      {#if $open}
+        <div
+          use:melt={$overlay}
+          class="fixed inset-0 z-top bg-background/60"
+          transition:fade={{ duration: 150 }}
+        />
+        <div
+          class="fixed right-0 top-0 z-top h-full w-full max-w-sm bg-background p-4 shadow-glow-sm shadow-text/60"
+          use:melt={$content}
+          transition:fly={{ duration: 150, x: 10 }}
+        >
+          <p class="font-bold" use:melt={$dTitle}>On This Page</p>
+          <nav>
+            {#key $headingsTree}
+              <Toc tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
+            {/key}
+          </nav>
+        </div>
+      {/if}
+    </div>
 
     {#if image}
       <div class="p-4">
@@ -80,7 +118,7 @@
     {/if}
 
     <article class="prose space-y-4">
-      <!-- TODO: codeblock highlighting / custom codeblock -->
+      <!-- TODO: codeblock highlighting, styling / custom codeblock -->
       <!-- TODO: footnotes plugin -->
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />
     </article>

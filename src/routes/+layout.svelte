@@ -17,6 +17,8 @@
   export let data;
   const { session } = data;
 
+  // TODO: scroll detection & changing title
+
   async function postAction(action: string) {
     const res = await fetch(`${base}/post?/${action}`, {
       method: "POST",

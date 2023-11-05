@@ -41,7 +41,7 @@
   ];
 </script>
 
-<section class="h-[65vh] w-full items-center p-4">
+<section class="h-[65vh] min-h-[20rem] w-full items-center p-4">
   <div class="relative mx-auto h-full max-w-screen-xl">
     <div
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
@@ -94,9 +94,9 @@
 
 <section class="w-full px-4 py-16" id="news">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-6 lg:flex-row"
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
-    <div class="max-w-lg space-y-4">
+    <div class="max-w-lg flex-grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">最新消息</header>
       <div class="text-lg">
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
@@ -117,10 +117,10 @@
 
 <section class="w-full px-4 py-16" id="interests">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 lg:flex-row"
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
-    <div class="flex max-w-lg flex-col items-center gap-4">
-      <header class="text-2xl font-bold">社團活動</header>
+    <div class="max-w-lg flex-grow basis-80 space-y-4">
+      <header class="text-center text-2xl font-bold">社團活動</header>
       <div class="text-lg">
         應該永遠不會去玩了😡😡<br />
         好歹我也是Google地圖6級在地導覽📌<br />
