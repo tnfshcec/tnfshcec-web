@@ -45,9 +45,10 @@ const config = {
         DEFAULT: {
           css: {
             maxWidth: false,
-            pre: false,
-            code: false,
-            "pre code": false,
+            "> ul > li > *:first-child": false,
+            "> ul > li > *:last-child": false,
+            "> ol > li > *:first-child": false,
+            "> ol > li > *:last-child": false,
             "--tw-prose-body": "rgb(var(--text))",
             "--tw-prose-headings": "rgb(var(--text))",
             "--tw-prose-lead": "rgb(var(--text))",
@@ -60,6 +61,9 @@ const config = {
             "--tw-prose-quote-borders": "rgb(var(--primary) / 50%)",
             "--tw-prose-captions": "rgb(var(--text))",
             "--tw-prose-kbd": "rgb(var(--text))",
+            "--tw-prose-code": "rgb(var(--text))",
+            "--tw-prose-pre-code": "rgb(var(--text))",
+            "--tw-prose-pre-bg": "rgb(var(--secondary))",
             "--tw-prose-kbd-shadows": "rgb(var(--secondary))",
             "--tw-prose-th-borders": "rgb(var(--text) / 50%)",
             "--tw-prose-td-borders": "rgb(var(--text) / 50%)"

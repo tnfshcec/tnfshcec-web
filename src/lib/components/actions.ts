@@ -1,6 +1,21 @@
+import { scrollOffset } from "$lib/utils/scrollOffset";
 import type { Action } from "svelte/action";
 
 // TODO: smooth scroll with <a />
+export const anchorScroll: Action<HTMLAnchorElement> = (node) => {
+  node.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const selector = node.href.split("#").at(-1);
+    const el = document.getElementById(selector ?? "");
+    if (!el) return;
+
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - scrollOffset(),
+      behavior: "smooth"
+    });
+  });
+};
 
 export const withIcon: Action = (node) => {
   // NOTE: may need tailwind-merge

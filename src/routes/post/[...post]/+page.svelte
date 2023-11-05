@@ -12,6 +12,7 @@
   import { withIcon } from "$lib/components/actions.js";
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
+  import { scrollOffset } from "$lib/utils/scrollOffset.js";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
 
@@ -30,6 +31,7 @@
     selector: "#post-content",
     exclude: ["h4", "h5", "h6"],
     activeType: "all",
+    scrollOffset: scrollOffset(),
     headingFilterFn: (heading) => !heading.hasAttribute("data-toc-ignore")
   });
 

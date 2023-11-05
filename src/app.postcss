@@ -34,9 +34,8 @@
   }
 }
 
-html,
-body {
-  @apply h-full overflow-auto bg-background text-text;
+:root {
+  @apply scroll-pt-20 overflow-auto bg-background text-text motion-safe:scroll-smooth;
 }
 
 ::selection {
@@ -49,6 +48,10 @@ body {
 
 .prose pre {
   @apply overflow-x-auto;
+}
+
+.prose :not(pre) > code {
+  @apply bg-secondary;
 }
 
 /* vim: set ft=css: */

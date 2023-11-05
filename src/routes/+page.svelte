@@ -4,7 +4,7 @@
 
   import Comment from "$lib/components/Comment.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
-  import { withIcon } from "$lib/components/actions";
+  import { anchorScroll, withIcon } from "$lib/components/actions";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
@@ -86,7 +86,7 @@
     電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
     玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
   </div>
-  <a class="transition-colors hover:text-accent" href="#news" use:withIcon>
+  <a class="transition-colors hover:text-accent" href="#news" use:withIcon use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
     <span>更多資訊</span>
   </a>

@@ -11,7 +11,7 @@
 </script>
 
 <a
-  class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6 transition-all hover:scale-[1.01] hover:shadow-glow hover:shadow-secondary/80"
+  class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
   href="{base}/post/{post.url}"
 >
   <header>
