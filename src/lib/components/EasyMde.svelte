@@ -46,6 +46,15 @@
     @apply !bg-background;
   }
 
+  .editor-preview table td,
+  .editor-preview table th {
+    border: 0;
+  }
+
+  .editor-preview pre {
+    background: transparent;
+  }
+
   .CodeMirror-cursor {
     @apply !border-text/80;
   }

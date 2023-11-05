@@ -80,6 +80,8 @@
     {/if}
 
     <article class="prose space-y-4">
+      <!-- TODO: codeblock highlighting / custom codeblock -->
+      <!-- TODO: footnotes plugin -->
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />
     </article>
   </div>
