@@ -64,6 +64,6 @@
   }
 
   .cm-comment {
-    @apply font-mono text-primary/20;
+    @apply font-mono;
   }
 </style>

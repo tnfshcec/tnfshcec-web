@@ -101,11 +101,7 @@
       <div class="text-lg">
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
       </div>
-      <a
-        class="mx-auto w-fit rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
-        href="{base}/post"
-        use:withIcon
-      >
+      <a class="btn-accent mx-auto w-fit" href="{base}/post" use:withIcon>
         <ArrowRight class="h-6 w-6" />
         <span>查看其他</span>
       </a>

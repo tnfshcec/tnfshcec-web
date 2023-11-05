@@ -21,6 +21,19 @@
   }
 }
 
+@layer components {
+  .btn-accent {
+    @apply rounded p-2 transition-all;
+    @apply border border-accent/80 text-accent;
+    @apply hover:border-accent hover:shadow-glow hover:shadow-accent/40 active:shadow-accent/60;
+  }
+  .btn-text {
+    @apply rounded p-2 transition-all;
+    @apply border border-text/80 text-text;
+    @apply hover:border-text hover:shadow-glow hover:shadow-text/40 active:shadow-text/60;
+  }
+}
+
 html,
 body {
   @apply h-full overflow-auto bg-background text-text;
@@ -28,6 +41,19 @@ body {
 
 ::selection {
   @apply bg-primary/60;
+}
+
+.prose input[type="checkbox"] {
+  @apply rounded border-text/60 bg-transparent checked:bg-primary focus:ring-accent/60;
+}
+
+.editor-preview table td,
+.editor-preview table th {
+  border: 0;
+}
+
+.editor-preview pre {
+  background: transparent;
 }
 
 /* vim: set ft=css: */

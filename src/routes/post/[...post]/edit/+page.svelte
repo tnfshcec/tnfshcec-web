@@ -75,28 +75,21 @@
         {#if postData.pinned}
           <Pin class="h-4 w-4 text-primary" />
         {/if}
-        {postData.author ? `By ${postData.author}` : ""}
-        {postData.author && postData.date ? "/" : ""}
-        {localeDate}
+        <span>
+          {postData.pinned && !postData.author && !postData.date ? "Pinned" : ""}
+          {postData.author ? `By ${postData.author}` : ""}
+          {postData.author && postData.date ? "/" : ""}
+          {localeDate}
+        </span>
       </div>
     </PageTitle>
 
     <div class="absolute right-4 top-10 flex gap-2">
-      <button
-        class="rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
-        form="post-edit"
-        formaction="?/save"
-        use:withIcon
-      >
+      <button class="btn-accent" form="post-edit" formaction="?/save" use:withIcon>
         <Save class="h-4 w-4" />
         Save
       </button>
-      <button
-        class="rounded border border-text/80 p-2 text-text transition-all hover:border-text hover:shadow-glow hover:shadow-text/40"
-        form="post-edit"
-        formaction="?/delete"
-        use:withIcon
-      >
+      <button class="btn-text" form="post-edit" formaction="?/delete" use:withIcon>
         <Alert class="h-4 w-4" />
         Delete
       </button>

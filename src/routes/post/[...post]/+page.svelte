@@ -53,18 +53,17 @@
         {#if pinned}
           <Pin class="h-4 w-4 text-primary" />
         {/if}
-        {author ? `By ${author}` : ""}
-        {author && date ? "/" : ""}
-        {localeDate}
+        <span>
+          {pinned && !author && !date ? "Pinned" : ""}
+          {author ? `By ${author}` : ""}
+          {author && date ? "/" : ""}
+          {localeDate}
+        </span>
       </div>
     </PageTitle>
 
     {#if data.session?.user?.role === "admin"}
-      <a
-        class="absolute right-4 top-10 rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
-        href="{base}/post/{url}/edit"
-        use:withIcon
-      >
+      <a class="btn-accent absolute right-4 top-10" href="{base}/post/{url}/edit" use:withIcon>
         <Pencil class="h-4 w-4" />
         <span>Edit</span>
       </a>

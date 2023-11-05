@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 
-import Weird from "../components/weird.svelte";
+import Weird from "../components/Weird.svelte";
 
 /*
 export const codeBlockPlugin: Plugin = {
