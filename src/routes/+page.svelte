@@ -3,8 +3,8 @@
   import type { ComponentProps } from "svelte";
 
   import Comment from "$lib/components/Comment.svelte";
-  import IconButton from "$lib/components/IconButton.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
+  import { withIcon } from "$lib/components/actions";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
@@ -86,9 +86,10 @@
     電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
     玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
   </div>
-  <IconButton class="transition-colors hover:text-accent" href="#news" text="更多資訊">
+  <a class="transition-colors hover:text-accent" href="#news" use:withIcon>
     <ArrowDown class="h-4 w-4" />
-  </IconButton>
+    <span>更多資訊</span>
+  </a>
 </section>
 
 <section class="w-full px-4 py-16" id="news">
@@ -100,13 +101,14 @@
       <div class="text-lg">
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
       </div>
-      <IconButton
+      <a
         class="mx-auto w-fit rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
         href="{base}/post"
-        text="查看其他"
+        use:withIcon
       >
         <ArrowRight class="h-6 w-6" />
-      </IconButton>
+        <span>查看其他</span>
+      </a>
     </div>
     <div class="flex-grow" />
     <div class="flex max-w-lg flex-col items-center justify-center gap-4">

@@ -3,6 +3,7 @@
 
   import { base } from "$app/paths";
   import { localeDateFromString } from "$lib/utils/date";
+  import { withIcon } from "./actions";
 
   export let post: App.PostData;
 
@@ -14,9 +15,9 @@
   href="{base}/post/{post.url}"
 >
   <header>
-    <div class="text-primary/80">
+    <div class="text-primary/80" use:withIcon>
       {#if post.pinned}
-        <Pin class="inline h-4 w-4 text-primary" />
+        <Pin class="h-4 w-4 text-primary" />
       {/if}
       {post.author ?? ""}
       {post.author && post.date ? "/" : ""}

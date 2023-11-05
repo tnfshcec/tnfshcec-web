@@ -1,7 +1,6 @@
 <script lang="ts">
   import PageTitle from "$lib/components/PageTitle.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
-  import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
 
   export let data;
 </script>

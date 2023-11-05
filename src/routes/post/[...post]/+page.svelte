@@ -1,15 +1,14 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { createTableOfContents, melt } from "@melt-ui/svelte";
+  import { createTableOfContents } from "@melt-ui/svelte";
 
   import PageTitle from "$lib/components/PageTitle.svelte";
   import Toc from "$lib/components/TableOfContents.svelte";
-  import IconButton from "$lib/components/IconButton.svelte";
   import Pin from "~icons/mdi/pin";
   import Pencil from "~icons/mdi/pencil-circle";
 
-  import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
+  import { withIcon } from "$lib/components/actions.js";
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
   import { base } from "$app/paths";
@@ -50,9 +49,9 @@
 
   <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" {title}>
-      <div>
+      <div use:withIcon>
         {#if pinned}
-          <Pin class="-mt-1 inline h-4 w-4 text-primary" />
+          <Pin class="h-4 w-4 text-primary" />
         {/if}
         {author ? `By ${author}` : ""}
         {author && date ? "/" : ""}
@@ -61,13 +60,14 @@
     </PageTitle>
 
     {#if data.session?.user?.role === "admin"}
-      <IconButton
+      <a
         class="absolute right-4 top-10 rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
-        text="Edit"
         href="{base}/post/{url}/edit"
+        use:withIcon
       >
         <Pencil class="h-4 w-4" />
-      </IconButton>
+        <span>Edit</span>
+      </a>
     {/if}
 
     {#if image}

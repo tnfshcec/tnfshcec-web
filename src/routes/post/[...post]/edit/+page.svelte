@@ -2,11 +2,11 @@
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
-  import type { Action } from "svelte/action";
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import { localeDateFromString } from "$lib/utils/date.js";
+  import { editField, withIcon } from "$lib/components/actions";
+  import { localeDateFromString } from "$lib/utils/date";
 
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
@@ -18,26 +18,6 @@
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
-
-  const editField: Action<HTMLInputElement, { id: string; label: string; className?: string }> = (
-    node,
-    { id, label: labelText, className }
-  ) => {
-    const fs = document.createElement("fieldset");
-    const label = document.createElement("label");
-
-    node.placeholder = labelText;
-    node.id = id;
-    node.name = id;
-
-    fs.className = className;
-    label.setAttribute("for", id);
-    label.innerText = labelText;
-
-    node.replaceWith(fs);
-    fs.appendChild(label);
-    fs.appendChild(node);
-  };
 
   async function handleSubmit(e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
     const formData = new FormData(e.currentTarget);
@@ -91,9 +71,9 @@
 
   <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" title={postData.title}>
-      <div>
+      <div use:withIcon>
         {#if postData.pinned}
-          <Pin class="-mt-1 inline h-4 w-4 text-primary" />
+          <Pin class="h-4 w-4 text-primary" />
         {/if}
         {postData.author ? `By ${postData.author}` : ""}
         {postData.author && postData.date ? "/" : ""}
@@ -106,16 +86,18 @@
         class="rounded border border-accent/80 p-2 text-accent transition-all hover:border-accent hover:shadow-glow hover:shadow-accent/40"
         form="post-edit"
         formaction="?/save"
+        use:withIcon
       >
-        <Save class="-mt-1 inline h-4 w-4" />
+        <Save class="h-4 w-4" />
         Save
       </button>
       <button
         class="rounded border border-text/80 p-2 text-text transition-all hover:border-text hover:shadow-glow hover:shadow-text/40"
         form="post-edit"
         formaction="?/delete"
+        use:withIcon
       >
-        <Alert class="-mt-1 inline h-4 w-4" />
+        <Alert class="h-4 w-4" />
         Delete
       </button>
     </div>

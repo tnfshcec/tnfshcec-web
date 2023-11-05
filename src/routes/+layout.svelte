@@ -5,10 +5,12 @@
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
+  import { themeStore } from "$lib/stores/theme";
+  import { withIcon } from "$lib/components/actions";
 
   import icon from "$lib/assets/global-icon.png";
   import Menu from "~icons/mdi/menu";
-  import Bright from "~icons/mdi/brightness-5";
+  import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
 
   // TODO: light/dark theme switching
@@ -53,10 +55,17 @@
       >
         <div
           use:melt={$item}
-          class="flex items-center px-4 py-2 transition-colors hover:bg-primary/20"
+          use:withIcon
+          class="px-4 py-2 transition-colors hover:bg-primary/20"
+          on:m-click={() => themeStore.toggle()}
         >
-          <Moon class="h-4 w-4" />
-          <span>Dark Theme</span>
+          {#if $themeStore === "light"}
+            <Brightness class="h-4 w-4" />
+            <span>Light Theme</span>
+          {:else}
+            <Moon class="h-4 w-4" />
+            <span>Dark Theme</span>
+          {/if}
         </div>
 
         <div use:melt={$separator} class="h-[1px] bg-text/20" />
