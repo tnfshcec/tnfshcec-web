@@ -134,7 +134,6 @@
     </div>
     <div class="flex-grow" />
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
-      <!-- TODO: hover effect -->
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createDialog, melt } from "@melt-ui/svelte";
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
@@ -7,6 +8,8 @@
   import PageTitle from "$lib/components/PageTitle.svelte";
   import { editField, withIcon } from "$lib/components/actions";
   import { localeDateFromString } from "$lib/utils/date";
+  import { once } from "$lib/stores/once";
+  import { addToast } from "$lib/components/Toaster.svelte";
 
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
@@ -19,46 +22,42 @@
 
   let editUrl = postData.url;
 
-  async function handleSubmit(e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
-    const formData = new FormData(e.currentTarget);
-    const submitter = e.submitter as HTMLButtonElement;
+  let form: HTMLFormElement;
 
-    const isDeleting = submitter.formAction.endsWith("/delete");
+  const confirmedDelete = once<boolean>(false);
 
-    if (isDeleting) {
-      const r = await new Promise<boolean>((resolve) => {
-        // modalStore.trigger({
-        //   type: "confirm",
-        //   title: "DELETE",
-        //   body: "You are deleting the post!",
-        //   response: resolve
-        // });
-        resolve(true);
-      });
-      if (!r) return;
-    }
+  const {
+    elements: { overlay, content, title, description, close, portalled },
+    states: { open }
+  } = createDialog({
+    forceVisible: true,
+    role: "alertdialog"
+  });
 
-    const res = await fetch(submitter.formAction, {
+  async function formAction(action: string) {
+    const res = await fetch(action, {
       method: "POST",
-      body: formData
+      body: new FormData(form)
     });
     const result = deserialize(await res.text());
-
     applyAction(result);
+  }
 
-    const message = isDeleting ? "Post deleted." : "Post is saved.";
-    const background = isDeleting ? "variant-filled-warning" : "variant-filled-primary";
-    // toastStore.trigger({
-    //   message,
-    //   hideDismiss: true,
-    //   background
-    // });
+  async function savePost() {
+    await formAction("?/save");
 
-    // TODO: modal and toaster
+    addToast({ data: { title: "Post is Saved" } });
+  }
 
-    if (isDeleting) {
-      goto(`${base}/post`);
-    }
+  async function deletePost() {
+    open.set(true);
+    if (!(await confirmedDelete.once())) return;
+
+    await formAction("?/delete");
+
+    addToast({ data: { title: "Post Deleted" } });
+
+    goto(`${base}/post`);
   }
 </script>
 
@@ -85,17 +84,44 @@
     </PageTitle>
 
     <div class="absolute right-4 top-10 flex gap-2">
-      <button class="btn-accent" form="post-edit" formaction="?/save" use:withIcon>
+      <button class="btn-accent" use:withIcon on:click={savePost}>
         <Save class="h-4 w-4" />
         Save
       </button>
-      <button class="btn-text" form="post-edit" formaction="?/delete" use:withIcon>
+      <button class="btn-text" use:withIcon on:click={deletePost}>
         <Alert class="h-4 w-4" />
         Delete
       </button>
     </div>
 
-    <form id="post-edit" class="space-y-4" method="POST" on:submit|preventDefault={handleSubmit}>
+    <div use:melt={$portalled}>
+      {#if $open}
+        <div use:melt={$overlay} class="fixed inset-0 z-top bg-background/60" />
+        <div
+          class="fixed left-1/2 top-1/2 z-top max-h-screen w-full max-w-lg -translate-x-1/2
+            -translate-y-1/2 rounded border border-accent/60 bg-background p-6
+            shadow-glow-sm shadow-accent/60"
+          use:melt={$content}
+        >
+          <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
+          <p use:melt={$description} class="leading-normal text-text/80">
+            You're deleting this post, confirm with caution!<br />
+            The post ain't coming back after this!
+          </p>
+
+          <div class="mt-6 flex justify-end gap-4">
+            <button use:melt={$close} class="btn-text opacity-90">Cancel</button>
+            <button
+              use:melt={$close}
+              class="btn-accent"
+              on:m-click={() => ($confirmedDelete = true)}>Confirm</button
+            >
+          </div>
+        </div>
+      {/if}
+    </div>
+
+    <form id="post-edit" class="space-y-4" bind:this={form}>
       <section class="grid grid-cols-2 gap-6">
         <input
           use:editField={{ id: "url", label: "URL", className: "col-span-2" }}

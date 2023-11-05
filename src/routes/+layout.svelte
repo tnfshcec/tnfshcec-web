@@ -8,10 +8,11 @@
   import { themeStore } from "$lib/stores/theme";
   import { withIcon } from "$lib/components/actions";
 
-  import icon from "$lib/assets/global-icon.png";
+  import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
+  import icon from "$lib/assets/global-icon.png";
 
   // TODO: light/dark theme switching
 
@@ -89,13 +90,13 @@
           >
             New Post
           </div>
-          <div
-            use:melt={$item}
-            class="block px-4 py-2 transition-colors hover:bg-primary/20"
-            on:m-click={() => postAction("deletepost")}
-          >
-            Delete Post Cache
-          </div>
+          <!-- <div -->
+          <!--   use:melt={$item} -->
+          <!--   class="block px-4 py-2 transition-colors hover:bg-primary/20" -->
+          <!--   on:m-click={() => postAction("deletecache")} -->
+          <!-- > -->
+          <!--   Delete Post Cache -->
+          <!-- </div> -->
           <a
             use:melt={$item}
             class="block px-4 py-2 transition-colors hover:bg-primary/20"
@@ -108,6 +109,8 @@
     {/if}
   </div>
 </nav>
+
+<Toaster />
 
 <main>
   <slot />

@@ -1,6 +1,6 @@
 import { base } from "$app/paths";
 import { error, redirect, type Actions } from "@sveltejs/kit";
-import { deletePostCache, listPosts, savePost } from "$lib/server/posts";
+import { listPosts, savePost } from "$lib/server/posts";
 import { isoDateString } from "$lib/utils/date";
 
 export const prerender = false;
@@ -23,12 +23,6 @@ export const actions = {
     await savePost(path, data, md);
 
     throw redirect(303, `${base}/post/${path}/edit`);
-  },
-  deletecache: async ({ locals }) => {
-    const session = await locals.getSession();
-    if (session?.user?.role != "admin") throw error(401, "NO U");
-
-    await deletePostCache();
   }
 } satisfies Actions;
 
