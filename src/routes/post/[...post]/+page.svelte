@@ -9,7 +9,6 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
-  import { withIcon } from "$lib/components/actions.js";
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
   import { scrollOffset } from "$lib/utils/scrollOffset.js";
@@ -60,7 +59,7 @@
 
   <div id="post-content" class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" {title}>
-      <div use:withIcon>
+      <div class="icon-flex">
         {#if pinned}
           <Pin class="h-4 w-4 text-primary" />
         {/if}
@@ -73,13 +72,12 @@
       </div>
 
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
-        <button class="btn-text flex items-center gap-2 md:hidden" use:melt={$trigger}>
-          <!-- NOTE: cannot use withIcon because of melt -->
+        <button class="btn-text icon-flex md:hidden" use:melt={$trigger}>
           <List class="h-4 w-4" />
           <span>Contents</span>
         </button>
         {#if data.session?.user?.role === "admin"}
-          <a class="btn-accent" href="{base}/post/{url}/edit" use:withIcon>
+          <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
             <Pencil class="h-4 w-4" />
             <span>Edit</span>
           </a>

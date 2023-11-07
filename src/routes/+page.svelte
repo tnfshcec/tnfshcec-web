@@ -4,7 +4,7 @@
 
   import Comment from "$lib/components/Comment.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
-  import { anchorScroll, withIcon } from "$lib/components/actions";
+  import { anchorScroll } from "$lib/components/actions";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
@@ -86,7 +86,7 @@
     電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
     玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
   </div>
-  <a class="transition-colors hover:text-accent" href="#news" use:withIcon use:anchorScroll>
+  <a class="transition-colors hover:text-accent icon-flex" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
     <span>更多資訊</span>
   </a>
@@ -101,7 +101,7 @@
       <div class="text-lg">
         你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
       </div>
-      <a class="btn-accent mx-auto w-fit" href="{base}/post" use:withIcon>
+      <a class="btn-accent mx-auto w-fit icon-flex" href="{base}/post">
         <ArrowRight class="h-6 w-6" />
         <span>查看其他</span>
       </a>

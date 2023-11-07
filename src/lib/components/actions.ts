@@ -1,7 +1,6 @@
 import { scrollOffset } from "$lib/utils/scrollOffset";
 import type { Action } from "svelte/action";
 
-// TODO: smooth scroll with <a />
 export const anchorScroll: Action<HTMLAnchorElement> = (node) => {
   node.addEventListener("click", (e) => {
     e.preventDefault();
@@ -15,11 +14,6 @@ export const anchorScroll: Action<HTMLAnchorElement> = (node) => {
       behavior: "smooth"
     });
   });
-};
-
-export const withIcon: Action = (node) => {
-  // NOTE: may need tailwind-merge
-  node.classList.add("flex", "items-center", "gap-2");
 };
 
 export const editField: Action<

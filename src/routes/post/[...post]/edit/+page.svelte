@@ -7,7 +7,7 @@
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import { editField, withIcon } from "$lib/components/actions";
+  import { editField } from "$lib/components/actions";
   import { localeDateFromString } from "$lib/utils/date";
   import { once } from "$lib/stores/once";
   import { addToast } from "$lib/components/Toaster.svelte";
@@ -71,7 +71,7 @@
 
   <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" title={postData.title}>
-      <div use:withIcon>
+      <div class="icon-flex">
         {#if postData.pinned}
           <Pin class="h-4 w-4 text-primary" />
         {/if}
@@ -84,11 +84,11 @@
       </div>
 
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
-        <button class="btn-accent" use:withIcon on:click={savePost}>
+        <button class="icon btn-accent flex" on:click={savePost}>
           <Save class="h-4 w-4" />
           Save
         </button>
-        <button class="btn-text" use:withIcon on:click={deletePost}>
+        <button class="icon-flex btn-text" on:click={deletePost}>
           <Alert class="h-4 w-4" />
           Delete
         </button>

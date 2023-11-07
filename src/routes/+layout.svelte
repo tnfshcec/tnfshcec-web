@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "@fontsource/noto-color-emoji";
   import "../app.postcss";
 
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
@@ -6,7 +7,6 @@
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { themeStore } from "$lib/stores/theme";
-  import { withIcon } from "$lib/components/actions";
 
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
@@ -31,7 +31,7 @@
   const {
     elements: { menu, item, trigger, separator },
     states: { open }
-  } = createDropdownMenu({ forceVisible: true });
+  } = createDropdownMenu({ forceVisible: true, preventScroll: false });
 </script>
 
 <nav
@@ -56,8 +56,7 @@
       >
         <div
           use:melt={$item}
-          use:withIcon
-          class="px-4 py-2 transition-colors hover:bg-primary/20"
+          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
           on:m-click={() => themeStore.toggle()}
         >
           {#if $themeStore === "light"}
