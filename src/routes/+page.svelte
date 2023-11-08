@@ -76,7 +76,7 @@
       </div>
     </div>
     <div
-      class="absolute right-0 top-0 aspect-square max-w-full h-full opacity-80 blur-[160px]"
+      class="absolute right-0 top-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
       id="hero-gradient"
     />
   </div>
@@ -166,9 +166,9 @@
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
     <div class="text-2xl font-bold">大家都說…</div>
-    <div class="flex max-w-full gap-4 overflow-x-auto">
+    <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">
       {#each comments as comList}
-        <div class="flex flex-col gap-4">
+        <div class="flex snap-start flex-col gap-4">
           {#each comList as comment}
             <Comment {...comment} />
           {/each}
