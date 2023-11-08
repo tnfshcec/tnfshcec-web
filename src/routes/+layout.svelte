@@ -88,13 +88,15 @@
           <span class="px-4 text-sm">
             Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
           </span>
-          <div
-            use:melt={$item}
-            class="block px-4 py-2 transition-colors hover:bg-primary/20"
-            on:m-click={() => postAction("newpost")}
-          >
-            New Post
-          </div>
+          {#if session.user.role === "admin"}
+            <div
+              use:melt={$item}
+              class="block px-4 py-2 transition-colors hover:bg-primary/20"
+              on:m-click={() => postAction("newpost")}
+            >
+              New Post
+            </div>
+          {/if}
           <!-- <div -->
           <!--   use:melt={$item} -->
           <!--   class="block px-4 py-2 transition-colors hover:bg-primary/20" -->

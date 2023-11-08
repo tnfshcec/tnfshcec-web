@@ -84,7 +84,7 @@
       </div>
 
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
-        <button class="icon btn-accent flex" on:click={savePost}>
+        <button class="icon-flex icon btn-accent" on:click={savePost}>
           <Save class="h-4 w-4" />
           Save
         </button>
