@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "@fontsource/noto-color-emoji";
   import "../app.postcss";
 
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
@@ -12,7 +11,7 @@
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
-  import icon from "$lib/assets/global-icon.png";
+  import logo from "$lib/assets/logo.svg";
 
   export let data;
   const { session } = data;
@@ -39,7 +38,7 @@
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a href="{base}/" class="flex items-center gap-2">
-      <img src={icon} class="h-12 w-12" alt="TNFSHCEC icon" />
+      <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
         <span class="font-bold">新樓醫院心臟科附屬</span>
         <br />
