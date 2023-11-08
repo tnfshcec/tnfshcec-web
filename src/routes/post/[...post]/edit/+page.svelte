@@ -4,12 +4,13 @@
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
   import { fade, fly } from "svelte/transition";
+  import { writable } from "svelte/store";
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import { editField } from "$lib/components/actions";
   import { localeDateFromString } from "$lib/utils/date";
-  import { once } from "$lib/stores/once";
+  import { nextUpdate } from "$lib/utils/nextStoreUpdate";
   import { addToast } from "$lib/components/Toaster.svelte";
 
   import Pin from "~icons/mdi/pin";
@@ -25,7 +26,7 @@
 
   let form: HTMLFormElement;
 
-  const confirmedDelete = once<boolean>(false);
+  const confirmedDelete = writable<boolean>(false);
 
   const {
     elements: { overlay, content, title, description, close, portalled },
@@ -52,7 +53,7 @@
 
   async function deletePost() {
     open.set(true);
-    if (!(await confirmedDelete.once())) return;
+    if (!(await nextUpdate(confirmedDelete))) return;
 
     await formAction("?/delete");
 

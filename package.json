@@ -14,7 +14,6 @@
   "dependencies": {
     "@auth/sveltekit": "^0.3.6",
     "@floating-ui/dom": "^1.4.5",
-    "@fontsource-variable/noto-sans-tc": "^5.0.3",
     "easymde": "^2.18.0",
     "fast-glob": "^3.3.0",
     "highlight.js": "^11.8.0",
