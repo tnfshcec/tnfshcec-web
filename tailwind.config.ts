@@ -39,7 +39,7 @@ const config = {
         glow: "0 0 16px rgba(0, 0, 0, 0.25)"
       },
       fontFamily: {
-        sans: [
+        /*sans: [
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -51,7 +51,7 @@ const config = {
           "Noto Sans",
           "sans-serif",
           "Noto Color Emoji"
-        ] // default sans font, with emoji fonts removed except noto
+        ]*/ // default sans font, with emoji fonts removed except noto
       },
       zIndex: {
         top: "9999"

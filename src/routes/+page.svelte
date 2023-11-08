@@ -60,14 +60,8 @@
         >
           <div
             class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
-            style:mask-image="url({TNFSH_emblem})"
-            style:mask-position="center"
-            style:mask-size="contain"
-            style:mask-repeat="no-repeat"
-            style:-webkit-mask-image="url({TNFSH_emblem})"
-            style:-webkit-mask-position="center"
-            style:-webkit-mask-size="contain"
-            style:-webkit-mask-repeat="no-repeat"
+            style:mask="url({TNFSH_emblem}) center / contain no-repeat"
+            style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
           />
         </a>
         <a href="https://www.facebook.com/TNFSHCEC" target="_blank" rel="noopener noreferrer">
