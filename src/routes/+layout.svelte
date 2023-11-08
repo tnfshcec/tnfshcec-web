@@ -46,7 +46,14 @@
         <span class="text-xl font-bold">臺南一中電機社</span>
       </div>
     </a>
-    <button use:melt={$trigger}><Menu class="h-12 w-12" /></button>
+    <button
+      use:melt={$trigger}
+      id="menu-trigger"
+      class={session?.user?.image ? "relative after:content-['_']" : ""}
+      style:--avatar={session?.user?.image ? `url('${session.user.image}')` : ""}
+    >
+      <Menu class="h-12 w-12" />
+    </button>
 
     {#if $open}
       <div
@@ -70,7 +77,7 @@
 
         <div use:melt={$separator} class="h-[1px] bg-text/20" />
 
-        {#if session?.user?.role !== "admin"}
+        {#if session?.user === undefined}
           <a
             use:melt={$item}
             class="block px-4 py-2 transition-colors hover:bg-primary/20"
@@ -114,3 +121,13 @@
 <main>
   <slot />
 </main>
+
+<style>
+  #menu-trigger::after {
+    @apply absolute bottom-0 right-0 h-8 w-8;
+    @apply rounded-full border-4 border-background;
+    @apply bg-contain bg-center;
+
+    background-image: var(--avatar);
+  }
+</style>
