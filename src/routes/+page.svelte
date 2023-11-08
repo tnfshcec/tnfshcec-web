@@ -76,7 +76,7 @@
       </div>
     </div>
     <div
-      class="absolute right-0 top-0 aspect-square h-full opacity-80 blur-[160px]"
+      class="absolute right-0 top-0 aspect-square max-w-full h-full opacity-80 blur-[160px]"
       id="hero-gradient"
     />
   </div>

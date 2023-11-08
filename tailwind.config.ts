@@ -38,21 +38,6 @@ const config = {
         "glow-sm": "0 0 8px rgba(0, 0, 0, 0.25)",
         glow: "0 0 16px rgba(0, 0, 0, 0.25)"
       },
-      fontFamily: {
-        /*sans: [
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "Helvetica Neue",
-          "Arial",
-          "Noto Sans",
-          "sans-serif",
-          "Noto Color Emoji"
-        ]*/ // default sans font, with emoji fonts removed except noto
-      },
       zIndex: {
         top: "9999"
       },
