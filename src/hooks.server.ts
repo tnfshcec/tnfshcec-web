@@ -1,23 +1,23 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
-import { GITHUB_ID, GITHUB_SECRET, ADMINS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const admins = ADMINS.split(",")
+const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())
   .filter((s) => s);
 
 export const handle = SvelteKitAuth({
   providers: [
     GitHub({
-      clientId: GITHUB_ID,
-      clientSecret: GITHUB_SECRET,
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
       profile(profile) {
         return {
           id: profile.id.toString(),
           name: profile.name,
           email: profile.email,
           image: profile.avatar_url,
-          role: admins.includes(profile.email ?? "") ? "admin" : "user"
+          role: admins?.includes(profile.email ?? "") ? "admin" : "user"
         };
       }
     })
