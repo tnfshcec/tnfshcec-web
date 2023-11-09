@@ -5,5 +5,3 @@ export const load: LayoutServerLoad = async (event) => {
     session: await event.locals.getSession()
   };
 };
-
-export const prerender = Boolean(process.env.PRERENDER);
