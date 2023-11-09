@@ -3,9 +3,9 @@ import { visit } from "unist-util-visit";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 
-import CodeBlockBridge from "../components/CodeBlockBridge.svelte";
-import Weird from "../components/weird.svelte";
+import Weird from "../components/Weird.svelte";
 
+/*
 export const codeBlockPlugin: Plugin = {
   remarkPlugin: () => (tree) => {
     visit(tree, "code", (node) => {
@@ -25,6 +25,7 @@ export const codeBlockPlugin: Plugin = {
     codeblock: CodeBlockBridge
   }
 };
+*/
 
 export const rawPlugin: Plugin = {
   rehypePlugin: rehypeRaw

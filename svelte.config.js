@@ -3,6 +3,9 @@ import adapterNode from "@sveltejs/adapter-node";
 import adapterStatic from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 
+import sequence from "svelte-sequential-preprocessor";
+import { preprocessMeltUI } from "@melt-ui/pp";
+
 const dev = process.argv.includes("dev");
 const base = dev ? "" : process.env.BASE_PATH ?? "";
 
@@ -12,12 +15,13 @@ const config = {
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors
-  preprocess: [
+  preprocess: sequence([
     vitePreprocess(),
     preprocess({
       postcss: true
-    })
-  ],
+    }),
+    preprocessMeltUI()
+  ]),
 
   kit: {
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.

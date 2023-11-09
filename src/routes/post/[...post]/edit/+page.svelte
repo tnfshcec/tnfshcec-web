@@ -1,130 +1,174 @@
 <script lang="ts">
-  import { getModalStore, getToastStore, type SvelteEvent } from "@skeletonlabs/skeleton";
+  import { createDialog, melt } from "@melt-ui/svelte";
   import { base } from "$app/paths";
-  import { applyAction, deserialize, enhance } from "$app/forms";
-  import type { SubmitFunction } from "@sveltejs/kit";
-
-  import { localeDateFromString } from "$lib/utils/date.js";
-  import { fadeIn, fadeOut } from "$lib/utils/transitions.js";
-  import PostEditInput from "$lib/components/postEditInput.svelte";
-  import EasyMde from "$lib/components/EasyMde.svelte";
-  import PostMetadataExpand from "$lib/components/PostMetadataExpand.svelte";
-  import Pin from "~icons/mdi/pin";
-  import LeftCircleOutline from "~icons/mdi/chevron-left-circle-outline";
+  import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
+  import { fade, fly } from "svelte/transition";
+  import { writable } from "svelte/store";
+
+  import EasyMde from "$lib/components/EasyMde.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import { editField } from "$lib/components/actions";
+  import { localeDateFromString } from "$lib/utils/date";
+  import { nextUpdate } from "$lib/utils/nextStoreUpdate";
+  import { addToast } from "$lib/components/Toaster.svelte";
+
+  import Pin from "~icons/mdi/pin";
+  import Save from "~icons/mdi/content-save-edit";
+  import Alert from "~icons/mdi/alert";
 
   export let data;
-
-  const toastStore = getToastStore();
-  const modalStore = getModalStore();
 
   let { md, data: postData } = data;
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
 
-  async function handleSubmit(e: SvelteEvent<SubmitEvent, HTMLFormElement>) {
-    const formData = new FormData(e.currentTarget);
-    const submitter = e.submitter as HTMLButtonElement;
+  let form: HTMLFormElement;
 
-    const isDeleting = submitter.formAction.endsWith("/delete");
+  const confirmedDelete = writable<boolean>(false);
 
-    if (isDeleting) {
-      const r = await new Promise<boolean>((resolve) => {
-        modalStore.trigger({
-          type: "confirm",
-          title: "DELETE",
-          body: "You are deleting the post!",
-          response: resolve
-        });
-      });
-      if (!r) return;
-    }
+  const {
+    elements: { overlay, content, title, description, close, portalled },
+    states: { open }
+  } = createDialog({
+    forceVisible: true,
+    role: "alertdialog"
+  });
 
-    const res = await fetch(submitter.formAction, {
+  async function formAction(action: string) {
+    const res = await fetch(action, {
       method: "POST",
-      body: formData
+      body: new FormData(form)
     });
     const result = deserialize(await res.text());
-
     applyAction(result);
+  }
 
-    const message = isDeleting ? "Post deleted." : "Post is saved.";
-    const background = isDeleting ? "variant-filled-warning" : "variant-filled-primary";
-    toastStore.trigger({
-      message,
-      hideDismiss: true,
-      background
-    });
+  async function savePost() {
+    await formAction("?/save");
 
-    if (isDeleting) {
-      goto(`${base}/post`);
-    }
+    addToast({ data: { title: "Post is Saved" } });
+  }
+
+  async function deletePost() {
+    open.set(true);
+    if (!(await nextUpdate(confirmedDelete))) return;
+
+    await formAction("?/delete");
+
+    addToast({ data: { title: "Post Deleted" } });
+
+    goto(`${base}/post`);
   }
 </script>
 
-<div class="flex flex-col gap-4 md:py-4 xl:flex-row">
-  {#if postData.image}
-    <div
-      class="fixed top-0 -z-50 h-2/3 w-full bg-cover"
-      style="background-image: url({postData.image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
-      in:fadeIn
-      out:fadeOut
-    />
-  {/if}
+<div class="flex w-full p-4">
+  <!-- left space -->
   <div class="flex-1" />
+
+  <!-- right space (TOC) -->
   <div class="order-last flex-1" />
 
-  <div
-    class="card w-full max-w-screen-md flex-none space-y-4 self-center p-4 md:shadow-lg"
-    in:fadeIn
-    out:fadeOut
-  >
-    <header class="card-header relative">
-      <span class="text-surface-600-300-token block">
+  <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
+    <PageTitle current="post" title={postData.title}>
+      <div class="icon-flex">
         {#if postData.pinned}
-          <Pin class="text-primary-400-500-token -mt-1 inline" />
+          <Pin class="h-4 w-4 text-primary" />
         {/if}
-        {postData.author || ""}
-        {postData.author && localeDate ? "/" : ""}
-        {localeDate || ""}
-      </span>
-      <h1 class="h1">
-        <a href="{base}/post/{postData.url}" class="btn-icon btn-icon-sm hover:variant-soft">
-          <LeftCircleOutline width="100%" height="100%" class="text-surface-600-300-token inline" />
-        </a>
-        <span>{postData.title}</span>
-      </h1>
+        <span>
+          {postData.pinned && !postData.author && !postData.date ? "Pinned" : ""}
+          {postData.author ? `By ${postData.author}` : ""}
+          {postData.author && postData.date ? "/" : ""}
+          {localeDate}
+        </span>
+      </div>
 
-      <div class="absolute right-2 top-4 space-x-2">
-        <button class="variant-filled-primary btn" form="post-edit" formaction="?/save">
+      <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
+        <button class="icon-flex icon btn-accent" on:click={savePost}>
+          <Save class="h-4 w-4" />
           Save
         </button>
-        <button class="variant-filled-warning btn" form="post-edit" formaction="?/delete">
-          DELETE
+        <button class="icon-flex btn-text" on:click={deletePost}>
+          <Alert class="h-4 w-4" />
+          Delete
         </button>
       </div>
-    </header>
-    <form id="post-edit" method="POST" on:submit|preventDefault={handleSubmit}>
-      <PostMetadataExpand>
-        <svelte:fragment slot="summary">Post Metadata</svelte:fragment>
-        <svelte:fragment slot="content">
-          <div class="grid grid-cols-2 gap-6">
-            <PostEditInput
-              id="url"
-              bind:value={editUrl}
-              className="col-span-2"
-              validate={(v) => Boolean(v)}
-            />
-            <PostEditInput id="title" bind:value={postData.title} />
-            <PostEditInput id="author" bind:value={postData.author} />
-            <PostEditInput id="date" type="date" bind:value={postData.date} />
-            <PostEditInput id="image" bind:value={postData.image} />
-            <PostEditInput id="desc" label="Description" bind:value={postData.desc} />
-            <PostEditInput id="pinned" type="checkbox" bind:value={postData.pinned} />
+    </PageTitle>
+
+    <div use:melt={$portalled}>
+      {#if $open}
+        <div
+          use:melt={$overlay}
+          class="fixed inset-0 z-top bg-background/60"
+          transition:fade={{ duration: 150 }}
+        />
+        <div
+          class="fixed left-1/2 top-1/2 z-top max-h-screen w-full max-w-lg -translate-x-1/2
+            -translate-y-1/2 rounded border border-accent/60 bg-background p-6
+            shadow-glow-sm shadow-accent/60"
+          use:melt={$content}
+          transition:fly={{ duration: 150, y: 10 }}
+        >
+          <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
+          <p use:melt={$description} class="leading-normal text-text/80">
+            You're deleting this post, confirm with caution!<br />
+            The post ain't coming back after this!
+          </p>
+
+          <div class="mt-6 flex justify-end gap-4">
+            <button use:melt={$close} class="btn-text opacity-80">Cancel</button>
+            <button
+              use:melt={$close}
+              class="btn-accent"
+              on:m-click={() => ($confirmedDelete = true)}>Confirm</button
+            >
           </div>
-        </svelte:fragment>
-      </PostMetadataExpand>
+        </div>
+      {/if}
+    </div>
+
+    <form id="post-edit" class="space-y-4" bind:this={form}>
+      <section class="grid grid-cols-2 gap-6">
+        <input
+          use:editField={{ id: "url", label: "URL", className: "col-span-2" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={editUrl}
+        />
+        <input
+          use:editField={{ id: "title", label: "Title" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.title}
+        />
+        <input
+          use:editField={{ id: "author", label: "Author" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.author}
+        />
+        <input
+          use:editField={{ id: "date", label: "Date" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          type="date"
+          bind:value={postData.date}
+        />
+        <input
+          use:editField={{ id: "image", label: "Image" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.image}
+        />
+        <input
+          use:editField={{ id: "desc", label: "Description" }}
+          class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
+          bind:value={postData.desc}
+        />
+        <input
+          use:editField={{ id: "pinned", label: "Pinned" }}
+          class="block h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
+          type="checkbox"
+          bind:checked={postData.pinned}
+        />
+      </section>
+
       <EasyMde bind:md />
     </form>
   </div>

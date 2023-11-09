@@ -4,9 +4,7 @@
 
 <p>游😶育是甲，這是真的!</p>
 
-<button type="button" class="btn variant-soft" on:click={() => n++}>
-  猜謎: 南一中第一甲是誰?
-</button>
+<button class="btn-accent" on:click={() => n++}> 猜謎: 南一中第一甲是誰? </button>
 
 <p>
   {#each Array(n) as _}

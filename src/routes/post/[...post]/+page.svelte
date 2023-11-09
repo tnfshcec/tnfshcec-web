@@ -1,25 +1,21 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { TableOfContents, getDrawerStore, tocCrawler } from "@skeletonlabs/skeleton";
+  import { createTableOfContents, createDialog, melt } from "@melt-ui/svelte";
 
-  import MenuOpen from "~icons/mdi/menu-open";
-  import PlaylistEdit from "~icons/mdi/playlist-edit";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import Toc from "$lib/components/TableOfContents.svelte";
   import Pin from "~icons/mdi/pin";
+  import List from "~icons/mdi/format-list-bulleted-type";
+  import Pencil from "~icons/mdi/pencil-circle";
 
-  import { fadeIn, fadeOut, flyIn, flyOut } from "$lib/utils/transitions";
-  import {
-    rawPlugin,
-    slugPlugin,
-    codeBlockPlugin,
-    componentsPlugin
-  } from "$lib/utils/exmarkdown-plugins";
-  import { base } from "$app/paths";
+  import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date.js";
+  import { scrollOffset } from "$lib/utils/scrollOffset.js";
+  import { base } from "$app/paths";
+  import { fade, fly } from "svelte/transition";
 
   export let data;
-
-  const drawerStore = getDrawerStore();
 
   let {
     md,
@@ -27,71 +23,104 @@
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
-  function tocDrawer() {
-    drawerStore.open({ id: "post-toc", width: "auto", regionDrawer: "p-4" });
-  }
+  const {
+    elements: { item },
+    states: { activeHeadingIdxs, headingsTree }
+  } = createTableOfContents({
+    selector: "#post-content",
+    exclude: ["h4", "h5", "h6"],
+    activeType: "all",
+    scrollOffset: scrollOffset(),
+    headingFilterFn: (heading) => !heading.hasAttribute("data-toc-ignore")
+  });
+
+  const {
+    elements: { trigger, overlay, content, title: dTitle, portalled },
+    states: { open }
+  } = createDialog({
+    forceVisible: true
+  });
 </script>
 
-<div class="flex flex-col py-4 xl:flex-row xl:gap-4">
-  {#if image}
-    <div
-      class="variant-glass fixed top-0 -z-50 h-2/3 w-full bg-cover"
-      style="background-image: url({image}); mask-image: linear-gradient(to bottom, white, 70%, transparent 95%);"
-      in:fadeIn
-      out:fadeOut
-    />
-  {/if}
-  <div class="flex-1" in:fadeIn out:fadeOut />
+<div class="flex w-full p-4">
+  <!-- left space -->
+  <div class="flex-1" />
 
-  <div class="order-last flex-1" in:fadeIn out:fadeOut>
-    <!-- TODO: text might have contrast issue with background -->
-    <TableOfContents
-      class="sticky top-4 hidden w-full max-w-xs rounded-xl bg-surface-50/50 px-4 py-2 backdrop-blur dark:bg-surface-900/50 xl:block"
-    />
+  <div class="order-last flex-1">
+    <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block">
+      <p class="font-bold">On This Page</p>
+      <nav>
+        {#key $headingsTree}
+          <Toc tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
+        {/key}
+      </nav>
+    </div>
   </div>
 
-  <div
-    id="post-content"
-    class="card w-full max-w-screen-md flex-none space-y-4 self-center p-4 shadow-lg"
-    in:flyIn={{ y: 100 }}
-    out:flyOut={{ y: -100 }}
-  >
-    <header class="card-header relative">
-      <span class="text-surface-600-300-token block">
+  <div id="post-content" class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
+    <PageTitle current="post" {title}>
+      <div class="icon-flex">
         {#if pinned}
-          <Pin class="text-primary-500-400-token -mt-1 inline" />
+          <Pin class="h-4 w-4 text-primary" />
         {/if}
-        {author || ""}
-        {author && localeDate ? "/" : ""}
-        {localeDate || ""}
-      </span>
-      <h1 class="h1">
-        <button
-          class="btn-icon btn-icon-sm hover:variant-soft md:btn-icon-base xl:hidden"
-          on:click={tocDrawer}
-        >
-          <MenuOpen width="100%" height="100%" class="text-surface-600-300-token inline" />
-        </button>
-        {title}
-      </h1>
+        <span>
+          {pinned && !author && !date ? "Pinned" : ""}
+          {author ? `By ${author}` : ""}
+          {author && date ? "/" : ""}
+          {localeDate}
+        </span>
+      </div>
 
-      {#if data.session?.user?.role === "admin"}
-        <a
-          class="variant-soft-surface btn-icon btn-icon-sm absolute right-2 top-4 p-1"
-          href="{base}/post/{url}/edit"
+      <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
+        <button class="btn-text icon-flex md:hidden" use:melt={$trigger}>
+          <List class="h-4 w-4" />
+          <span>Contents</span>
+        </button>
+        {#if data.session?.user?.role === "admin"}
+          <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
+            <Pencil class="h-4 w-4" />
+            <span>Edit</span>
+          </a>
+        {/if}
+      </div>
+    </PageTitle>
+
+    <div use:melt={$portalled}>
+      {#if $open}
+        <div
+          use:melt={$overlay}
+          class="fixed inset-0 z-top bg-background/60"
+          transition:fade={{ duration: 150 }}
+        />
+        <div
+          class="fixed right-0 top-0 z-top h-full w-full max-w-sm bg-background p-4 shadow-glow-sm shadow-text/60"
+          use:melt={$content}
+          transition:fly={{ duration: 150, x: 10 }}
         >
-          <PlaylistEdit width="100%" height="100%" class="text-surface-600-300-token" />
-        </a>
+          <p class="font-bold" use:melt={$dTitle}>On This Page</p>
+          <nav>
+            {#key $headingsTree}
+              <Toc tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
+            {/key}
+          </nav>
+        </div>
       {/if}
-    </header>
-    <section
-      class="prose !max-w-none space-y-4 p-4"
-      use:tocCrawler={{ scrollTarget: "#page", queryElements: "h2,h3" }}
-    >
-      <Markdown
-        {md}
-        plugins={[gfmPlugin, rawPlugin, slugPlugin, codeBlockPlugin, componentsPlugin]}
-      />
-    </section>
+    </div>
+
+    {#if image}
+      <div class="p-4">
+        <img
+          src={image}
+          alt=""
+          class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
+        />
+      </div>
+    {/if}
+
+    <article class="prose space-y-4">
+      <!-- TODO: codeblock highlighting, styling / custom codeblock -->
+      <!-- TODO: footnotes plugin -->
+      <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />
+    </article>
   </div>
 </div>

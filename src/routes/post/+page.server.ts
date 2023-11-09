@@ -35,7 +35,7 @@ async function maxPostN() {
   for (const name of names.keys()) {
     const groups = postRegex.exec(name) ?? [];
     const n = parseInt(groups[1] || "0");
-    console.log(name, n);
+    // console.log(name, n);
     maxN = Math.max(maxN, n);
   }
 
