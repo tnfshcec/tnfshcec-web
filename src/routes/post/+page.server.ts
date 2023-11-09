@@ -3,8 +3,6 @@ import { error, redirect, type Actions } from "@sveltejs/kit";
 import { listPosts, savePost } from "$lib/server/posts";
 import { isoDateString } from "$lib/utils/date";
 
-export const prerender = false;
-
 export const actions = {
   newpost: async ({ locals }) => {
     const session = await locals.getSession();

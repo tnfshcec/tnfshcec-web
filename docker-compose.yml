@@ -1,7 +1,9 @@
 services:
   app:
-    image: tnfshcec/web
-    build: .
+    build:
+      context: .
+      args:
+        - BASE_PATH=
     ports:
       - 3000:3000
     volumes:

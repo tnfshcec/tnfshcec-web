@@ -31,7 +31,7 @@ export const actions = {
     const url = formData.get("url") as string;
     formData.delete("md");
 
-    const data = Object.fromEntries(formData.entries()) as { url: string; [k: string]: unknown };
+    const data = Object.fromEntries(formData.entries()) as { url: string;[k: string]: unknown };
 
     // NOTE: do necessarry type change
     if (data.pinned !== undefined) {
@@ -51,5 +51,3 @@ export const actions = {
     await deletePost(url);
   }
 } satisfies Actions;
-
-export const prerender = false;
