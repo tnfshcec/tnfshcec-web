@@ -27,7 +27,7 @@ export const editField: Action<
   node.id = id;
   node.name = id;
 
-  fs.className = className;
+  fs.className = className ?? ""; 
   label.setAttribute("for", id);
   label.innerText = labelText;
 
