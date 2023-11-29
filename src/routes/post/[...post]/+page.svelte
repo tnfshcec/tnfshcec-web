@@ -1,8 +1,7 @@
 <script lang="ts">
-  import Markdown from "svelte-exmarkdown";
-  import { gfmPlugin } from "svelte-exmarkdown/gfm";
   import { createDialog, melt } from "@melt-ui/svelte";
 
+  import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
@@ -94,7 +93,8 @@
     <article class="prose space-y-4">
       <!-- TODO: codeblock highlighting, styling / custom codeblock -->
       <!-- TODO: footnotes plugin -->
-      <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />
+      <!-- <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} /> -->
+      <Carta value={md} type="viewer" />
     </article>
   </div>
 </CenteredPage>

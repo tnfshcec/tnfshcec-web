@@ -6,7 +6,7 @@
   import { fade, fly } from "svelte/transition";
   import { writable } from "svelte/store";
 
-  import EasyMde from "$lib/components/EasyMde.svelte";
+  import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import { editField } from "$lib/components/actions";
@@ -17,6 +17,9 @@
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
   import Alert from "~icons/mdi/alert";
+
+  import "carta-md/default.css"; /* Default theme */
+  import "carta-md/light.css"; /* Markdown input theme */
 
   export let data;
 
@@ -164,7 +167,7 @@
         />
       </section>
 
-      <EasyMde bind:md />
+      <Carta bind:value={md} />
     </form>
   </div>
 </CenteredPage>
