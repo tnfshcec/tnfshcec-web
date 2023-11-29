@@ -4,7 +4,6 @@
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
-  import { applyAction, deserialize } from "$app/forms";
   import { themeStore } from "$lib/stores/theme";
 
   import Toaster from "$lib/components/Toaster.svelte";
@@ -17,15 +16,6 @@
   const { session } = data;
 
   // TODO: scroll detection & changing title
-
-  async function postAction(action: string) {
-    const res = await fetch(`${base}/post?/${action}`, {
-      method: "POST",
-      body: new FormData()
-    });
-    const result = deserialize(await res.text());
-    applyAction(result);
-  }
 
   const {
     elements: { menu, item, trigger, separator },
@@ -89,13 +79,13 @@
             Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
           </span>
           {#if session.user.role === "admin"}
-            <div
+            <a
               use:melt={$item}
               class="block px-4 py-2 transition-colors hover:bg-primary/20"
-              on:m-click={() => postAction("newpost")}
+              href="{base}/newpost"
             >
               New Post
-            </div>
+            </a>
           {/if}
           <!-- <div -->
           <!--   use:melt={$item} -->

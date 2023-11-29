@@ -1,17 +1,17 @@
 <script lang="ts">
   import Markdown from "svelte-exmarkdown";
   import { gfmPlugin } from "svelte-exmarkdown/gfm";
-  import { createTableOfContents, createDialog, melt } from "@melt-ui/svelte";
+  import { createDialog, melt } from "@melt-ui/svelte";
 
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import Toc from "$lib/components/TableOfContents.svelte";
+  import CenteredPage from "$lib/components/CenteredPage.svelte";
+  import TableOfContents from "$lib/components/TableOfContents";
   import Pin from "~icons/mdi/pin";
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
-  import { localeDateFromString } from "$lib/utils/date.js";
-  import { scrollOffset } from "$lib/utils/scrollOffset.js";
+  import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
 
@@ -24,37 +24,16 @@
   let localeDate = localeDateFromString(date ?? "");
 
   const {
-    elements: { item },
-    states: { activeHeadingIdxs, headingsTree }
-  } = createTableOfContents({
-    selector: "#post-content",
-    exclude: ["h4", "h5", "h6"],
-    activeType: "all",
-    scrollOffset: scrollOffset(),
-    headingFilterFn: (heading) => !heading.hasAttribute("data-toc-ignore")
-  });
-
-  const {
-    elements: { trigger, overlay, content, title: dTitle, portalled },
+    elements: { trigger, overlay, content, portalled },
     states: { open }
   } = createDialog({
     forceVisible: true
   });
 </script>
 
-<div class="flex w-full p-4">
-  <!-- left space -->
-  <div class="flex-1" />
-
-  <div class="order-last flex-1">
-    <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block">
-      <p class="font-bold">On This Page</p>
-      <nav>
-        {#key $headingsTree}
-          <Toc tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
-        {/key}
-      </nav>
-    </div>
+<CenteredPage>
+  <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
+    <TableOfContents selector="#post-content" />
   </div>
 
   <div id="post-content" class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
@@ -97,12 +76,7 @@
           use:melt={$content}
           transition:fly={{ duration: 150, x: 10 }}
         >
-          <p class="font-bold" use:melt={$dTitle}>On This Page</p>
-          <nav>
-            {#key $headingsTree}
-              <Toc tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
-            {/key}
-          </nav>
+          <TableOfContents selector="#post-content" />
         </div>
       {/if}
     </div>
@@ -123,4 +97,4 @@
       <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} />
     </article>
   </div>
-</div>
+</CenteredPage>
