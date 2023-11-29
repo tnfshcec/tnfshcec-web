@@ -66,7 +66,7 @@
 
 <CenteredPage>
   <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
-    <PageTitle current="post" title={postData.title}>
+    <PageTitle current="postEdit" title={postData.title}>
       <div class="icon-flex">
         {#if postData.pinned}
           <Pin class="h-4 w-4 text-primary" />

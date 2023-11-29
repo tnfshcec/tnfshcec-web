@@ -2,11 +2,11 @@
   import { base } from "$app/paths";
   import ChevronRight from "~icons/mdi/chevron-right";
 
-  type Page = "homepage" | "postList" | "post";
+  type Page = "homepage" | "postList" | "post" | "postEdit";
   type PageNavigation = {
     [key in Page]: {
       url: string;
-      title: string;
+      title: string | undefined;
       path: readonly Page[];
     };
   };
@@ -14,11 +14,12 @@
   const navigate = {
     homepage: { url: "", title: "首頁", path: [] },
     postList: { url: "post", title: "最新消息", path: ["homepage"] },
-    post: { url: "post", title: "", path: ["homepage", "postList"] }
+    post: { url: "post", title: undefined, path: ["homepage", "postList"] },
+    postEdit: { url: "post/", title: undefined, path: ["homepage", "postList", "post"] }
   } as const satisfies PageNavigation;
 
   export let current: Page;
-  export let title: string = navigate[current].title;
+  export let title: string | undefined = navigate[current].title;
 </script>
 
 <header class="flex flex-col justify-center">
@@ -26,7 +27,7 @@
     {#each navigate[current].path as page}
       <span class="transition-colors hover:text-accent">
         <a href="{base}/{navigate[page].url}">
-          {navigate[page].title}
+          {navigate[page].title ?? title}
         </a>
         <ChevronRight class="inline h-4 w-4" />
       </span>

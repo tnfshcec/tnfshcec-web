@@ -33,7 +33,7 @@
 
 <CenteredPage>
   <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
-    <TableOfContents selector="post-content" />
+    <TableOfContents selector="#post-content" />
   </div>
 
   <div id="post-content" class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
