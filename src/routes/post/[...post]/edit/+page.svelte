@@ -8,6 +8,7 @@
 
   import EasyMde from "$lib/components/EasyMde.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import CenteredPage from "$lib/components/CenteredPage.svelte";
   import { editField } from "$lib/components/actions";
   import { localeDateFromString } from "$lib/utils/date";
   import { nextUpdate } from "$lib/utils/nextStoreUpdate";
@@ -63,13 +64,7 @@
   }
 </script>
 
-<div class="flex w-full p-4">
-  <!-- left space -->
-  <div class="flex-1" />
-
-  <!-- right space (TOC) -->
-  <div class="order-last flex-1" />
-
+<CenteredPage>
   <div id="post-content" class="relative flex w-full max-w-screen-xl flex-col gap-4">
     <PageTitle current="post" title={postData.title}>
       <div class="icon-flex">
@@ -172,4 +167,4 @@
       <EasyMde bind:md />
     </form>
   </div>
-</div>
+</CenteredPage>
