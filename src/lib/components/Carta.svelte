@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { Carta, CartaEditor, CartaViewer } from "carta-md";
+  import { Carta, CartaEditor, CartaViewer, type CartaExtension } from "carta-md";
   import { code } from "@cartamd/plugin-code";
+  import markedFootnote from 'marked-footnote'
 
   import "carta-md/default.css"; /* Default theme */
   import "carta-md/light.css"; /* Markdown input theme */
@@ -9,8 +10,12 @@
   export let value: string;
   export let type: "viewer" | "editor" = "editor";
 
+  const cartaExt: CartaExtension = {
+    markedExtensions: [markedFootnote()]
+  }
+
   const carta = new Carta({
-    extensions: [code()]
+    extensions: [code(), cartaExt]
   });
 </script>
 
