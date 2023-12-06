@@ -18,9 +18,6 @@
   import Save from "~icons/mdi/content-save-edit";
   import Alert from "~icons/mdi/alert";
 
-  import "carta-md/default.css"; /* Default theme */
-  import "carta-md/light.css"; /* Markdown input theme */
-
   export let data;
 
   let { md, data: postData } = data;
