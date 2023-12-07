@@ -11,9 +11,13 @@
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
   import logo from "$lib/assets/logo.svg";
+  import { setLocale } from "$lib/i18n/i18n-svelte";
 
   export let data;
-  const { session } = data;
+
+  const { session, locale } = data;
+
+  setLocale(locale);
 
   // TODO: scroll detection & changing title
 

@@ -1,13 +1,19 @@
 import "unplugin-icons/types/svelte";
 import { DefaultSession } from "@auth/core";
+import type { Locales, TranslationFunctions } from "$lib/i18n/i18n-types";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
   namespace App {
     // interface Error {}
-    // interface Locals {}
-    // interface PageData {}
+    interface Locals {
+      locale: Locales;
+      LL: TranslationFunctions;
+    }
+    interface PageData {
+      locale: Locales;
+    }
     // interface Platform {}
     interface PostData {
       title?: string;
@@ -40,4 +46,4 @@ declare module "@auth/core/jwt" {
     role?: Role;
   }
 }
-export { };
+export {};
