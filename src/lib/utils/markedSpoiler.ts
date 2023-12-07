@@ -11,12 +11,13 @@ const spoiler: TokenizerAndRendererExtension = {
       // Token to generate
       return {
         type: "spoiler", // Should match "name" above
-        raw: match[0] // Text to consume from the source
+        raw: match[0], // Text to consume from the source
+        content: match[1]
       };
     }
   },
   renderer: (token) => {
-    return `<span class="spoiler">${token.raw}</span>`;
+    return `<span class="spoiler">${token.content}</span>`;
   }
 };
 
