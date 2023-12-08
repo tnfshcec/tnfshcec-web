@@ -13,6 +13,10 @@ export type Translation = RootTranslation
 export type Translations = RootTranslation
 
 type RootTranslation = {
+	/**
+	 * 繁​體​中​文
+	 */
+	name: string
 	navbar: {
 		/**
 		 * 新​樓​醫​院​心​臟​科​附​屬
@@ -30,6 +34,10 @@ type RootTranslation = {
 		 * D​a​r​k​ ​T​h​e​m​e
 		 */
 		darkTheme: string
+		/**
+		 * L​a​n​g​u​a​g​e
+		 */
+		language: string
 		/**
 		 * S​i​g​n​ ​I​n
 		 */
@@ -137,6 +145,10 @@ type RootTranslation = {
 }
 
 export type TranslationFunctions = {
+	/**
+	 * 繁體中文
+	 */
+	name: () => LocalizedString
 	navbar: {
 		/**
 		 * 新樓醫院心臟科附屬
@@ -154,6 +166,10 @@ export type TranslationFunctions = {
 		 * Dark Theme
 		 */
 		darkTheme: () => LocalizedString
+		/**
+		 * Language
+		 */
+		language: () => LocalizedString
 		/**
 		 * Sign In
 		 */

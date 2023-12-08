@@ -12,7 +12,9 @@
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
+  import Earth from "~icons/mdi/earth";
   import logo from "$lib/assets/logo.svg";
+  import { locales } from "$lib/i18n/i18n-util";
 
   export let data;
 
@@ -24,8 +26,14 @@
 
   const {
     elements: { menu, item, trigger, separator },
+    builders: { createSubmenu },
     states: { open }
   } = createDropdownMenu({ forceVisible: true, preventScroll: false });
+
+  const {
+    elements: { subMenu, subTrigger },
+    states: { subOpen }
+  } = createSubmenu();
 </script>
 
 <nav
@@ -52,12 +60,13 @@
     {#if $open}
       <div
         use:melt={$menu}
-        class="z-top max-w-xs overflow-hidden rounded border border-primary/60 bg-background/60 backdrop-blur"
+        class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
         transition:fly={{ duration: 150, y: -10 }}
       >
+        <!-- TODO: maybe extract item classes (especially the `first:rounded-t` and `last:rounded-b`)-->
         <div
           use:melt={$item}
-          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+          class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
           on:m-click={() => themeStore.toggle()}
         >
           {#if $themeStore === "light"}
@@ -69,12 +78,39 @@
           {/if}
         </div>
 
+        <div
+          use:melt={$subTrigger}
+          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+        >
+          <Earth class="h-4 w-4" />
+          <span>{$LL.navbar.language()}</span>
+        </div>
+
+        {#if $subOpen}
+          <div
+            class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
+            use:melt={$subMenu}
+            transition:fly={{ duration: 150, y: -10 }}
+          >
+            {#each locales as locale}
+              <div
+                use:melt={$item}
+                class="whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                on:m-click={() => setLocale(locale)}
+              >
+                <!-- TODO: display locale name -->
+                {locale}
+              </div>
+            {/each}
+          </div>
+        {/if}
+
         <div use:melt={$separator} class="h-[1px] bg-text/20" />
 
         {#if session?.user === undefined}
           <a
             use:melt={$item}
-            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signin"
           >
             {$LL.navbar.signIn()}
@@ -102,7 +138,7 @@
           <!-- </div> -->
           <a
             use:melt={$item}
-            class="block px-4 py-2 transition-colors hover:bg-primary/20"
+            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signout"
           >
             {$LL.navbar.signOut()}

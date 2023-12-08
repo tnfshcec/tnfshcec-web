@@ -1,11 +1,13 @@
 import type { BaseTranslation } from "../i18n-types";
 
 const zh_tw = {
+  name: "繁體中文",
   navbar: {
     title: "新樓醫院心臟科附屬",
     name: "臺南一中電機社",
     lightTheme: "Light Theme",
     darkTheme: "Dark Theme",
+    language: "Language",
     signIn: "Sign In",
     signOut: "Sign Out",
     signedInAs: "Signed in as",
