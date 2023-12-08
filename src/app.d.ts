@@ -11,9 +11,7 @@ declare global {
       locale: Locales;
       LL: TranslationFunctions;
     }
-    interface PageData {
-      locale: Locales;
-    }
+    // interface PageData {}
     // interface Platform {}
     interface PostData {
       title?: string;

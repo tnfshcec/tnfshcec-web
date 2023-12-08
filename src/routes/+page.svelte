@@ -5,6 +5,7 @@
   import Comment from "$lib/components/Comment.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
   import { anchorScroll } from "$lib/components/actions";
+  import LL from "$lib/i18n/i18n-svelte";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
@@ -47,10 +48,8 @@
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
-        <header class="text-4xl font-bold">電🐔社</header>
-        <section class="text-xl">
-          你說得對，但是電機社的常住人口有十幾人，同時，僅澳大利亞就有4700萬隻袋鼠。如果袋鼠決定入侵403，那麼每一個電機社員要打3百萬只袋鼠，你不知道，你不在乎，你只關心你自己。
-        </section>
+        <header class="text-4xl font-bold">{$LL.home.name()}</header>
+        <section class="text-xl">{$LL.home.description()}</section>
       </div>
       <div class="flex items-center justify-center gap-2">
         <a
@@ -83,13 +82,10 @@
 </section>
 
 <section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
-  <div class="max-w-4xl text-lg">
-    電機社！啟動！嘻嘻嘻嘻嘻！我最喜歡玩機器了，我是 Arduino
-    玩家！你看這是我新買的模組～蜂鳴器！！蹦蹦喇叭～
-  </div>
+  <div class="max-w-4xl text-lg">{$LL.home.quote()}</div>
   <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
-    <span>更多資訊</span>
+    <span>{$LL.home.moreInfo()}</span>
   </a>
 </section>
 
@@ -98,13 +94,11 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">最新消息</header>
-      <div class="text-lg">
-        你好，我是狒狒，目前在中国台湾桃园市六福村附近山区，刚刚突然开始下大雷雨，我急需钱买雨具，若我日后逃脱成功，必有钜额回报，你可以帮帮我吗？请加Line：87878787monkey，谢谢！
-      </div>
+      <header class="text-center text-2xl font-bold">{$LL.home.news.name()}</header>
+      <div class="text-lg">{$LL.home.news.description()}</div>
       <a class="btn-accent icon-flex mx-auto w-fit" href="{base}/post">
         <ArrowRight class="h-6 w-6" />
-        <span>查看其他</span>
+        <span>{$LL.home.news.other()}</span>
       </a>
     </div>
     <div class="flex-grow" />
@@ -121,43 +115,34 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">社團活動</header>
-      <div class="text-lg">
-        應該永遠不會去玩了😡😡<br />
-        好歹我也是Google地圖6級在地導覽📌<br />
-        專業攝影師📷專業評論家👨‍🍳😳😳😳<br />
-        剛剛發現社團的態度是這樣😫😫<br />
-        人家沒混成😭😭😭還想得星星😅😅<br />
-        還放在粉絲團公審😂🤬<br />
-        難怪我們社課的時候看地圖評論覺得很納悶😱😰<br />
-        為什麼評論會這麼兩極化🥺😒
-      </div>
+      <header class="text-center text-2xl font-bold">{$LL.home.interests.name()}</header>
+      <div class="whitespace-pre-wrap text-lg">{$LL.home.interests.description()}</div>
     </div>
     <div class="flex-grow" />
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">機器人</header>
-        <div class="text-lg text-text/80">區區幾個人類…我一個一個ㄅㄧㄢˇ</div>
+        <header class="text-xl font-bold">{$LL.home.interests.robot()}</header>
+        <div class="text-lg text-text/80">{$LL.home.interests.robotDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">硬體</header>
-        <div class="text-lg text-text/80">據說社部沒有電池？</div>
+        <header class="text-xl font-bold">{$LL.home.interests.hardware()}</header>
+        <div class="text-lg text-text/80">{$LL.home.interests.hardwareDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">軟體 / 網頁</header>
-        <div class="text-lg text-text/80">還是 JS 最棒了！（X</div>
+        <header class="text-xl font-bold">{$LL.home.interests.software()}</header>
+        <div class="text-lg text-text/80">{$LL.home.interests.softwareDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">你的興趣！</header>
-        <div class="text-lg text-text/80">我們讓你將熱情消耗殆盡~（好的方面）</div>
+        <header class="text-xl font-bold">{$LL.home.interests.others()}</header>
+        <div class="text-lg text-text/80">{$LL.home.interests.othersDescription()}</div>
       </div>
     </div>
   </div>
@@ -165,7 +150,7 @@
 
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
-    <div class="text-2xl font-bold">大家都說…</div>
+    <div class="text-2xl font-bold">{$LL.home.comments.name()}</div>
     <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">
       {#each comments as comList}
         <div class="flex snap-start flex-col gap-4">

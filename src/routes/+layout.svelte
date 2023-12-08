@@ -5,13 +5,14 @@
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { themeStore } from "$lib/stores/theme";
+  import { setLocale } from "$lib/i18n/i18n-svelte";
+  import LL from "$lib/i18n/i18n-svelte";
 
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
   import logo from "$lib/assets/logo.svg";
-  import { setLocale } from "$lib/i18n/i18n-svelte";
 
   export let data;
 
@@ -34,9 +35,9 @@
     <a href="{base}/" class="flex items-center gap-2">
       <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
-        <span class="font-bold">新樓醫院心臟科附屬</span>
+        <span class="font-bold">{$LL.navbar.title()}</span>
         <br />
-        <span class="text-xl font-bold">臺南一中電機社</span>
+        <span class="text-xl font-bold">{$LL.navbar.name()}</span>
       </div>
     </a>
     <button
@@ -61,10 +62,10 @@
         >
           {#if $themeStore === "light"}
             <Brightness class="h-4 w-4" />
-            <span>Light Theme</span>
+            <span>{$LL.navbar.lightTheme()}</span>
           {:else}
             <Moon class="h-4 w-4" />
-            <span>Dark Theme</span>
+            <span>{$LL.navbar.darkTheme()}</span>
           {/if}
         </div>
 
@@ -76,11 +77,12 @@
             class="block px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signin"
           >
-            Sign In
+            {$LL.navbar.signIn()}
           </a>
         {:else}
           <span class="px-4 text-sm">
-            Signed in as <span class="font-bold">{session.user.name ?? session.user.email}</span>
+            {$LL.navbar.signedInAs()}
+            <span class="font-bold">{session.user.name ?? session.user.email}</span>
           </span>
           {#if session.user.role === "admin"}
             <a
@@ -88,7 +90,7 @@
               class="block px-4 py-2 transition-colors hover:bg-primary/20"
               href="{base}/newpost"
             >
-              New Post
+              {$LL.navbar.newPost()}
             </a>
           {/if}
           <!-- <div -->
@@ -103,7 +105,7 @@
             class="block px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signout"
           >
-            Sign Out
+            {$LL.navbar.signOut()}
           </a>
         {/if}
       </div>
