@@ -9,7 +9,7 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
-  import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
+  import LL from "$lib/i18n/i18n-svelte";
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
@@ -42,8 +42,8 @@
           <Pin class="h-4 w-4 text-primary" />
         {/if}
         <span>
-          {pinned && !author && !date ? "Pinned" : ""}
-          {author ? `By ${author}` : ""}
+          {pinned && !author && !date ? $LL.post.pinned() : ""}
+          {author ? $LL.post.postedBy(author) : ""}
           {author && date ? "/" : ""}
           {localeDate}
         </span>
@@ -52,12 +52,12 @@
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
         <button class="btn-text icon-flex md:hidden" use:melt={$trigger}>
           <List class="h-4 w-4" />
-          <span>Contents</span>
+          <span>{$LL.post.tableOfContents()}</span>
         </button>
         {#if data.session?.user?.role === "admin"}
           <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
             <Pencil class="h-4 w-4" />
-            <span>Edit</span>
+            <span>{$LL.post.edit()}</span>
           </a>
         {/if}
       </div>

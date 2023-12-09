@@ -48,6 +48,43 @@ const zh_tw = {
     comments: {
       name: "大家都說…"
     }
+  },
+  postList: {
+    name: "最新消息",
+    description: `
+在電梯遇到了一個女生
+她對我笑了一下
+按下了第8層
+呵 真會暗示
+她8層有點喜歡我吧
+但我是不會暈的 (ゝ∀･)⌒☆
+`
+  },
+  post: {
+    pinned: "Pinned",
+    postedBy: "By {0:string}",
+    tableOfContents: "On This Page",
+    edit: "Edit"
+  },
+  postEdit: {
+    name: "",
+    save: "Save",
+    delete: "Delete",
+    deleteConfirmation:
+      "You're deleting this post, confirm with caution!\nThe post ain't coming back after this!",
+    dialogCancel: "Cancel",
+    dialogConfirm: "Confirm",
+    saveMessage: "Post is Saved",
+    deleteMessage: "Post Deleted",
+    field: {
+      url: "URL",
+      title: "Title",
+      author: "Author",
+      date: "Date",
+      image: "Image",
+      description: "Description",
+      pinned: "Pinned"
+    }
   }
 } satisfies BaseTranslation;
 

@@ -27,11 +27,23 @@ export const editField: Action<
   node.id = id;
   node.name = id;
 
-  fs.className = className ?? ""; 
+  fs.className = className ?? "";
   label.setAttribute("for", id);
   label.innerText = labelText;
 
   node.replaceWith(fs);
   fs.appendChild(label);
   fs.appendChild(node);
+
+  return {
+    update: ({ id, label: labelText, className }) => {
+      node.placeholder = labelText;
+      node.id = id;
+      node.name = id;
+
+      fs.className = className ?? "";
+      label.setAttribute("for", id);
+      label.innerText = labelText;
+    }
+  };
 };
