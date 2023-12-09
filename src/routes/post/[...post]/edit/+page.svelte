@@ -6,7 +6,7 @@
   import { fade, fly } from "svelte/transition";
   import { writable } from "svelte/store";
 
-  import EasyMde from "$lib/components/EasyMde.svelte";
+  import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import { editField } from "$lib/components/actions";
@@ -164,7 +164,7 @@
         />
       </section>
 
-      <EasyMde bind:md />
+      <Carta bind:value={md} />
     </form>
   </div>
 </CenteredPage>

@@ -49,12 +49,24 @@
   @apply rounded border-text/60 bg-transparent checked:bg-primary focus:ring-accent/60;
 }
 
+.prose blockquote {
+  @apply text-xl;
+}
+
 .prose pre {
   @apply overflow-x-auto;
 }
 
 .prose :not(pre) > code {
   @apply bg-secondary;
+}
+
+.prose span.spoiler {
+  @apply blur-sm transition-['filter'] hover:blur-none;
+}
+
+.carta-renderer {
+  @apply prose;
 }
 
 /* vim: set ft=css: */
