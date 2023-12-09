@@ -91,9 +91,6 @@
     {/if}
 
     <article class="prose space-y-4">
-      <!-- TODO: codeblock highlighting, styling / custom codeblock -->
-      <!-- TODO: footnotes plugin -->
-      <!-- <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} /> -->
       <Carta value={md} type="viewer" />
     </article>
   </div>
