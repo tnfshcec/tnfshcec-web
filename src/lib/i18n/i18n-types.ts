@@ -6,6 +6,7 @@ export type BaseTranslation = BaseTranslationType
 export type BaseLocale = 'zh-tw'
 
 export type Locales =
+	| 'en'
 	| 'zh-tw'
 
 export type Translation = RootTranslation

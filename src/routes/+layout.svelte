@@ -7,19 +7,26 @@
   import { themeStore } from "$lib/stores/theme";
   import { setLocale } from "$lib/i18n/i18n-svelte";
   import LL from "$lib/i18n/i18n-svelte";
+  import { i18nObject, locales } from "$lib/i18n/i18n-util";
+  import type { Locales } from "$lib/i18n/i18n-types";
+  import { loadLocaleAsync } from "$lib/i18n/i18n-util.async";
 
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
   import Moon from "~icons/mdi/moon-waning-crescent";
   import Earth from "~icons/mdi/earth";
+  import ChevronRight from "~icons/mdi/chevron-right";
   import logo from "$lib/assets/logo.svg";
-  import { locales } from "$lib/i18n/i18n-util";
 
   export let data;
 
   const { session, locale } = data;
 
+  async function handleSetLocale(locale: Locales) {
+    await loadLocaleAsync(locale);
+    setLocale(locale);
+  }
   setLocale(locale);
 
   // TODO: scroll detection & changing title
@@ -84,6 +91,7 @@
         >
           <Earth class="h-4 w-4" />
           <span>{$LL.navbar.language()}</span>
+          <ChevronRight class="ml-auto h-4 w-4" />
         </div>
 
         {#if $subOpen}
@@ -96,10 +104,10 @@
               <div
                 use:melt={$item}
                 class="whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                on:m-click={() => setLocale(locale)}
+                on:m-click={() => handleSetLocale(locale)}
               >
-                <!-- TODO: display locale name -->
-                {locale}
+                <!-- INFO: the target locale may not be loaded yet -->
+                {i18nObject(locale).name() || locale}
               </div>
             {/each}
           </div>
