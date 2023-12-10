@@ -50,7 +50,7 @@
   async function savePost() {
     await formAction("?/save");
 
-    addToast({ data: { title: $LL.postEdit.saveMessage() } });
+    addToast({ data: { title: m.post_saveMessage() } });
   }
 
   async function deletePost() {
@@ -59,7 +59,7 @@
 
     await formAction("?/delete");
 
-    addToast({ data: { title: $LL.postEdit.deleteMessage() } });
+    addToast({ data: { title: m.post_deleteMessage() } });
 
     goto(`${base}/post`);
   }
@@ -73,8 +73,8 @@
           <Pin class="h-4 w-4 text-primary" />
         {/if}
         <span>
-          {postData.pinned && !postData.author && !postData.date ? $LL.post.pinned() : ""}
-          {postData.author ? $LL.post.postedBy(postData.author) : ""}
+          {postData.pinned && !postData.author && !postData.date ? m.post_pinned() : ""}
+          {postData.author ? m.post_postedBy({ user: postData.author }) : ""}
           {postData.author && postData.date ? "/" : ""}
           {localeDate}
         </span>
@@ -83,11 +83,11 @@
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
         <button class="icon-flex icon btn-accent" on:click={savePost}>
           <Save class="h-4 w-4" />
-          {$LL.postEdit.save()}
+          {m.post_savePost()}
         </button>
         <button class="icon-flex btn-text" on:click={deletePost}>
           <Alert class="h-4 w-4" />
-          {$LL.postEdit.delete()}
+          {m.post_deletePost()}
         </button>
       </div>
     </PageTitle>
@@ -108,19 +108,19 @@
         >
           <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
           <p use:melt={$description} class="whitespace-pre-wrap leading-normal text-text/80">
-            {$LL.postEdit.deleteConfirmation()}
+            {m.post_deleteConfirmation()}
           </p>
 
           <div class="mt-6 flex justify-end gap-4">
             <button use:melt={$close} class="btn-text opacity-80">
-              {$LL.postEdit.dialogCancel()}
+              {m.dialogCancel()}
             </button>
             <button
               use:melt={$close}
               class="btn-accent"
               on:m-click={() => ($confirmedDelete = true)}
             >
-              {$LL.postEdit.dialogConfirm()}
+              {m.dialogConfirm()}
             </button>
           </div>
         </div>
@@ -130,38 +130,38 @@
     <form id="post-edit" class="space-y-4" bind:this={form}>
       <section class="grid grid-cols-2 gap-6">
         <input
-          use:editField={{ id: "url", label: $LL.postEdit.field.url(), className: "col-span-2" }}
+          use:editField={{ id: "url", label: m.post_fieldUrl(), className: "col-span-2" }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={editUrl}
         />
         <input
-          use:editField={{ id: "title", label: $LL.postEdit.field.title() }}
+          use:editField={{ id: "title", label: m.post_fieldTitle() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.title}
         />
         <input
-          use:editField={{ id: "author", label: $LL.postEdit.field.author() }}
+          use:editField={{ id: "author", label: m.post_fieldAuthor() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.author}
         />
         <input
-          use:editField={{ id: "date", label: $LL.postEdit.field.date() }}
+          use:editField={{ id: "date", label: m.post_fieldDate() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           type="date"
           bind:value={postData.date}
         />
         <input
-          use:editField={{ id: "image", label: $LL.postEdit.field.image() }}
+          use:editField={{ id: "image", label: m.post_fieldImage() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.image}
         />
         <input
-          use:editField={{ id: "desc", label: $LL.postEdit.field.description() }}
+          use:editField={{ id: "desc", label: m.post_fieldDescription() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.desc}
         />
         <input
-          use:editField={{ id: "pinned", label: $LL.postEdit.field.pinned() }}
+          use:editField={{ id: "pinned", label: m.post_fieldPinned() }}
           class="block h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
           type="checkbox"
           bind:checked={postData.pinned}

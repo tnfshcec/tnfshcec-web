@@ -2,7 +2,7 @@
   import TocItem from "./TableOfContentsItem.svelte";
   import { scrollOffset } from "$lib/utils/scrollOffset";
   import { createTableOfContents } from "@melt-ui/svelte";
-  import LL from "$lib/i18n/i18n-svelte";
+  import * as m from "$paraglide/messages";
 
   export let selector: string;
 
@@ -18,7 +18,7 @@
   });
 </script>
 
-<p class="font-bold">{$LL.post.tableOfContents()}</p>
+<p class="font-bold">{m.post_tableOfContents()}</p>
 <nav>
   {#key $headingsTree}
     <TocItem tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
