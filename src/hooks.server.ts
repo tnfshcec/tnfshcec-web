@@ -2,11 +2,7 @@ import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
 import { env } from "$env/dynamic/private";
 import { sequence } from "@sveltejs/kit/hooks";
-import { initAcceptLanguageHeaderDetector } from "typesafe-i18n/detectors";
-import { detectLocale, i18n, isLocale } from "$lib/i18n/i18n-util";
 import type { Handle } from "@sveltejs/kit";
-import type { Locales } from "$lib/i18n/i18n-types";
-import { loadAllLocales } from "$lib/i18n/i18n-util.sync";
 
 const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())
@@ -40,23 +36,18 @@ const auth = SvelteKitAuth({
   }
 });
 
-// INFO: might lag server starting time when i18n text gets huge (IDK)
-loadAllLocales();
-const L = i18n();
-
 const locale: Handle = async ({ event, resolve }) => {
-  let lang = event.url.searchParams.get("lang");
-  if (!lang || !isLocale(lang)) {
-    lang = detectLocale(initAcceptLanguageHeaderDetector(event.request));
-  }
+  // TODO
+  const lang = "zh-tw";
 
-  // INFO: at this point `lang` is definitely `Locales`
-  const locale = lang as Locales;
-
-  event.locals.locale = locale;
-  event.locals.LL = L[locale];
-
-  return resolve(event, { transformPageChunk: ({ html }) => html.replace("%lang%", locale) });
+  return resolve(event, {
+    transformPageChunk({ done, html }) {
+      // Only do it at the very end of the rendering process
+      if (done) {
+        return html.replace("%lang%", lang);
+      }
+    }
+  });
 };
 
 export const handle = sequence(auth, locale);

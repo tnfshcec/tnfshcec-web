@@ -29,6 +29,9 @@ const config = {
     adapter: adapter(),
     paths: {
       base
+    },
+    alias: {
+      $paraglide: "./src/paraglide"
     }
   }
 };

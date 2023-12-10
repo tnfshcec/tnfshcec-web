@@ -5,11 +5,8 @@
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { themeStore } from "$lib/stores/theme";
-  import { setLocale } from "$lib/i18n/i18n-svelte";
-  import LL from "$lib/i18n/i18n-svelte";
-  import { i18nObject, locales } from "$lib/i18n/i18n-util";
-  import type { Locales } from "$lib/i18n/i18n-types";
-  import { loadLocaleAsync } from "$lib/i18n/i18n-util.async";
+  import { availableLanguageTags, setLanguageTag } from "$paraglide/runtime";
+  import * as m from "$paraglide/messages";
 
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
@@ -23,11 +20,9 @@
 
   const { session, locale } = data;
 
-  async function handleSetLocale(locale: Locales) {
-    await loadLocaleAsync(locale);
-    setLocale(locale);
-  }
-  setLocale(locale);
+  // TODO
+  const lang = "zh-tw";
+  $: setLanguageTag(lang);
 
   // TODO: scroll detection & changing title
 
@@ -50,9 +45,9 @@
     <a href="{base}/" class="flex items-center gap-2">
       <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
-        <span class="font-bold">{$LL.navbar.title()}</span>
+        <span class="font-bold">{m.title()}</span>
         <br />
-        <span class="text-xl font-bold">{$LL.navbar.name()}</span>
+        <span class="text-xl font-bold">{m.name()}</span>
       </div>
     </a>
     <button
@@ -78,10 +73,10 @@
         >
           {#if $themeStore === "light"}
             <Brightness class="h-4 w-4" />
-            <span>{$LL.navbar.lightTheme()}</span>
+            <span>{m.lightTheme()}</span>
           {:else}
             <Moon class="h-4 w-4" />
-            <span>{$LL.navbar.darkTheme()}</span>
+            <span>{m.darkTheme()}</span>
           {/if}
         </div>
 
@@ -90,7 +85,7 @@
           class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
         >
           <Earth class="h-4 w-4" />
-          <span>{$LL.navbar.language()}</span>
+          <span>{m.language()}</span>
           <ChevronRight class="ml-auto h-4 w-4" />
         </div>
 
@@ -100,14 +95,13 @@
             use:melt={$subMenu}
             transition:fly={{ duration: 150, y: -10 }}
           >
-            {#each locales as locale}
+            {#each availableLanguageTags as tag}
               <div
                 use:melt={$item}
                 class="whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                on:m-click={() => handleSetLocale(locale)}
+                on:m-click={() => console.log(tag)}
               >
-                <!-- INFO: the target locale may not be loaded yet -->
-                {i18nObject(locale).name() || locale}
+                {m.lang({}, { languageTag: tag }) || tag}
               </div>
             {/each}
           </div>
@@ -121,11 +115,11 @@
             class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signin"
           >
-            {$LL.navbar.signIn()}
+            {m.signIn()}
           </a>
         {:else}
           <span class="px-4 text-sm">
-            {$LL.navbar.signedInAs()}
+            {m.signedInAs()}
             <span class="font-bold">{session.user.name ?? session.user.email}</span>
           </span>
           {#if session.user.role === "admin"}
@@ -134,7 +128,7 @@
               class="block px-4 py-2 transition-colors hover:bg-primary/20"
               href="{base}/newpost"
             >
-              {$LL.navbar.newPost()}
+              {m.post_newPost()}
             </a>
           {/if}
           <!-- <div -->
@@ -149,7 +143,7 @@
             class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signout"
           >
-            {$LL.navbar.signOut()}
+            {m.signOut()}
           </a>
         {/if}
       </div>

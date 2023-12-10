@@ -13,7 +13,7 @@
   import { localeDateFromString } from "$lib/utils/date";
   import { nextUpdate } from "$lib/utils/nextStoreUpdate";
   import { addToast } from "$lib/components/Toaster.svelte";
-  import LL from "$lib/i18n/i18n-svelte";
+  import * as m from "$paraglide/messages";
 
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
