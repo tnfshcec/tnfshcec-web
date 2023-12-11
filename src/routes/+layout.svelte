@@ -118,9 +118,8 @@
             {m.signIn()}
           </a>
         {:else}
-          <span class="px-4 text-sm">
-            {m.signedInAs()}
-            <span class="font-bold">{session.user.name ?? session.user.email}</span>
+          <span class="px-4 text-sm font-bold">
+            {m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
           </span>
           {#if session.user.role === "admin"}
             <a

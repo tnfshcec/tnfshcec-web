@@ -8,8 +8,8 @@ export default defineConfig({
   plugins: [
     sveltekit(),
     paraglide({
-      project: "./project.inlang",
-      outdir: "./src/paraglide"
+      project: "./tnfshcec.inlang",
+      outdir: "./src/lib/paraglide"
     }),
     Icons({
       compiler: "svelte"

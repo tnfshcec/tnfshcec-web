@@ -31,7 +31,7 @@ const config = {
       base
     },
     alias: {
-      $paraglide: "./src/paraglide"
+      $paraglide: "./src/lib/paraglide"
     }
   }
 };

@@ -48,7 +48,7 @@
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
-        <header class="text-4xl font-bold">{m.home_name()}</header>
+        <header class="text-4xl font-bold">{m.home_title()}</header>
         <section class="text-xl">{m.home_description()}</section>
       </div>
       <div class="flex items-center justify-center gap-2">
