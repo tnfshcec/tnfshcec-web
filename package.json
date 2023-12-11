@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "paraglide-js compile --project ./project.inlang && vite build",
+    "build": "npm run build:i18n && vite build",
+    "build:i18n": "paraglide-js compile --project ./tnfshcec.inlang",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
-    "postinstall": "paraglide-js compile --project ./project.inlang"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@auth/sveltekit": "^0.3.6",
