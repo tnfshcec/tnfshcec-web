@@ -169,7 +169,7 @@
   *The “comments” above this section may not be real, nor are they made by any real person.<br />
   <br />
   *This page is HEAVILY inspired by
-  <a class="underline" href="https://or$m.drizzle.team">Drizzle ORM's landing page</a>, I must
+  <a class="underline" href="https://orm.drizzle.team">Drizzle ORM's landing page</a>, I must
   attribute them for the hard work.<br />
   <br />
   Also if you are reading this, you're weird. ;)
