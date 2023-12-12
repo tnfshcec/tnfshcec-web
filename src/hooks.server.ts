@@ -3,6 +3,7 @@ import GitHub from "@auth/core/providers/github";
 import { env } from "$env/dynamic/private";
 import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle } from "@sveltejs/kit";
+import { detectLanguage } from "$lib/stores/i18n";
 
 const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())
@@ -37,8 +38,9 @@ const auth = SvelteKitAuth({
 });
 
 const locale: Handle = async ({ event, resolve }) => {
-  // TODO
-  const lang = "zh-tw";
+  const lang = detectLanguage(event.url, event.request);
+
+  event.locals.lang = lang;
 
   return resolve(event, {
     transformPageChunk({ done, html }) {

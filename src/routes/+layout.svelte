@@ -4,9 +4,10 @@
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
+  import { page } from "$app/stores";
   import { themeStore } from "$lib/stores/theme";
-  import { availableLanguageTags, setLanguageTag } from "$paraglide/runtime";
-  import * as m from "$paraglide/messages";
+  import { detectLanguage, langUrl } from "$lib/stores/i18n";
+  import { availableLanguageTags } from "$paraglide/runtime";
 
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
@@ -18,11 +19,10 @@
 
   export let data;
 
-  const { session, locale } = data;
+  const { session, i18n } = data;
 
-  // TODO
-  const lang = "zh-tw";
-  $: setLanguageTag(lang);
+  $: i18n.set(detectLanguage($page.url));
+  const m = i18n.m;
 
   // TODO: scroll detection & changing title
 
@@ -45,9 +45,9 @@
     <a href="{base}/" class="flex items-center gap-2">
       <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
-        <span class="font-bold">{m.title()}</span>
+        <span class="font-bold">{$m.title()}</span>
         <br />
-        <span class="text-xl font-bold">{m.name()}</span>
+        <span class="text-xl font-bold">{$m.name()}</span>
       </div>
     </a>
     <button
@@ -73,10 +73,10 @@
         >
           {#if $themeStore === "light"}
             <Brightness class="h-4 w-4" />
-            <span>{m.lightTheme()}</span>
+            <span>{$m.lightTheme()}</span>
           {:else}
             <Moon class="h-4 w-4" />
-            <span>{m.darkTheme()}</span>
+            <span>{$m.darkTheme()}</span>
           {/if}
         </div>
 
@@ -85,7 +85,7 @@
           class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
         >
           <Earth class="h-4 w-4" />
-          <span>{m.language()}</span>
+          <span>{$m.language()}</span>
           <ChevronRight class="ml-auto h-4 w-4" />
         </div>
 
@@ -96,13 +96,14 @@
             transition:fly={{ duration: 150, y: -10 }}
           >
             {#each availableLanguageTags as tag}
-              <div
+              <a
                 use:melt={$item}
-                class="whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                on:m-click={() => console.log(tag)}
+                class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                href={langUrl($page.url, tag)}
+                hreflang={tag}
               >
-                {m.lang({}, { languageTag: tag }) || tag}
-              </div>
+                {$m.lang({}, { languageTag: tag }) || tag}
+              </a>
             {/each}
           </div>
         {/if}
@@ -115,11 +116,11 @@
             class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signin"
           >
-            {m.signIn()}
+            {$m.signIn()}
           </a>
         {:else}
           <span class="px-4 text-sm font-bold">
-            {m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+            {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
           </span>
           {#if session.user.role === "admin"}
             <a
@@ -127,7 +128,7 @@
               class="block px-4 py-2 transition-colors hover:bg-primary/20"
               href="{base}/newpost"
             >
-              {m.post_newPost()}
+              {$m.post_newPost()}
             </a>
           {/if}
           <!-- <div -->
@@ -142,7 +143,7 @@
             class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signout"
           >
-            {m.signOut()}
+            {$m.signOut()}
           </a>
         {/if}
       </div>

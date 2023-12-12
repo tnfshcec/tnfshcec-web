@@ -9,12 +9,12 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
-  import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
 
   export let data;
+  const m = data.i18n.m;
 
   let {
     md,
@@ -42,8 +42,8 @@
           <Pin class="h-4 w-4 text-primary" />
         {/if}
         <span>
-          {pinned && !author && !date ? m.post_pinned() : ""}
-          {author ? m.post_postedBy({ user: author }) : ""}
+          {pinned && !author && !date ? $m.post_pinned() : ""}
+          {author ? $m.post_postedBy({ user: author }) : ""}
           {author && date ? "/" : ""}
           {localeDate}
         </span>
@@ -52,12 +52,12 @@
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
         <button class="btn-text icon-flex md:hidden" use:melt={$trigger}>
           <List class="h-4 w-4" />
-          <span>{m.post_tableOfContents()}</span>
+          <span>{$m.post_tableOfContents()}</span>
         </button>
         {#if data.session?.user?.role === "admin"}
           <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
             <Pencil class="h-4 w-4" />
-            <span>{m.post_editPost()}</span>
+            <span>{$m.post_editPost()}</span>
           </a>
         {/if}
       </div>

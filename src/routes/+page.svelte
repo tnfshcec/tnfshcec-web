@@ -5,7 +5,6 @@
   import Comment from "$lib/components/Comment.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
   import { anchorScroll } from "$lib/components/actions";
-  import * as m from "$paraglide/messages";
 
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
@@ -15,6 +14,7 @@
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
 
   export let data;
+  const m = data.i18n.m;
 
   const comments: ComponentProps<Comment>[][] = [
     [
@@ -48,8 +48,8 @@
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
-        <header class="text-4xl font-bold">{m.home_title()}</header>
-        <section class="text-xl">{m.home_description()}</section>
+        <header class="text-4xl font-bold">{$m.home_title()}</header>
+        <section class="text-xl">{$m.home_description()}</section>
       </div>
       <div class="flex items-center justify-center gap-2">
         <a
@@ -82,10 +82,10 @@
 </section>
 
 <section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
-  <div class="max-w-4xl text-lg">{m.home_quote()}</div>
+  <div class="max-w-4xl text-lg">{$m.home_quote()}</div>
   <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
-    <span>{m.home_moreInfo()}</span>
+    <span>{$m.home_moreInfo()}</span>
   </a>
 </section>
 
@@ -94,11 +94,11 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">{m.home_newsTitle()}</header>
-      <div class="text-lg">{m.home_newsDescription()}</div>
+      <header class="text-center text-2xl font-bold">{$m.home_newsTitle()}</header>
+      <div class="text-lg">{$m.home_newsDescription()}</div>
       <a class="btn-accent icon-flex mx-auto w-fit" href="{base}/post">
         <ArrowRight class="h-6 w-6" />
-        <span>{m.home_newsMore()}</span>
+        <span>{$m.home_newsMore()}</span>
       </a>
     </div>
     <div class="flex-grow" />
@@ -115,34 +115,34 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">{m.home_interestsTitle()}</header>
-      <div class="whitespace-pre-wrap text-lg">{m.home_interestsDescription()}</div>
+      <header class="text-center text-2xl font-bold">{$m.home_interestsTitle()}</header>
+      <div class="whitespace-pre-wrap text-lg">{$m.home_interestsDescription()}</div>
     </div>
     <div class="flex-grow" />
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">{m.home_interestsRobot()}</header>
-        <div class="text-lg text-text/80">{m.home_interestsRobotDescription()}</div>
+        <header class="text-xl font-bold">{$m.home_interestsRobot()}</header>
+        <div class="text-lg text-text/80">{$m.home_interestsRobotDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">{m.home_interestsHardware()}</header>
-        <div class="text-lg text-text/80">{m.home_interestsHardwareDescription()}</div>
+        <header class="text-xl font-bold">{$m.home_interestsHardware()}</header>
+        <div class="text-lg text-text/80">{$m.home_interestsHardwareDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">{m.home_interestsSoftware()}</header>
-        <div class="text-lg text-text/80">{m.home_interestsSoftwareDescription()}</div>
+        <header class="text-xl font-bold">{$m.home_interestsSoftware()}</header>
+        <div class="text-lg text-text/80">{$m.home_interestsSoftwareDescription()}</div>
       </div>
       <div
         class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
       >
-        <header class="text-xl font-bold">{m.home_interestsOthers()}</header>
-        <div class="text-lg text-text/80">{m.home_interestsOthersDescription()}</div>
+        <header class="text-xl font-bold">{$m.home_interestsOthers()}</header>
+        <div class="text-lg text-text/80">{$m.home_interestsOthersDescription()}</div>
       </div>
     </div>
   </div>
@@ -150,7 +150,7 @@
 
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
-    <div class="text-2xl font-bold">{m.home_commentsTitle()}</div>
+    <div class="text-2xl font-bold">{$m.home_commentsTitle()}</div>
     <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">
       {#each comments as comList}
         <div class="flex snap-start flex-col gap-4">
@@ -169,7 +169,7 @@
   *The “comments” above this section may not be real, nor are they made by any real person.<br />
   <br />
   *This page is HEAVILY inspired by
-  <a class="underline" href="https://orm.drizzle.team">Drizzle ORM's landing page</a>, I must
+  <a class="underline" href="https://or$m.drizzle.team">Drizzle ORM's landing page</a>, I must
   attribute them for the hard work.<br />
   <br />
   Also if you are reading this, you're weird. ;)
