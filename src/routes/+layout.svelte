@@ -16,13 +16,16 @@
   import Earth from "~icons/mdi/earth";
   import ChevronRight from "~icons/mdi/chevron-right";
   import logo from "$lib/assets/logo.svg";
+  import { setContext } from "svelte";
 
   export let data;
 
   const { session, i18n } = data;
 
-  $: i18n.set(detectLanguage($page.url));
+  $: i18n.lang.set(detectLanguage($page.url));
   const m = i18n.m;
+
+  setContext("i18n", i18n);
 
   // TODO: scroll detection & changing title
 

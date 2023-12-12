@@ -1,9 +1,9 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
 import { env } from "$env/dynamic/private";
+import { detectLanguage } from "$lib/stores/i18n";
 import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle } from "@sveltejs/kit";
-import { detectLanguage } from "$lib/stores/i18n";
 
 const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())

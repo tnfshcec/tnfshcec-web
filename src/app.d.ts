@@ -9,7 +9,6 @@ declare global {
     // interface Error {}
     interface Locals {
       lang: AvailableLanguageTag;
-      LL: TranslationFunctions;
     }
     // interface PageData {}
     // interface Platform {}

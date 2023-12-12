@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable, type Readable, type Writable } from "svelte/store";
 import { browser } from "$app/environment";
 import {
   isAvailableLanguageTag,
@@ -8,12 +8,17 @@ import {
 } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
 
+export type I18nStores = {
+  lang: Omit<Writable<AvailableLanguageTag>, "update">;
+  m: Readable<typeof m>;
+};
+
 export function langUrl(url: URL, lang: AvailableLanguageTag): string {
   url.searchParams.set("lang", lang);
   return url.toString();
 }
 
-export function getI18nStore(lang: AvailableLanguageTag) {
+export function i18nStores(lang: AvailableLanguageTag): I18nStores {
   const { set, subscribe } = writable<AvailableLanguageTag>(lang);
   const { subscribe: subscribeM, update: updateM } = writable<typeof m>(m);
 
@@ -29,7 +34,7 @@ export function getI18nStore(lang: AvailableLanguageTag) {
     }
   });
 
-  return { set, subscribe, m: { subscribe: subscribeM } };
+  return { lang: { set, subscribe }, m: { subscribe: subscribeM } };
 }
 
 export function detectLanguage(url?: URL, request?: Request): AvailableLanguageTag {
