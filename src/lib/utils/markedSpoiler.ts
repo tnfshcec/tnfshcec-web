@@ -1,3 +1,4 @@
+// SPOILER ELEMENT FOR MARKDOWN RENDERING
 import type { MarkedExtension, TokenizerAndRendererExtension } from "marked";
 
 const spoiler: TokenizerAndRendererExtension = {

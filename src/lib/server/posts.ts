@@ -1,3 +1,4 @@
+// SAYYY GOOOOODBYYYYE TELLLL A LIE AND
 import thunky from "thunky/promise";
 import { LRUCache } from "lru-cache";
 import fg from "fast-glob";

@@ -1,3 +1,4 @@
+<!-- THIS IS COMMENT ON HOME PAGE-->
 <script lang="ts">
   export let username: string;
   export let handle: `@${string}`;

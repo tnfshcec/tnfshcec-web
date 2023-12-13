@@ -1,3 +1,4 @@
+<!-- CARD FOR EACH POST-->
 <script lang="ts">
   import Pin from "~icons/mdi/pin";
 

@@ -1,3 +1,4 @@
+<!-- TRUTH -->
 <script lang="ts">
   let n = 0;
 </script>
