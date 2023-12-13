@@ -8,16 +8,34 @@ import {
 } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
 
+/**
+ * A type returned by {@link i18nStores()}, containing 2 Svelte stores.
+ */
 export type I18nStores = {
+  /** Containing the current language tag, you can set a new language here. */
   lang: Omit<Writable<AvailableLanguageTag>, "update">;
+  /** A readonly store containing i18n messages, and is reactive the changes of the current language. */
   m: Readable<typeof m>;
 };
 
+/**
+ * Returns a string URL that contains `lang=[lang]` search param.
+ * @param url The current URl
+ * @param lang The target language
+ */
 export function langUrl(url: URL, lang: AvailableLanguageTag): string {
   url.searchParams.set("lang", lang);
   return url.toString();
 }
 
+/**
+ * Get {@link I18nStores} from a default language tag.
+ * Where {@link I18nStores.lang} is the current language,
+ * {@link I18nStores.m} is the i18n messages.
+ *
+ * When the langauge is set (on {@link I18nStores.lang}),
+ * the 2 stores will both get updated (event fired).
+ */
 export function i18nStores(lang: AvailableLanguageTag): I18nStores {
   const { set, subscribe } = writable<AvailableLanguageTag>(lang);
   const { subscribe: subscribeM, update: updateM } = writable<typeof m>(m);
@@ -37,6 +55,11 @@ export function i18nStores(lang: AvailableLanguageTag): I18nStores {
   return { lang: { set, subscribe }, m: { subscribe: subscribeM } };
 }
 
+/**
+ * Detect user's current language by the request URL and `Accept-Language` header.
+ * @param url User's URL to determine the requested language ('lang=[lang]')
+ * @param request The {@link Request} object, containing the headers
+ */
 export function detectLanguage(url?: URL, request?: Request): AvailableLanguageTag {
   const requestLang = requestLanguage(request);
   const browserLang = browser ? window.localStorage.getItem("lang") : undefined;
@@ -44,6 +67,9 @@ export function detectLanguage(url?: URL, request?: Request): AvailableLanguageT
   return getLang(url?.searchParams.get("lang") ?? browserLang ?? requestLang ?? "");
 }
 
+/**
+ * Detect user's requesting language by the `Accept-Language` header, from an {@link Request} object.
+ */
 function requestLanguage(request?: Request): AvailableLanguageTag | undefined {
   type LanguageWeight = { tag: AvailableLanguageTag; weight: number };
 
@@ -64,6 +90,9 @@ function requestLanguage(request?: Request): AvailableLanguageTag | undefined {
   // INFO: accessing [0] of the array might be `undefined`
 }
 
+/**
+ * Guarantees an available language by replacing invalid ones with the default
+ */
 function getLang(lang: string): AvailableLanguageTag {
   return isAvailableLanguageTag(lang) ? lang : sourceLanguageTag;
 }
