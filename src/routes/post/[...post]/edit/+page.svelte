@@ -17,11 +17,12 @@
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
   import Alert from "~icons/mdi/alert";
+  import { useI18nStores } from "$lib/stores/i18n.js";
 
   export let data;
 
-  let { md, data: postData, i18n } = data;
-  const m = i18n.m;
+  let { md, data: postData } = data;
+  const { m } = useI18nStores();
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;

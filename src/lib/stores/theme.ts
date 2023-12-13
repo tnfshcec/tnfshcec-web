@@ -1,6 +1,11 @@
 // SAVE CURRENT THEME
 import { writable } from "svelte/store";
 import { browser } from "$app/environment";
+import { useContextStore } from "./contextStore";
+
+export function useThemeStore() {
+  return useContextStore("theme", themeStore);
+}
 
 export function themeStore() {
   const storageTheme = browser ? window.localStorage.getItem("theme") : undefined;

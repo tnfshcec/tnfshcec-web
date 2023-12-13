@@ -6,9 +6,8 @@
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-  import { themeStore } from "$lib/stores/theme";
-  import { detectLanguage, i18nStores, langUrl } from "$lib/stores/i18n";
-  import { useContextStore } from "$lib/stores/contextStore";
+  import { useThemeStore } from "$lib/stores/theme";
+  import { detectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
   // Icon
@@ -24,9 +23,10 @@
 
   const { session, lang } = data;
 
-  const i18n = useContextStore("i18n", i18nStores, lang);
-  const theme = useContextStore("theme", themeStore);
+  const i18n = useI18nStores(lang);
+  const theme = useThemeStore();
 
+  // reactively set the page's language
   $: i18n.lang.set(detectLanguage($page.url));
   const m = i18n.m;
 

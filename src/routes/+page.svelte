@@ -1,5 +1,4 @@
 <script lang="ts">
-
   // svelte
   import { base } from "$app/paths";
   import type { ComponentProps } from "svelte";
@@ -18,9 +17,10 @@
   import Comment from "$lib/components/Comment.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
   import { anchorScroll } from "$lib/components/actions";
+  import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
-  const m = data.i18n.m;
+  const { m } = useI18nStores();
 
   // comments
   const comments: ComponentProps<Comment>[][] = [

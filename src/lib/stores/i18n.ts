@@ -7,6 +7,7 @@ import {
   type AvailableLanguageTag
 } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
+import { useContextStore } from "./contextStore";
 
 /**
  * A type returned by {@link i18nStores()}, containing 2 Svelte stores.
@@ -29,6 +30,21 @@ export function langUrl(url: URL, lang: AvailableLanguageTag): string {
 }
 
 /**
+ * Get an {@link I18nStores} instance from the `Context`.
+ * Creates the store if not found.
+ *
+ * When the langauge is set on {@link I18nStores.lang},
+ * {@link I18nStores.m} also gets the update.
+ *
+ * @see {@link useContextStore()}
+ *
+ * @param lang The default language used if creating a new {@link I18nStores}, usually only specified in `+layout.svelte`.
+ */
+export function useI18nStores(lang?: AvailableLanguageTag): I18nStores {
+  return useContextStore("i18n", i18nStores, lang);
+}
+
+/**
  * Get {@link I18nStores} from a default language tag.
  * Where {@link I18nStores.lang} is the current language,
  * {@link I18nStores.m} is the i18n messages.
@@ -36,7 +52,7 @@ export function langUrl(url: URL, lang: AvailableLanguageTag): string {
  * When the langauge is set (on {@link I18nStores.lang}),
  * the 2 stores will both get updated (event fired).
  */
-export function i18nStores(lang?: AvailableLanguageTag): I18nStores {
+function i18nStores(lang?: AvailableLanguageTag): I18nStores {
   const { set, subscribe } = writable<AvailableLanguageTag>(lang ?? sourceLanguageTag);
   const { subscribe: subscribeM, update: updateM } = writable<typeof m>(m);
 
