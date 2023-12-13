@@ -50,11 +50,14 @@ function requestLanguage(request?: Request): AvailableLanguageTag | undefined {
   return (request?.headers.get("Accept-Language") ?? "")
     .split(",")
     .map((lang) => {
-      const [tag, weight] = lang.split(";");
+      let [tag, weight] = lang.split(";");
+
+      tag = tag.trim();
+      weight = weight?.trim().substring(2) ?? "1";
 
       if (!isAvailableLanguageTag(tag)) return undefined;
 
-      return { tag, weight: parseFloat(weight.substring(2)) } as LanguageWeight;
+      return { tag, weight: parseFloat(weight) } as LanguageWeight;
     })
     .filter((e): e is LanguageWeight => Boolean(e))
     .toSorted((a, b) => b.weight - a.weight)[0]?.tag;
