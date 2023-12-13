@@ -1,3 +1,4 @@
+// NSFW
 import type { MarkedExtension, TokenizerAndRendererExtension } from "marked";
 
 const spoiler: TokenizerAndRendererExtension = {
