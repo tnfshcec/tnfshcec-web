@@ -44,6 +44,19 @@ export function useI18nStores(lang?: AvailableLanguageTag): I18nStores {
   return useContextStore("i18n", i18nStores, lang);
 }
 
+
+/**
+ * Detect user's current language by the request URL and `Accept-Language` header.
+ * @param url User's URL to determine the requested language ('lang=[lang]')
+ * @param request The {@link Request} object, containing the headers
+ */
+export function detectLanguage(url?: URL, request?: Request): AvailableLanguageTag {
+  const requestLang = requestLanguage(request);
+  const browserLang = browser ? window.localStorage.getItem("lang") : undefined;
+
+  return getLang(url?.searchParams.get("lang") ?? browserLang ?? requestLang ?? "");
+}
+
 /**
  * Get {@link I18nStores} from a default language tag.
  * Where {@link I18nStores.lang} is the current language,
@@ -69,18 +82,6 @@ function i18nStores(lang?: AvailableLanguageTag): I18nStores {
   });
 
   return { lang: { set, subscribe }, m: { subscribe: subscribeM } };
-}
-
-/**
- * Detect user's current language by the request URL and `Accept-Language` header.
- * @param url User's URL to determine the requested language ('lang=[lang]')
- * @param request The {@link Request} object, containing the headers
- */
-export function detectLanguage(url?: URL, request?: Request): AvailableLanguageTag {
-  const requestLang = requestLanguage(request);
-  const browserLang = browser ? window.localStorage.getItem("lang") : undefined;
-
-  return getLang(url?.searchParams.get("lang") ?? browserLang ?? requestLang ?? "");
 }
 
 /**
