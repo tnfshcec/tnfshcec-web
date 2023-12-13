@@ -14,3 +14,5 @@ export const load = (async ({ params }) => {
     data
   };
 }) satisfies PageServerLoad;
+
+// Load Post

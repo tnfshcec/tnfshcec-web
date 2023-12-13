@@ -3,14 +3,14 @@ import { error, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, locals }) => {
-  const session = await locals.getSession();
-  if (session?.user?.role != "admin") throw error(401, "NO U");
+  const session = await locals.getSession(); //get sesseion
+  if (session?.user?.role != "admin") throw error(401, "NO U"); //check permission
 
   const post = await parsePost(params.post).catch(() => {
-    throw error(404, "post not found");
+    throw error(404, "post not found"); //if no post, 拖出去，現在！ 
   });
 
-  const { md, ...data } = post;
+  const { md, ...data } = post; // extract data
 
   return {
     md,
@@ -20,10 +20,10 @@ export const load = (async ({ params, locals }) => {
 
 export const actions = {
   save: async ({ locals, request }) => {
-    const session = await locals.getSession();
-    if (session?.user?.role != "admin") throw error(401, "NO U");
+    const session = await locals.getSession(); //get sesseion
+    if (session?.user?.role != "admin") throw error(401, "NO U"); //check permission
 
-    const formData = await request.formData();
+    const formData = await request.formData(); // form data
 
     // TODO: do type validation
     // NOTE: replacing CRLF with LF only
@@ -41,10 +41,10 @@ export const actions = {
     await savePost(url, data, md);
   },
   delete: async ({ locals, request }) => {
-    const session = await locals.getSession();
-    if (session?.user?.role != "admin") throw error(401, "NO U");
+    const session = await locals.getSession(); // get session
+    if (session?.user?.role != "admin") throw error(401, "NO U"); // check permission
 
-    const formData = await request.formData();
+    const formData = await request.formData(); // form data
 
     const url = formData.get("url") as string;
 

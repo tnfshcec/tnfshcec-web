@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createDialog, melt } from "@melt-ui/svelte";
 
+  // Components
   import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
@@ -9,6 +10,7 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
+  // other
   import { rawPlugin, slugPlugin, componentsPlugin } from "$lib/utils/exmarkdown-plugins";
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
@@ -16,12 +18,14 @@
 
   export let data;
 
+  // extract data
   let {
     md,
     data: { title, author, date, image, pinned, url }
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
+  // ssss
   const {
     elements: { trigger, overlay, content, portalled },
     states: { open }

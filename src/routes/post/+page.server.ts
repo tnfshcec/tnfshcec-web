@@ -6,3 +6,5 @@ export const load = (async () => {
     posts: await listSortedPosts()
   };
 }) satisfies PageServerLoad;
+
+// get post
