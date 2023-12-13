@@ -47,7 +47,7 @@
       <Menu class="h-12 w-12" />
     </button>
 
-    <!--melt-ui-->
+    <!--melt-ui-dropdown-->
     {#if $open}
       <div
         use:melt={$menu}
