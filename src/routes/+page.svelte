@@ -9,6 +9,8 @@
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
+  import At from "~icons/mdi/at";
+  import Twitter from "~icons/mdi/twitter";
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
@@ -69,6 +71,12 @@
         </a>
         <a href="https://www.instagram.com/tnfshcec" target="_blank" rel="noopener noreferrer">
           <Instagram class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
+        </a>
+        <a href="https://www.threads.net/tnfshcec" target="_blank" rel="noopener noreferrer">
+          <At class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
+        </a>
+        <a href="https://twitter.com/tnfshcec" target="_blank" rel="noopener noreferrer">
+          <Twitter class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
         <a href="https://github.com/tnfshcec" target="_blank" rel="noopener noreferrer">
           <Github class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
