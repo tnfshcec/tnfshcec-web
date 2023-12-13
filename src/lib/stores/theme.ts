@@ -2,7 +2,7 @@
 import { writable } from "svelte/store";
 import { browser } from "$app/environment";
 
-function getThemeStore() {
+export function themeStore() {
   const storageTheme = browser ? window.localStorage.getItem("theme") : undefined;
   const mediaMatch = browser ? window.matchMedia("(prefers-color-scheme: light)") : undefined;
 
@@ -29,5 +29,3 @@ function getThemeStore() {
     toggle: () => update((current) => (current === "light" ? "dark" : "light"))
   };
 }
-
-export const themeStore = getThemeStore();

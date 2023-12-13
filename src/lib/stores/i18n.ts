@@ -36,8 +36,8 @@ export function langUrl(url: URL, lang: AvailableLanguageTag): string {
  * When the langauge is set (on {@link I18nStores.lang}),
  * the 2 stores will both get updated (event fired).
  */
-export function i18nStores(lang: AvailableLanguageTag): I18nStores {
-  const { set, subscribe } = writable<AvailableLanguageTag>(lang);
+export function i18nStores(lang?: AvailableLanguageTag): I18nStores {
+  const { set, subscribe } = writable<AvailableLanguageTag>(lang ?? sourceLanguageTag);
   const { subscribe: subscribeM, update: updateM } = writable<typeof m>(m);
 
   subscribe((lang) => {

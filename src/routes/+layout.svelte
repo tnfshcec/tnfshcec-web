@@ -7,7 +7,8 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { themeStore } from "$lib/stores/theme";
-  import { detectLanguage, langUrl } from "$lib/stores/i18n";
+  import { detectLanguage, i18nStores, langUrl } from "$lib/stores/i18n";
+  import { useContextStore } from "$lib/stores/contextStore";
   import { availableLanguageTags } from "$paraglide/runtime";
 
   // Icon
@@ -18,16 +19,16 @@
   import Earth from "~icons/mdi/earth";
   import ChevronRight from "~icons/mdi/chevron-right";
   import logo from "$lib/assets/logo.svg";
-  import { setContext } from "svelte";
 
   export let data;
 
-  const { session, i18n } = data;
+  const { session, lang } = data;
+
+  const i18n = useContextStore("i18n", i18nStores, lang);
+  const theme = useContextStore("theme", themeStore);
 
   $: i18n.lang.set(detectLanguage($page.url));
   const m = i18n.m;
-
-  setContext("i18n", i18n);
 
   // TODO: scroll detection & changing title
 
@@ -51,9 +52,9 @@
     <a href="{base}/" class="flex items-center gap-2 overflow-hidden">
       <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
-        <span class="font-bold whitespace-nowrap">{$m.title()}</span>
+        <span class="whitespace-nowrap font-bold">{$m.title()}</span>
         <br />
-        <span class="text-xl font-bold whitespace-nowrap">{$m.name()}</span>
+        <span class="whitespace-nowrap text-xl font-bold">{$m.name()}</span>
       </div>
     </a>
     <button
@@ -76,9 +77,9 @@
         <div
           use:melt={$item}
           class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => themeStore.toggle()}
+          on:m-click={() => theme.toggle()}
         >
-          {#if $themeStore === "light"}
+          {#if $theme === "light"}
             <Brightness class="h-4 w-4" />
             <span>{$m.lightTheme()}</span>
           {:else}
