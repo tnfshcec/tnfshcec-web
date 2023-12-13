@@ -1,3 +1,4 @@
+<!-- news-page-->
 <script lang="ts">
   import PageTitle from "$lib/components/PageTitle.svelte";
   import PostCard from "$lib/components/PostCard.svelte";

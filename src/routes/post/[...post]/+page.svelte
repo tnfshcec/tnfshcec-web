@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createDialog, melt } from "@melt-ui/svelte";
 
+  // Components
   import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
@@ -9,6 +10,7 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
 
+  // other
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
@@ -16,6 +18,7 @@
   export let data;
   const m = data.i18n.m;
 
+  // extract data
   let {
     md,
     data: { title, author, date, image, pinned, url }
@@ -91,9 +94,6 @@
     {/if}
 
     <article class="prose space-y-4">
-      <!-- TODO: codeblock highlighting, styling / custom codeblock -->
-      <!-- TODO: footnotes plugin -->
-      <!-- <Markdown {md} plugins={[gfmPlugin, rawPlugin, slugPlugin, componentsPlugin]} /> -->
       <Carta value={md} type="viewer" />
     </article>
   </div>

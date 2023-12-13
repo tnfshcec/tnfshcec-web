@@ -1,21 +1,28 @@
 <script lang="ts">
+
+  // svelte
   import { base } from "$app/paths";
   import type { ComponentProps } from "svelte";
 
-  import Comment from "$lib/components/Comment.svelte";
-  import PostCard from "$lib/components/PostCard.svelte";
-  import { anchorScroll } from "$lib/components/actions";
-
+  // icon
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
+  import At from "~icons/mdi/at";
+  import Twitter from "~icons/mdi/twitter";
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
 
+  // other
+  import Comment from "$lib/components/Comment.svelte";
+  import PostCard from "$lib/components/PostCard.svelte";
+  import { anchorScroll } from "$lib/components/actions";
+
   export let data;
   const m = data.i18n.m;
 
+  // comments
   const comments: ComponentProps<Comment>[][] = [
     [
       { username: "原批", handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
@@ -69,6 +76,12 @@
         <a href="https://www.instagram.com/tnfshcec" target="_blank" rel="noopener noreferrer">
           <Instagram class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
+        <a href="https://www.threads.net/tnfshcec" target="_blank" rel="noopener noreferrer">
+          <At class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
+        </a>
+        <a href="https://twitter.com/tnfshcec" target="_blank" rel="noopener noreferrer">
+          <Twitter class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
+        </a>
         <a href="https://github.com/tnfshcec" target="_blank" rel="noopener noreferrer">
           <Github class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
         </a>
@@ -81,6 +94,7 @@
   </div>
 </section>
 
+<!-- more -->
 <section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
   <div class="max-w-4xl text-lg">{$m.home_quote()}</div>
   <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
@@ -89,6 +103,7 @@
   </a>
 </section>
 
+<!-- news -->
 <section class="w-full px-4 py-16" id="news">
   <div
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
@@ -110,6 +125,7 @@
   </div>
 </section>
 
+<!-- club-activities -->
 <section class="w-full px-4 py-16" id="interests">
   <div
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
@@ -163,6 +179,7 @@
   </div>
 </section>
 
+<!-- strange-declare-by-eggrror404 -->
 <section class="w-full p-2 text-[0.25rem] text-text/20">
   <span class="font-bold">DISCLAIMER</span><br />
   *The text content on the site may not be true, or be referring to any real-world events.<br />
@@ -176,6 +193,7 @@
 </section>
 
 <style>
+  /*background-gradient*/
   #hero-gradient {
     background: radial-gradient(
         43% 43% at 64% 81%,

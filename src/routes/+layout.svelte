@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../app.postcss";
 
+  // JS
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
@@ -9,6 +10,7 @@
   import { detectLanguage, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
+  // Icon
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
@@ -41,6 +43,7 @@
   } = createSubmenu();
 </script>
 
+<!--nav-bar-->
 <nav
   class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-8 py-2 backdrop-blur"
 >
@@ -62,6 +65,7 @@
       <Menu class="h-12 w-12" />
     </button>
 
+    <!--melt-ui-dropdown-->
     {#if $open}
       <div
         use:melt={$menu}
@@ -160,6 +164,7 @@
   <slot />
 </main>
 
+<!--gradient-->
 <style>
   #menu-trigger::after {
     @apply absolute bottom-0 right-0 h-8 w-8;

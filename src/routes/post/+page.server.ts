@@ -1,3 +1,4 @@
+// get post
 import { listSortedPosts } from "$lib/server/posts";
 import type { PageServerLoad } from "./$types";
 

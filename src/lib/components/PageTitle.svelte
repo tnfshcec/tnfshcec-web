@@ -1,3 +1,4 @@
+<!-- TITLE FOR EACH PAGE -->
 <script lang="ts">
   import { base } from "$app/paths";
   import ChevronRight from "~icons/mdi/chevron-right";

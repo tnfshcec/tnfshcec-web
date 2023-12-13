@@ -1,4 +1,5 @@
-<!-- https://www.melt-ui.com/docs/builders/toast -->
+<!-- https://www.melt-ui.com/docs/builders/toast
+      COPIED BY EGGRROR404 -->
 <script lang="ts" context="module">
   export type ToastData = {
     title: string;

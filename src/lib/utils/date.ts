@@ -35,3 +35,5 @@ export function isoDateString<T>(date: Date, fallback: T): string | T;
 export function isoDateString<T>(date: Date, fallback?: T) {
   return isNaN(date.valueOf()) ? fallback : date.toISOString().substring(0, 10);
 }
+
+// eggrror404 sama is so nb
