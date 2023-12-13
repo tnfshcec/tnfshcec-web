@@ -1,12 +1,15 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
 import { env } from "$env/dynamic/private";
+import { detectLanguage } from "$lib/stores/i18n";
+import { sequence } from "@sveltejs/kit/hooks";
+import type { Handle } from "@sveltejs/kit";
 
 const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())
   .filter((s) => s);
 
-export const handle = SvelteKitAuth({
+const auth = SvelteKitAuth({
   providers: [
     GitHub({
       clientId: env.GITHUB_ID,
@@ -33,3 +36,20 @@ export const handle = SvelteKitAuth({
     }
   }
 });
+
+const locale: Handle = async ({ event, resolve }) => {
+  const lang = detectLanguage(event.url, event.request);
+
+  event.locals.lang = lang;
+
+  return resolve(event, {
+    transformPageChunk({ done, html }) {
+      // Only do it at the very end of the rendering process
+      if (done) {
+        return html.replace("%lang%", lang);
+      }
+    }
+  });
+};
+
+export const handle = sequence(auth, locale);

@@ -1,12 +1,15 @@
 import "unplugin-icons/types/svelte";
 import { DefaultSession } from "@auth/core";
+import type { AvailableLanguageTag } from "$paraglide/runtime";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
   namespace App {
     // interface Error {}
-    // interface Locals {}
+    interface Locals {
+      lang: AvailableLanguageTag;
+    }
     // interface PageData {}
     // interface Platform {}
     interface PostData {

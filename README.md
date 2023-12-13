@@ -78,3 +78,16 @@ As for why a typical database is not used, this is because:
 Post route in the url is directly mapped to the filesystem, eg:
 
 `https://<domain>/post/path/to/post` -> `cec/path/to/post.md`
+
+### Internationalization (i18n)
+
+This project uses [inlang](https://inlang.com/) with `paraglide.js` for i18n.
+Translation files are stored in `src/messages/[lang].json`, where `lang` is the target language.
+
+Currently supported languages: `zh-tw`, `en`, `ja`
+
+To add a translation, follow the steps below:
+1. Add your target language in `tnfshcec.inlang/settings.json`, under the `languageTags` array (ex:`de`).
+2. Copy one of the translation files in `src/messages/[lang].json`, renaming it to your target language.
+3. Do the translations in the file you copied.
+4. Update the languages listed above (the README).

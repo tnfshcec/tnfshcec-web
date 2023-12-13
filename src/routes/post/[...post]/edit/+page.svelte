@@ -20,7 +20,8 @@
 
   export let data;
 
-  let { md, data: postData } = data;
+  let { md, data: postData, i18n } = data;
+  const m = i18n.m;
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
@@ -49,7 +50,7 @@
   async function savePost() {
     await formAction("?/save");
 
-    addToast({ data: { title: "Post is Saved" } });
+    addToast({ data: { title: $m.post_saveMessage() } });
   }
 
   async function deletePost() {
@@ -58,7 +59,7 @@
 
     await formAction("?/delete");
 
-    addToast({ data: { title: "Post Deleted" } });
+    addToast({ data: { title: $m.post_deleteMessage() } });
 
     goto(`${base}/post`);
   }
@@ -72,8 +73,8 @@
           <Pin class="h-4 w-4 text-primary" />
         {/if}
         <span>
-          {postData.pinned && !postData.author && !postData.date ? "Pinned" : ""}
-          {postData.author ? `By ${postData.author}` : ""}
+          {postData.pinned && !postData.author && !postData.date ? $m.post_pinned() : ""}
+          {postData.author ? $m.post_postedBy({ user: postData.author }) : ""}
           {postData.author && postData.date ? "/" : ""}
           {localeDate}
         </span>
@@ -82,11 +83,11 @@
       <div slot="title" class="flex flex-grow basis-0 flex-wrap justify-end gap-2">
         <button class="icon-flex icon btn-accent" on:click={savePost}>
           <Save class="h-4 w-4" />
-          Save
+          {$m.post_savePost()}
         </button>
         <button class="icon-flex btn-text" on:click={deletePost}>
           <Alert class="h-4 w-4" />
-          Delete
+          {$m.post_deletePost()}
         </button>
       </div>
     </PageTitle>
@@ -106,18 +107,21 @@
           transition:fly={{ duration: 150, y: 10 }}
         >
           <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
-          <p use:melt={$description} class="leading-normal text-text/80">
-            You're deleting this post, confirm with caution!<br />
-            The post ain't coming back after this!
+          <p use:melt={$description} class="whitespace-pre-wrap leading-normal text-text/80">
+            {$m.post_deleteConfirmation()}
           </p>
 
           <div class="mt-6 flex justify-end gap-4">
-            <button use:melt={$close} class="btn-text opacity-80">Cancel</button>
+            <button use:melt={$close} class="btn-text opacity-80">
+              {$m.dialogCancel()}
+            </button>
             <button
               use:melt={$close}
               class="btn-accent"
-              on:m-click={() => ($confirmedDelete = true)}>Confirm</button
+              on:m-click={() => ($confirmedDelete = true)}
             >
+              {$m.dialogConfirm()}
+            </button>
           </div>
         </div>
       {/if}
@@ -126,38 +130,38 @@
     <form id="post-edit" class="space-y-4" bind:this={form}>
       <section class="grid grid-cols-2 gap-6">
         <input
-          use:editField={{ id: "url", label: "URL", className: "col-span-2" }}
+          use:editField={{ id: "url", label: $m.post_fieldUrl(), className: "col-span-2" }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={editUrl}
         />
         <input
-          use:editField={{ id: "title", label: "Title" }}
+          use:editField={{ id: "title", label: $m.post_fieldTitle() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.title}
         />
         <input
-          use:editField={{ id: "author", label: "Author" }}
+          use:editField={{ id: "author", label: $m.post_fieldAuthor() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.author}
         />
         <input
-          use:editField={{ id: "date", label: "Date" }}
+          use:editField={{ id: "date", label: $m.post_fieldDate() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           type="date"
           bind:value={postData.date}
         />
         <input
-          use:editField={{ id: "image", label: "Image" }}
+          use:editField={{ id: "image", label: $m.post_fieldImage() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.image}
         />
         <input
-          use:editField={{ id: "desc", label: "Description" }}
+          use:editField={{ id: "desc", label: $m.post_fieldDescription() }}
           class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
           bind:value={postData.desc}
         />
         <input
-          use:editField={{ id: "pinned", label: "Pinned" }}
+          use:editField={{ id: "pinned", label: $m.post_fieldPinned() }}
           class="block h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
           type="checkbox"
           bind:checked={postData.pinned}

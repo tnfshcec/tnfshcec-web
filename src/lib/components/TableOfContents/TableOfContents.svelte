@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+  import { createTableOfContents } from "@melt-ui/svelte";
   import TocItem from "./TableOfContentsItem.svelte";
   import { scrollOffset } from "$lib/utils/scrollOffset";
-  import { createTableOfContents } from "@melt-ui/svelte";
+  import type { I18nStores } from "$lib/stores/i18n";
 
   export let selector: string;
+
+  const { m } = getContext<I18nStores>("i18n");
 
   const {
     elements: { item },
@@ -17,7 +21,7 @@
   });
 </script>
 
-<p class="font-bold">On This Page</p>
+<p class="font-bold">{$m.post_tableOfContents()}</p>
 <nav>
   {#key $headingsTree}
     <TocItem tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
