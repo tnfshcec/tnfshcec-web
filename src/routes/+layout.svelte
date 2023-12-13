@@ -45,12 +45,12 @@
   class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-8 py-2 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
-    <a href="{base}/" class="flex items-center gap-2">
+    <a href="{base}/" class="flex items-center gap-2 overflow-hidden">
       <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
       <div>
-        <span class="font-bold">{$m.title()}</span>
+        <span class="font-bold whitespace-nowrap">{$m.title()}</span>
         <br />
-        <span class="text-xl font-bold">{$m.name()}</span>
+        <span class="text-xl font-bold whitespace-nowrap">{$m.name()}</span>
       </div>
     </a>
     <button
