@@ -25,7 +25,6 @@
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
-  // ssss
   const {
     elements: { trigger, overlay, content, portalled },
     states: { open }
