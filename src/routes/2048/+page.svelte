@@ -1,8 +1,53 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { Game2048, getController } from "./2048";
+  import type { KeyboardEventHandler, MouseEventHandler } from "svelte/elements";
 
-  onMount(() => import("./2048.js"));
+  const gameObj = new Game2048();
+  const controller = getController(gameObj);
+
+  onMount(() => gameObj.newBox());
+
+  const onmousedown: MouseEventHandler<Document> = (e) => {
+    var x = e.clientX;
+    var y = e.clientY;
+    controller.start(x, y);
+  };
+  const onmousemove: MouseEventHandler<Document> = (e) => {
+    var x = e.clientX;
+    var y = e.clientY;
+    controller.move(x, y);
+  };
+  const onmouseup: MouseEventHandler<Document> = (e) => {
+    var x = e.clientX;
+    var y = e.clientY;
+    controller.end(x, y);
+  };
+  const onkeyup: KeyboardEventHandler<Document> = (e) => {
+    let currKey = e.key;
+    switch (currKey) {
+      case "ArrowLeft":
+        gameObj.move(0, 0);
+        break;
+      case "ArrowUp":
+        gameObj.move(1, 0);
+        break;
+      case "ArrowRight":
+        gameObj.move(0, 1);
+        break;
+      case "ArrowDown":
+        gameObj.move(1, 1);
+        break;
+    }
+  };
 </script>
+
+<svelte:document
+  on:mousedown={onmousedown}
+  on:mousemove={onmousemove}
+  on:mouseup={onmouseup}
+  on:keyup={onkeyup}
+/>
 
 <p>join the number to get 2048 tile!</p>
 <div class="cover"></div>

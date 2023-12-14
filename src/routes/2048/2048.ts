@@ -5,269 +5,250 @@
  * THANK YOU FOR THE AMAYZING CODE :D
  */
 
-var gameObj = {
-    points: {
-        score: 0,
-        history: [],
-        status: 1
-    },
-    stage: [],
-    intiStage: function () {
-        for (var cell = 0; cell < 4; cell++) {
-            this.stage[cell] = [];
-            for (var row = 0; row < 4; row++) {
-                this.stage[cell][row] = {
-                    boxObj: null,
-                    position: [cell, row]
-                };
-            }
-        }
+type Tile = {
+  boxObj: { value: number; parent: Tile; domObj: HTMLElement } | null;
+  position: [number, number];
+};
 
-    },
-    
-        empty: function () {
-        var emptyList = [];
-        for (var row = 0; row < 4; row++) {
-            for (var cell = 0; cell < 4; cell++) {
-                if (this.stage[cell][row].boxObj == null) {
-                    emptyList.push(this.stage[cell][row]);
-                }
-            }
-        }
-        return emptyList;
-    },
-    newBox: function () {
-        var _this = this;
-        
-        
-        var box = function (obj) {
-            var num = Math.random() > 0.9 ? 4 : 2;
-            this.value = num;
-            this.parent = obj;
-            this.domObj = function () {
-                var domBox = document.createElement('span');
-                domBox.innerText = num;
-                domBox.textContent = num;
-                domBox.className = 'row' + obj.position[0] + ' ' + 'cell' + obj.position[1] + ' ' + 'num' + num + ' ' + 'tile';
-                var root = document.getElementById('stage');
-                root.appendChild(domBox);
-                return  domBox;
-            }();
-            obj.boxObj = this;
-        }
-        var emptyList = this.empty();
-        if (emptyList.length) {
-            var randomIndex = Math.floor(Math.random() * emptyList.length);
-            new box(emptyList[randomIndex]);
-            return true;
-        }
-    },
-    isEnd:function(){
-        var emptyList = this.empty();
-        if (!emptyList.length) {
-            for(var i=0;i<4;i++){
-                for(var j=0;j<4;j++){
-                    var obj=this.stage[i][j];
-                    var objLeft=(j==0)?{boxObj:{value:0}}:this.stage[i][j-1];
-                    var objRight=(j==3)?{boxObj:{value:0}}:this.stage[i][j+1];
-                    var objUp=(i==0)?{boxObj:{value:0}}:this.stage[i-1][j];
-                    var objDown=(i==3)?{boxObj:{value:0}}:this.stage[i+1][j];
-                    if(obj.boxObj.value==objLeft.boxObj.value
-                        ||obj.boxObj.value==objDown.boxObj.value
-                        ||obj.boxObj.value==objRight.boxObj.value
-                        ||obj.boxObj.value==objUp.boxObj.value){
-                        return false
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    },
-    gameOver:function(){
-        alert('GAVE OVER!');
-    },
-    moveTo :function (obj1, obj2) {
-            obj2.boxObj = obj1.boxObj;
-            obj2.boxObj.domObj.className = 'row' + obj2.position[0] + ' ' + 'cell' + obj2.position[1] + ' ' + 'num' + obj2.boxObj.value + ' ' + 'tile';
-            obj1.boxObj = null;
-        },
-    addTo : function (obj1, obj2) {
-            obj2.boxObj.domObj.parentNode.removeChild(obj2.boxObj.domObj);
-            obj2.boxObj = obj1.boxObj;
-            obj1.boxObj = null;
-            obj2.boxObj.value = obj2.boxObj.value * 2;
-            obj2.boxObj.domObj.className = 'row' + obj2.position[0] + ' ' + 'cell' + obj2.position[1] + ' ' + 'num' + obj2.boxObj.value + ' ' + 'tile';
-            obj2.boxObj.domObj.innerText = obj2.boxObj.value;
-            obj2.boxObj.domObj.textContent = obj2.boxObj.value;
-            this.points.score+=obj2.boxObj.value;
-        var scoreBar= document.getElementById('score');
-        scoreBar.innerText=this.points.score;
-        scoreBar.textContent=this.points.score;
-        return obj2.boxObj.value;
+export class Game2048 {
+  points = { score: 0, history: [], status: 1 };
+  stage: Tile[][] = [];
 
+  constructor() {
+    this.initStage();
+  }
 
-    },
-    clear:function(x,y){
-        var can=0;
-      for(var i=0;i<4;i++){
-          var fst=null;
-          var fstEmpty=null;
-          for(var j=0;j<4;j++){
-              var objInThisWay=null;
-              switch (""+x+y){
-                  case '00': objInThisWay=this.stage[i][j];break;
-                  case '10':objInThisWay=this.stage[j][i];break;
-                  case '11':objInThisWay=this.stage[3-j][i];break;
-                  case '01':objInThisWay=this.stage[i][3-j];break;
-              }
-              if(objInThisWay.boxObj!=null){
-                 if(fstEmpty){
-                   this.moveTo(objInThisWay,fstEmpty)
-                    fstEmpty=null;
-                    j=0;
-                     can=1;
-                 }
-              }else if(!fstEmpty){
-                   fstEmpty=objInThisWay;
-              }
-          }
+  initStage() {
+    for (var cell = 0; cell < 4; cell++) {
+      this.stage[cell] = [];
+      for (var row = 0; row < 4; row++) {
+        this.stage[cell][row] = {
+          boxObj: null,
+          position: [cell, row]
+        };
       }
-        return can;
-    },
-    
-    move: function (x,y) {
-        var can=0;
-        can=this.clear(x,y)?1:0;
-        var add=0;
-        for(var i=0;i<4;i++){
-            for(var j=0;j<3;j++){
-                var objInThisWay=null;
-                var objInThisWay2=null;
-                switch (""+x+y){
-                    case '00':{
-                        objInThisWay=this.stage[i][j];
-                        objInThisWay2=this.stage[i][j+1];break;
-                    }
-                    case '10':{
-                        objInThisWay=this.stage[j][i];
-                        objInThisWay2=this.stage[j+1][i];break;
-                    }
+    }
+  }
 
-                    case '11':{
-                        objInThisWay=this.stage[3-j][i];
-                        objInThisWay2=this.stage[2-j][i];break;
-                    }
-                    case '01':{
-                        objInThisWay=this.stage[i][3-j];
-                        objInThisWay2=this.stage[i][2-j];break;
-                    }
-                }
-                if(objInThisWay2.boxObj&&objInThisWay.boxObj.value==objInThisWay2.boxObj.value){
-                  add+=this.addTo(objInThisWay2,objInThisWay);
-                    this.clear(x,y);
-                    can=1;
-                }
-            }
+  empty() {
+    var emptyList = [];
+    for (var row = 0; row < 4; row++) {
+      for (var cell = 0; cell < 4; cell++) {
+        if (this.stage[cell][row].boxObj == null) {
+          emptyList.push(this.stage[cell][row]);
         }
-        if(add){
-            var addscore=document.getElementById('addScore');
-            addscore.innerText="+"+add;
-            addscore.textContent="+"+add;
-            addscore.className="show";
-            setTimeout(function(){
-                addscore.className="hide";
-            },500);
-        }
-        if(can){
-            this.newBox();
-        }
-        if(this.isEnd()){
-            this.gameOver();
-        }
-    },
+      }
+    }
+    return emptyList;
+  }
 
-    inti: null
-}
-var controller = function () {
-    var startX = 0;
-    var startY = 0;
-    var ready = 0;
-    const start = function (x, y) {
-        ready = 1;
-        startX = x;
-        startY = y;
+  newBox() {
+    const createBox = function (num: number, position: [number, number]) {
+      const domBox = document.createElement("span");
+      domBox.innerText = num.toString();
+      domBox.textContent = num.toString();
+      domBox.classList.add(`row${position[0]}`);
+      domBox.classList.add(`cell${position[1]}`);
+      domBox.classList.add(`tile`);
+
+      document.getElementById("stage")?.appendChild(domBox);
+
+      return domBox;
     };
-    const move = function (x, y) {
-        if (x - startX > 100 && ready) {
-            gameObj.move(0, 1);
-            ready = 0;
-        } else if (startX - x > 100 && ready) {
-            gameObj.move(0, 0);
-            ready = 0;
-        }
-        else if (startY - y > 100 && ready) {
-            gameObj.move(1, 0);
-            ready = 0;
-        }
-        else if (y - startY > 100 && ready) {
-            gameObj.move(1, 1);
-            ready = 0;
-        }
+
+    const emptyList = this.empty();
+    if (emptyList) {
+      const randomTile = emptyList[Math.floor(Math.random() * emptyList.length)];
+      const num = Math.random() > 0.9 ? 4 : 2;
+
+      randomTile.boxObj = {
+        value: num,
+        parent: randomTile,
+        domObj: createBox(num, randomTile.position)
+      };
     }
-    const end = function (x, y) {
-        ready = 0;
+  }
+
+  isEnd() {
+    var emptyList = this.empty();
+    if (!emptyList.length) {
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
+          var obj = this.stage[i][j];
+          var objLeft = j == 0 ? { boxObj: { value: 0 } } : this.stage[i][j - 1];
+          var objRight = j == 3 ? { boxObj: { value: 0 } } : this.stage[i][j + 1];
+          var objUp = i == 0 ? { boxObj: { value: 0 } } : this.stage[i - 1][j];
+          var objDown = i == 3 ? { boxObj: { value: 0 } } : this.stage[i + 1][j];
+          if (
+            obj.boxObj?.value == objLeft.boxObj?.value ||
+            obj.boxObj?.value == objDown.boxObj?.value ||
+            obj.boxObj?.value == objRight.boxObj?.value ||
+            obj.boxObj?.value == objUp.boxObj?.value
+          ) {
+            return false;
+          }
+        }
+      }
+      return true;
     }
-    return {
-        start,
-        move,
-        end
+    return false;
+  }
+
+  gameOver() {
+    alert("GAVE OVER!");
+  }
+
+  moveTo(obj1: Tile, obj2: Tile) {
+    obj2.boxObj = obj1.boxObj;
+
+    if (obj2.boxObj)
+      obj2.boxObj.domObj.className = `row${obj2.position[0]} cell${obj2.position[1]} num${obj2.boxObj?.value} tile`;
+
+    obj1.boxObj = null;
+  }
+
+  addTo(obj1: Tile, obj2: Tile) {
+    obj2.boxObj?.domObj.parentNode?.removeChild(obj2.boxObj.domObj);
+    obj2.boxObj = obj1.boxObj;
+    obj1.boxObj = null;
+    if (obj2.boxObj) {
+      obj2.boxObj.value = obj2.boxObj?.value * 2;
+      obj2.boxObj.domObj.className = `row${obj2.position[0]} cell${obj2.position[1]} num${obj2.boxObj?.value} tile`;
+      obj2.boxObj.domObj.innerText = obj2.boxObj.value.toString();
+      obj2.boxObj.domObj.textContent = obj2.boxObj.value.toString();
+      this.points.score += obj2.boxObj.value;
     }
-}();
-function disableSelection(target){
-    if (typeof target.onselectstart!="undefined") 
-        target.onselectstart=function(){return false}
-    else if (typeof target.style.MozUserSelect!="undefined") 
-        target.style.MozUserSelect="none"
-    else 
-        target.onmousedown=function(){return false}
-    target.style.cursor = "default"
+    const scoreBar = document.getElementById("score");
+    if (scoreBar) {
+      scoreBar.innerText = this.points.score.toString();
+      scoreBar.textContent = this.points.score.toString();
+    }
+    return obj2.boxObj?.value ?? 0;
+  }
+
+  // TODO: change this api
+  clear(x: 0 | 1, y: 0 | 1) {
+    var can = 0;
+    for (var i = 0; i < 4; i++) {
+      var fst = null;
+      var fstEmpty = null;
+      for (var j = 0; j < 4; j++) {
+        var objInThisWay = null;
+        switch ("" + x + y) {
+          case "00":
+            objInThisWay = this.stage[i][j];
+            break;
+          case "10":
+            objInThisWay = this.stage[j][i];
+            break;
+          case "11":
+            objInThisWay = this.stage[3 - j][i];
+            break;
+          case "01":
+            objInThisWay = this.stage[i][3 - j];
+            break;
+        }
+        if (objInThisWay?.boxObj != null) {
+          if (fstEmpty) {
+            this.moveTo(objInThisWay, fstEmpty);
+            fstEmpty = null;
+            j = 0;
+            can = 1;
+          }
+        } else if (!fstEmpty) {
+          fstEmpty = objInThisWay;
+        }
+      }
+    }
+    return can;
+  }
+
+  // TODO: change this api
+  move(x: 0 | 1, y: 0 | 1) {
+    var can = 0;
+    can = this.clear(x, y) ? 1 : 0;
+    var add = 0;
+    for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 3; j++) {
+        var objInThisWay = null;
+        var objInThisWay2 = null;
+        switch ("" + x + y) {
+          case "00": {
+            objInThisWay = this.stage[i][j];
+            objInThisWay2 = this.stage[i][j + 1];
+            break;
+          }
+          case "10": {
+            objInThisWay = this.stage[j][i];
+            objInThisWay2 = this.stage[j + 1][i];
+            break;
+          }
+
+          case "11": {
+            objInThisWay = this.stage[3 - j][i];
+            objInThisWay2 = this.stage[2 - j][i];
+            break;
+          }
+          case "01": {
+            objInThisWay = this.stage[i][3 - j];
+            objInThisWay2 = this.stage[i][2 - j];
+            break;
+          }
+        }
+        if (objInThisWay2?.boxObj && objInThisWay?.boxObj?.value == objInThisWay2.boxObj.value) {
+          add += this.addTo(objInThisWay2, objInThisWay);
+          this.clear(x, y);
+          can = 1;
+        }
+      }
+    }
+    if (add) {
+      const addscore = document.getElementById("addScore");
+      if (addscore) {
+        addscore.innerText = "+" + add;
+        addscore.textContent = "+" + add;
+        addscore.className = "show";
+        setTimeout(function () {
+          addscore.className = "hide";
+        }, 500);
+      }
+    }
+    if (can) {
+      this.newBox();
+    }
+    if (this.isEnd()) {
+      this.gameOver();
+    }
+  }
 }
-window.onload = function () {
-    gameObj.intiStage();
-    gameObj.newBox();
-    var stage = document.getElementById('stage');
-    document.onmousedown = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.start(x, y);
+
+export function getController(gameObj: Game2048) {
+  let startX = 0;
+  let startY = 0;
+  let ready = 0;
+  return {
+    start(x: number, y: number) {
+      ready = 1;
+      startX = x;
+      startY = y;
+    },
+    move(x: number, y: number) {
+      if (x - startX > 100 && ready) {
+        gameObj.move(0, 1);
+        ready = 0;
+      } else if (startX - x > 100 && ready) {
+        gameObj.move(0, 0);
+        ready = 0;
+      } else if (startY - y > 100 && ready) {
+        gameObj.move(1, 0);
+        ready = 0;
+      } else if (y - startY > 100 && ready) {
+        gameObj.move(1, 1);
+        ready = 0;
+      }
+    },
+    end(x: number, y: number) {
+      ready = 0;
     }
-    document.onmousemove = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.move(x, y);
-    }
-    document.onmouseup = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.end(x, y);
-    }
-    function keyUp(e) {
-        var currKey=0,e=e||event;
-        currKey=e.keyCode||e.which||e.charCode;
-        var keyName = String.fromCharCode(currKey);
-        switch (currKey){
-            case 37:gameObj.move(0, 0);break;
-            case 38:gameObj.move(1, 0);break;
-            case 39:gameObj.move(0, 1);break;
-            case 40:gameObj.move(1, 1);break;
-        }
-    }
-    document.onkeyup = keyUp;
+  };
 }
