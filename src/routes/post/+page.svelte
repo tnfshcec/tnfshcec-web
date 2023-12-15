@@ -2,7 +2,7 @@
 <script lang="ts">
   import PageTitle from "$lib/components/PageTitle.svelte";
   import PostCard from "$lib/components/PostCard.svelte";
-  import { useI18nStores } from "$lib/stores/i18n.js";
+  import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
   const { m } = useI18nStores();
@@ -23,4 +23,3 @@
     </div>
   </div>
 </div>
-

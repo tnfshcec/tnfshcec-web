@@ -1,4 +1,3 @@
-
 import { getContext, hasContext, setContext } from "svelte";
 
 /**
@@ -8,15 +7,15 @@ import { getContext, hasContext, setContext } from "svelte";
  * @see {@link https://dev.to/brendanmatkin/safe-sveltekit-stores-for-ssr-5a0h}
  */
 export const useContextStore = <T, TStore>(
-    name: string,
-    fn: (value?: T) => TStore,
-    defaultValue?: T,
+  name: string,
+  createStore: (value?: T) => TStore,
+  defaultValue?: T
 ): TStore => {
   // INFO: `TStore` is not constrained to `Readable<T>`, to be more flexible (with the objects)
-    if (hasContext(name)) {
-        return getContext<TStore>(name);
-    }
-    const _value = fn(defaultValue);
-    setContext(name, _value);
-    return _value;
+  if (hasContext(name)) {
+    return getContext<TStore>(name);
+  }
+  const store = createStore(defaultValue);
+  setContext(name, store);
+  return store;
 };

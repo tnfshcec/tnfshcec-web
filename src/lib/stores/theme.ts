@@ -37,15 +37,17 @@ export function serverDetectTheme(request: Request): Theme {
  */
 export function pageDetectTheme(serverTheme: Theme): Theme {
   const browserTheme = browser ? window.localStorage.getItem("theme") == "light" : undefined;
-  const mediaTheme = browser ? window.matchMedia("(prefers-color-scheme: light)").matches : undefined;
+  const mediaTheme = browser
+    ? window.matchMedia("(prefers-color-scheme: light)").matches
+    : undefined;
 
-  return (browserTheme ?? mediaTheme ?? serverTheme == "light") ? "light" : "dark";
+  return browserTheme ?? mediaTheme ?? serverTheme == "light" ? "light" : "dark";
 }
 
 /**
-  * Create a theme store with an optional default value,
-  * setup side effects e.g. setting the `dark` class
-  */
+ * Create a theme store with an optional default value,
+ * setup side effects e.g. setting the `dark` class
+ */
 function themeStore(theme?: Theme) {
   const mediaMatch = browser ? window.matchMedia("(prefers-color-scheme: light)") : undefined;
 

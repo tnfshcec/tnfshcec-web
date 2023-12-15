@@ -1,23 +1,26 @@
 <script lang="ts">
+  // JS
   import { createDialog, melt } from "@melt-ui/svelte";
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
   import { fade, fly } from "svelte/transition";
   import { writable } from "svelte/store";
+  import { useI18nStores } from "$lib/stores/i18n";
+  import { localeDateFromString } from "$lib/utils/date";
+  import { nextUpdate } from "$lib/utils/nextStoreUpdate";
 
+  // components
   import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
-  import { editField } from "$lib/components/actions";
-  import { localeDateFromString } from "$lib/utils/date";
-  import { nextUpdate } from "$lib/utils/nextStoreUpdate";
   import { addToast } from "$lib/components/Toaster.svelte";
+  import { editField } from "$lib/components/actions";
 
+  // icons
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
   import Alert from "~icons/mdi/alert";
-  import { useI18nStores } from "$lib/stores/i18n.js";
 
   export let data;
 

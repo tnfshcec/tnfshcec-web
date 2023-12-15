@@ -14,7 +14,7 @@
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fade, fly } from "svelte/transition";
-  import { useI18nStores } from "$lib/stores/i18n.js";
+  import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
   const { m } = useI18nStores();
