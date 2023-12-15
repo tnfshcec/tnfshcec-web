@@ -57,7 +57,7 @@ export function serverDetectLanguage(url: URL, request: Request): AvailableLangu
 }
 
 /**
- * Detect user's current language by the URL and the result from {@link serverDetectLanguage}.
+ * Detect user's current language by client data and the result from {@link serverDetectLanguage}.
  *
  * Note that though this function is intended to be run on the 'page',
  * it may still run on the server for SSR.
