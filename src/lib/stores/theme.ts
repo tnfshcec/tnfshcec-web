@@ -9,8 +9,12 @@ export function useThemeStore() {
   return useContextStore("theme", themeStore);
 }
 
-export function detectTheme(): Theme {
+export function detectTheme(request: Request): Theme {
+  const requestTheme = request.headers.get("Sec-CH-Prefers-Color-Scheme") == "light";
+  const browserTheme = browser ? window.localStorage.getItem("theme") == "light" : false;
+  const mediaTheme = browser ? window.matchMedia("(prefers-color-scheme: light)").matches : false;
 
+  return (browserTheme && mediaTheme && requestTheme) ? "light" : "dark";
 }
 
 function themeStore() {
