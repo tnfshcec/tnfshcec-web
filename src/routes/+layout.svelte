@@ -21,10 +21,10 @@
 
   export let data;
 
-  const { session, lang } = data;
+  const { session, lang, theme: defaultTheme } = data;
 
   const i18n = useI18nStores(lang);
-  const theme = useThemeStore();
+  const theme = useThemeStore(defaultTheme);
 
   // reactively set the page's language
   $: i18n.lang.set(detectLanguage($page.url));

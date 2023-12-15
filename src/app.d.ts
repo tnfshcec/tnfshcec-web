@@ -1,6 +1,7 @@
 import "unplugin-icons/types/svelte";
 import { DefaultSession } from "@auth/core";
 import type { AvailableLanguageTag } from "$paraglide/runtime";
+import type { Theme } from "$lib/stores/theme";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -9,6 +10,7 @@ declare global {
     // interface Error {}
     interface Locals {
       lang: AvailableLanguageTag;
+      theme: Theme;
     }
     // interface PageData {}
     // interface Platform {}

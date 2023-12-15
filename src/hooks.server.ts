@@ -4,6 +4,7 @@ import { env } from "$env/dynamic/private";
 import { detectLanguage } from "$lib/stores/i18n";
 import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle } from "@sveltejs/kit";
+import { detectTheme } from "$lib/stores/theme";
 
 const admins = env.ADMINS?.split(",")
   .map((s) => s.trim())
@@ -52,4 +53,19 @@ const locale: Handle = async ({ event, resolve }) => {
   });
 };
 
-export const handle = sequence(auth, locale);
+const theme: Handle = async ({event, resolve}) => {
+  const theme = detectTheme(event.request);
+
+  event.locals.theme = theme;
+
+  const response = await resolve(event);
+  
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme
+  response.headers.set("Accept-CH", "Sec-CH-Prefers-Color-Scheme");
+  response.headers.set("Vary", "Sec-CH-Prefers-Color-Scheme");
+  response.headers.set("Critical-CH", "Sec-CH-Prefers-Color-Scheme");
+
+  return response;
+}
+
+export const handle = sequence(auth, locale, theme);

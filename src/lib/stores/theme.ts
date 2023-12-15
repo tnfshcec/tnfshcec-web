@@ -5,25 +5,22 @@ import { useContextStore } from "./contextStore";
 
 export type Theme = "light" | "dark";
 
-export function useThemeStore() {
-  return useContextStore("theme", themeStore);
+export function useThemeStore(theme: Theme) {
+  return useContextStore("theme", themeStore, theme);
 }
 
-export function detectTheme(request: Request): Theme {
-  const requestTheme = request.headers.get("Sec-CH-Prefers-Color-Scheme") == "light";
+export function detectTheme(request?: Request): Theme {
+  const requestTheme = request?.headers.get("Sec-CH-Prefers-Color-Scheme") == "light";
   const browserTheme = browser ? window.localStorage.getItem("theme") == "light" : false;
   const mediaTheme = browser ? window.matchMedia("(prefers-color-scheme: light)").matches : false;
 
   return (browserTheme && mediaTheme && requestTheme) ? "light" : "dark";
 }
 
-function themeStore() {
-  const storageTheme = browser ? window.localStorage.getItem("theme") : undefined;
+function themeStore(theme?: Theme) {
   const mediaMatch = browser ? window.matchMedia("(prefers-color-scheme: light)") : undefined;
 
-  const { set, subscribe, update } = writable<Theme>(
-    storageTheme === "light" || mediaMatch?.matches ? "light" : "dark"
-  );
+  const { set, subscribe, update } = writable<Theme>(theme ?? "dark");
 
   subscribe((theme) => {
     if (!browser) return;
