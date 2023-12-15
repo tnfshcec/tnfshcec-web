@@ -6,8 +6,8 @@
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-  import { useThemeStore } from "$lib/stores/theme";
-  import { detectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
+  import { pageDetectTheme, useThemeStore } from "$lib/stores/theme";
+  import { pageDetectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
   // Icon
@@ -21,13 +21,14 @@
 
   export let data;
 
-  const { session, lang, theme: defaultTheme } = data;
+  const { session, lang: serverLang, theme: serverTheme } = data;
 
-  const i18n = useI18nStores(lang);
-  const theme = useThemeStore(defaultTheme);
+  const i18n = useI18nStores(pageDetectLanguage(serverLang, $page.url));
+  const theme = useThemeStore(pageDetectTheme(serverTheme));
 
-  // reactively set the page's language
-  $: i18n.lang.set(detectLanguage($page.url));
+  // reactively set the global stores
+  $: i18n.lang.set(pageDetectLanguage(serverLang, $page.url));
+  $: theme.set(pageDetectTheme(serverTheme));
   const m = i18n.m;
 
   // TODO: scroll detection & changing title

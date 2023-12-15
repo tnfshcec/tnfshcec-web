@@ -9,12 +9,17 @@ export function useThemeStore(theme: Theme) {
   return useContextStore("theme", themeStore, theme);
 }
 
-export function detectTheme(request?: Request): Theme {
-  const requestTheme = request?.headers.get("Sec-CH-Prefers-Color-Scheme") == "light";
-  const browserTheme = browser ? window.localStorage.getItem("theme") == "light" : false;
-  const mediaTheme = browser ? window.matchMedia("(prefers-color-scheme: light)").matches : false;
+export function serverDetectTheme(request: Request): Theme {
+  const requestTheme = request.headers.get("Sec-CH-Prefers-Color-Scheme") as Theme | null;
 
-  return (browserTheme && mediaTheme && requestTheme) ? "light" : "dark";
+  return requestTheme ?? "dark";
+}
+
+export function pageDetectTheme(serverTheme: Theme): Theme {
+  const browserTheme = browser ? window.localStorage.getItem("theme") == "light" : undefined;
+  const mediaTheme = browser ? window.matchMedia("(prefers-color-scheme: light)").matches : undefined;
+
+  return (browserTheme ?? mediaTheme ?? serverTheme == "light") ? "light" : "dark";
 }
 
 function themeStore(theme?: Theme) {

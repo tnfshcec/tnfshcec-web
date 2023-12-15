@@ -44,17 +44,32 @@ export function useI18nStores(lang?: AvailableLanguageTag): I18nStores {
   return useContextStore("i18n", i18nStores, lang);
 }
 
-
 /**
- * Detect user's current language by the request URL and `Accept-Language` header.
+ * Detect user's current language by the request URL and `Accept-Language` header *on the server*.
  * @param url User's URL to determine the requested language ('lang=[lang]')
  * @param request The {@link Request} object, containing the headers
  */
-export function detectLanguage(url?: URL, request?: Request): AvailableLanguageTag {
+export function serverDetectLanguage(url: URL, request: Request): AvailableLanguageTag {
+  const urlLang = url.searchParams.get("lang");
   const requestLang = requestLanguage(request);
+
+  return getLang(urlLang ?? requestLang ?? "");
+}
+
+/**
+ * Detect user's current language by the URL and the result from {@link serverDetectLanguage}.
+ *
+ * Note that though this function is intended to be run on the 'page',
+ * it may still run on the server for SSR.
+ *
+ * @param serverLangauge Language detected from the server, with consideration of the request header
+ * @param url Page's URL to get searchParam
+ */
+export function pageDetectLanguage(serverLangauge: AvailableLanguageTag, url: URL) {
+  const urlLang = url.searchParams.get("lang");
   const browserLang = browser ? window.localStorage.getItem("lang") : undefined;
 
-  return getLang(url?.searchParams.get("lang") ?? browserLang ?? requestLang ?? "");
+  return getLang(urlLang ?? browserLang ?? serverLangauge);
 }
 
 /**
