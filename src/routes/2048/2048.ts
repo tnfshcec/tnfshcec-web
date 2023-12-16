@@ -229,9 +229,9 @@ export class Game2048 {
       if (addscore) {
         addscore.innerText = "+" + scoreAdded;
         addscore.textContent = "+" + scoreAdded;
-        addscore.className = "show";
-        setTimeout(function () {
-          addscore.className = "hide";
+        addscore.classList.add("show");
+        setTimeout(() => {
+          addscore.classList.remove("show");
         }, 500);
       }
     }
@@ -247,7 +247,7 @@ export class Game2048 {
 /**
  * Get a controller for the {@link Game2048}
  *
- * @returns function utilities for making moves
+ * @returns function utilities for making moves using mouse
  */
 export function getController(gameObj: Game2048) {
   let startX = 0;
