@@ -24,19 +24,18 @@
     controller.end(x, y);
   };
   const onkeyup: KeyboardEventHandler<Document> = (e) => {
-    let currKey = e.key;
-    switch (currKey) {
+    switch (e.key) {
       case "ArrowLeft":
-        gameObj.move(0, 0);
+        gameObj.move("left");
         break;
       case "ArrowUp":
-        gameObj.move(1, 0);
+        gameObj.move("up");
         break;
       case "ArrowRight":
-        gameObj.move(0, 1);
+        gameObj.move("right");
         break;
       case "ArrowDown":
-        gameObj.move(1, 1);
+        gameObj.move("down");
         break;
     }
   };

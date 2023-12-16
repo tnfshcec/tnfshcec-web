@@ -18,10 +18,10 @@ export class Game2048 {
     this.initStage();
   }
 
-  initStage() {
-    for (var cell = 0; cell < 4; cell++) {
+  private initStage(): void {
+    for (let cell = 0; cell < 4; cell++) {
       this.stage[cell] = [];
-      for (var row = 0; row < 4; row++) {
+      for (let row = 0; row < 4; row++) {
         this.stage[cell][row] = {
           boxObj: null,
           position: [cell, row]
@@ -30,10 +30,13 @@ export class Game2048 {
     }
   }
 
-  empty() {
-    var emptyList = [];
-    for (var row = 0; row < 4; row++) {
-      for (var cell = 0; cell < 4; cell++) {
+  /**
+   * get a list of empty tiles on the {@link stage}
+   */
+  private empty(): Tile[] {
+    let emptyList = [];
+    for (let row = 0; row < 4; row++) {
+      for (let cell = 0; cell < 4; cell++) {
         if (this.stage[cell][row].boxObj == null) {
           emptyList.push(this.stage[cell][row]);
         }
@@ -42,14 +45,15 @@ export class Game2048 {
     return emptyList;
   }
 
-  newBox() {
-    const createBox = function (num: number, position: [number, number]) {
+  /**
+   * create a new box on a random tile
+   */
+  newBox(): void {
+    const createBox = (num: number, position: [number, number]) => {
       const domBox = document.createElement("span");
       domBox.innerText = num.toString();
       domBox.textContent = num.toString();
-      domBox.classList.add(`row${position[0]}`);
-      domBox.classList.add(`cell${position[1]}`);
-      domBox.classList.add(`tile`);
+      domBox.className = `row${position[0]} cell${position[1]} tile`;
 
       document.getElementById("stage")?.appendChild(domBox);
 
@@ -69,151 +73,169 @@ export class Game2048 {
     }
   }
 
-  isEnd() {
-    var emptyList = this.empty();
-    if (!emptyList.length) {
-      for (var i = 0; i < 4; i++) {
-        for (var j = 0; j < 4; j++) {
-          var obj = this.stage[i][j];
-          var objLeft = j == 0 ? { boxObj: { value: 0 } } : this.stage[i][j - 1];
-          var objRight = j == 3 ? { boxObj: { value: 0 } } : this.stage[i][j + 1];
-          var objUp = i == 0 ? { boxObj: { value: 0 } } : this.stage[i - 1][j];
-          var objDown = i == 3 ? { boxObj: { value: 0 } } : this.stage[i + 1][j];
-          if (
-            obj.boxObj?.value == objLeft.boxObj?.value ||
-            obj.boxObj?.value == objDown.boxObj?.value ||
-            obj.boxObj?.value == objRight.boxObj?.value ||
-            obj.boxObj?.value == objUp.boxObj?.value
-          ) {
-            return false;
-          }
+  /**
+   * @returns whether the game has reached the end
+   */
+  private isEnd(): boolean {
+    let emptyList = this.empty();
+    if (emptyList.length > 0) return false;
+
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        let obj = this.stage[i][j];
+        let objLeft = j == 0 ? { boxObj: { value: 0 } } : this.stage[i][j - 1];
+        let objRight = j == 3 ? { boxObj: { value: 0 } } : this.stage[i][j + 1];
+        let objUp = i == 0 ? { boxObj: { value: 0 } } : this.stage[i - 1][j];
+        let objDown = i == 3 ? { boxObj: { value: 0 } } : this.stage[i + 1][j];
+        if (
+          obj.boxObj?.value == objLeft.boxObj?.value ||
+          obj.boxObj?.value == objDown.boxObj?.value ||
+          obj.boxObj?.value == objRight.boxObj?.value ||
+          obj.boxObj?.value == objUp.boxObj?.value
+        ) {
+          return false;
         }
       }
-      return true;
     }
-    return false;
+    return true;
   }
 
-  gameOver() {
+  private gameOver(): void {
     alert("GAVE OVER!");
   }
 
-  moveTo(obj1: Tile, obj2: Tile) {
-    obj2.boxObj = obj1.boxObj;
+  /**
+   * move {@link srcTile} into {@link destTile}
+   */
+  private moveTo(srcTile: Tile, destTile: Tile): void {
+    destTile.boxObj = srcTile.boxObj;
 
-    if (obj2.boxObj)
-      obj2.boxObj.domObj.className = `row${obj2.position[0]} cell${obj2.position[1]} num${obj2.boxObj?.value} tile`;
+    if (destTile.boxObj)
+      destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
 
-    obj1.boxObj = null;
+    srcTile.boxObj = null;
   }
 
-  addTo(obj1: Tile, obj2: Tile) {
-    obj2.boxObj?.domObj.parentNode?.removeChild(obj2.boxObj.domObj);
-    obj2.boxObj = obj1.boxObj;
-    obj1.boxObj = null;
-    if (obj2.boxObj) {
-      obj2.boxObj.value = obj2.boxObj?.value * 2;
-      obj2.boxObj.domObj.className = `row${obj2.position[0]} cell${obj2.position[1]} num${obj2.boxObj?.value} tile`;
-      obj2.boxObj.domObj.innerText = obj2.boxObj.value.toString();
-      obj2.boxObj.domObj.textContent = obj2.boxObj.value.toString();
-      this.points.score += obj2.boxObj.value;
+  /**
+   * combines {@link srcTile} to {@link destTile}
+   * and changes the score onto the scoreboard
+   *
+   * @returns the number after two tiles has combined
+   */
+  private addTo(srcTile: Tile, destTile: Tile): number {
+    destTile.boxObj?.domObj.parentNode?.removeChild(destTile.boxObj.domObj);
+    destTile.boxObj = srcTile.boxObj;
+    srcTile.boxObj = null;
+    if (destTile.boxObj) {
+      destTile.boxObj.value = destTile.boxObj?.value * 2;
+      destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
+      destTile.boxObj.domObj.innerText = destTile.boxObj.value.toString();
+      destTile.boxObj.domObj.textContent = destTile.boxObj.value.toString();
+      this.points.score += destTile.boxObj.value;
     }
     const scoreBar = document.getElementById("score");
     if (scoreBar) {
       scoreBar.innerText = this.points.score.toString();
       scoreBar.textContent = this.points.score.toString();
     }
-    return obj2.boxObj?.value ?? 0;
+    return destTile.boxObj?.value ?? 0;
   }
 
-  // TODO: change this api
-  clear(x: 0 | 1, y: 0 | 1) {
-    var can = 0;
-    for (var i = 0; i < 4; i++) {
-      var fst = null;
-      var fstEmpty = null;
-      for (var j = 0; j < 4; j++) {
-        var objInThisWay = null;
-        switch ("" + x + y) {
-          case "00":
-            objInThisWay = this.stage[i][j];
+  /**
+   * move tiles in the specified direction
+   *
+   * @returns whether any tile has moved or not
+   */
+  private clear(dir: "left" | "up" | "right" | "down"): boolean {
+    let didMove = false;
+
+    for (let i = 0; i < 4; i++) {
+      let lastEmpty: Tile | null = null;
+      for (let j = 0; j < 4; j++) {
+        let tileInThisWay: Tile;
+        switch (dir) {
+          case "left":
+            tileInThisWay = this.stage[i][j];
             break;
-          case "10":
-            objInThisWay = this.stage[j][i];
+          case "up":
+            tileInThisWay = this.stage[j][i];
             break;
-          case "11":
-            objInThisWay = this.stage[3 - j][i];
+          case "down":
+            tileInThisWay = this.stage[3 - j][i];
             break;
-          case "01":
-            objInThisWay = this.stage[i][3 - j];
+          case "right":
+            tileInThisWay = this.stage[i][3 - j];
             break;
         }
-        if (objInThisWay?.boxObj != null) {
-          if (fstEmpty) {
-            this.moveTo(objInThisWay, fstEmpty);
-            fstEmpty = null;
-            j = 0;
-            can = 1;
-          }
-        } else if (!fstEmpty) {
-          fstEmpty = objInThisWay;
+
+        if (tileInThisWay.boxObj != null && lastEmpty) {
+          this.moveTo(tileInThisWay, lastEmpty);
+          lastEmpty = null;
+          j = 0;
+          didMove = true;
+        } else if (tileInThisWay.boxObj == null && !lastEmpty) {
+          lastEmpty = tileInThisWay;
         }
       }
     }
-    return can;
+    return didMove;
   }
 
-  // TODO: change this api
-  move(x: 0 | 1, y: 0 | 1) {
-    var can = 0;
-    can = this.clear(x, y) ? 1 : 0;
-    var add = 0;
-    for (var i = 0; i < 4; i++) {
-      for (var j = 0; j < 3; j++) {
-        var objInThisWay = null;
-        var objInThisWay2 = null;
-        switch ("" + x + y) {
-          case "00": {
+  /**
+   * do a move in the specified direction
+   */
+  move(dir: "left" | "up" | "right" | "down"): void {
+    let didMove = false;
+    didMove = this.clear(dir);
+
+    let scoreAdded = 0;
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 3; j++) {
+        let objInThisWay: Tile;
+        let objInThisWay2: Tile;
+        switch (dir) {
+          case "left": {
             objInThisWay = this.stage[i][j];
             objInThisWay2 = this.stage[i][j + 1];
             break;
           }
-          case "10": {
+          case "up": {
             objInThisWay = this.stage[j][i];
             objInThisWay2 = this.stage[j + 1][i];
             break;
           }
-
-          case "11": {
+          case "down": {
             objInThisWay = this.stage[3 - j][i];
             objInThisWay2 = this.stage[2 - j][i];
             break;
           }
-          case "01": {
+          case "right": {
             objInThisWay = this.stage[i][3 - j];
             objInThisWay2 = this.stage[i][2 - j];
             break;
           }
         }
-        if (objInThisWay2?.boxObj && objInThisWay?.boxObj?.value == objInThisWay2.boxObj.value) {
-          add += this.addTo(objInThisWay2, objInThisWay);
-          this.clear(x, y);
-          can = 1;
+
+        if (objInThisWay2.boxObj && objInThisWay.boxObj?.value == objInThisWay2.boxObj.value) {
+          scoreAdded += this.addTo(objInThisWay2, objInThisWay);
+          this.clear(dir);
+          didMove = true;
         }
       }
     }
-    if (add) {
+
+    if (scoreAdded) {
       const addscore = document.getElementById("addScore");
       if (addscore) {
-        addscore.innerText = "+" + add;
-        addscore.textContent = "+" + add;
+        addscore.innerText = "+" + scoreAdded;
+        addscore.textContent = "+" + scoreAdded;
         addscore.className = "show";
         setTimeout(function () {
           addscore.className = "hide";
         }, 500);
       }
     }
-    if (can) {
+    if (didMove) {
       this.newBox();
     }
     if (this.isEnd()) {
@@ -222,6 +244,11 @@ export class Game2048 {
   }
 }
 
+/**
+ * Get a controller for the {@link Game2048}
+ *
+ * @returns function utilities for making moves
+ */
 export function getController(gameObj: Game2048) {
   let startX = 0;
   let startY = 0;
@@ -234,16 +261,16 @@ export function getController(gameObj: Game2048) {
     },
     move(x: number, y: number) {
       if (x - startX > 100 && ready) {
-        gameObj.move(0, 1);
+        gameObj.move("right");
         ready = 0;
       } else if (startX - x > 100 && ready) {
-        gameObj.move(0, 0);
+        gameObj.move("left");
         ready = 0;
       } else if (startY - y > 100 && ready) {
-        gameObj.move(1, 0);
+        gameObj.move("up");
         ready = 0;
       } else if (y - startY > 100 && ready) {
-        gameObj.move(1, 1);
+        gameObj.move("down");
         ready = 0;
       }
     },
