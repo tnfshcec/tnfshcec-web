@@ -39,14 +39,16 @@
 <svelte:document
   on:mousedown={(e) => controller.start(e.clientX, e.clientY)}
   on:mousemove={(e) => controller.move(e.clientX, e.clientY)}
-  on:mouseup={(e) => controller.end(e.clientX, e.clientY)}
+  on:mouseup={(e) => controller.end()}
+  on:touchstart={(e) => controller.start(e.touches[0].clientX, e.touches[0].clientY)}
+  on:touchmove={(e) => controller.move(e.touches[0].clientX, e.touches[0].clientY)}
+  on:touchend={(e) => controller.end()}
   on:keyup={onkeyup}
 />
 
-<p>join the number to get 2048 tile!</p>
 <div class="">
   <div class="text-center text-4xl font-bold text-primary">2048</div>
-  <div class="text-center">
+  <div class="select-none text-center">
     <span>Score:</span>
     <span class="text-xl">{score}</span>
   </div>

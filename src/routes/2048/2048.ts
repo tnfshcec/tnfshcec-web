@@ -170,6 +170,7 @@ export class Game2048 extends Emittery<Events> {
     destTile.boxObj = srcTile.boxObj;
     srcTile.boxObj = null;
 
+    this.emit("score", this.score);
     this.emit("stageChange", this.stage);
 
     // const scoreBar = document.getElementById("score");
@@ -313,7 +314,7 @@ export function getController(gameObj: Game2048) {
         ready = 0;
       }
     },
-    end(x: number, y: number) {
+    end() {
       ready = 0;
     }
   };
