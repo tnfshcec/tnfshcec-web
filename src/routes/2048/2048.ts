@@ -5,17 +5,28 @@
  * THANK YOU FOR THE AMAYZING CODE :D
  */
 
+import Emittery from "emittery";
+
 type Tile = {
   boxObj: { value: number; parent: Tile; domObj: HTMLElement } | null;
   position: [number, number];
 };
 
-export class Game2048 {
-  points = { score: 0, history: [], status: 1 };
+type Events = {
+  score: number;
+  stageChange: Tile[][];
+};
+
+export class Game2048 extends Emittery<Events> {
+  score = 0;
   stage: Tile[][] = [];
 
   constructor() {
+    super();
     this.initStage();
+
+    this.emit("score", this.score);
+    this.emit("stageChange", this.stage);
   }
 
   private initStage(): void {
@@ -53,9 +64,14 @@ export class Game2048 {
       const domBox = document.createElement("span");
       domBox.innerText = num.toString();
       domBox.textContent = num.toString();
-      domBox.className = `row${position[0]} cell${position[1]} tile`;
+      domBox.className = `row${position[0]} cell${position[1]} num${num} tile`;
 
       document.getElementById("stage")?.appendChild(domBox);
+
+      domBox.animate(
+        { opacity: [0, 1], transform: ["scale(0)", "scale(1)"] },
+        { duration: 200, easing: "ease-out" }
+      );
 
       return domBox;
     };
@@ -70,6 +86,8 @@ export class Game2048 {
         parent: randomTile,
         domObj: createBox(num, randomTile.position)
       };
+
+      this.emit("stageChange", this.stage);
     }
   }
 
@@ -106,14 +124,17 @@ export class Game2048 {
 
   /**
    * move {@link srcTile} into {@link destTile}
+   * emits `stageChange` event
    */
   private moveTo(srcTile: Tile, destTile: Tile): void {
+    if (!srcTile.boxObj) return;
     destTile.boxObj = srcTile.boxObj;
 
-    if (destTile.boxObj)
-      destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
+    destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
 
     srcTile.boxObj = null;
+
+    this.emit("stageChange", this.stage);
   }
 
   /**
@@ -123,21 +144,39 @@ export class Game2048 {
    * @returns the number after two tiles has combined
    */
   private addTo(srcTile: Tile, destTile: Tile): number {
-    destTile.boxObj?.domObj.parentNode?.removeChild(destTile.boxObj.domObj);
+    if (!srcTile.boxObj || !destTile.boxObj) return 0;
+
+    const destDom = destTile.boxObj.domObj;
+    const srcDom = srcTile.boxObj.domObj;
+    const newValue = destTile.boxObj.value * 2;
+
+    srcTile.boxObj.value = newValue;
+    srcTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${newValue} tile`;
+    srcTile.boxObj.domObj.innerText = newValue.toString();
+    srcTile.boxObj.domObj.textContent = newValue.toString();
+
+    this.score += newValue;
+
+    srcDom.animate(
+      { transform: ["scale(1)", "scale(1.1)", "scale(1)"] },
+      { duration: 200, easing: "ease-out" }
+    );
+
+    destDom.style.zIndex = "-10";
+    setTimeout(() => {
+      destTile.boxObj?.domObj.parentNode?.removeChild(destDom);
+    }, 200);
+
     destTile.boxObj = srcTile.boxObj;
     srcTile.boxObj = null;
-    if (destTile.boxObj) {
-      destTile.boxObj.value = destTile.boxObj?.value * 2;
-      destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
-      destTile.boxObj.domObj.innerText = destTile.boxObj.value.toString();
-      destTile.boxObj.domObj.textContent = destTile.boxObj.value.toString();
-      this.points.score += destTile.boxObj.value;
-    }
-    const scoreBar = document.getElementById("score");
-    if (scoreBar) {
-      scoreBar.innerText = this.points.score.toString();
-      scoreBar.textContent = this.points.score.toString();
-    }
+
+    this.emit("stageChange", this.stage);
+
+    // const scoreBar = document.getElementById("score");
+    // if (scoreBar) {
+    //   scoreBar.innerText = this.points.score.toString();
+    //   scoreBar.textContent = this.points.score.toString();
+    // }
     return destTile.boxObj?.value ?? 0;
   }
 
@@ -224,17 +263,17 @@ export class Game2048 {
       }
     }
 
-    if (scoreAdded) {
-      const addscore = document.getElementById("addScore");
-      if (addscore) {
-        addscore.innerText = "+" + scoreAdded;
-        addscore.textContent = "+" + scoreAdded;
-        addscore.classList.add("show");
-        setTimeout(() => {
-          addscore.classList.remove("show");
-        }, 500);
-      }
-    }
+    // if (scoreAdded) {
+    //   const addscore = document.getElementById("addScore");
+    //   if (addscore) {
+    //     addscore.innerText = "+" + scoreAdded;
+    //     addscore.textContent = "+" + scoreAdded;
+    //     addscore.classList.add("show");
+    //     setTimeout(() => {
+    //       addscore.classList.remove("show");
+    //     }, 500);
+    //   }
+    // }
     if (didMove) {
       this.newBox();
     }

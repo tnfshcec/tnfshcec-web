@@ -3,24 +3,34 @@
   import { Game2048, getController } from "./2048";
   import type { KeyboardEventHandler } from "svelte/elements";
 
-  const gameObj = new Game2048();
-  const controller = getController(gameObj);
+  const game = new Game2048();
+  const controller = getController(game);
 
-  onMount(() => gameObj.newBox());
+  let stage = game.stage;
+  let score = game.score;
+
+  game.on("stageChange", (newStage) => {
+    stage = newStage;
+  });
+  game.on("score", (newScore) => {
+    score = newScore;
+  });
+
+  onMount(() => game.newBox());
 
   const onkeyup: KeyboardEventHandler<Document> = (e) => {
     switch (e.key) {
       case "ArrowLeft":
-        gameObj.move("left");
+        game.move("left");
         break;
       case "ArrowUp":
-        gameObj.move("up");
+        game.move("up");
         break;
       case "ArrowRight":
-        gameObj.move("right");
+        game.move("right");
         break;
       case "ArrowDown":
-        gameObj.move("down");
+        game.move("down");
         break;
     }
   };
@@ -36,10 +46,9 @@
 <p>join the number to get 2048 tile!</p>
 <div class="">
   <div class="text-center text-4xl font-bold text-primary">2048</div>
-  <div class="relative text-right">
-    <span style="margin-top:-13px;">score:</span>
-    <span class="text-xl">0</span>
-    <div id="addScore" class="absolute bottom-0 right-0 opacity-0 transition-all"></div>
+  <div class="text-center">
+    <span>Score:</span>
+    <span class="text-xl">{score}</span>
   </div>
   <div
     id="stage"
@@ -48,10 +57,6 @@
 </div>
 
 <style>
-  #addScore.show {
-    opacity: 1;
-  }
-
   :global(.row0) {
     top: 10px;
   }
@@ -78,30 +83,25 @@
   }
 
   :global(span.tile) {
-    @apply absolute grid h-[100px] w-[100px] cursor-pointer select-none place-items-center rounded-sm text-center text-2xl;
-    @apply transition-all;
+    @apply absolute grid h-[100px] w-[100px] cursor-pointer select-none place-items-center rounded-sm text-center text-2xl transition-all;
   }
 
   :global(.num2) {
-    @apply animate-[0.5s] animate-[myfirst];
     background: #fff;
     color: #777;
   }
 
   :global(.num4) {
-    @apply animate-[0.5s] animate-[myfirst];
     background: #fafafa;
     color: #e9b856;
   }
 
   :global(.num8) {
-    @apply animate-[0.5s] animate-[myfirst];
     background: #f3f3f3;
     color: #f94e2f;
   }
 
   :global(.num16) {
-    @apply animate-[0.5s] animate-[myfirst];
     background: #f5ec00;
     color: #fff;
   }
@@ -144,49 +144,5 @@
   :global(.num4096) {
     background: #ff0099;
     color: #fff;
-  }
-
-  @keyframes myfirst {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    50% {
-      opacity: 0.5;
-      transform: scale(1.5);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @-moz-keyframes myfirst /* Firefox */ {
-    0% {
-      opacity: 0;
-      -moz-transform: scale(0);
-    }
-    50% {
-      opacity: 0.5;
-      -moz-transform: scale(1.5);
-    }
-    100% {
-      opacity: 1;
-      -moz-transform: scale(1);
-    }
-  }
-  @-webkit-keyframes myfirst /* Safari or Chrome */ {
-    0% {
-      opacity: 0;
-      -webkit-transform: scale(0);
-    }
-    50% {
-      opacity: 0.5;
-      -webkit-transform: scale(1.5);
-    }
-    100% {
-      opacity: 1;
-      -webkit-transform: scale(1);
-    }
   }
 </style>
