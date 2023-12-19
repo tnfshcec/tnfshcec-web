@@ -15,6 +15,7 @@ const auth = SvelteKitAuth({
     GitHub({
       clientId: env.GITHUB_ID,
       clientSecret: env.GITHUB_SECRET,
+      authorization: { params: { scope: "read:user user:email public_repo" } },
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -27,12 +28,16 @@ const auth = SvelteKitAuth({
     })
   ],
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, account }) {
+      if (account) token.accessToken = account.access_token;
       if (user) token.role = user.role;
       return token;
     },
     session({ session, token }) {
-      if (session.user) session.user.role = token.role;
+      if (session.user) {
+        session.user.accessToken = token.accessToken;
+        session.user.role = token.role;
+      }
       return session;
     }
   }

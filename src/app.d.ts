@@ -36,6 +36,7 @@ declare module "@auth/core/types" {
   interface Session {
     user?: {
       role?: Role;
+      accessToken?: string;
     } & DefaultSession["user"];
   }
 }
@@ -43,6 +44,7 @@ declare module "@auth/core/types" {
 declare module "@auth/core/jwt" {
   interface JWT {
     role?: Role;
+    accessToken?: string;
   }
 }
 export { };
