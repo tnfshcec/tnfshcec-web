@@ -6,6 +6,7 @@
  */
 
 import Emittery from "emittery";
+import { writable } from "svelte/store";
 
 type Tile = {
   boxObj: { value: number; parent: Tile; domObj: HTMLElement } | null;
@@ -20,6 +21,7 @@ type Events = {
 export class Game2048 extends Emittery<Events> {
   score = 0;
   stage: Tile[][] = [];
+  controller = getController(this);
 
   constructor() {
     super();
@@ -284,12 +286,20 @@ export class Game2048 extends Emittery<Events> {
   }
 }
 
+export function scoreStore(gameObj: Game2048) {
+  const { set, subscribe } = writable(gameObj.score);
+
+  gameObj.on("score", (newScore) => set(newScore));
+
+  return { subscribe };
+}
+
 /**
  * Get a controller for the {@link Game2048}
  *
  * @returns function utilities for making moves using mouse
  */
-export function getController(gameObj: Game2048) {
+function getController(gameObj: Game2048) {
   let startX = 0;
   let startY = 0;
   let ready = 0;

@@ -2,23 +2,15 @@
   import { onMount } from "svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import { Game2048, getController } from "./2048";
-  import type { KeyboardEventHandler } from "svelte/elements";
+  import { Game2048, scoreStore } from "./2048";
   import Restart from "~icons/mdi/restart";
+  import type { KeyboardEventHandler } from "svelte/elements";
+
   import "./2048_dark.css";
 
   const game = new Game2048();
-  const controller = getController(game);
-
-  let stage = game.stage;
-  let score = game.score;
-
-  game.on("stageChange", (newStage) => {
-    stage = newStage;
-  });
-  game.on("score", (newScore) => {
-    score = newScore;
-  });
+  const controller = game.controller;
+  const score = scoreStore(game);
 
   onMount(() => game.newBox());
 
@@ -56,7 +48,7 @@
         <div class="flex flex-wrap gap-2">
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">SCORE</span><br />
-            <span class="text-2xl font-bold">{score}</span>
+            <span class="text-2xl font-bold">{$score}</span>
           </div>
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">BEST</span><br />
@@ -185,4 +177,3 @@
     color: #f9f6f2;
   }
 </style>
-
