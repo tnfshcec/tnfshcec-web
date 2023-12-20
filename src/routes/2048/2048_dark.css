@@ -1,0 +1,88 @@
+.row0 {
+    top: 10px;
+  }
+  .row1 {
+    top: 120px;
+  }
+  .row2 {
+    top: 230px;
+  }
+  .row3 {
+    top: 340px;
+  }
+  .cell0 {
+    left: 10px;
+  }
+  .cell1 {
+    left: 120px;
+  }
+  .cell2 {
+    left: 230px;
+  }
+  .cell3 {
+    left: 340px;
+  }
+
+  span.tile {
+    @apply absolute grid h-[100px] w-[100px] cursor-pointer select-none place-items-center rounded-sm text-center text-2xl transition-all;
+  }
+
+  .dark .num2 {
+    background: #CFE0E9;
+    color: #284553;
+  }
+
+  .dark .num4 {
+    background: #ABBFCF;
+    color: #1C4554;
+  }
+
+  .dark .num8 {
+    background: #7C8D9C;
+    color: #C0C6CC;
+  }
+
+  .dark .num16 {
+    background: #5A6570;
+    color: #ffffff;
+  }
+
+  .dark .num32 {
+    background: #3A4D5C;
+    color: #F9F6F2;
+  }
+
+  .dark .num64 {
+    background: #143441;
+    color: #ffffff;
+  }
+
+  .dark .num128 {
+    background: #F2C09A;
+    color: #000000;
+  }
+
+  .dark .num256 {
+    background: #E9937C;
+    color: #F9F6F2;
+  }
+
+  .dark .num512 {
+    background: #EDC850;
+    color: #fb4e4e;
+  }
+
+  .dark .num1024 {
+    background: #6483b5;
+    color: #F9F6F2;
+  }
+
+  .dark .num2048 {
+    background: #EDC53F;
+    color: #F9F6F2;
+  }
+
+  .dark .num4096 {
+    background: #EDC22D;
+    color: #F9F6F2;
+  }

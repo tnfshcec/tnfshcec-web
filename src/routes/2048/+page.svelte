@@ -5,6 +5,7 @@
   import { Game2048, getController } from "./2048";
   import type { KeyboardEventHandler } from "svelte/elements";
   import Restart from "~icons/mdi/restart";
+  import "./2048_dark.css"
 
   const game = new Game2048();
   const controller = getController(game);
@@ -118,62 +119,62 @@
   }
 
   :global(.num2) {
-    background: #fff;
-    color: #777;
+    background: #EEE4DA;
+    color: #776E65;
   }
 
   :global(.num4) {
-    background: #fafafa;
-    color: #e9b856;
+    background: #EDE0C8;
+    color: #776E65;
   }
 
   :global(.num8) {
-    background: #f3f3f3;
-    color: #f94e2f;
+    background: #F2B179;
+    color: #F9F6F2;
   }
 
   :global(.num16) {
-    background: #f5ec00;
-    color: #fff;
+    background: #F59563;
+    color: #F9F4E7;
   }
 
   :global(.num32) {
-    background: #fcc20e;
-    color: #fdfdfd;
+    background: #F67C60;
+    color: #F9F6F2;
   }
 
   :global(.num64) {
-    background: #f94a3b;
-    color: #fff;
+    background: #F65E3B;
+    color: #F9F6F2;
   }
 
   :global(.num128) {
-    background: #222;
-    color: #f94e2f;
+    background: #EDCF73;
+    color: #F9F6F2;
   }
 
   :global(.num256) {
-    background: #d13100;
-    color: #ffcc66;
+    background: #EDCC62;
+    color: #F9F6F2;
   }
 
   :global(.num512) {
-    background: #fff300;
+    background: #EDC850;
     color: #fb4e4e;
   }
 
   :global(.num1024) {
     background: #6483b5;
-    color: #f6f7ff;
+    color: #F9F6F2;
   }
 
   :global(.num2048) {
-    background: #000000;
-    color: #fff300;
+    background: #EDC53F;
+    color: #F9F6F2;
   }
 
   :global(.num4096) {
-    background: #ff0099;
-    color: #fff;
+    background: #EDC22D;
+    color: #F9F6F2;
   }
 </style>
