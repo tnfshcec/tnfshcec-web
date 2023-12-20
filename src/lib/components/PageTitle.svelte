@@ -3,7 +3,7 @@
   import { base } from "$app/paths";
   import ChevronRight from "~icons/mdi/chevron-right";
 
-  type Page = "homepage" | "postList" | "post" | "postEdit";
+  type Page = "homepage" | "postList" | "post" | "postEdit" | "2048";
   type PageNavigation = {
     [key in Page]: {
       url: string;
@@ -16,7 +16,8 @@
     homepage: { url: "", title: "首頁", path: [] },
     postList: { url: "post", title: "最新消息", path: ["homepage"] },
     post: { url: "post", title: undefined, path: ["homepage", "postList"] },
-    postEdit: { url: "post/", title: undefined, path: ["homepage", "postList", "post"] }
+    postEdit: { url: "post/", title: undefined, path: ["homepage", "postList", "post"] },
+    2048: { url: "2048", title: "2048", path: ["homepage"] }
   } as const satisfies PageNavigation;
 
   export let current: Page;

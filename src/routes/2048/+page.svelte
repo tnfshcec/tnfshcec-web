@@ -37,13 +37,13 @@
 </script>
 
 <svelte:document
-  on:mousedown={(e) => controller.start(e.clientX, e.clientY)}
-  on:mousemove={(e) => controller.move(e.clientX, e.clientY)}
-  on:mouseup={(e) => controller.end()}
-  on:touchstart={(e) => controller.start(e.touches[0].clientX, e.touches[0].clientY)}
-  on:touchmove={(e) => controller.move(e.touches[0].clientX, e.touches[0].clientY)}
-  on:touchend={(e) => controller.end()}
-  on:keyup={onkeyup}
+  on:mousedown|preventDefault={(e) => controller.start(e.clientX, e.clientY)}
+  on:mousemove|preventDefault={(e) => controller.move(e.clientX, e.clientY)}
+  on:mouseup|preventDefault={(e) => controller.end()}
+  on:touchstart|preventDefault={(e) => controller.start(e.touches[0].clientX, e.touches[0].clientY)}
+  on:touchmove|preventDefault={(e) => controller.move(e.touches[0].clientX, e.touches[0].clientY)}
+  on:touchend|preventDefault={(e) => controller.end()}
+  on:keyup|preventDefault={onkeyup}
 />
 
 <div class="">
@@ -56,6 +56,9 @@
     id="stage"
     class="relative mx-auto h-[450px] w-[450px] cursor-pointer select-none rounded border border-accent"
   />
+  <div class="text-center select-none">
+    use arrow keys or swipe on the screen
+  </div>
 </div>
 
 <style>
