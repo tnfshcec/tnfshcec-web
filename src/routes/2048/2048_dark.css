@@ -68,21 +68,21 @@
   }
 
   .dark .num512 {
-    background: #EDC850;
-    color: #fb4e4e;
+    background: #E3646A;
+    color: #F9F6F2;
   }
 
   .dark .num1024 {
-    background: #6483b5;
-    color: #F9F6F2;
+    background: #7FCBCA;
+    color: #ffffff;
   }
 
   .dark .num2048 {
-    background: #EDC53F;
-    color: #F9F6F2;
+    background: #37B0AE;
+    color: #ffffff;
   }
 
   .dark .num4096 {
-    background: #EDC22D;
-    color: #F9F6F2;
+    background: #228993;
+    color: #ffffff;
   }
