@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Game2048, getController } from "./2048";
-  import type { KeyboardEventHandler } from "svelte/elements";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import { Game2048, getController } from "./2048";
+  import type { KeyboardEventHandler } from "svelte/elements";
+  import Restart from "~icons/mdi/restart";
 
   const game = new Game2048();
   const controller = getController(game);
@@ -42,29 +43,38 @@
   on:mousedown|preventDefault={(e) => controller.start(e.clientX, e.clientY)}
   on:mousemove|preventDefault={(e) => controller.move(e.clientX, e.clientY)}
   on:mouseup|preventDefault={(e) => controller.end()}
-  on:touchstart|preventDefault={(e) => controller.start(e.touches[0].clientX, e.touches[0].clientY)}
-  on:touchmove|preventDefault={(e) => controller.move(e.touches[0].clientX, e.touches[0].clientY)}
-  on:touchend|preventDefault={(e) => controller.end()}
   on:keyup|preventDefault={onkeyup}
 />
 
 <CenteredPage>
   <div class="w-full max-w-screen-xl select-none">
     <PageTitle current="2048" />
-    <div class="flex justify-evenly">
-      <div class="">
+    <div class="flex flex-col justify-evenly gap-4 p-4 md:flex-row">
+      <div class="space-y-2">
         <div class="flex gap-2">
-          <div class="min-w-[8rem] rounded-sm bg-secondary p-4">
+          <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">SCORE</span><br />
             <span class="text-2xl font-bold">{score}</span>
           </div>
-          <div class="min-w-[8rem] rounded-sm bg-secondary p-4">
+          <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">BEST</span><br />
             <span class="text-2xl font-bold">99999</span>
           </div>
         </div>
+        <button class="btn-accent icon-flex">
+          <Restart class="h-4 w-4" />
+          RESTART
+        </button>
       </div>
-      <div id="stage" class="relative h-[450px] w-[450px] rounded border border-text" />
+      <div
+        id="stage"
+        class="relative h-[450px] w-[450px] rounded border border-text"
+        on:touchstart|preventDefault={(e) =>
+          controller.start(e.touches[0].clientX, e.touches[0].clientY)}
+        on:touchmove|preventDefault={(e) =>
+          controller.move(e.touches[0].clientX, e.touches[0].clientY)}
+        on:touchend|preventDefault={(e) => controller.end()}
+      />
       <div class="">
         <span class="font-bold">這裡為什麼有2048？</span><br />
         <span class="">我怎麼會知道。</span><br /><br />
