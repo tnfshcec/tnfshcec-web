@@ -5,6 +5,7 @@
   "lightTheme": "ライトテーマ",
   "darkTheme": "ダークテーマ",
   "language": "言語",
+  "game" : "2048",
   "signIn": "ログイン",
   "signOut": "ログアウト",
   "signedInAs": "{user}, おかえり！",

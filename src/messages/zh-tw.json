@@ -5,6 +5,7 @@
   "lightTheme": "淺色主題",
   "darkTheme": "深色主題",
   "language": "語言",
+  "game" : "2048",
   "signIn": "登入",
   "signOut": "登出",
   "signedInAs": "{user} 傻逼成功登陸",

@@ -5,6 +5,7 @@
   "lightTheme": "Light Theme",
   "darkTheme": "Dark Theme",
   "language": "Language",
+  "game" : "2048",
   "signIn": "Sign In",
   "signOut": "Sign Out",
   "signedInAs": "Signed in as {user}",

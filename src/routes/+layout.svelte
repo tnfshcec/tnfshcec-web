@@ -17,6 +17,7 @@
   import Moon from "~icons/mdi/moon-waning-crescent";
   import Earth from "~icons/mdi/earth";
   import ChevronRight from "~icons/mdi/chevron-right";
+  import Downo from "~icons/mdi/google-downasaur";
   import logo from "$lib/assets/logo.svg";
   import { setContext } from "svelte";
 
@@ -95,6 +96,15 @@
           <span>{$m.language()}</span>
           <ChevronRight class="ml-auto h-4 w-4" />
         </div>
+
+        <a
+          use:melt={$item}
+          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+          href="{base}/2048"
+        >
+          <Downo class="h-4 w-4" />
+          <span>{$m.game()}</span>
+        </a>
 
         {#if $subOpen}
           <div
