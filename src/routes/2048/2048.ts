@@ -17,6 +17,7 @@ type Tile = {
 type Events = {
   score: number;
   stageChange: Tile[][];
+  gameOver: never;
 };
 
 export class Game2048 extends Emittery<Events> {
@@ -33,12 +34,12 @@ export class Game2048 extends Emittery<Events> {
   }
 
   private initStage(): void {
-    for (let cell = 0; cell < 4; cell++) {
-      this.stage[cell] = [];
-      for (let row = 0; row < 4; row++) {
-        this.stage[cell][row] = {
+    for (let row = 0; row < 4; row++) {
+      this.stage[row] = [];
+      for (let cell = 0; cell < 4; cell++) {
+        this.stage[row][cell] = {
           boxObj: null,
-          position: [cell, row]
+          position: [row, cell]
         };
       }
     }
@@ -95,9 +96,23 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
+   * Resets the game.
+   * Clears the stage, and resets the score to 0.
+   */
+  reset(): void {
+    document.getElementById("stage")?.replaceChildren();
+
+    this.initStage();
+    this.score = 0;
+
+    this.emit("score", this.score);
+    this.emit("stageChange", this.stage);
+  }
+
+  /**
    * @returns whether the game has reached the end
    */
-  private isEnd(): boolean {
+  isEnd(): boolean {
     let emptyList = this.empty();
     if (emptyList.length > 0) return false;
 
@@ -122,7 +137,7 @@ export class Game2048 extends Emittery<Events> {
   }
 
   private gameOver(): void {
-    alert("GAVE OVER!");
+    this.emit("gameOver");
   }
 
   /**
@@ -167,7 +182,7 @@ export class Game2048 extends Emittery<Events> {
 
     destDom.style.zIndex = "-10";
     setTimeout(() => {
-      destTile.boxObj?.domObj.parentNode?.removeChild(destDom);
+      document.getElementById("stage")?.removeChild(destDom);
     }, 200);
 
     destTile.boxObj = srcTile.boxObj;
@@ -300,6 +315,12 @@ export function scoreStores(gameObj: Game2048): {
 
   subscribeScore((newScore) => {
     updateBest((oldBest) => Math.max(oldBest, newScore));
+  });
+
+  subscribeBest((newBest) => {
+    if (!browser) return;
+
+    window.localStorage.setItem("2048BestScore", newBest.toString());
   });
 
   return {

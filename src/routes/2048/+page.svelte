@@ -13,6 +13,7 @@
   const { score, bestScore } = scoreStores(game);
 
   onMount(() => game.newBox());
+  game.on("gameOver", () => alert("GAME OVER")); // TODO: game over
 
   const onkeyup: KeyboardEventHandler<Document> = (e) => {
     switch (e.key) {
@@ -29,6 +30,11 @@
         game.move("down");
         break;
     }
+  };
+
+  const restartGame = () => {
+    game.reset();
+    game.newBox();
   };
 </script>
 
@@ -55,7 +61,7 @@
             <span class="text-2xl font-bold">{$bestScore}</span>
           </div>
         </div>
-        <button class="btn-accent icon-flex">
+        <button class="btn-accent icon-flex" on:click={restartGame}>
           <Restart class="h-4 w-4" />
           RESTART
         </button>
