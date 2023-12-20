@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import { Game2048, scoreStore } from "./2048";
+  import { Game2048, scoreStores } from "./2048";
   import Restart from "~icons/mdi/restart";
   import type { KeyboardEventHandler } from "svelte/elements";
 
@@ -10,7 +10,7 @@
 
   const game = new Game2048();
   const controller = game.controller;
-  const score = scoreStore(game);
+  const { score, bestScore } = scoreStores(game);
 
   onMount(() => game.newBox());
 
@@ -52,7 +52,7 @@
           </div>
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">BEST</span><br />
-            <span class="text-2xl font-bold">99999</span>
+            <span class="text-2xl font-bold">{$bestScore}</span>
           </div>
         </div>
         <button class="btn-accent icon-flex">

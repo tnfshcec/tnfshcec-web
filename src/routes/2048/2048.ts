@@ -5,8 +5,9 @@
  * THANK YOU FOR THE AMAYZING CODE :D
  */
 
+import { browser } from "$app/environment";
+import { writable, type Readable } from "svelte/store";
 import Emittery from "emittery";
-import { writable } from "svelte/store";
 
 type Tile = {
   boxObj: { value: number; parent: Tile; domObj: HTMLElement } | null;
@@ -286,12 +287,29 @@ export class Game2048 extends Emittery<Events> {
   }
 }
 
-export function scoreStore(gameObj: Game2048) {
-  const { set, subscribe } = writable(gameObj.score);
+export function scoreStores(gameObj: Game2048): {
+  score: Readable<number>;
+  bestScore: Readable<number>;
+} {
+  const savedBest = getSavedBestScore("2048BestScore");
 
-  gameObj.on("score", (newScore) => set(newScore));
+  const { set: setScore, subscribe: subscribeScore } = writable(gameObj.score);
+  const { update: updateBest, subscribe: subscribeBest } = writable(savedBest ?? gameObj.score);
 
-  return { subscribe };
+  gameObj.on("score", (newScore) => setScore(newScore));
+
+  subscribeScore((newScore) => {
+    updateBest((oldBest) => Math.max(oldBest, newScore));
+  });
+
+  return {
+    score: { subscribe: subscribeScore },
+    bestScore: { subscribe: subscribeBest }
+  };
+}
+
+function getSavedBestScore(itemName: string): number | null {
+  return browser ? parseInt(window.localStorage.getItem(itemName) ?? "0") : null;
 }
 
 /**
