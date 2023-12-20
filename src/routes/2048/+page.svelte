@@ -2,6 +2,8 @@
   import { onMount } from "svelte";
   import { Game2048, getController } from "./2048";
   import type { KeyboardEventHandler } from "svelte/elements";
+  import CenteredPage from "$lib/components/CenteredPage.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   const game = new Game2048();
   const controller = getController(game);
@@ -46,20 +48,34 @@
   on:keyup|preventDefault={onkeyup}
 />
 
-<div class="">
-  <div class="text-center text-4xl font-bold text-primary">2048</div>
-  <div class="select-none text-center">
-    <span>Score:</span>
-    <span class="text-xl">{score}</span>
+<CenteredPage>
+  <div class="w-full max-w-screen-xl select-none">
+    <PageTitle current="2048" />
+    <div class="flex justify-evenly">
+      <div class="">
+        <div class="flex gap-2">
+          <div class="min-w-[8rem] rounded-sm bg-secondary p-4">
+            <span class="text-lg">SCORE</span><br />
+            <span class="text-2xl font-bold">{score}</span>
+          </div>
+          <div class="min-w-[8rem] rounded-sm bg-secondary p-4">
+            <span class="text-lg">BEST</span><br />
+            <span class="text-2xl font-bold">99999</span>
+          </div>
+        </div>
+      </div>
+      <div id="stage" class="relative h-[450px] w-[450px] rounded border border-text" />
+      <div class="">
+        <span class="font-bold">這裡為什麼有2048？</span><br />
+        <span class="">我怎麼會知道。</span><br /><br />
+        <span class="font-bold">2048怎麼玩？</span><br />
+        <span class="">自己Google。</span><br /><br />
+        <span class="font-bold">但是我要怎麼控制？</span><br />
+        <span class="">方向鍵或直接滑動，滑鼠或觸控都可以。</span>
+      </div>
+    </div>
   </div>
-  <div
-    id="stage"
-    class="relative mx-auto h-[450px] w-[450px] cursor-pointer select-none rounded border border-accent"
-  />
-  <div class="text-center select-none">
-    use arrow keys or swipe on the screen
-  </div>
-</div>
+</CenteredPage>
 
 <style>
   :global(.row0) {
