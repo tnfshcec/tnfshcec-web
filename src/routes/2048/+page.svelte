@@ -70,7 +70,8 @@
       <!-- actual game -->
       <div
         id="stage"
-        class="relative h-[450px] w-[450px] flex-shrink-0 rounded border border-text"
+        class="relative aspect-square w-[30rem] max-w-full rounded border border-text"
+        style:--size="4"
         on:touchstart|preventDefault={(e) =>
           controller.start(e.touches[0].clientX, e.touches[0].clientY)}
         on:touchmove|preventDefault={(e) =>
@@ -95,32 +96,37 @@
 
 <style>
   :global(.row0) {
-    top: 10px;
+    top: var(--gap);
   }
   :global(.row1) {
-    top: 120px;
+    top: calc(var(--gap) * 2 + var(--tile));
   }
   :global(.row2) {
-    top: 230px;
+    top: calc(var(--gap) * 3 + var(--tile) * 2);
   }
   :global(.row3) {
-    top: 340px;
+    top: calc(var(--gap) * 4 + var(--tile) * 3);
   }
   :global(.cell0) {
-    left: 10px;
+    left: var(--gap);
   }
   :global(.cell1) {
-    left: 120px;
+    left: calc(var(--gap) * 2 + var(--tile));
   }
   :global(.cell2) {
-    left: 230px;
+    left: calc(var(--gap) * 3 + var(--tile) * 2);
   }
   :global(.cell3) {
-    left: 340px;
+    left: calc(var(--gap) * 4 + var(--tile) * 3);
   }
 
   :global(span.tile) {
-    @apply absolute grid h-[100px] w-[100px] cursor-pointer select-none place-items-center rounded-sm text-center text-2xl transition-all;
+    @apply absolute grid h-[var(--tile)] w-[var(--tile)] cursor-pointer place-items-center rounded-sm text-2xl transition-all;
+
+    --stage: min(30rem, 100%);
+    --gap: 0.5rem;
+    /* (size of stage - the gaps) / number of tiles (the size) */
+    --tile: calc((var(--stage) - var(--gap) * (var(--size) + 1)) / var(--size));
   }
 
   :global(.num2) {
