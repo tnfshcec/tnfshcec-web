@@ -25,7 +25,7 @@ export class Game2048 extends Emittery<Events> {
   stage: Tile[][] = [];
   controller = getController(this);
 
-  constructor() {
+  constructor(public size: number = 4) {
     super();
     this.initStage();
 
@@ -34,9 +34,9 @@ export class Game2048 extends Emittery<Events> {
   }
 
   private initStage(): void {
-    for (let row = 0; row < 4; row++) {
+    for (let row = 0; row < this.size; row++) {
       this.stage[row] = [];
-      for (let cell = 0; cell < 4; cell++) {
+      for (let cell = 0; cell < this.size; cell++) {
         this.stage[row][cell] = {
           boxObj: null,
           position: [row, cell]
@@ -50,8 +50,8 @@ export class Game2048 extends Emittery<Events> {
    */
   private empty(): Tile[] {
     let emptyList = [];
-    for (let row = 0; row < 4; row++) {
-      for (let cell = 0; cell < 4; cell++) {
+    for (let row = 0; row < this.size; row++) {
+      for (let cell = 0; cell < this.size; cell++) {
         if (this.stage[cell][row].boxObj == null) {
           emptyList.push(this.stage[cell][row]);
         }
@@ -68,7 +68,9 @@ export class Game2048 extends Emittery<Events> {
       const domBox = document.createElement("span");
       domBox.innerText = num.toString();
       domBox.textContent = num.toString();
-      domBox.className = `row${position[0]} cell${position[1]} num${num} tile`;
+      domBox.className = `num${num} tile`;
+      domBox.style.setProperty("--row", position[0].toString());
+      domBox.style.setProperty("--cell", position[1].toString());
 
       document.getElementById("stage")?.appendChild(domBox);
 
@@ -116,8 +118,8 @@ export class Game2048 extends Emittery<Events> {
     let emptyList = this.empty();
     if (emptyList.length > 0) return false;
 
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
         let obj = this.stage[i][j];
         let objLeft = j == 0 ? { boxObj: { value: 0 } } : this.stage[i][j - 1];
         let objRight = j == 3 ? { boxObj: { value: 0 } } : this.stage[i][j + 1];
@@ -148,7 +150,9 @@ export class Game2048 extends Emittery<Events> {
     if (!srcTile.boxObj) return;
     destTile.boxObj = srcTile.boxObj;
 
-    destTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${destTile.boxObj?.value} tile`;
+    destTile.boxObj.domObj.className = `num${destTile.boxObj?.value} tile`;
+    destTile.boxObj.domObj.style.setProperty("--row", destTile.position[0].toString());
+    destTile.boxObj.domObj.style.setProperty("--cell", destTile.position[1].toString());
 
     srcTile.boxObj = null;
 
@@ -169,9 +173,12 @@ export class Game2048 extends Emittery<Events> {
     const newValue = destTile.boxObj.value * 2;
 
     srcTile.boxObj.value = newValue;
-    srcTile.boxObj.domObj.className = `row${destTile.position[0]} cell${destTile.position[1]} num${newValue} tile`;
+    srcTile.boxObj.domObj.className = `num${newValue} tile`;
     srcTile.boxObj.domObj.innerText = newValue.toString();
     srcTile.boxObj.domObj.textContent = newValue.toString();
+
+    srcTile.boxObj.domObj.style.setProperty("--row", destTile.position[0].toString());
+    srcTile.boxObj.domObj.style.setProperty("--cell", destTile.position[1].toString());
 
     this.score += newValue;
 
@@ -207,9 +214,9 @@ export class Game2048 extends Emittery<Events> {
   private clear(dir: "left" | "up" | "right" | "down"): boolean {
     let didMove = false;
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.size; i++) {
       let lastEmpty: Tile | null = null;
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j < this.size; j++) {
         let tileInThisWay: Tile;
         switch (dir) {
           case "left":
@@ -219,10 +226,10 @@ export class Game2048 extends Emittery<Events> {
             tileInThisWay = this.stage[j][i];
             break;
           case "down":
-            tileInThisWay = this.stage[3 - j][i];
+            tileInThisWay = this.stage[this.size - 1 - j][i];
             break;
           case "right":
-            tileInThisWay = this.stage[i][3 - j];
+            tileInThisWay = this.stage[i][this.size - 1 - j];
             break;
         }
 
@@ -247,35 +254,35 @@ export class Game2048 extends Emittery<Events> {
     didMove = this.clear(dir);
 
     let scoreAdded = 0;
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 3; j++) {
-        let objInThisWay: Tile;
-        let objInThisWay2: Tile;
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size - 1; j++) {
+        let targetTile: Tile;
+        let currentTile: Tile;
         switch (dir) {
           case "left": {
-            objInThisWay = this.stage[i][j];
-            objInThisWay2 = this.stage[i][j + 1];
+            targetTile = this.stage[i][j];
+            currentTile = this.stage[i][j + 1];
             break;
           }
           case "up": {
-            objInThisWay = this.stage[j][i];
-            objInThisWay2 = this.stage[j + 1][i];
+            targetTile = this.stage[j][i];
+            currentTile = this.stage[j + 1][i];
             break;
           }
           case "down": {
-            objInThisWay = this.stage[3 - j][i];
-            objInThisWay2 = this.stage[2 - j][i];
+            targetTile = this.stage[this.size - 1 - j][i];
+            currentTile = this.stage[this.size - 2 - j][i];
             break;
           }
           case "right": {
-            objInThisWay = this.stage[i][3 - j];
-            objInThisWay2 = this.stage[i][2 - j];
+            targetTile = this.stage[i][this.size - 1 - j];
+            currentTile = this.stage[i][this.size - 2 - j];
             break;
           }
         }
 
-        if (objInThisWay2.boxObj && objInThisWay.boxObj?.value == objInThisWay2.boxObj.value) {
-          scoreAdded += this.addTo(objInThisWay2, objInThisWay);
+        if (currentTile.boxObj && targetTile.boxObj?.value == currentTile.boxObj.value) {
+          scoreAdded += this.addTo(currentTile, targetTile);
           this.clear(dir);
           didMove = true;
         }

@@ -8,27 +8,26 @@
 
   import "./2048_dark.css";
 
-  const game = new Game2048();
+  let size: 4 | 8 = 4;
+
+  const game = new Game2048(size);
   const controller = game.controller;
   const { score, bestScore } = scoreStores(game);
 
   onMount(() => game.newBox());
   game.on("gameOver", () => alert("GAME OVER")); // TODO: game over
 
-  const onkeyup: KeyboardEventHandler<Document> = (e) => {
-    switch (e.key) {
-      case "ArrowLeft":
-        game.move("left");
-        break;
-      case "ArrowUp":
-        game.move("up");
-        break;
-      case "ArrowRight":
-        game.move("right");
-        break;
-      case "ArrowDown":
-        game.move("down");
-        break;
+  const moveMap = {
+    ArrowLeft: "left",
+    ArrowUp: "up",
+    ArrowRight: "right",
+    ArrowDown: "down"
+  } as const;
+
+  const onkeydown: KeyboardEventHandler<Document> = (e) => {
+    if (moveMap.hasOwnProperty(e.key)) {
+      e.preventDefault();
+      game.move(moveMap[e.key as keyof typeof moveMap]);
     }
   };
 
@@ -42,7 +41,7 @@
   on:mousedown|preventDefault={(e) => controller.start(e.clientX, e.clientY)}
   on:mousemove|preventDefault={(e) => controller.move(e.clientX, e.clientY)}
   on:mouseup|preventDefault={(e) => controller.end()}
-  on:keyup|preventDefault={onkeyup}
+  on:keydown={onkeydown}
 />
 
 <CenteredPage>
@@ -71,7 +70,7 @@
       <div
         id="stage"
         class="relative aspect-square w-[30rem] max-w-full rounded border border-text"
-        style:--size="4"
+        style:--size={size}
         on:touchstart|preventDefault={(e) =>
           controller.start(e.touches[0].clientX, e.touches[0].clientY)}
         on:touchmove|preventDefault={(e) =>
@@ -95,31 +94,6 @@
 </CenteredPage>
 
 <style>
-  :global(.row0) {
-    top: var(--gap);
-  }
-  :global(.row1) {
-    top: calc(var(--gap) * 2 + var(--tile));
-  }
-  :global(.row2) {
-    top: calc(var(--gap) * 3 + var(--tile) * 2);
-  }
-  :global(.row3) {
-    top: calc(var(--gap) * 4 + var(--tile) * 3);
-  }
-  :global(.cell0) {
-    left: var(--gap);
-  }
-  :global(.cell1) {
-    left: calc(var(--gap) * 2 + var(--tile));
-  }
-  :global(.cell2) {
-    left: calc(var(--gap) * 3 + var(--tile) * 2);
-  }
-  :global(.cell3) {
-    left: calc(var(--gap) * 4 + var(--tile) * 3);
-  }
-
   :global(span.tile) {
     @apply absolute grid h-[var(--tile)] w-[var(--tile)] cursor-pointer place-items-center rounded-sm text-2xl transition-all;
 
@@ -127,6 +101,10 @@
     --gap: 0.5rem;
     /* (size of stage - the gaps) / number of tiles (the size) */
     --tile: calc((var(--stage) - var(--gap) * (var(--size) + 1)) / var(--size));
+
+    /* calculate the position of each tile */
+    top: calc(var(--gap) * (var(--row, 0) + 1) + var(--tile) * var(--row));
+    left: calc(var(--gap) * (var(--cell, 0) + 1) + var(--tile) * var(--cell));
   }
 
   :global(.num2) {
