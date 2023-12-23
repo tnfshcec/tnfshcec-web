@@ -105,7 +105,7 @@
           href="{base}/2048"
         >
           <Downo class="h-4 w-4" />
-          <span>{$m.game()}</span>
+          <span>{$m.game_2048()}</span>
         </a>
 
         {#if $subOpen}

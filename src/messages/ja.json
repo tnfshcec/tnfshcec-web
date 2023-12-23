@@ -5,7 +5,6 @@
   "lightTheme": "ライトテーマ",
   "darkTheme": "ダークテーマ",
   "language": "言語",
-  "game" : "2048",
   "signIn": "ログイン",
   "signOut": "ログアウト",
   "signedInAs": "{user}, おかえり！",
@@ -47,5 +46,17 @@
   "post_fieldDate": "日付",
   "post_fieldImage": "画像",
   "post_fieldDescription": "説明",
-  "post_fieldPinned": "ピン留め"
+  "post_fieldPinned": "ピン留め",
+  "game_2048": "2048",
+  "game_2048Score": "分數",
+  "game_2048BestScore": "最高分數",
+  "game_2048Restart": "重新開始",
+  "game_2048GameOver": "遊戲結束",
+  "game_2048GameOverMessage": "分數： {score}",
+  "game_2048InfoQ1": "這裡為什麼有2048？",
+  "game_2048InfoA1": "我怎麼會知道。",
+  "game_2048InfoQ2": "2048怎麼玩？",
+  "game_2048InfoA2": "自己Google。",
+  "game_2048InfoQ3": "但是我要怎麼控制？",
+  "game_2048InfoA3": "方向鍵或直接滑動，滑鼠或觸控都可以。"
 }

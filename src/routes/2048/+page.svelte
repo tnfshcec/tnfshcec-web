@@ -3,11 +3,14 @@
   import { fade } from "svelte/transition";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import { useI18nStores } from "$lib/stores/i18n";
   import { Game2048, scoreStores } from "./2048";
   import Restart from "~icons/mdi/restart";
   import type { KeyboardEventHandler } from "svelte/elements";
 
   import "./2048_dark.css";
+
+  const { m } = useI18nStores();
 
   let size: 4 | 8 = 4;
 
@@ -60,17 +63,17 @@
       <div class="space-y-4">
         <div class="flex flex-wrap gap-2">
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
-            <span class="text-lg">SCORE</span><br />
+            <span class="text-lg">{$m.game_2048Score()}</span><br />
             <span class="text-2xl font-bold">{$score}</span>
           </div>
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
-            <span class="text-lg">BEST</span><br />
+            <span class="text-lg">{$m.game_2048BestScore()}</span><br />
             <span class="text-2xl font-bold">{$bestScore}</span>
           </div>
         </div>
         <button class="btn-accent icon-flex" on:click={restartGame}>
           <Restart class="h-4 w-4" />
-          RESTART
+          {$m.game_2048Restart()}
         </button>
       </div>
 
@@ -90,22 +93,20 @@
             class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-secondary/40 backdrop-blur-[1px]"
             transition:fade={{ duration: 200 }}
           >
-            <span class="text-2xl font-bold">GAME OVER</span><br />
-            <span>Score: {$score}</span>
+            <span class="text-2xl font-bold">{$m.game_2048GameOver()}</span><br />
+            <span>{$m.game_2048GameOverMessage($score)}</span>
           </div>
         {/if}
       </div>
 
       <!-- right text -->
-      <div>
-        <span class="font-bold">這裡為什麼有2048？</span><br />
-        <span>我怎麼會知道。</span><br /><br />
-        <span class="font-bold">2048怎麼玩？</span><br />
-        <span>自己Google。</span><br /><br />
-        <span class="font-bold">但是我要怎麼控制？</span><br />
-        <span>方向鍵或直接滑動，滑鼠或觸控都可以。</span><br /><br />
-        <span class="font-bold">這邊在供三小？</span><br />
-        <span>不知道欸，我只是想放點字讓頁面不要這麼空。</span>
+      <div class="max-w-xs">
+        <span class="font-bold">{$m.game_2048InfoQ1()}</span><br />
+        <span>{$m.game_2048InfoA1()}</span><br /><br />
+        <span class="font-bold">{$m.game_2048InfoQ2()}</span><br />
+        <span>{$m.game_2048InfoA2()}</span><br /><br />
+        <span class="font-bold">{$m.game_2048InfoQ3()}</span><br />
+        <span>{$m.game_2048InfoA3()}</span>
       </div>
     </div>
   </div>
