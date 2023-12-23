@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import { Game2048, scoreStores } from "./2048";
@@ -14,8 +15,12 @@
   const controller = game.controller;
   const { score, bestScore } = scoreStores(game);
 
-  onMount(() => game.newBox());
-  game.on("gameOver", () => alert("GAME OVER")); // TODO: game over
+  let gameOver = false;
+  game.on("gameOver", () => {
+    gameOver = true;
+  });
+
+  onMount(() => game.gameStartBoxes());
 
   const moveMap = {
     ArrowLeft: "left",
@@ -27,13 +32,16 @@
   const onkeydown: KeyboardEventHandler<Document> = (e) => {
     if (moveMap.hasOwnProperty(e.key)) {
       e.preventDefault();
+      // focus `document` so the global dropdown menu wouldn't be triggered
+      document.documentElement.focus();
       game.move(moveMap[e.key as keyof typeof moveMap]);
     }
   };
 
   const restartGame = () => {
     game.reset();
-    game.newBox();
+    game.gameStartBoxes();
+    gameOver = false;
   };
 </script>
 
@@ -69,14 +77,24 @@
       <!-- actual game -->
       <div
         id="stage"
-        class="relative aspect-square w-[30rem] max-w-full rounded border border-text"
+        class="relative aspect-square w-[30rem] max-w-full overflow-clip rounded border border-text"
         style:--size={size}
         on:touchstart|preventDefault={(e) =>
           controller.start(e.touches[0].clientX, e.touches[0].clientY)}
         on:touchmove|preventDefault={(e) =>
           controller.move(e.touches[0].clientX, e.touches[0].clientY)}
         on:touchend|preventDefault={(e) => controller.end()}
-      />
+      >
+        {#if gameOver}
+          <div
+            class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-secondary/40 backdrop-blur-[1px]"
+            transition:fade={{ duration: 200 }}
+          >
+            <span class="text-2xl font-bold">GAME OVER</span><br />
+            <span>Score: {$score}</span>
+          </div>
+        {/if}
+      </div>
 
       <!-- right text -->
       <div>

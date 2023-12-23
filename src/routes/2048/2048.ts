@@ -98,6 +98,14 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
+   * Add 2 new boxes for a new game.
+   */
+  gameStartBoxes(): void {
+    this.newBox();
+    this.newBox();
+  }
+
+  /**
    * Resets the game.
    * Clears the stage, and resets the score to 0.
    */
