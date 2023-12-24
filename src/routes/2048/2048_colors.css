@@ -1,0 +1,119 @@
+.num2 {
+  --bg-color: #eee4da;
+  --color: #776e65;
+}
+
+.num4 {
+  --bg-color: #ede0c8;
+  --color: #776e65;
+}
+
+.num8 {
+  --bg-color: #f2b179;
+  --color: #f9f6f2;
+}
+
+.num16 {
+  --bg-color: #f59563;
+  --color: #f9f4e7;
+}
+
+.num32 {
+  --bg-color: #f67c60;
+  --color: #f9f6f2;
+}
+
+.num64 {
+  --bg-color: #f65e3b;
+  --color: #f9f6f2;
+}
+
+.num128 {
+  --bg-color: #edcf73;
+  --color: #f9f6f2;
+}
+
+.num256 {
+  --bg-color: #edcc62;
+  --color: #f9f6f2;
+}
+
+.num512 {
+  --bg-color: #edc850;
+  --color: #fb4e4e;
+}
+
+.num1024 {
+  --bg-color: #6483b5;
+  --color: #f9f6f2;
+}
+
+.num2048 {
+  --bg-color: #edc53f;
+  --color: #f9f6f2;
+}
+
+.num4096 {
+  --bg-color: #edc22d;
+  --color: #f9f6f2;
+}
+
+.dark .num2 {
+  --bg-color: #cfe0e9;
+  --color: #284553;
+}
+
+.dark .num4 {
+  --bg-color: #abbfcf;
+  --color: #1c4554;
+}
+
+.dark .num8 {
+  --bg-color: #7c8d9c;
+  --color: #c0c6cc;
+}
+
+.dark .num16 {
+  --bg-color: #5a6570;
+  --color: #ffffff;
+}
+
+.dark .num32 {
+  --bg-color: #3a4d5c;
+  --color: #f9f6f2;
+}
+
+.dark .num64 {
+  --bg-color: #143441;
+  --color: #ffffff;
+}
+
+.dark .num128 {
+  --bg-color: #f2c09a;
+  --color: #000000;
+}
+
+.dark .num256 {
+  --bg-color: #e9937c;
+  --color: #f9f6f2;
+}
+
+.dark .num512 {
+  --bg-color: #e3646a;
+  --color: #f9f6f2;
+}
+
+.dark .num1024 {
+  --bg-color: #7fcbca;
+  --color: #ffffff;
+}
+
+.dark .num2048 {
+  --bg-color: #37b0ae;
+  --color: #ffffff;
+}
+
+.dark .num4096 {
+  --bg-color: #228993;
+  --color: #ffffff;
+}

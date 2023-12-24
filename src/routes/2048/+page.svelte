@@ -8,7 +8,7 @@
   import Restart from "~icons/mdi/restart";
   import type { KeyboardEventHandler } from "svelte/elements";
 
-  import "./2048_dark.css";
+  import "./2048_colors.css";
 
   const { m } = useI18nStores();
 
@@ -94,7 +94,7 @@
             transition:fade={{ duration: 200 }}
           >
             <span class="text-2xl font-bold">{$m.game_2048GameOver()}</span><br />
-            <span>{$m.game_2048GameOverMessage($score)}</span>
+            <span>{$m.game_2048GameOverMessage({ score: $score })}</span>
           </div>
         {/if}
       </div>
@@ -114,7 +114,12 @@
 
 <style>
   :global(span.tile) {
-    @apply absolute grid h-[var(--tile)] w-[var(--tile)] cursor-pointer place-items-center rounded-sm text-2xl transition-all;
+    @apply absolute grid cursor-pointer place-items-center rounded-sm text-2xl transition-all;
+
+    height: var(--tile);
+    width: var(--tile);
+    color: var(--color);
+    background-color: var(--bg-color);
 
     --stage: min(30rem, 100%);
     --gap: 0.5rem;
@@ -124,65 +129,5 @@
     /* calculate the position of each tile */
     top: calc(var(--gap) * (var(--row, 0) + 1) + var(--tile) * var(--row));
     left: calc(var(--gap) * (var(--cell, 0) + 1) + var(--tile) * var(--cell));
-  }
-
-  :global(.num2) {
-    background: #eee4da;
-    color: #776e65;
-  }
-
-  :global(.num4) {
-    background: #ede0c8;
-    color: #776e65;
-  }
-
-  :global(.num8) {
-    background: #f2b179;
-    color: #f9f6f2;
-  }
-
-  :global(.num16) {
-    background: #f59563;
-    color: #f9f4e7;
-  }
-
-  :global(.num32) {
-    background: #f67c60;
-    color: #f9f6f2;
-  }
-
-  :global(.num64) {
-    background: #f65e3b;
-    color: #f9f6f2;
-  }
-
-  :global(.num128) {
-    background: #edcf73;
-    color: #f9f6f2;
-  }
-
-  :global(.num256) {
-    background: #edcc62;
-    color: #f9f6f2;
-  }
-
-  :global(.num512) {
-    background: #edc850;
-    color: #fb4e4e;
-  }
-
-  :global(.num1024) {
-    background: #6483b5;
-    color: #f9f6f2;
-  }
-
-  :global(.num2048) {
-    background: #edc53f;
-    color: #f9f6f2;
-  }
-
-  :global(.num4096) {
-    background: #edc22d;
-    color: #f9f6f2;
   }
 </style>
