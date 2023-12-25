@@ -106,11 +106,13 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
-   * Resets the game.
-   * Clears the stage, and resets the score to 0.
+   * Resets the game, optionally with a new size.
+   * Initializes a new stage, and resets the score to 0.
    */
-  reset(): void {
+  reset(size: number = this.size): void {
     document.getElementById("stage")?.replaceChildren();
+
+    this.size = size;
 
     this.initStage();
     this.score = 0;

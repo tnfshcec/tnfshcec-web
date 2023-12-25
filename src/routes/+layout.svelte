@@ -70,17 +70,9 @@
 
     <!--melt-ui-dropdown-->
     {#if $open}
-      <div
-        use:melt={$menu}
-        class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
-        transition:fly={{ duration: 150, y: -10 }}
-      >
+      <div use:melt={$menu} class="dropdown-menu z-top" transition:fly={{ duration: 150, y: -10 }}>
         <!-- TODO: maybe extract item classes (especially the `first:rounded-t` and `last:rounded-b`)-->
-        <div
-          use:melt={$item}
-          class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => theme.toggle()}
-        >
+        <div use:melt={$item} class="icon-flex dropdown-item" on:m-click={() => theme.toggle()}>
           {#if $theme === "light"}
             <Brightness class="h-4 w-4" />
             <span>{$m.lightTheme()}</span>
@@ -90,34 +82,27 @@
           {/if}
         </div>
 
-        <div
-          use:melt={$subTrigger}
-          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
-        >
+        <div use:melt={$subTrigger} class="icon-flex dropdown-item">
           <Earth class="h-4 w-4" />
           <span>{$m.language()}</span>
           <ChevronRight class="ml-auto h-4 w-4" />
         </div>
 
-        <a
-          use:melt={$item}
-          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
-          href="{base}/2048"
-        >
+        <a use:melt={$item} class="icon-flex dropdown-item" href="{base}/2048">
           <Downo class="h-4 w-4" />
           <span>{$m.game_2048()}</span>
         </a>
 
         {#if $subOpen}
           <div
-            class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
+            class="dropdown-menu z-top"
             use:melt={$subMenu}
             transition:fly={{ duration: 150, y: -10 }}
           >
             {#each availableLanguageTags as tag}
               <a
                 use:melt={$item}
-                class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                class="dropdown-item block whitespace-nowrap"
                 href={langUrl($page.url, tag)}
                 hreflang={tag}
               >
@@ -130,11 +115,7 @@
         <div use:melt={$separator} class="h-[1px] bg-text/20" />
 
         {#if session?.user === undefined}
-          <a
-            use:melt={$item}
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signin"
-          >
+          <a use:melt={$item} class="dropdown-item block" href="{base}/auth/signin">
             {$m.signIn()}
           </a>
         {:else}
@@ -142,11 +123,7 @@
             {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
           </span>
           {#if session.user.role === "admin"}
-            <a
-              use:melt={$item}
-              class="block px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/newpost"
-            >
+            <a use:melt={$item} class="dropdown-item block" href="{base}/newpost">
               {$m.post_newPost()}
             </a>
           {/if}
@@ -157,11 +134,7 @@
           <!-- > -->
           <!--   Delete Post Cache -->
           <!-- </div> -->
-          <a
-            use:melt={$item}
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signout"
-          >
+          <a use:melt={$item} class="dropdown-item block" href="{base}/auth/signout">
             {$m.signOut()}
           </a>
         {/if}

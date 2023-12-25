@@ -1,20 +1,41 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
+  import { createSelect, melt } from "@melt-ui/svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import { useI18nStores } from "$lib/stores/i18n";
   import { Game2048, scoreStores } from "./2048";
+
   import Restart from "~icons/mdi/restart";
+  import ExpandAll from "~icons/mdi/arrow-expand-all";
+  import ChevronDown from "~icons/mdi/chevron-down";
+
   import type { KeyboardEventHandler } from "svelte/elements";
 
   import "./2048_colors.css";
+  import { derived } from "svelte/store";
 
   const { m } = useI18nStores();
 
-  let size: 4 | 8 = 4;
+  const {
+    elements: { trigger, menu, option },
+    states: { selected, open },
+    helpers: { isSelected }
+  } = createSelect<number>({
+    defaultSelected: { value: 4 },
+    forceVisible: true,
+    preventScroll: false,
+    positioning: {
+      placement: "bottom",
+      fitViewport: true,
+      sameWidth: true
+    }
+  });
 
-  const game = new Game2048(size);
+  const size = derived(selected, (s) => s?.value ?? 4);
+
+  const game = new Game2048($size);
   const controller = game.controller;
   const { score, bestScore } = scoreStores(game);
 
@@ -22,8 +43,6 @@
   game.on("gameOver", () => {
     gameOver = true;
   });
-
-  onMount(() => game.gameStartBoxes());
 
   const moveMap = {
     ArrowLeft: "left",
@@ -41,11 +60,15 @@
     }
   };
 
-  const restartGame = () => {
-    game.reset();
+  const restartGame = (s: number = $size) => {
+    game.reset(s);
     game.gameStartBoxes();
     gameOver = false;
   };
+
+  onMount(() => {
+    size.subscribe(restartGame);
+  });
 </script>
 
 <svelte:document
@@ -58,9 +81,10 @@
 <CenteredPage>
   <div class="w-full max-w-screen-xl select-none">
     <PageTitle current="2048" />
-    <div class="flex flex-col justify-evenly gap-4 p-4 md:flex-row">
+    <div class="flex flex-col justify-evenly gap-4 p-4 lg:flex-row">
       <!-- left panel (scores & restart) -->
       <div class="space-y-4">
+        <!-- scores -->
         <div class="flex flex-wrap gap-2">
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">{$m.game_2048Score()}</span><br />
@@ -71,17 +95,41 @@
             <span class="text-2xl font-bold">{$bestScore}</span>
           </div>
         </div>
-        <button class="btn-accent icon-flex" on:click={restartGame}>
-          <Restart class="h-4 w-4" />
-          {$m.game_2048Restart()}
-        </button>
+
+        <div class="flex gap-2">
+          <!-- change sizes -->
+          <button class="btn-primary icon-flex" use:melt={$trigger}>
+            <ExpandAll class="h-4 w-4" />
+            {$size}x{$size}
+            <ChevronDown class="h-4 w-4" />
+          </button>
+          {#if $open}
+            <div class="dropdown-menu z-10" use:melt={$menu} transition:fade={{ duration: 150 }}>
+              {#each [4, 6, 8] as sizeOption}
+                <div
+                  class="dropdown-item icon-flex relative cursor-pointer
+                  {$isSelected(sizeOption) ? '!bg-primary/20' : ''}"
+                  use:melt={$option({ value: sizeOption, label: `${sizeOption}x${sizeOption}` })}
+                >
+                  {sizeOption}x{sizeOption}
+                </div>
+              {/each}
+            </div>
+          {/if}
+
+          <!-- restart -->
+          <button class="btn-accent icon-flex" on:click={() => restartGame()}>
+            <Restart class="h-4 w-4" />
+            {$m.game_2048Restart()}
+          </button>
+        </div>
       </div>
 
       <!-- actual game -->
       <div
         id="stage"
         class="relative aspect-square w-[30rem] max-w-full overflow-clip rounded border border-text"
-        style:--size={size}
+        style:--size={$size}
         on:touchstart|preventDefault={(e) =>
           controller.start(e.touches[0].clientX, e.touches[0].clientY)}
         on:touchmove|preventDefault={(e) =>

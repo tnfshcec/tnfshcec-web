@@ -32,8 +32,19 @@
     @apply border border-text/80 text-text;
     @apply hover:border-text hover:shadow-glow hover:shadow-text/40 active:shadow-text/60;
   }
+  .btn-primary {
+    @apply rounded p-2 transition-all;
+    @apply border border-primary/80 text-primary;
+    @apply hover:border-primary hover:shadow-glow hover:shadow-primary/40 active:shadow-primary/60;
+  }
   .icon-flex {
     @apply flex items-center gap-2;
+  }
+  .dropdown-menu {
+    @apply max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur;
+  }
+  .dropdown-item {
+    @apply px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20;
   }
 }
 
