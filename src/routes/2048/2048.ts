@@ -33,7 +33,7 @@ export class Game2048 extends Emittery<Events> {
     this.emit("stageChange", this.stage);
   }
 
-  private initStage(): void {
+  initStage(): void {
     for (let row = 0; row < this.size; row++) {
       this.stage[row] = [];
       for (let cell = 0; cell < this.size; cell++) {
