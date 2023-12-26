@@ -1,10 +1,3 @@
-/*
- * Code originally made by Kakashi on medium.com.
- * Source URL: https://medium.com/@aswingiftson007/2048-game-in-html-and-javascript-c6cc63d2698f
- *
- * THANK YOU FOR THE AMAYZING CODE :D
- */
-
 import { browser } from "$app/environment";
 import { writable, type Readable } from "svelte/store";
 import Emittery from "emittery";
@@ -20,6 +13,14 @@ type Events = {
   gameOver: never;
 };
 
+/*
+ * A game of 2048
+ *
+ * Code originally made by Kakashi on medium.com.
+ * Source URL: https://medium.com/@aswingiftson007/2048-game-in-html-and-javascript-c6cc63d2698f
+ *
+ * THANK YOU FOR THE AMAYZING CODE :D
+ */
 export class Game2048 extends Emittery<Events> {
   score = 0;
   stage: Tile[][] = [];
@@ -33,6 +34,9 @@ export class Game2048 extends Emittery<Events> {
     this.emit("stageChange", this.stage);
   }
 
+  /**
+   * Set every tile on the stage (of size {@link Game2048.size}) to empty tile
+   */
   initStage(): void {
     for (let row = 0; row < this.size; row++) {
       this.stage[row] = [];
@@ -46,18 +50,11 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
-   * get a list of empty tiles on the {@link stage}
+   * Add 2 new boxes (for a new game).
    */
-  private empty(): Tile[] {
-    let emptyList = [];
-    for (let row = 0; row < this.size; row++) {
-      for (let cell = 0; cell < this.size; cell++) {
-        if (this.stage[cell][row].boxObj == null) {
-          emptyList.push(this.stage[cell][row]);
-        }
-      }
-    }
-    return emptyList;
+  gameStartBoxes(): void {
+    this.newBox();
+    this.newBox();
   }
 
   /**
@@ -82,7 +79,7 @@ export class Game2048 extends Emittery<Events> {
       return domBox;
     };
 
-    const emptyList = this.empty();
+    const emptyList = this.emptyTiles();
     if (emptyList) {
       const randomTile = emptyList[Math.floor(Math.random() * emptyList.length)];
       const num = Math.random() > 0.9 ? 4 : 2;
@@ -98,11 +95,66 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
-   * Add 2 new boxes for a new game.
+   * do a move in the specified direction
    */
-  gameStartBoxes(): void {
-    this.newBox();
-    this.newBox();
+  move(dir: "left" | "up" | "right" | "down"): void {
+    let didMove = false;
+    didMove = this.handleMove(dir);
+
+    let scoreAdded = 0;
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size - 1; j++) {
+        let targetTile: Tile;
+        let currentTile: Tile;
+        switch (dir) {
+          case "left": {
+            targetTile = this.stage[i][j];
+            currentTile = this.stage[i][j + 1];
+            break;
+          }
+          case "up": {
+            targetTile = this.stage[j][i];
+            currentTile = this.stage[j + 1][i];
+            break;
+          }
+          case "down": {
+            targetTile = this.stage[this.size - 1 - j][i];
+            currentTile = this.stage[this.size - 2 - j][i];
+            break;
+          }
+          case "right": {
+            targetTile = this.stage[i][this.size - 1 - j];
+            currentTile = this.stage[i][this.size - 2 - j];
+            break;
+          }
+        }
+
+        if (currentTile.boxObj && targetTile.boxObj?.value == currentTile.boxObj.value) {
+          // two tiles can be merged
+          scoreAdded += this.mergeTo(currentTile, targetTile);
+          this.handleMove(dir);
+          didMove = true;
+        }
+      }
+    }
+
+    // if (scoreAdded) {
+    //   const addscore = document.getElementById("addScore");
+    //   if (addscore) {
+    //     addscore.innerText = "+" + scoreAdded;
+    //     addscore.textContent = "+" + scoreAdded;
+    //     addscore.classList.add("show");
+    //     setTimeout(() => {
+    //       addscore.classList.remove("show");
+    //     }, 500);
+    //   }
+    // }
+    if (didMove) {
+      this.newBox();
+    }
+    if (this.isEnd()) {
+      this.gameOver();
+    }
   }
 
   /**
@@ -125,7 +177,7 @@ export class Game2048 extends Emittery<Events> {
    * @returns whether the game has reached the end
    */
   isEnd(): boolean {
-    let emptyList = this.empty();
+    let emptyList = this.emptyTiles();
     if (emptyList.length > 0) return false;
 
     for (let i = 0; i < this.size; i++) {
@@ -148,8 +200,59 @@ export class Game2048 extends Emittery<Events> {
     return true;
   }
 
-  private gameOver(): void {
-    this.emit("gameOver");
+  /**
+   * get a list of empty tiles on the {@link stage}
+   */
+  private emptyTiles(): Tile[] {
+    let emptyList = [];
+    for (let row = 0; row < this.size; row++) {
+      for (let cell = 0; cell < this.size; cell++) {
+        if (this.stage[cell][row].boxObj == null) {
+          emptyList.push(this.stage[cell][row]);
+        }
+      }
+    }
+    return emptyList;
+  }
+
+  /**
+   * move tiles in the specified direction
+   *
+   * @returns whether any tile has moved or not
+   */
+  private handleMove(dir: "left" | "up" | "right" | "down"): boolean {
+    let didMove = false;
+
+    for (let i = 0; i < this.size; i++) {
+      let lastEmpty: Tile | null = null;
+      for (let j = 0; j < this.size; j++) {
+        let tileInThisWay: Tile;
+        switch (dir) {
+          case "left":
+            tileInThisWay = this.stage[i][j];
+            break;
+          case "up":
+            tileInThisWay = this.stage[j][i];
+            break;
+          case "down":
+            tileInThisWay = this.stage[this.size - 1 - j][i];
+            break;
+          case "right":
+            tileInThisWay = this.stage[i][this.size - 1 - j];
+            break;
+        }
+
+        if (tileInThisWay.boxObj != null && lastEmpty) {
+          this.moveTo(tileInThisWay, lastEmpty);
+          lastEmpty = null;
+          j = 0;
+          didMove = true;
+        } else if (tileInThisWay.boxObj == null && !lastEmpty) {
+          lastEmpty = tileInThisWay;
+        }
+      }
+    }
+    return didMove;
   }
 
   /**
@@ -170,12 +273,12 @@ export class Game2048 extends Emittery<Events> {
   }
 
   /**
-   * combines {@link srcTile} to {@link destTile}
+   * merges {@link srcTile} to {@link destTile}
    * and changes the score onto the scoreboard
    *
    * @returns the number after two tiles has combined
    */
-  private addTo(srcTile: Tile, destTile: Tile): number {
+  private mergeTo(srcTile: Tile, destTile: Tile): number {
     if (!srcTile.boxObj || !destTile.boxObj) return 0;
 
     const destDom = destTile.boxObj.domObj;
@@ -216,106 +319,8 @@ export class Game2048 extends Emittery<Events> {
     return destTile.boxObj?.value ?? 0;
   }
 
-  /**
-   * move tiles in the specified direction
-   *
-   * @returns whether any tile has moved or not
-   */
-  private clear(dir: "left" | "up" | "right" | "down"): boolean {
-    let didMove = false;
-
-    for (let i = 0; i < this.size; i++) {
-      let lastEmpty: Tile | null = null;
-      for (let j = 0; j < this.size; j++) {
-        let tileInThisWay: Tile;
-        switch (dir) {
-          case "left":
-            tileInThisWay = this.stage[i][j];
-            break;
-          case "up":
-            tileInThisWay = this.stage[j][i];
-            break;
-          case "down":
-            tileInThisWay = this.stage[this.size - 1 - j][i];
-            break;
-          case "right":
-            tileInThisWay = this.stage[i][this.size - 1 - j];
-            break;
-        }
-
-        if (tileInThisWay.boxObj != null && lastEmpty) {
-          this.moveTo(tileInThisWay, lastEmpty);
-          lastEmpty = null;
-          j = 0;
-          didMove = true;
-        } else if (tileInThisWay.boxObj == null && !lastEmpty) {
-          lastEmpty = tileInThisWay;
-        }
-      }
-    }
-    return didMove;
-  }
-
-  /**
-   * do a move in the specified direction
-   */
-  move(dir: "left" | "up" | "right" | "down"): void {
-    let didMove = false;
-    didMove = this.clear(dir);
-
-    let scoreAdded = 0;
-    for (let i = 0; i < this.size; i++) {
-      for (let j = 0; j < this.size - 1; j++) {
-        let targetTile: Tile;
-        let currentTile: Tile;
-        switch (dir) {
-          case "left": {
-            targetTile = this.stage[i][j];
-            currentTile = this.stage[i][j + 1];
-            break;
-          }
-          case "up": {
-            targetTile = this.stage[j][i];
-            currentTile = this.stage[j + 1][i];
-            break;
-          }
-          case "down": {
-            targetTile = this.stage[this.size - 1 - j][i];
-            currentTile = this.stage[this.size - 2 - j][i];
-            break;
-          }
-          case "right": {
-            targetTile = this.stage[i][this.size - 1 - j];
-            currentTile = this.stage[i][this.size - 2 - j];
-            break;
-          }
-        }
-
-        if (currentTile.boxObj && targetTile.boxObj?.value == currentTile.boxObj.value) {
-          scoreAdded += this.addTo(currentTile, targetTile);
-          this.clear(dir);
-          didMove = true;
-        }
-      }
-    }
-
-    // if (scoreAdded) {
-    //   const addscore = document.getElementById("addScore");
-    //   if (addscore) {
-    //     addscore.innerText = "+" + scoreAdded;
-    //     addscore.textContent = "+" + scoreAdded;
-    //     addscore.classList.add("show");
-    //     setTimeout(() => {
-    //       addscore.classList.remove("show");
-    //     }, 500);
-    //   }
-    // }
-    if (didMove) {
-      this.newBox();
-    }
-    if (this.isEnd()) {
-      this.gameOver();
-    }
+  private gameOver(): void {
+    this.emit("gameOver");
   }
 }
 
@@ -351,7 +356,7 @@ function getSavedBestScore(itemName: string): number | null {
 }
 
 /**
- * Get a controller for the {@link Game2048}
+ * Get a mouse/touch controller for the {@link Game2048}
  *
  * @returns function utilities for making moves using mouse
  */
