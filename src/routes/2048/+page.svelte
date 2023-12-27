@@ -93,7 +93,7 @@
           </div>
           <div class="min-w-[8rem] rounded-sm bg-secondary p-2">
             <span class="text-lg">{$m.game_2048BestScore()}</span><br />
-            <span class="text-2xl font-bold">{$bestScore}</span>
+            <span class="text-2xl font-bold">{$bestScore[$size]}</span>
           </div>
         </div>
 

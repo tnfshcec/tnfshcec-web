@@ -326,23 +326,28 @@ export class Game2048 extends Emittery<Events> {
 
 export function scoreStores(gameObj: Game2048): {
   score: Readable<number>;
-  bestScore: Readable<number>;
+  bestScore: Readable<Record<number, number>>;
 } {
   const savedBest = getSavedBestScore("2048BestScore");
 
   const { set: setScore, subscribe: subscribeScore } = writable(gameObj.score);
-  const { update: updateBest, subscribe: subscribeBest } = writable(savedBest ?? gameObj.score);
+  const { update: updateBest, subscribe: subscribeBest } = writable(
+    savedBest ?? { [gameObj.size]: gameObj.score }
+  );
 
   gameObj.on("score", (newScore) => setScore(newScore));
 
   subscribeScore((newScore) => {
-    updateBest((oldBest) => Math.max(oldBest, newScore));
+    updateBest((oldBest) => {
+      oldBest[gameObj.size] = Math.max(oldBest[gameObj.size] ?? 0, newScore);
+      return oldBest;
+    });
   });
 
   subscribeBest((newBest) => {
     if (!browser) return;
 
-    window.localStorage.setItem("2048BestScore", newBest.toString());
+    window.localStorage.setItem("2048BestScore", JSON.stringify(newBest));
   });
 
   return {
@@ -351,8 +356,14 @@ export function scoreStores(gameObj: Game2048): {
   };
 }
 
-function getSavedBestScore(itemName: string): number | null {
-  return browser ? parseInt(window.localStorage.getItem(itemName) ?? "0") : null;
+function getSavedBestScore(itemName: string): Record<number, number> | null {
+  if (!browser) return null;
+
+  try {
+    return JSON.parse(window.localStorage.getItem(itemName) ?? "");
+  } catch {
+    return null;
+  }
 }
 
 /**
