@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
+  import { derived } from "svelte/store";
   import { createSelect, melt } from "@melt-ui/svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
@@ -14,7 +15,6 @@
   import type { KeyboardEventHandler } from "svelte/elements";
 
   import "./2048_colors.css";
-  import { derived } from "svelte/store";
 
   const { m } = useI18nStores();
 
@@ -54,8 +54,9 @@
   const onkeydown: KeyboardEventHandler<Document> = (e) => {
     if (moveMap.hasOwnProperty(e.key)) {
       e.preventDefault();
-      // focus `document` so the global dropdown menu wouldn't be triggered
-      document.documentElement.focus();
+      // remove focus from current focused element (like the navbar menu)
+      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+
       game.move(moveMap[e.key as keyof typeof moveMap]);
     }
   };
