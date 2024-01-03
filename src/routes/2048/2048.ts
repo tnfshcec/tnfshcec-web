@@ -138,17 +138,6 @@ export class Game2048 extends Emittery<Events> {
       }
     }
 
-    // if (scoreAdded) {
-    //   const addscore = document.getElementById("addScore");
-    //   if (addscore) {
-    //     addscore.innerText = "+" + scoreAdded;
-    //     addscore.textContent = "+" + scoreAdded;
-    //     addscore.classList.add("show");
-    //     setTimeout(() => {
-    //       addscore.classList.remove("show");
-    //     }, 500);
-    //   }
-    // }
     if (didMove) {
       this.newBox();
     }
@@ -311,11 +300,6 @@ export class Game2048 extends Emittery<Events> {
     this.emit("score", this.score);
     this.emit("stageChange", this.stage);
 
-    // const scoreBar = document.getElementById("score");
-    // if (scoreBar) {
-    //   scoreBar.innerText = this.points.score.toString();
-    //   scoreBar.textContent = this.points.score.toString();
-    // }
     return destTile.boxObj?.value ?? 0;
   }
 
