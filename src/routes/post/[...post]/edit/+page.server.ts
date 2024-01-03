@@ -4,10 +4,10 @@ import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, locals }) => {
   const session = await locals.getSession(); // get sesseion
-  if (session?.user?.role != "admin") throw error(401, "NO U"); // check permission
+  if (session?.user?.role != "admin") error(401, "NO U"); // check permission
 
   const post = await parsePost(params.post).catch(() => {
-    throw error(404, "post not found"); // if no post, 拖出去，現在！ 
+    error(404, "post not found"); // if no post, 拖出去，現在！ 
   });
 
   const { md, ...data } = post; // extract data
@@ -21,7 +21,7 @@ export const load = (async ({ params, locals }) => {
 export const actions = {
   save: async ({ locals, request }) => {
     const session = await locals.getSession(); // get sesseion
-    if (session?.user?.role != "admin") throw error(401, "NO U"); // check permission
+    if (session?.user?.role != "admin") error(401, "NO U"); // check permission
 
     const formData = await request.formData(); // form data
 
@@ -42,7 +42,7 @@ export const actions = {
   },
   delete: async ({ locals, request }) => {
     const session = await locals.getSession(); // get session
-    if (session?.user?.role != "admin") throw error(401, "NO U"); // check permission
+    if (session?.user?.role != "admin") error(401, "NO U"); // check permission
 
     const formData = await request.formData(); // form data
 
