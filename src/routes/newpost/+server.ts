@@ -6,7 +6,7 @@ import type { RequestHandler } from "./$types";
 export const GET = (async ({ locals }) => {
   const session = await locals.getSession();
   if (session?.user?.role !== "admin") {
-    throw error(401, "NO U");
+    error(401, "NO U");
   }
 
   const n = await maxPostN();
@@ -21,7 +21,7 @@ export const GET = (async ({ locals }) => {
 
   await savePost(path, data, "");
 
-  throw redirect(303, `${base}/post/new-post${n}/edit`);
+  redirect(303, `${base}/post/new-post${n}/edit`);
 }) satisfies RequestHandler;
 
 async function maxPostN() {

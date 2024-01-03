@@ -5,7 +5,7 @@ import type { PageServerLoad } from "./$types";
 export const load = (async ({ params }) => {
   // load post
   const post = await parsePost(params.post).catch(() => {
-    throw error(404, "post not found");
+    error(404, "post not found");
   });
 
   const { md, ...data } = post;
