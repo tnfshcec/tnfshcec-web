@@ -27,8 +27,8 @@
     "@iconify-json/mdi": "^1.1.54",
     "@inlang/paraglide-js": "1.0.0-prerelease.17",
     "@inlang/paraglide-js-adapter-vite": "^1.0.1",
-    "@melt-ui/pp": "^0.1.2",
-    "@melt-ui/svelte": "^0.61.1",
+    "@melt-ui/pp": "^0.3.0",
+    "@melt-ui/svelte": "^0.67.0",
     "@sveltejs/adapter-node": "^2.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -46,7 +46,7 @@
     "eslint-plugin-svelte": "^2.35.0",
     "marked": "^11.0.0",
     "postcss": "^8.4.23",
-    "postcss-load-config": "^4.0.1",
+    "postcss-load-config": "^5.0.2",
     "prettier": "^3.1.0",
     "prettier-plugin-svelte": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.4",
@@ -57,7 +57,7 @@
     "tailwindcss": "^3.3.1",
     "tslib": "^2.4.1",
     "typescript": "^5.2.2",
-    "unplugin-icons": "^0.17.4",
+    "unplugin-icons": "^0.18.1",
     "vite": "^5.0.0"
   },
   "type": "module"
