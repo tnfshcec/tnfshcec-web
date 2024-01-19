@@ -14,6 +14,10 @@ declare global {
     }
     // interface PageData {}
     // interface Platform {}
+    interface Post {
+      data: PostData;
+      content: string;
+    }
     interface PostData {
       title?: string;
       author?: string;

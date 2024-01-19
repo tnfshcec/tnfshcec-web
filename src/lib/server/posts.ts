@@ -1,129 +1,51 @@
-// SAYYY GOOOOODBYYYYE TELLLL A LIE AND
-import thunky from "thunky/promise";
 import { LRUCache } from "lru-cache";
-import fg from "fast-glob";
-import fs from "fs/promises";
-import yamlFront from "yaml-front-matter";
-import yaml from "js-yaml";
-import { isoDateString } from "$lib/utils/date";
+import matter from "gray-matter";
+import { deleteFile, rawFile, updateFile } from "$lib/utils/github";
 
-const filePath = (postPath: string) => `cec/${postPath}.md`;
+import { REPO } from "$env/static/private";
 
-const posts = thunky(loadPosts);
-const postCache: LRUCache<string, string, unknown> = new LRUCache({
-  max: 200,
-  ttl: 1000 * 60 * 30, // 30 min
-  fetchMethod: fetchPost
+const cache = new LRUCache<string, App.Post>({
+  max: 500,
+  ttl: 1000 * 60 * 60
 });
 
-export async function listPosts(): Promise<Map<string, App.PostData>> {
-  return posts();
-}
+export async function listPosts(token: string): Promise<Map<string, App.PostData>> { }
 
 // TODO: storing the sorted array (making `limit` arg useful)
-export async function listSortedPosts(): Promise<App.PostData[]> {
-  const p = await posts();
-  return [...p.values()].sort((a, b) => {
-    const pin = +(b.pinned ?? 0) - +(a.pinned ?? 0);
+export async function listSortedPosts(limit: number = 0, token: string): Promise<App.PostData[]> { }
 
-    if (pin != 0) {
-      return pin;
-    }
+export async function parsePost(
+  path: string,
+  token: string
+): Promise<{ data: App.PostData; content: string }> {
+  if (cache.has(path)) {
+    // INFO: ignoring `undefined` since we have a `has()` guard
+    return cache.get(path)!;
+  }
 
-    const dateA = a.date ? Date.parse(a.date) : 0;
-    const dateB = b.date ? Date.parse(b.date) : 0;
-
-    return dateB - dateA;
-  });
-}
-
-export async function parsePost(path: string): Promise<App.PostData & { md: string }> {
-  const p = await posts();
-
-  if (!p.has(path)) throw new Error("Cannot find post");
-
-  const fm = p.get(path) as App.PostData;
-  const content = (await postCache.fetch(path)) ?? "";
-
-  return {
-    ...fm,
-    md: content.trim()
+  const file = await rawFile(REPO, path, token).then((text) => matter(text));
+  const post: App.Post = {
+    data: {
+      url: path,
+      ...file.data
+    },
+    content: file.content
   };
+
+  cache.set(path, post);
+  return post;
 }
 
-export async function deletePost(path: string) {
-  console.log("DELETING POST", filePath(path));
-
-  const p = await posts();
-  p.delete(path);
-  postCache.delete(path);
-
-  await fs.rm(filePath(path));
+export async function deletePost(path: string, token: string): Promise<boolean> {
+  return await deleteFile(REPO, path, `Delete ${path}`, token);
 }
 
-export async function savePost(path: string, data: App.PostData, content: string): Promise<string> {
-  data = Object.fromEntries(
-    Object.entries(data).filter(([k, v]) => v !== undefined && v !== "")
-  ) as App.PostData;
-
-  const p = await posts();
-  p.set(path, data);
-  postCache.delete(path);
-
-  return writePost(path, data, content.trim());
-}
-
-export async function deletePostCache(path: string): Promise<boolean> {
-  return postCache.delete(path);
-}
-
-async function loadPosts(): Promise<Map<string, App.PostData>> {
-  const list = await fg("**/*.md", { cwd: "cec" });
-
-  const posts: Map<string, App.PostData> = new Map();
-
-  for (const path of list) {
-    const filePath = `cec/${path}`;
-    const urlPath = path.substring(0, path.length - 3);
-
-    const file = await fs.readFile(filePath, { encoding: "utf8" });
-    const { __content, ...frontmatter } = yamlFront.loadFront(file, {
-      schema: yaml.JSON_SCHEMA
-    });
-
-    // WARN: potentially not type-safe
-    const fm = frontmatter as App.PostData;
-    if (fm.date !== undefined) {
-      fm.date = isoDateString(new Date(fm.date), fm.date);
-    }
-    fm.url = urlPath;
-    // set `url` property - it's non-nullable
-
-    posts.set(urlPath, fm);
-  }
-
-  return posts;
-}
-
-async function fetchPost(path: string): Promise<string> {
-  const file = await fs.readFile(filePath(path), { encoding: "utf8" });
-  const match = file.match(/^(?:---[\w\W]+?---)?([\w\W]*)/);
-  return match ? match[1] : "";
-}
-
-async function writePost(path: string, fm: App.PostData, content: string): Promise<string> {
-  const { url, ...fmData } = fm;
-  const fmString = Object.keys(fmData).length
-    ? yaml.dump(fmData, { schema: yaml.JSON_SCHEMA })
-    : "";
-
-  if (fm) {
-    content = `---\n${fmString}---\n\n${content}`;
-  }
-
-  content += "\n";
-
-  await fs.writeFile(filePath(path), content);
-
-  return content;
+export async function savePost(
+  path: string,
+  data: App.PostData,
+  content: string,
+  token: string
+): Promise<boolean> {
+  const file = matter.stringify(content, data);
+  return await updateFile(REPO, path, file, `Update ${path}`, token);
 }

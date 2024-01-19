@@ -1,4 +1,5 @@
 import { createHash } from "crypto";
+import type { ContentTree, GitTree } from "./types";
 
 /**
  * Fetch the Github Api
@@ -42,11 +43,26 @@ export async function checkRepoAccess(repo: string, username: string, token: str
 }
 
 /**
+ * Github REST Api at {@link https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree}
+ *
+ * @returns The git tree on the repository root directory
+ */
+export async function getLatestTree(
+  repo: string,
+  token: string,
+  recursive: boolean = false
+): Promise<GitTree> {
+  return await api(`/repos/${repo}/git/trees/HEAD${recursive ? "?recursive=1" : ""}`, {
+    token
+  }).then((res) => res.json());
+}
+
+/**
  * Github REST API at {@link https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#get-repository-content}
  *
  * @returns Response JSON from the api.
  */
-export async function getFile(repo: string, path: string, token: string) {
+export async function getFile(repo: string, path: string, token: string): Promise<ContentTree> {
   return await api(`/repos/${repo}/contents/${path}`, { token }).then((res) => res.json());
 }
 
@@ -87,7 +103,7 @@ export async function updateFile(
     token,
     method: "PUT",
     body: JSON.stringify({ message, content: contentBase64, sha })
-  }).then((res) => res.json());
+  }).then((res) => res.ok);
 }
 
 /**
@@ -102,5 +118,5 @@ export async function deleteFile(repo: string, path: string, message: string, to
     token,
     method: "DELETE",
     body: JSON.stringify({ message, sha })
-  }).then((res) => res.json());
+  }).then((res) => res.ok);
 }
