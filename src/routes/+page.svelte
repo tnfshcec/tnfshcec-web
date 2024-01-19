@@ -1,10 +1,12 @@
 <script lang="ts">
-  // svelte
   import { base } from "$app/paths";
   import type { ComponentProps } from "svelte";
 
-  // icon
-  import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
+  import Comment from "$lib/components/Comment.svelte";
+  import PostCard from "$lib/components/PostCard.svelte";
+  import { anchorScroll, activityLabel, type ActivityLabelOptions } from "$lib/components/actions";
+  import { useI18nStores } from "$lib/stores/i18n";
+
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
   import At from "~icons/mdi/at";
@@ -12,26 +14,25 @@
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
-
-  // other
-  import Comment from "$lib/components/Comment.svelte";
-  import PostCard from "$lib/components/PostCard.svelte";
-  import { anchorScroll } from "$lib/components/actions";
-  import { useI18nStores } from "$lib/stores/i18n";
+  import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
+  import logo from "$lib/assets/logo.svg";
 
   export let data;
   const { m } = useI18nStores();
 
-  // comments
+  const activities: ActivityLabelOptions[] = [
+    { label: "佛教", pinPosition: [17, 7], labelPosition: [16, 3] }
+  ];
+
   const comments: ComponentProps<Comment>[][] = [
     [
       { username: "原批", handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
       { username: "我要AI色圖！！", handle: "@horn_yart", comment: "啥時會有4090玩 😡" },
-      { username: "荖蒿", handle: "@haolao", comment: "這就資訊社吧，根本抄襲！" }
+      { username: "亻尓女馬", handle: "@yorMUM", comment: "這就資訊社吧，根本抄襲！" }
     ],
     [
       {
-        username: "✨✨",
+        username: "✨云✨",
         handle: "@yun._.0618",
         comment: "這網站都在複製可愛ㄉ文案\n可惜我的可愛不能複製 UwU"
       },
@@ -106,7 +107,7 @@
 <!-- news -->
 <section class="w-full px-4 py-16" id="news">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{$m.home_newsTitle()}</header>
@@ -116,7 +117,6 @@
         <span>{$m.home_newsMore()}</span>
       </a>
     </div>
-    <div class="flex-grow" />
     <div class="flex max-w-lg flex-col items-center justify-center gap-4">
       {#each data.posts.slice(0, 3) as post}
         <PostCard {post} />
@@ -128,38 +128,41 @@
 <!-- club-activities -->
 <section class="w-full px-4 py-16" id="interests">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-center gap-4 md:flex-row"
+    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{$m.home_interestsTitle()}</header>
       <div class="whitespace-pre-wrap text-lg">{$m.home_interestsDescription()}</div>
     </div>
-    <div class="flex-grow" />
-    <div class="grid grid-cols-2 grid-rows-2 gap-2">
-      <div
-        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
-      >
-        <header class="text-xl font-bold">{$m.home_interestsRobot()}</header>
-        <div class="text-lg text-text/80">{$m.home_interestsRobotDescription()}</div>
-      </div>
-      <div
-        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
-      >
-        <header class="text-xl font-bold">{$m.home_interestsHardware()}</header>
-        <div class="text-lg text-text/80">{$m.home_interestsHardwareDescription()}</div>
-      </div>
-      <div
-        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
-      >
-        <header class="text-xl font-bold">{$m.home_interestsSoftware()}</header>
-        <div class="text-lg text-text/80">{$m.home_interestsSoftwareDescription()}</div>
-      </div>
-      <div
-        class="aspect-square max-h-52 rounded-lg border border-primary/80 p-4 transition-all hover:border-primary hover:shadow-glow-sm hover:shadow-primary"
-      >
-        <header class="text-xl font-bold">{$m.home_interestsOthers()}</header>
-        <div class="text-lg text-text/80">{$m.home_interestsOthersDescription()}</div>
-      </div>
+    <div class="relative aspect-square h-96">
+      <svg class="h-full w-full">
+        <!-- inset drop shadows from https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters -->
+        <filter id="inset-shadow">
+          <!-- Shadow offset -->
+          <feOffset dx="0" dy="0" />
+
+          <!-- Shadow blur -->
+          <feGaussianBlur stdDeviation="8" result="offset-blur" />
+
+          <!-- Invert drop shadow to make an inset shadow -->
+          <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+
+          <!-- Cut color inside shadow -->
+          <feFlood flood-color="rgb(var(--primary))" flood-opacity=".95" result="color" />
+          <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+        </filter>
+        <image href={logo} width="100%" height="100%" filter="url(#inset-shadow)" />
+      </svg>
+      {#each activities as act}
+        <div
+          class="btn-accent absolute"
+          style:left="{act.labelPosition[0]}rem"
+          style:top="{act.labelPosition[1]}rem"
+          use:activityLabel={act}
+        >
+          {act.label}
+        </div>
+      {/each}
     </div>
   </div>
 </section>

@@ -16,6 +16,29 @@ export const anchorScroll: Action<HTMLAnchorElement> = (node) => {
   });
 };
 
+export type ActivityLabelOptions = {
+  label: string;
+  labelPosition: [number, number];
+  pinPosition: [number, number];
+};
+export const activityLabel: Action<HTMLDivElement, ActivityLabelOptions> = (
+  node,
+  { label, labelPosition, pinPosition }
+) => {
+  // calculate line ends position
+  // create svg
+  // create line
+  // create pin (the circle)
+  // insert svg
+  // create events (handle dragging)
+
+  return {
+    update: ({ label, labelPosition, pinPosition }) => {
+      // do update
+    }
+  };
+};
+
 export const editField: Action<
   HTMLInputElement,
   { id: string; label: string; className?: string }
