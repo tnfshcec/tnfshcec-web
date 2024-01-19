@@ -1,11 +1,12 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import type { ComponentProps } from "svelte";
-
-  import Comment from "$lib/components/Comment.svelte";
-  import PostCard from "$lib/components/PostCard.svelte";
-  import { anchorScroll, activityLabel, type ActivityLabelOptions } from "$lib/components/actions";
+  import { anchorScroll } from "$lib/components/actions";
   import { useI18nStores } from "$lib/stores/i18n";
+  import Comment from "$lib/components/homepage/Comment.svelte";
+  import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
+  import PostCard from "$lib/components/PostCard.svelte";
+  import type { ComponentProps } from "svelte";
+  import type { ActivityLabel } from "$lib/components/homepage/ActivityFigure.svelte";
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
@@ -15,12 +16,11 @@
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
-  import logo from "$lib/assets/logo.svg";
 
   export let data;
   const { m } = useI18nStores();
 
-  const activities: ActivityLabelOptions[] = [
+  const activities: ActivityLabel[] = [
     { label: "佛教", pinPosition: [17, 7], labelPosition: [16, 3] }
   ];
 
@@ -125,7 +125,7 @@
   </div>
 </section>
 
-<!-- club-activities -->
+<!-- activities -->
 <section class="w-full px-4 py-16" id="interests">
   <div
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
@@ -134,36 +134,7 @@
       <header class="text-center text-2xl font-bold">{$m.home_interestsTitle()}</header>
       <div class="whitespace-pre-wrap text-lg">{$m.home_interestsDescription()}</div>
     </div>
-    <div class="relative aspect-square h-96">
-      <svg class="h-full w-full">
-        <!-- inset drop shadows from https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters -->
-        <filter id="inset-shadow">
-          <!-- Shadow offset -->
-          <feOffset dx="0" dy="0" />
-
-          <!-- Shadow blur -->
-          <feGaussianBlur stdDeviation="8" result="offset-blur" />
-
-          <!-- Invert drop shadow to make an inset shadow -->
-          <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
-
-          <!-- Cut color inside shadow -->
-          <feFlood flood-color="rgb(var(--primary))" flood-opacity=".95" result="color" />
-          <feComposite operator="in" in="color" in2="inverse" result="shadow" />
-        </filter>
-        <image href={logo} width="100%" height="100%" filter="url(#inset-shadow)" />
-      </svg>
-      {#each activities as act}
-        <div
-          class="btn-accent absolute"
-          style:left="{act.labelPosition[0]}rem"
-          style:top="{act.labelPosition[1]}rem"
-          use:activityLabel={act}
-        >
-          {act.label}
-        </div>
-      {/each}
-    </div>
+    <ActivityFigure {activities} />
   </div>
 </section>
 
