@@ -2,7 +2,6 @@
   import { createDialog, melt } from "@melt-ui/svelte";
 
   // Components
-  import Carta from "$lib/components/Carta.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
@@ -21,8 +20,8 @@
 
   // extract data
   let {
-    md,
-    data: { title, author, date, image, pinned, url }
+    data: { title, author, date, image, pinned, url },
+    content: postComp
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
@@ -95,7 +94,7 @@
     {/if}
 
     <article class="prose space-y-4">
-      <Carta value={md} type="viewer" />
+      <svelte:component this={postComp} />
     </article>
   </div>
 </CenteredPage>

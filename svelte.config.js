@@ -1,6 +1,7 @@
-import preprocess from "svelte-preprocess";
 import adapter from "@sveltejs/adapter-node";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { mdsvex } from "mdsvex";
+import mdsvexConfig from "./mdsvex.config.js";
 
 import sequence from "svelte-sequential-preprocessor";
 import { preprocessMeltUI } from "@melt-ui/pp";
@@ -10,17 +11,11 @@ const base = dev ? "" : process.env.BASE_PATH ?? "";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  extensions: [".svelte"],
+  extensions: [".svelte", ".svx", ".md"],
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors
-  preprocess: sequence([
-    vitePreprocess(),
-    preprocess({
-      postcss: true
-    }),
-    preprocessMeltUI()
-  ]),
+  preprocess: sequence([mdsvex(mdsvexConfig), vitePreprocess(), preprocessMeltUI()]),
 
   kit: {
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
