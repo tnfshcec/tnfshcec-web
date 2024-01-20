@@ -21,14 +21,14 @@
   const { m } = useI18nStores();
 
   const activities: ActivityLabel[] = [
-    { label: "佛教", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "話劇", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "軟體", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "法研", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "硬體", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "日研", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "機器人", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
-    { label: "詩社", labelPosition: [12, 5.7], pinPosition: [14, 8.8] }
+    { label: "佛教", labelPosition: [15.01, 5.69], pinPosition: [18.12, 5.55] },
+    { label: "機器人", labelPosition: [9.73, 6.81], pinPosition: [12.18, 9.26] },
+    { label: "話劇", labelPosition: [8.31, 11.27], pinPosition: [10.91, 11.36] },
+    { label: "法研", labelPosition: [0, 11.45], pinPosition: [3.17, 14.28] },
+    { label: "日研", labelPosition: [10.11, 14.69], pinPosition: [12.79, 16.18] },
+    { label: "軟體", labelPosition: [15.29, 11.94], pinPosition: [17.92, 14.72] },
+    { label: "硬體", labelPosition: [11.79, 18.5], pinPosition: [15.78, 20.99] },
+    { label: "詩社", labelPosition: [18.42, 16.38], pinPosition: [25.48, 20.86] }
   ];
 
   const comments: ComponentProps<Comment>[][] = [
@@ -158,19 +158,6 @@
       {/each}
     </div>
   </div>
-</section>
-
-<!-- strange-declare-by-eggrror404 -->
-<section class="w-full p-2 text-[0.25rem] text-text/20">
-  <span class="font-bold">DISCLAIMER</span><br />
-  *The text content on the site may not be true, or be referring to any real-world events.<br />
-  *The “comments” above this section may not be real, nor are they made by any real person.<br />
-  <br />
-  *This page is HEAVILY inspired by
-  <a class="underline" href="https://orm.drizzle.team">Drizzle ORM's landing page</a>, I must
-  attribute them for the hard work.<br />
-  <br />
-  Also if you are reading this, you're weird. ;)
 </section>
 
 <style>
