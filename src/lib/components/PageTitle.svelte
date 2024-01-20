@@ -1,9 +1,5 @@
-<!-- TITLE FOR EACH PAGE -->
-<script lang="ts">
-  import { base } from "$app/paths";
-  import ChevronRight from "~icons/mdi/chevron-right";
-
-  type Page = "homepage" | "postList" | "post" | "postEdit";
+<script context="module" lang="ts">
+  export type Page = "homepage" | "postList" | "post" | "postEdit";
   type PageNavigation = {
     [key in Page]: {
       url: string;
@@ -11,6 +7,11 @@
       path: readonly Page[];
     };
   };
+</script>
+
+<script lang="ts">
+  import { base } from "$app/paths";
+  import ChevronRight from "~icons/mdi/chevron-right";
 
   const navigate = {
     homepage: { url: "", title: "首頁", path: [] },
@@ -20,7 +21,9 @@
   } as const satisfies PageNavigation;
 
   export let current: Page;
-  export let title: string | undefined = navigate[current].title;
+  export let title: string | undefined;
+
+  if (!title) title = navigate[current].title;
 </script>
 
 <header class="flex flex-col justify-center">
@@ -36,7 +39,6 @@
   </span>
   <div class="flex items-center justify-between">
     <h1 class="text-3xl font-bold">{title}</h1>
-    <slot name="title" />
   </div>
 
   <slot />
