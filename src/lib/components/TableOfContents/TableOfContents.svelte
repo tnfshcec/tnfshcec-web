@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  import { createEventDispatcher, getContext } from "svelte";
   import { createTableOfContents } from "@melt-ui/svelte";
   import TocItem from "./TableOfContentsItem.svelte";
   import { scrollOffset } from "$lib/utils/scrollOffset";
@@ -8,6 +8,8 @@
   export let selector: string;
 
   const { m } = getContext<I18nStores>("i18n");
+
+  const dispatch = createEventDispatcher<{ itemClick: MouseEvent }>();
 
   const {
     elements: { item },
@@ -24,6 +26,11 @@
 <p class="font-bold">{$m.post_tableOfContents()}</p>
 <nav>
   {#key $headingsTree}
-    <TocItem tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} />
+    <TocItem
+      tree={$headingsTree}
+      activeHeadingIdxs={$activeHeadingIdxs}
+      {item}
+      on:click={(e) => dispatch("itemClick", e)}
+    />
   {/key}
 </nav>
