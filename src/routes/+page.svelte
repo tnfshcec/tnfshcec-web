@@ -21,7 +21,14 @@
   const { m } = useI18nStores();
 
   const activities: ActivityLabel[] = [
-    { label: "佛教", pinPosition: [17, 7], labelPosition: [16, 3] }
+    { label: "佛教", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "話劇", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "軟體", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "法研", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "硬體", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "日研", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "機器人", labelPosition: [12, 5.7], pinPosition: [14, 8.8] },
+    { label: "詩社", labelPosition: [12, 5.7], pinPosition: [14, 8.8] }
   ];
 
   const comments: ComponentProps<Comment>[][] = [

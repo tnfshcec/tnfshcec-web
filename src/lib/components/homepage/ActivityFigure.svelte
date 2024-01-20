@@ -7,19 +7,23 @@
 </script>
 
 <script lang="ts">
+  import { sineOut } from "svelte/easing";
   import logo from "$lib/assets/logo.svg";
   import type { Action } from "svelte/action";
 
   export let activities: ActivityLabel[];
 
-  const distance = (...x: number[]) =>
-    Math.sqrt(x.map((n) => Math.pow(n, 2)).reduce((prev, curr) => prev + curr));
-  const activityLabel: Action<HTMLDivElement, ActivityLabel> = (
+  const activityLabel: Action<HTMLDivElement, { labelPosition: [number, number] }> = (
     node,
-    { label, labelPosition, pinPosition }
+    { labelPosition }
   ) => {
-    // create events (handle dragging)
+    // some parameters for dragging animation
+    const threshold = 100;
+    const multiplier = 1 / 6.9;
+
     node.addEventListener("mousedown", (e) => {
+      // start dragging
+      // add events
       window.addEventListener("mousemove", onDrag);
       window.addEventListener("mouseup", endDrag);
 
@@ -29,12 +33,12 @@
       function onDrag(e: MouseEvent) {
         if (!e.buttons) endDrag();
 
+        // math (i don't know what i'm doing)
         let movedX = e.clientX - initialMousePos[0];
         let movedY = e.clientY - initialMousePos[1];
-        const dist = distance(movedX, movedY);
+        const dist = Math.sqrt(movedX * movedX + movedY * movedY);
+        const rate = sineOut(Math.min((dist / threshold) * multiplier, 1));
 
-        const threshold = 100;
-        const rate = Math.min(dist / threshold, 1);
         movedX = rate * threshold * (movedX / dist);
         movedY = rate * threshold * (movedY / dist);
 
@@ -44,16 +48,18 @@
 
       function endDrag() {
         window.removeEventListener("mousemove", onDrag);
-        node.style.left = `${labelPosition[0]}rem`;
-        node.style.top = `${labelPosition[1]}rem`;
+
+        const animation = node.animate(
+          { left: `${labelPosition[0]}rem`, top: `${labelPosition[1]}rem` },
+          { duration: 250, easing: "ease-out" }
+        );
+        animation.onfinish = () => {
+          // actually reset the values after animation
+          node.style.left = `${labelPosition[0]}rem`;
+          node.style.top = `${labelPosition[1]}rem`;
+        };
       }
     });
-
-    return {
-      update: ({ label, labelPosition, pinPosition }) => {
-        // do update
-      }
-    };
   };
 </script>
 
@@ -77,19 +83,21 @@
     <image href={logo} width="100%" height="100%" filter="url(#inset-shadow)" />
   </svg>
   {#each activities as act}
-    <div
-      class="btn-accent absolute cursor-move select-none"
-      style:left="{act.labelPosition[0]}rem"
-      style:top="{act.labelPosition[1]}rem"
-      use:activityLabel={act}
-    >
-      {act.label}
+    <div class="group">
+      <div
+        class="btn-accent absolute cursor-grab select-none"
+        style:left="{act.labelPosition[0]}rem"
+        style:top="{act.labelPosition[1]}rem"
+        use:activityLabel={act}
+      >
+        {act.label}
+      </div>
+      <div
+        class="absolute h-2 w-2 rounded-full bg-accent/80 transition-colors group-hover:bg-accent"
+        style:left="{act.pinPosition[0]}rem"
+        style:top="{act.pinPosition[1]}rem"
+      />
     </div>
-    <div
-      class="absolute h-2 w-2 rounded-full bg-accent"
-      style:left="{act.pinPosition[0]}rem"
-      style:top="{act.pinPosition[1]}rem"
-    />
   {/each}
 </div>
 
