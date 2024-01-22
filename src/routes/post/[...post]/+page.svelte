@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createDialog, melt } from "@melt-ui/svelte";
+  import { createCollapsible, melt } from "@melt-ui/svelte";
 
   import Carta from "$lib/components/Carta.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
@@ -10,7 +10,7 @@
 
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
-  import { fade, fly } from "svelte/transition";
+  import { slide } from "svelte/transition";
   import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
@@ -23,38 +23,36 @@
   let localeDate = localeDateFromString(date ?? "");
 
   const {
-    elements: { trigger, overlay, content, portalled },
+    elements: { root, content, trigger },
     states: { open }
-  } = createDialog({});
+  } = createCollapsible({});
 </script>
 
-<!-- table of contents button on mobile view -->
-<button
-  class="icon-flex sticky top-20 z-10 w-full
-         border border-secondary bg-background/60 px-4 py-1 backdrop-blur
-         transition-colors hover:bg-background md:hidden"
-  use:melt={$trigger}
->
-  <List class="h-4 w-4" />
-  <span>{$m.post_tableOfContents()}</span>
-</button>
+<!-- table of contents on mobile view -->
+<div use:melt={$root} class="sticky top-20 z-10">
+  <!-- trigger button -->
+  <button
+    class="icon-flex w-full
+           border border-secondary bg-background/60 px-4 py-1 backdrop-blur
+           transition-colors hover:bg-background md:hidden"
+    use:melt={$trigger}
+  >
+    <List class="h-4 w-4" />
+    <span>{$m.post_tableOfContents()}</span>
+  </button>
 
-<!-- table of contents sidebar on mobile view -->
-<div use:melt={$portalled}>
-  {#if $open}
-    <div
-      use:melt={$overlay}
-      class="fixed inset-0 z-top bg-background/60"
-      transition:fade={{ duration: 150 }}
-    />
-    <div
-      class="fixed left-0 top-0 z-top h-full w-full max-w-sm bg-background p-4 shadow-glow-sm shadow-text/60"
-      use:melt={$content}
-      transition:fly={{ duration: 150, x: -10 }}
-    >
-      <TableOfContents selector="#post-content" on:itemClick={() => open.set(false)} />
-    </div>
-  {/if}
+  <!-- table of contents dropdown -->
+  <div class="absolute left-0 right-0 top-full">
+    {#if $open}
+      <div
+        class="rounded rounded-t-none border border-t-0 border-text/20 bg-background px-4 py-2"
+        use:melt={$content}
+        transition:slide={{ duration: 150, axis: "y" }}
+      >
+        <TableOfContents selector="#post-content" on:itemClick={() => open.set(false)} />
+      </div>
+    {/if}
+  </div>
 </div>
 
 <CenteredPage current="post" {title}>
