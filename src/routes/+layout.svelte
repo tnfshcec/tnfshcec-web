@@ -1,8 +1,6 @@
 <script lang="ts">
   import "../app.postcss";
 
-  // JS
-  import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
@@ -10,7 +8,7 @@
   import { pageDetectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
-  // Icon
+  import { DropdownMenu } from "bits-ui";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Brightness from "~icons/mdi/brightness-5";
@@ -32,22 +30,11 @@
   const m = i18n.m;
 
   // TODO: scroll detection & changing title
-
-  const {
-    elements: { menu, item, trigger, separator },
-    builders: { createSubmenu },
-    states: { open }
-  } = createDropdownMenu({ forceVisible: true, preventScroll: false });
-
-  const {
-    elements: { subMenu, subTrigger },
-    states: { subOpen }
-  } = createSubmenu();
 </script>
 
-<!--nav-bar-->
+<!-- nav bar -->
 <nav
-  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-8 py-2 backdrop-blur"
+  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-4 py-2 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a href="{base}/" class="flex items-center gap-2 overflow-hidden">
@@ -58,27 +45,21 @@
         <span class="whitespace-nowrap text-xl font-bold">{$m.name()}</span>
       </div>
     </a>
-    <button
-      use:melt={$trigger}
-      id="menu-trigger"
-      class={session?.user?.image ? "relative after:content-['_']" : ""}
-      style:--avatar={session?.user?.image ? `url('${session.user.image}')` : ""}
-    >
-      <Menu class="h-12 w-12" />
-    </button>
 
-    <!--melt-ui-dropdown-->
-    {#if $open}
-      <div
-        use:melt={$menu}
-        class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
-        transition:fly={{ duration: 150, y: -10 }}
+    <!-- dropdown menu -->
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger class={session?.user?.image ? "relative after:content-['_']" : ""}>
+        <Menu class="h-12 w-12" />
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Content
+        class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+        transition={fly}
+        transitionConfig={{ duration: 150, y: -10 }}
       >
-        <!-- TODO: maybe extract item classes (especially the `first:rounded-t` and `last:rounded-b`)-->
-        <div
-          use:melt={$item}
+        <DropdownMenu.Item
           class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => theme.toggle()}
+          on:click={() => theme.toggle()}
         >
           {#if $theme === "light"}
             <Brightness class="h-4 w-4" />
@@ -87,76 +68,65 @@
             <Moon class="h-4 w-4" />
             <span>{$m.darkTheme()}</span>
           {/if}
-        </div>
+        </DropdownMenu.Item>
 
-        <div
-          use:melt={$subTrigger}
-          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
-        >
-          <Earth class="h-4 w-4" />
-          <span>{$m.language()}</span>
-          <ChevronRight class="ml-auto h-4 w-4" />
-        </div>
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger
+            class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+          >
+            <Earth class="h-4 w-4" />
+            <span>{$m.language()}</span>
+            <ChevronRight class="ml-auto h-4 w-4" />
+          </DropdownMenu.SubTrigger>
 
-        {#if $subOpen}
-          <div
-            class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
-            use:melt={$subMenu}
-            transition:fly={{ duration: 150, y: -10 }}
+          <DropdownMenu.SubContent
+            class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+            transition={fly}
+            transitionConfig={{ duration: 150, y: -10 }}
           >
             {#each availableLanguageTags as tag}
-              <a
-                use:melt={$item}
+              <DropdownMenu.Item
                 class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
                 href={langUrl($page.url, tag)}
                 hreflang={tag}
               >
                 {$m.lang({}, { languageTag: tag }) || tag}
-              </a>
+              </DropdownMenu.Item>
             {/each}
-          </div>
-        {/if}
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
 
-        <div use:melt={$separator} class="h-[1px] bg-text/20" />
+        <DropdownMenu.Separator class="h-[1px] bg-text/20" />
 
         {#if session?.user === undefined}
-          <a
-            use:melt={$item}
+          <DropdownMenu.Item
             class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
             href="{base}/auth/signin"
           >
             {$m.signIn()}
-          </a>
+          </DropdownMenu.Item>
         {:else}
           <span class="px-4 text-sm font-bold">
             {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
           </span>
           {#if session.user.role === "admin"}
-            <a
-              use:melt={$item}
+            <DropdownMenu.Item
               class="block px-4 py-2 transition-colors hover:bg-primary/20"
               href="{base}/newpost"
             >
               {$m.post_newPost()}
-            </a>
+            </DropdownMenu.Item>
+
+            <DropdownMenu.Item
+              class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
+              href="{base}/auth/signout"
+            >
+              {$m.signOut()}
+            </DropdownMenu.Item>
           {/if}
-          <!-- <div -->
-          <!--   use:melt={$item} -->
-          <!--   class="block px-4 py-2 transition-colors hover:bg-primary/20" -->
-          <!--   on:m-click={() => postAction("deletecache")} -->
-          <!-- > -->
-          <!--   Delete Post Cache -->
-          <!-- </div> -->
-          <a
-            use:melt={$item}
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signout"
-          >
-            {$m.signOut()}
-          </a>
         {/if}
-      </div>
-    {/if}
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   </div>
 </nav>
 

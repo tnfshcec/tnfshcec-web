@@ -1,18 +1,16 @@
 <script lang="ts">
-  import { createDialog, melt } from "@melt-ui/svelte";
   import { base } from "$app/paths";
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
   import { fade, fly } from "svelte/transition";
-  import { writable } from "svelte/store";
   import { useI18nStores } from "$lib/stores/i18n";
   import { localeDateFromString } from "$lib/utils/date";
-  import { nextUpdate } from "$lib/utils/nextStoreUpdate";
-
-  import Carta from "$lib/components/Carta.svelte";
-  import CenteredPage from "$lib/components/CenteredPage.svelte";
   import { addToast } from "$lib/components/Toaster.svelte";
   import { editField } from "$lib/components/actions";
+
+  import { Dialog } from "bits-ui";
+  import Carta from "$lib/components/Carta.svelte";
+  import CenteredPage from "$lib/components/CenteredPage.svelte";
   import Pin from "~icons/mdi/pin";
   import Save from "~icons/mdi/content-save-edit";
   import Alert from "~icons/mdi/alert";
@@ -26,16 +24,6 @@
   let editUrl = postData.url;
 
   let form: HTMLFormElement;
-
-  const confirmedDelete = writable<boolean>(false);
-
-  const {
-    elements: { overlay, content, title, description, close, portalled },
-    states: { open }
-  } = createDialog({
-    forceVisible: true,
-    role: "alertdialog"
-  });
 
   async function formAction(action: string) {
     const res = await fetch(action, {
@@ -53,15 +41,15 @@
   }
 
   async function deletePost() {
-    open.set(true);
-    if (!(await nextUpdate(confirmedDelete))) return;
-
+    // INFO: the user has confirmed it!
     await formAction("?/delete");
 
     addToast({ data: { title: $m.post_deleteMessage() } });
 
     goto(`${base}/post`);
   }
+
+  let deleteDialogOpen = false;
 </script>
 
 <CenteredPage current="postEdit" title={postData.title}>
@@ -84,43 +72,42 @@
       <Save class="h-4 w-4" />
       {$m.post_savePost()}
     </button>
-    <button class="icon-flex btn-text" on:click={deletePost}>
+    <!-- do confirm delete -->
+    <button class="icon-flex btn-text" on:click={() => (deleteDialogOpen = true)}>
       <Alert class="h-4 w-4" />
       {$m.post_deletePost()}
     </button>
   </div>
 
-  <!-- confirm delete dialog -->
-  <div use:melt={$portalled}>
-    {#if $open}
-      <div
-        use:melt={$overlay}
+  <Dialog.Root bind:open={deleteDialogOpen}>
+    <Dialog.Portal>
+      <Dialog.Overlay
         class="fixed inset-0 z-top bg-background/60"
-        transition:fade={{ duration: 150 }}
+        transition={fade}
+        transitionConfig={{ duration: 150 }}
       />
-      <div
-        class="fixed left-1/2 top-1/2 z-top max-h-screen w-full max-w-lg -translate-x-1/2
-            -translate-y-1/2 rounded border border-accent/60 bg-background p-6
-            shadow-glow-sm shadow-accent/60"
-        use:melt={$content}
-        transition:fly={{ duration: 150, y: 10 }}
+      <Dialog.Content
+        class="fixed left-1/2 top-1/2 z-top max-h-screen w-full max-w-lg
+               -translate-x-1/2 -translate-y-1/2 rounded border border-accent/60 bg-background
+               p-6 shadow-glow-sm shadow-accent/60"
+        transition={fly}
+        transitionConfig={{ duration: 150, y: 10 }}
       >
-        <h2 use:melt={$title} class="text-lg font-bold">DELETE POST</h2>
-        <p use:melt={$description} class="whitespace-pre-wrap leading-normal text-text/80">
+        <Dialog.Title class="text-lg font-bold">DELETE POST</Dialog.Title>
+        <Dialog.Description class="whitespace-pre-wrap leading-normal text-text/80">
           {$m.post_deleteConfirmation()}
-        </p>
-
+        </Dialog.Description>
         <div class="mt-6 flex justify-end gap-4">
-          <button use:melt={$close} class="btn-text opacity-80">
+          <Dialog.Close class="btn-text opacity-80">
             {$m.dialogCancel()}
-          </button>
-          <button use:melt={$close} class="btn-accent" on:m-click={() => ($confirmedDelete = true)}>
+          </Dialog.Close>
+          <Dialog.Close class="btn-accent" on:click={() => deletePost()}>
             {$m.dialogConfirm()}
-          </button>
+          </Dialog.Close>
         </div>
-      </div>
-    {/if}
-  </div>
+      </Dialog.Content>
+    </Dialog.Portal>
+  </Dialog.Root>
 
   <!-- fields inputs -->
   <form id="post-edit" class="space-y-4" bind:this={form}>

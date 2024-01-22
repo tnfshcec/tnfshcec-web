@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { createCollapsible, melt } from "@melt-ui/svelte";
-
+  import { Collapsible } from "bits-ui";
   import Carta from "$lib/components/Carta.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
@@ -24,41 +23,32 @@
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
-  const {
-    elements: { root, content, trigger },
-    states: { open }
-  } = createCollapsible({});
+  let tableOfContentsOpen = false;
 </script>
 
 <!-- table of contents on mobile view -->
-<div use:melt={$root} class="sticky top-20 z-10">
-  <!-- trigger button -->
-  <button
+<Collapsible.Root class="sticky top-20 z-10" bind:open={tableOfContentsOpen}>
+  <Collapsible.Trigger
     class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
-    use:melt={$trigger}
   >
     <List class="h-4 w-4" />
     <span>{$m.post_tableOfContents()}</span>
-    {#if $open}
+    {#if tableOfContentsOpen}
       <ChevronUp class="ml-auto h-4 w-4" />
     {:else}
       <ChevronDown class="ml-auto h-4 w-4" />
     {/if}
-  </button>
+  </Collapsible.Trigger>
 
-  <!-- table of contents dropdown -->
-  <div class="absolute left-0 right-0 top-full">
-    {#if $open}
-      <div
-        class="rounded rounded-t-none border border-t-0 border-text/20 bg-background px-4 py-2"
-        use:melt={$content}
-        transition:fly={{ duration: 250, y: -10 }}
-      >
-        <TableOfContents selector="#post-content" on:click={() => open.set(false)} />
-      </div>
-    {/if}
-  </div>
-</div>
+  <Collapsible.Content class="absolute left-0 right-0 top-full">
+    <div
+      class="rounded rounded-t-none border border-t-0 border-text/20 bg-background px-4 py-2"
+      transition:fly={{ duration: 150, y: -10 }}
+    >
+      <TableOfContents selector="#post-content" on:click={() => (tableOfContentsOpen = false)} />
+    </div>
+  </Collapsible.Content>
+</Collapsible.Root>
 
 <CenteredPage current="post" {title}>
   <!-- table of contents, on the right -->
