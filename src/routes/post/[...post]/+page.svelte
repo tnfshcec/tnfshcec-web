@@ -4,13 +4,15 @@
   import Carta from "$lib/components/Carta.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
-  import Pin from "~icons/mdi/pin";
+  import ChevronDown from "~icons/mdi/chevron-down";
+  import ChevronUp from "~icons/mdi/chevron-up";
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pencil from "~icons/mdi/pencil-circle";
+  import Pin from "~icons/mdi/pin";
 
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
-  import { slide } from "svelte/transition";
+  import { fly } from "svelte/transition";
   import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
@@ -32,13 +34,16 @@
 <div use:melt={$root} class="sticky top-20 z-10">
   <!-- trigger button -->
   <button
-    class="icon-flex w-full
-           border border-secondary bg-background/60 px-4 py-1 backdrop-blur
-           transition-colors hover:bg-background md:hidden"
+    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
     use:melt={$trigger}
   >
     <List class="h-4 w-4" />
     <span>{$m.post_tableOfContents()}</span>
+    {#if $open}
+      <ChevronUp class="ml-auto h-4 w-4" />
+    {:else}
+      <ChevronDown class="ml-auto h-4 w-4" />
+    {/if}
   </button>
 
   <!-- table of contents dropdown -->
@@ -47,9 +52,9 @@
       <div
         class="rounded rounded-t-none border border-t-0 border-text/20 bg-background px-4 py-2"
         use:melt={$content}
-        transition:slide={{ duration: 150, axis: "y" }}
+        transition:fly={{ duration: 250, y: -10 }}
       >
-        <TableOfContents selector="#post-content" on:itemClick={() => open.set(false)} />
+        <TableOfContents selector="#post-content" on:click={() => open.set(false)} />
       </div>
     {/if}
   </div>
@@ -58,6 +63,7 @@
 <CenteredPage current="post" {title}>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
+    <p class="font-bold">{$m.post_tableOfContents()}</p>
     <TableOfContents selector="#post-content" />
   </div>
 

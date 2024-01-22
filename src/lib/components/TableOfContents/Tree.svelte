@@ -27,7 +27,13 @@
           {@html heading.node.innerHTML}
         </a>
         {#if heading.children && heading.children.length}
-          <svelte:self tree={heading.children} level={level + 1} {activeHeadingIdxs} {item} />
+          <svelte:self
+            tree={heading.children}
+            level={level + 1}
+            {activeHeadingIdxs}
+            {item}
+            on:click
+          />
         {/if}
       </li>
     {/each}
