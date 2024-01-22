@@ -27,10 +27,37 @@
   // reactively set the global stores
   $: i18n.lang.set(pageDetectLanguage(serverLang, $page.url));
   $: theme.set(pageDetectTheme(serverTheme));
-  const m = i18n.m;
+  const { lang, m } = i18n;
 
   // TODO: scroll detection & changing title
 </script>
+
+<!-- TODO: dynamic meta -->
+<svelte:head>
+  <meta
+    name="description"
+    content="國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL"
+  />
+
+  <meta property="og:title" content={$m.name()} />
+  <meta
+    property="og:description"
+    content="國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL"
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={$page.url.toString().split(/[?#]/)[0]} />
+  <meta property="og:image" content="{base}/thumbnail.png" />
+
+  <meta property="og:locale" content={$lang} />
+  {#each availableLanguageTags as tag}
+    {#if tag != $lang}
+      <meta property="og:locale:alternative" content={tag} />
+    {/if}
+  {/each}
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@tnfshcec" />
+</svelte:head>
 
 <!-- nav bar -->
 <nav
