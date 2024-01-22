@@ -45,8 +45,8 @@
     content="國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL"
   />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={$page.url.toString().split(/[?#]/)[0]} />
-  <meta property="og:image" content="{base}/thumbnail.png" />
+  <meta property="og:url" content={$page.url.href.split(/[?#]/)[0]} />
+  <meta property="og:image" content="{$page.url.protocol}//{$page.url.host}{base}/thumbnail.png" />
 
   <meta property="og:locale" content={$lang} />
   {#each availableLanguageTags as tag}
