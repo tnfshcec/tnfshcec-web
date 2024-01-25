@@ -16,6 +16,7 @@
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
+  import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
 
   export let data;
   const { m } = useI18nStores();
@@ -95,10 +96,7 @@
         </a>
       </div>
     </div>
-    <div
-      class="absolute right-0 top-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
-      id="hero-gradient"
-    />
+    <HeroGradient />
   </div>
 </section>
 
@@ -159,16 +157,3 @@
     </div>
   </div>
 </section>
-
-<style>
-  /*background-gradient*/
-  #hero-gradient {
-    background: radial-gradient(
-        43% 43% at 64% 81%,
-        rgb(var(--primary)) 0%,
-        rgb(var(--primary) / 0) 100%
-      ),
-      radial-gradient(46% 79% at 67% 29%, rgb(var(--secondary)) 0%, rgb(var(--secondary) / 0) 100%),
-      radial-gradient(51% 63% at 41% 39%, rgb(var(--accent)) 0%, rgb(var(--accent) / 0) 100%);
-  }
-</style>
