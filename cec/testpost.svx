@@ -5,4 +5,8 @@ author: 原批
 date: 2023-5-??
 ---
 
+<script>
+  import Weird from "$lib/components/Weird.svelte";
+</script>
+
 <Weird />
