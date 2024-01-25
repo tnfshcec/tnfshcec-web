@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
+  // sine wave range(0, 1)
   let breath = Math.sin(Date.now() / 20) / 2 + 0.5;
 
   onMount(() => {
@@ -14,13 +15,13 @@
 
 <div
   class="absolute right-0 top-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
-  style:--size="{breath * 20 + 100}%"
+  style:--size="{breath * 30 + 100}%"
   id="hero-gradient"
 />
 
 <style>
   #hero-gradient {
-    transition: background-size 3000ms ease-out;
+    transition: background-size 2500ms ease-out;
 
     background-position: center;
     background-image: radial-gradient(
