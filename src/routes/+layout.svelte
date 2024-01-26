@@ -8,13 +8,15 @@
   import { pageDetectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
-  import { DropdownMenu } from "bits-ui";
+  import { Dialog, DropdownMenu, Toggle } from "bits-ui";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
-  import Brightness from "~icons/mdi/brightness-5";
-  import Moon from "~icons/mdi/moon-waning-crescent";
+  import Sunny from "~icons/mdi/weather-sunny";
+  import Night from "~icons/mdi/weather-night";
   import Earth from "~icons/mdi/earth";
   import ChevronRight from "~icons/mdi/chevron-right";
+  import ChevronDown from "~icons/mdi/chevron-down";
+  import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
   export let data;
@@ -73,87 +75,174 @@
       </div>
     </a>
 
-    <!-- dropdown menu -->
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger class={session?.user?.image ? "relative after:content-['_']" : ""}>
-        <Menu class="h-12 w-12" />
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Content
-        class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
-        transition={fly}
-        transitionConfig={{ duration: 150, y: -10 }}
+    <div class="flex gap-8">
+      <!-- theme toggle button -->
+      <Toggle.Root
+        class="hidden rounded-sm p-2 transition-colors hover:bg-primary/20 sm:block"
+        onPressedChange={() => theme.toggle()}
       >
-        <DropdownMenu.Item
-          class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
-          on:click={() => theme.toggle()}
-        >
-          {#if $theme === "light"}
-            <Brightness class="h-4 w-4" />
-            <span>{$m.lightTheme()}</span>
-          {:else}
-            <Moon class="h-4 w-4" />
-            <span>{$m.darkTheme()}</span>
-          {/if}
-        </DropdownMenu.Item>
-
-        <DropdownMenu.Sub>
-          <DropdownMenu.SubTrigger
-            class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
-          >
-            <Earth class="h-4 w-4" />
-            <span>{$m.language()}</span>
-            <ChevronRight class="ml-auto h-4 w-4" />
-          </DropdownMenu.SubTrigger>
-
-          <DropdownMenu.SubContent
-            class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
-            transition={fly}
-            transitionConfig={{ duration: 150, y: -10 }}
-          >
-            {#each availableLanguageTags as tag}
-              <DropdownMenu.Item
-                class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href={langUrl($page.url, tag)}
-                hreflang={tag}
-              >
-                {$m.lang({}, { languageTag: tag }) || tag}
-              </DropdownMenu.Item>
-            {/each}
-          </DropdownMenu.SubContent>
-        </DropdownMenu.Sub>
-
-        <DropdownMenu.Separator class="h-[1px] bg-text/20" />
-
-        {#if session?.user === undefined}
-          <DropdownMenu.Item
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signin"
-          >
-            {$m.signIn()}
-          </DropdownMenu.Item>
+        {#if $theme === "light"}
+          <Sunny class="h-8 w-8" />
         {:else}
-          <span class="px-4 text-sm font-bold">
-            {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
-          </span>
-          {#if session.user.role === "admin"}
-            <DropdownMenu.Item
-              class="block px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/newpost"
-            >
-              {$m.post_newPost()}
-            </DropdownMenu.Item>
-
-            <DropdownMenu.Item
-              class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/auth/signout"
-            >
-              {$m.signOut()}
-            </DropdownMenu.Item>
-          {/if}
+          <Night class="h-8 w-8" />
         {/if}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+      </Toggle.Root>
+
+      <!-- language change button -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          class="hidden items-center rounded-sm border border-text/20 p-1 transition-colors hover:bg-primary/20 sm:flex"
+        >
+          <Earth class="h-8 w-8" />
+          <ChevronDown class="h-6 w-6" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          sideOffset={4}
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          {#each availableLanguageTags as tag}
+            <DropdownMenu.Item
+              class="flex items-center gap-1 whitespace-nowrap p-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+              href={langUrl($page.url, tag)}
+              hreflang={tag}
+            >
+              {#if $lang === tag}
+                <Check class="h-4 w-4" />
+              {:else}
+                <div class="h-4 w-4" />
+              {/if}
+              {$m.lang({}, { languageTag: tag }) || tag}
+            </DropdownMenu.Item>
+          {/each}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- account button -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger class="relative hidden after:content-[''] sm:block">
+          <Menu class="h-12 w-12" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          {#if session?.user === undefined}
+            <DropdownMenu.Item
+              class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+              href="{base}/auth/signin"
+            >
+              {$m.signIn()}
+            </DropdownMenu.Item>
+          {:else}
+            <span class="px-4 text-sm font-bold">
+              {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+            </span>
+            {#if session.user.role === "admin"}
+              <DropdownMenu.Item
+                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                href="{base}/newpost"
+              >
+                {$m.post_newPost()}
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item
+                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                href="{base}/auth/signout"
+              >
+                {$m.signOut()}
+              </DropdownMenu.Item>
+            {/if}
+          {/if}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- dropdown for mobile -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger class="block sm:hidden">
+          <Menu class="h-12 w-12" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          <DropdownMenu.Item
+            class="icon-flex px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+            on:click={() => theme.toggle()}
+          >
+            {#if $theme === "light"}
+              <Sunny class="h-4 w-4" />
+              <span>{$m.lightTheme()}</span>
+            {:else}
+              <Night class="h-4 w-4" />
+              <span>{$m.darkTheme()}</span>
+            {/if}
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger
+              class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+            >
+              <Earth class="h-4 w-4" />
+              <span>{$m.language()}</span>
+              <ChevronRight class="ml-auto h-4 w-4" />
+            </DropdownMenu.SubTrigger>
+
+            <DropdownMenu.SubContent
+              class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+              transition={fly}
+              transitionConfig={{ duration: 150, y: -10 }}
+            >
+              {#each availableLanguageTags as tag}
+                <DropdownMenu.Item
+                  class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                  href={langUrl($page.url, tag)}
+                  hreflang={tag}
+                >
+                  {$m.lang({}, { languageTag: tag }) || tag}
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Sub>
+
+          <DropdownMenu.Separator class="h-[1px] bg-text/20" />
+
+          {#if session?.user === undefined}
+            <DropdownMenu.Item
+              class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+              href="{base}/auth/signin"
+            >
+              {$m.signIn()}
+            </DropdownMenu.Item>
+          {:else}
+            <span class="px-4 text-sm font-bold">
+              {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+            </span>
+            {#if session.user.role === "admin"}
+              <DropdownMenu.Item
+                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                href="{base}/newpost"
+              >
+                {$m.post_newPost()}
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item
+                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                href="{base}/auth/signout"
+              >
+                {$m.signOut()}
+              </DropdownMenu.Item>
+            {/if}
+          {/if}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </div>
   </div>
 </nav>
 
@@ -162,14 +251,3 @@
 <main>
   <slot />
 </main>
-
-<!--gradient-->
-<style>
-  #menu-trigger::after {
-    @apply absolute bottom-0 right-0 h-8 w-8;
-    @apply rounded-full border-4 border-background;
-    @apply bg-contain bg-center;
-
-    background-image: var(--avatar);
-  }
-</style>
