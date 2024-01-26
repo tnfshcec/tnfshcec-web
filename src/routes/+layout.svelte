@@ -36,16 +36,10 @@
 
 <!-- TODO: dynamic meta -->
 <svelte:head>
-  <meta
-    name="description"
-    content="國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL"
-  />
+  <meta name="description" content={$m.description()} />
 
   <meta property="og:title" content={$m.name()} />
-  <meta
-    property="og:description"
-    content="國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL"
-  />
+  <meta property="og:description" content={$m.description()} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={$page.url.href.split(/[?#]/)[0]} />
   <meta property="og:image" content="{$page.url.protocol}//{$page.url.host}{base}/thumbnail.png" />
