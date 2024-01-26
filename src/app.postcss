@@ -35,6 +35,12 @@
   .icon-flex {
     @apply flex items-center gap-2;
   }
+  .dropdown-menu {
+    @apply z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur;
+  }
+  .dropdown-item {
+    @apply px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20;
+  }
 }
 
 :root {

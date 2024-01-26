@@ -98,14 +98,14 @@
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content
-          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          class="dropdown-menu"
           sideOffset={4}
           transition={fly}
           transitionConfig={{ duration: 150, y: -10 }}
         >
           {#each availableLanguageTags as tag}
             <DropdownMenu.Item
-              class="flex items-center gap-1 whitespace-nowrap p-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+              class="dropdown-item flex items-center gap-1 whitespace-nowrap p-2"
               href={langUrl($page.url, tag)}
               hreflang={tag}
             >
@@ -127,15 +127,12 @@
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content
-          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          class="dropdown-menu"
           transition={fly}
           transitionConfig={{ duration: 150, y: -10 }}
         >
           {#if session?.user === undefined}
-            <DropdownMenu.Item
-              class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-              href="{base}/auth/signin"
-            >
+            <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signin">
               {$m.signIn()}
             </DropdownMenu.Item>
           {:else}
@@ -143,17 +140,11 @@
               {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
             </span>
             {#if session.user.role === "admin"}
-              <DropdownMenu.Item
-                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href="{base}/newpost"
-              >
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/newpost">
                 {$m.post_newPost()}
               </DropdownMenu.Item>
 
-              <DropdownMenu.Item
-                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href="{base}/auth/signout"
-              >
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signout">
                 {$m.signOut()}
               </DropdownMenu.Item>
             {/if}
@@ -168,14 +159,11 @@
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content
-          class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+          class="dropdown-menu"
           transition={fly}
           transitionConfig={{ duration: 150, y: -10 }}
         >
-          <DropdownMenu.Item
-            class="icon-flex px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-            on:click={() => theme.toggle()}
-          >
+          <DropdownMenu.Item class="icon-flex dropdown-item" on:click={() => theme.toggle()}>
             {#if $theme === "light"}
               <Sunny class="h-4 w-4" />
               <span>{$m.lightTheme()}</span>
@@ -201,7 +189,7 @@
             >
               {#each availableLanguageTags as tag}
                 <DropdownMenu.Item
-                  class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                  class="dropdown-item block whitespace-nowrap"
                   href={langUrl($page.url, tag)}
                   hreflang={tag}
                 >
@@ -214,10 +202,7 @@
           <DropdownMenu.Separator class="h-[1px] bg-text/20" />
 
           {#if session?.user === undefined}
-            <DropdownMenu.Item
-              class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-              href="{base}/auth/signin"
-            >
+            <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signin">
               {$m.signIn()}
             </DropdownMenu.Item>
           {:else}
@@ -225,17 +210,11 @@
               {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
             </span>
             {#if session.user.role === "admin"}
-              <DropdownMenu.Item
-                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href="{base}/newpost"
-              >
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/newpost">
                 {$m.post_newPost()}
               </DropdownMenu.Item>
 
-              <DropdownMenu.Item
-                class="block px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href="{base}/auth/signout"
-              >
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signout">
                 {$m.signOut()}
               </DropdownMenu.Item>
             {/if}
