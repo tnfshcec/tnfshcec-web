@@ -34,7 +34,7 @@
 
   const comments: ComponentProps<Comment>[][] = [
     [
-      { username: $m.user_yuan(), handle: "@gayshitenjoyer", comment: $m.comment_yuan() },  
+      { username: $m.user_yuan(), handle: "@gayshitenjoyer", comment: $m.comment_yuan(), usernameHref: "https://genshin.hoyoverse.com/zh-tw/" },  
       { username: $m.user_AIPorn(), handle: "@horn_yart", comment: $m.comment_AIPorn() },
       { username: $m.user_yorMUM(), handle: "@yorMUM", comment: $m.comment_yorMUM() }
     ],
@@ -42,7 +42,8 @@
       {
         username: $m.user_yun(),
         handle: "@yun._.0618",
-        comment: $m.comment_yun()
+        comment: $m.comment_yun(),
+        usernameHref: "https://www.12339.gov.cn/h5_index"
       },
       { username: $m.user_dun(), handle: "@nobleg", comment: $m.comment_dun() }
     ],
