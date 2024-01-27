@@ -2,7 +2,6 @@
   export type ActivityLabel = {
     label: string;
     labelPosition: [number, number];
-    pinPosition: [number, number];
   };
 </script>
 
@@ -81,6 +80,7 @@
         class="btn-accent absolute cursor-grab select-none whitespace-nowrap"
         style:left="{act.labelPosition[0]}rem"
         style:top="{act.labelPosition[1]}rem"
+        role="presentation"
         on:mousedown={dragStart}
       >
         {act.label}
