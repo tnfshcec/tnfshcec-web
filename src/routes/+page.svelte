@@ -21,7 +21,8 @@
   export let data;
   const { m } = useI18nStores();
 
-  const activities: ActivityLabel[] = [
+  let activities: ActivityLabel[];
+  $: activities = [
     { label: $m.home_interestsReligion(), labelPosition: [15.01, 5.69] },
     { label: $m.home_interestsRobot(), labelPosition: [9.73, 6.81] },
     { label: $m.home_interestsDrama(), labelPosition: [8.31, 11.27] },
@@ -32,7 +33,8 @@
     { label: $m.home_interestsPoetry(), labelPosition: [18.42, 16.38] }
   ];
 
-  const comments: ComponentProps<Comment>[][] = [
+  let comments: ComponentProps<Comment>[][];
+  $: comments = [
     [
       { username: $m.user_yuan(), handle: "@gayshitenjoyer", comment: $m.comment_yuan(), usernameHref: "https://genshin.hoyoverse.com/zh-tw/" },  
       { username: $m.user_AIPorn(), handle: "@horn_yart", comment: $m.comment_AIPorn() },
