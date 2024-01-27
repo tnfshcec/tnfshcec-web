@@ -22,19 +22,19 @@
   const { m } = useI18nStores();
 
   const activities: ActivityLabel[] = [
-    { label: "佛教", labelPosition: [15.01, 5.69], pinPosition: [18.12, 5.55] },
-    { label: "機器人", labelPosition: [9.73, 6.81], pinPosition: [12.18, 9.26] },
-    { label: "話劇", labelPosition: [8.31, 11.27], pinPosition: [10.91, 11.36] },
-    { label: "法研", labelPosition: [0, 11.45], pinPosition: [3.17, 14.28] },
-    { label: "日研", labelPosition: [10.11, 14.69], pinPosition: [12.79, 16.18] },
-    { label: "軟體", labelPosition: [15.29, 11.94], pinPosition: [17.92, 14.72] },
-    { label: "硬體", labelPosition: [11.79, 18.5], pinPosition: [15.78, 20.99] },
-    { label: "詩社", labelPosition: [18.42, 16.38], pinPosition: [25.48, 20.86] }
+    { label: $m.home_interestsReligion(), labelPosition: [15.01, 5.69], pinPosition: [18.12, 5.55] },
+    { label: $m.home_interestsRobot(), labelPosition: [9.73, 6.81], pinPosition: [12.18, 9.26] },
+    { label: $m.home_interestsDrama(), labelPosition: [8.31, 11.27], pinPosition: [10.91, 11.36] },
+    { label: $m.home_insteretsLegal(), labelPosition: [0, 11.45], pinPosition: [3.17, 14.28] },
+    { label: $m.home_interestsJapan(), labelPosition: [10.11, 14.69], pinPosition: [12.79, 16.18] },
+    { label: $m.home_interestsSoftware(), labelPosition: [15.29, 11.94], pinPosition: [17.92, 14.72] },
+    { label: $m.home_interestsHardware(), labelPosition: [11.79, 18.5], pinPosition: [15.78, 20.99] },
+    { label: $m.home_interestsPoetry(), labelPosition: [18.42, 16.38], pinPosition: [25.48, 20.86] }
   ];
 
   const comments: ComponentProps<Comment>[][] = [
     [
-      { username: "原批", handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
+      { username: "原批"s, handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
       { username: "我要AI色圖！！", handle: "@horn_yart", comment: "啥時會有4090玩 😡" },
       { username: "亻尓女馬", handle: "@yorMUM", comment: "這就資訊社吧，根本抄襲！" }
     ],
