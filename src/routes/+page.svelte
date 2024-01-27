@@ -34,25 +34,25 @@
 
   const comments: ComponentProps<Comment>[][] = [
     [
-      { username: "原批"s, handle: "@gayshitenjoyer", comment: "我的評價是不如原神" },
-      { username: "我要AI色圖！！", handle: "@horn_yart", comment: "啥時會有4090玩 😡" },
-      { username: "亻尓女馬", handle: "@yorMUM", comment: "這就資訊社吧，根本抄襲！" }
+      { username: $m.user_yuan(), handle: "@gayshitenjoyer", comment: $m.comment_yuan() },  
+      { username: $m.user_AIPorn(), handle: "@horn_yart", comment: $m.comment_AIPorn() },
+      { username: $m.user_yorMUM(), handle: "@yorMUM", comment: $m.comment_yorMUM() }
     ],
     [
       {
-        username: "✨云✨",
+        username: $m.user_yun(),
         handle: "@yun._.0618",
-        comment: "這網站都在複製可愛ㄉ文案\n可惜我的可愛不能複製 UwU"
+        comment: $m.comment_yun()
       },
-      { username: "鈍棄疾", handle: "@nobleg", comment: "我打了一學期手遊，好像沒人發現我 🫥" }
+      { username: $m.user_dun(), handle: "@nobleg", comment: $m.comment_dun() }
     ],
     [
-      { username: "顆粒玩家", handle: "@kleeplayer", comment: "哈哈，電機社，啟動！" },
+      { username: $m.user_kleeplayer(), handle: "@kleeplayer", comment: $m.comment_kleeplayer() },
       {
-        username: "欸冷握可",
+        username: $m.user_alanwolk(),
         handle: "@alan_wolk",
         comment:
-          "看這網站，花了我0.1%的電量，1M的流量，幾秒的時間，73焦耳的熱量，還浪費我用26鍵打了60個漢字，9個逗號，1個句號，13個阿拉伯數字，讓我原本不富裕的家庭雪上加霜。"
+          $m.comment_alanwolk()
       }
     ]
   ];
