@@ -1,5 +1,5 @@
 import TableOfContents from "./TableOfContents.svelte";
-import TableOfContentsItem from "./TableOfContentsItem.svelte";
+import Tree from "./Tree.svelte";
 
 export default TableOfContents;
-export { TableOfContentsItem };
+export { Tree };

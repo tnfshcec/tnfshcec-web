@@ -1,8 +1,6 @@
 <script lang="ts">
   import "../app.postcss";
 
-  // JS
-  import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { fly } from "svelte/transition";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
@@ -10,13 +8,15 @@
   import { pageDetectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
-  // Icon
+  import { Dialog, DropdownMenu, Toggle } from "bits-ui";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
-  import Brightness from "~icons/mdi/brightness-5";
-  import Moon from "~icons/mdi/moon-waning-crescent";
+  import Sunny from "~icons/mdi/weather-sunny";
+  import Night from "~icons/mdi/weather-night";
   import Earth from "~icons/mdi/earth";
   import ChevronRight from "~icons/mdi/chevron-right";
+  import ChevronDown from "~icons/mdi/chevron-down";
+  import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
   export let data;
@@ -29,25 +29,35 @@
   // reactively set the global stores
   $: i18n.lang.set(pageDetectLanguage(serverLang, $page.url));
   $: theme.set(pageDetectTheme(serverTheme));
-  const m = i18n.m;
+  const { lang, m } = i18n;
 
   // TODO: scroll detection & changing title
-
-  const {
-    elements: { menu, item, trigger, separator },
-    builders: { createSubmenu },
-    states: { open }
-  } = createDropdownMenu({ forceVisible: true, preventScroll: false });
-
-  const {
-    elements: { subMenu, subTrigger },
-    states: { subOpen }
-  } = createSubmenu();
 </script>
 
-<!--nav-bar-->
+<!-- TODO: dynamic meta -->
+<svelte:head>
+  <meta name="description" content={$m.description()} />
+
+  <meta property="og:title" content={$m.name()} />
+  <meta property="og:description" content={$m.description()} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={$page.url.href.split(/[?#]/)[0]} />
+  <meta property="og:image" content="{$page.url.protocol}//{$page.url.host}{base}/thumbnail.png" />
+
+  <meta property="og:locale" content={$lang} />
+  {#each availableLanguageTags as tag}
+    {#if tag != $lang}
+      <meta property="og:locale:alternative" content={tag} />
+    {/if}
+  {/each}
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@tnfshcec" />
+</svelte:head>
+
+<!-- nav bar -->
 <nav
-  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-8 py-2 backdrop-blur"
+  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-4 py-2 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a href="{base}/" class="flex items-center gap-2 overflow-hidden">
@@ -58,105 +68,154 @@
         <span class="whitespace-nowrap text-xl font-bold">{$m.name()}</span>
       </div>
     </a>
-    <button
-      use:melt={$trigger}
-      id="menu-trigger"
-      class={session?.user?.image ? "relative after:content-['_']" : ""}
-      style:--avatar={session?.user?.image ? `url('${session.user.image}')` : ""}
-    >
-      <Menu class="h-12 w-12" />
-    </button>
 
-    <!--melt-ui-dropdown-->
-    {#if $open}
-      <div
-        use:melt={$menu}
-        class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
-        transition:fly={{ duration: 150, y: -10 }}
+    <div class="flex gap-8">
+      <!-- theme toggle button -->
+      <Toggle.Root
+        class="hidden rounded-sm p-2 transition-colors hover:bg-primary/20 sm:block"
+        onPressedChange={() => theme.toggle()}
       >
-        <!-- TODO: maybe extract item classes (especially the `first:rounded-t` and `last:rounded-b`)-->
-        <div
-          use:melt={$item}
-          class="icon-flex rounded-t px-4 py-2 transition-colors hover:bg-primary/20"
-          on:m-click={() => theme.toggle()}
-        >
-          {#if $theme === "light"}
-            <Brightness class="h-4 w-4" />
-            <span>{$m.lightTheme()}</span>
-          {:else}
-            <Moon class="h-4 w-4" />
-            <span>{$m.darkTheme()}</span>
-          {/if}
-        </div>
-
-        <div
-          use:melt={$subTrigger}
-          class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
-        >
-          <Earth class="h-4 w-4" />
-          <span>{$m.language()}</span>
-          <ChevronRight class="ml-auto h-4 w-4" />
-        </div>
-
-        {#if $subOpen}
-          <div
-            class="z-top max-w-xs rounded border border-primary/60 bg-background/60 backdrop-blur"
-            use:melt={$subMenu}
-            transition:fly={{ duration: 150, y: -10 }}
-          >
-            {#each availableLanguageTags as tag}
-              <a
-                use:melt={$item}
-                class="block whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                href={langUrl($page.url, tag)}
-                hreflang={tag}
-              >
-                {$m.lang({}, { languageTag: tag }) || tag}
-              </a>
-            {/each}
-          </div>
-        {/if}
-
-        <div use:melt={$separator} class="h-[1px] bg-text/20" />
-
-        {#if session?.user === undefined}
-          <a
-            use:melt={$item}
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signin"
-          >
-            {$m.signIn()}
-          </a>
+        {#if $theme === "light"}
+          <Sunny class="h-8 w-8" />
         {:else}
-          <span class="px-4 text-sm font-bold">
-            {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
-          </span>
-          {#if session.user.role === "admin"}
-            <a
-              use:melt={$item}
-              class="block px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/newpost"
-            >
-              {$m.post_newPost()}
-            </a>
-          {/if}
-          <!-- <div -->
-          <!--   use:melt={$item} -->
-          <!--   class="block px-4 py-2 transition-colors hover:bg-primary/20" -->
-          <!--   on:m-click={() => postAction("deletecache")} -->
-          <!-- > -->
-          <!--   Delete Post Cache -->
-          <!-- </div> -->
-          <a
-            use:melt={$item}
-            class="block rounded-b px-4 py-2 transition-colors hover:bg-primary/20"
-            href="{base}/auth/signout"
-          >
-            {$m.signOut()}
-          </a>
+          <Night class="h-8 w-8" />
         {/if}
-      </div>
-    {/if}
+      </Toggle.Root>
+
+      <!-- language change button -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          class="hidden items-center rounded-sm border border-text/20 p-1 transition-colors hover:bg-primary/20 sm:flex"
+        >
+          <Earth class="h-8 w-8" />
+          <ChevronDown class="h-6 w-6" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="dropdown-menu"
+          sideOffset={4}
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          {#each availableLanguageTags as tag}
+            <DropdownMenu.Item
+              class="dropdown-item flex items-center gap-1 whitespace-nowrap p-2"
+              href={langUrl($page.url, tag)}
+              hreflang={tag}
+            >
+              {#if $lang === tag}
+                <Check class="h-4 w-4" />
+              {:else}
+                <div class="h-4 w-4" />
+              {/if}
+              {$m.lang({}, { languageTag: tag }) || tag}
+            </DropdownMenu.Item>
+          {/each}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- account button -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger class="relative hidden after:content-[''] sm:block">
+          <Menu class="h-12 w-12" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="dropdown-menu"
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          {#if session?.user === undefined}
+            <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signin">
+              {$m.signIn()}
+            </DropdownMenu.Item>
+          {:else}
+            <span class="px-4 text-sm font-bold">
+              {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+            </span>
+            {#if session.user.role === "admin"}
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/newpost">
+                {$m.post_newPost()}
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signout">
+                {$m.signOut()}
+              </DropdownMenu.Item>
+            {/if}
+          {/if}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- dropdown for mobile -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger class="block sm:hidden">
+          <Menu class="h-12 w-12" />
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          class="dropdown-menu"
+          transition={fly}
+          transitionConfig={{ duration: 150, y: -10 }}
+        >
+          <DropdownMenu.Item class="icon-flex dropdown-item" on:click={() => theme.toggle()}>
+            {#if $theme === "light"}
+              <Sunny class="h-4 w-4" />
+              <span>{$m.lightTheme()}</span>
+            {:else}
+              <Night class="h-4 w-4" />
+              <span>{$m.darkTheme()}</span>
+            {/if}
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger
+              class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+            >
+              <Earth class="h-4 w-4" />
+              <span>{$m.language()}</span>
+              <ChevronRight class="ml-auto h-4 w-4" />
+            </DropdownMenu.SubTrigger>
+
+            <DropdownMenu.SubContent
+              class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
+              transition={fly}
+              transitionConfig={{ duration: 150, y: -10 }}
+            >
+              {#each availableLanguageTags as tag}
+                <DropdownMenu.Item
+                  class="dropdown-item block whitespace-nowrap"
+                  href={langUrl($page.url, tag)}
+                  hreflang={tag}
+                >
+                  {$m.lang({}, { languageTag: tag }) || tag}
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Sub>
+
+          <DropdownMenu.Separator class="h-[1px] bg-text/20" />
+
+          {#if session?.user === undefined}
+            <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signin">
+              {$m.signIn()}
+            </DropdownMenu.Item>
+          {:else}
+            <span class="px-4 text-sm font-bold">
+              {$m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+            </span>
+            {#if session.user.role === "admin"}
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/newpost">
+                {$m.post_newPost()}
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item class="dropdown-item block" href="{base}/auth/signout">
+                {$m.signOut()}
+              </DropdownMenu.Item>
+            {/if}
+          {/if}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </div>
   </div>
 </nav>
 
@@ -165,14 +224,3 @@
 <main>
   <slot />
 </main>
-
-<!--gradient-->
-<style>
-  #menu-trigger::after {
-    @apply absolute bottom-0 right-0 h-8 w-8;
-    @apply rounded-full border-4 border-background;
-    @apply bg-contain bg-center;
-
-    background-image: var(--avatar);
-  }
-</style>
