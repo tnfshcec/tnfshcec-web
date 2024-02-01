@@ -3,7 +3,7 @@ import type { LayoutServerLoad } from "./$types";
 export const load: LayoutServerLoad = async (event) => {
   return {
     session: await event.locals.getSession(),
-    lang: event.locals.lang,
+    lang: event.locals.paraglide.lang,
     theme: event.locals.theme
   };
 };

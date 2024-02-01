@@ -21,7 +21,7 @@
   } as const satisfies PageNavigation;
 
   export let current: Page;
-  export let title: string | undefined;
+  export let title: string | undefined = undefined;
 
   if (!title) title = navigate[current].title;
 </script>

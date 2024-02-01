@@ -27,6 +27,7 @@
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.54",
     "@inlang/paraglide-js": "1.0.0-prerelease.17",
+    "@inlang/paraglide-js-adapter-sveltekit": "^0.3.2",
     "@inlang/paraglide-js-adapter-vite": "^1.0.1",
     "@melt-ui/pp": "^0.3.0",
     "@melt-ui/svelte": "^0.67.0",

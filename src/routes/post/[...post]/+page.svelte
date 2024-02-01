@@ -9,13 +9,12 @@
   import Pencil from "~icons/mdi/pencil-circle";
   import Pin from "~icons/mdi/pin";
 
+  import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import { useI18nStores } from "$lib/stores/i18n";
 
   export let data;
-  const { m } = useI18nStores();
 
   let {
     md,
@@ -32,7 +31,7 @@
     class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
   >
     <List class="h-4 w-4" />
-    <span>{$m.post_tableOfContents()}</span>
+    <span>{m.post_tableOfContents()}</span>
     {#if tableOfContentsOpen}
       <ChevronUp class="ml-auto h-4 w-4" />
     {:else}
@@ -53,7 +52,7 @@
 <CenteredPage current="post" {title}>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
-    <p class="font-bold">{$m.post_tableOfContents()}</p>
+    <p class="font-bold">{m.post_tableOfContents()}</p>
     <TableOfContents selector="#post-content" />
   </div>
 
@@ -63,8 +62,8 @@
       <Pin class="h-4 w-4 text-primary" />
     {/if}
     <span>
-      {pinned && !author && !date ? $m.post_pinned() : ""}
-      {author ? $m.post_postedBy({ user: author }) : ""}
+      {pinned && !author && !date ? m.post_pinned() : ""}
+      {author ? m.post_postedBy({ user: author }) : ""}
       {author && date ? "/" : ""}
       {localeDate}
     </span>
@@ -75,7 +74,7 @@
     {#if data.session?.user?.role === "admin"}
       <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
         <Pencil class="h-4 w-4" />
-        <span>{$m.post_editPost()}</span>
+        <span>{m.post_editPost()}</span>
       </a>
     {/if}
   </div>
