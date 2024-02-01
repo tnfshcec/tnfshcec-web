@@ -54,4 +54,3 @@ const theme: Handle = async ({ event, resolve }) => {
 };
 
 export const handle = sequence(auth, theme, i18n.handle());
-export const reroute = i18n.reroute();
