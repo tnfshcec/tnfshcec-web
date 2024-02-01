@@ -8,7 +8,7 @@
   import { pageDetectLanguage, useI18nStores, langUrl } from "$lib/stores/i18n";
   import { availableLanguageTags } from "$paraglide/runtime";
 
-  import { Dialog, DropdownMenu, Toggle } from "bits-ui";
+  import { DropdownMenu, Toggle } from "bits-ui";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Sunny from "~icons/mdi/weather-sunny";
@@ -83,7 +83,7 @@
       </Toggle.Root>
 
       <!-- language change button -->
-      <DropdownMenu.Root>
+      <DropdownMenu.Root preventScroll={false}>
         <DropdownMenu.Trigger
           class="hidden items-center rounded-sm border border-text/20 p-1 transition-colors hover:bg-primary/20 sm:flex"
         >
@@ -115,7 +115,7 @@
       </DropdownMenu.Root>
 
       <!-- account button -->
-      <DropdownMenu.Root>
+      <DropdownMenu.Root preventScroll={false}>
         <DropdownMenu.Trigger class="relative hidden after:content-[''] sm:block">
           <Menu class="h-12 w-12" />
         </DropdownMenu.Trigger>
