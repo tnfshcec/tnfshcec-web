@@ -11,11 +11,12 @@
 
 <script lang="ts">
   import { base } from "$app/paths";
+  import * as m from "$paraglide/messages";
   import ChevronRight from "~icons/mdi/chevron-right";
 
   const navigate = {
-    homepage: { url: "", title: "首頁", path: [] },
-    postList: { url: "post", title: "最新消息", path: ["homepage"] },
+    homepage: { url: "", title: m.home(), path: [] },
+    postList: { url: "post", title: m.post_list(), path: ["homepage"] },
     post: { url: "post", title: undefined, path: ["homepage", "postList"] },
     postEdit: { url: "post/", title: undefined, path: ["homepage", "postList", "post"] }
   } as const satisfies PageNavigation;

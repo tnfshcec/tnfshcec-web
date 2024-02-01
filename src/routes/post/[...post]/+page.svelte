@@ -31,7 +31,7 @@
     class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
   >
     <List class="h-4 w-4" />
-    <span>{m.post_tableOfContents()}</span>
+    <span>{m.post_table_of_contents()}</span>
     {#if tableOfContentsOpen}
       <ChevronUp class="ml-auto h-4 w-4" />
     {:else}
@@ -52,7 +52,7 @@
 <CenteredPage current="post" {title}>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
-    <p class="font-bold">{m.post_tableOfContents()}</p>
+    <p class="font-bold">{m.post_table_of_contents()}</p>
     <TableOfContents selector="#post-content" />
   </div>
 
@@ -63,7 +63,7 @@
     {/if}
     <span>
       {pinned && !author && !date ? m.post_pinned() : ""}
-      {author ? m.post_postedBy({ user: author }) : ""}
+      {author ? m.post_posted_by({ user: author }) : ""}
       {author && date ? "/" : ""}
       {localeDate}
     </span>
@@ -74,7 +74,7 @@
     {#if data.session?.user?.role === "admin"}
       <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
         <Pencil class="h-4 w-4" />
-        <span>{m.post_editPost()}</span>
+        <span>{m.post_edit_post()}</span>
       </a>
     {/if}
   </div>

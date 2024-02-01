@@ -21,42 +21,50 @@
   export let data;
 
   let activities: ActivityLabel[] = [
-    { label: m.home_interestsReligion(), labelPosition: [15.01, 5.69] },
-    { label: m.home_interestsRobot(), labelPosition: [9.73, 6.81] },
-    { label: m.home_interestsDrama(), labelPosition: [8.31, 11.27] },
-    { label: m.home_insteretsLegal(), labelPosition: [0, 11.45] },
-    { label: m.home_interestsJapan(), labelPosition: [10.11, 14.69] },
-    { label: m.home_interestsSoftware(), labelPosition: [15.29, 11.94] },
-    { label: m.home_interestsHardware(), labelPosition: [11.79, 18.5] },
-    { label: m.home_interestsPoetry(), labelPosition: [18.42, 16.38] }
+    { label: m.home_interests_religion(), labelPosition: [15.01, 5.69] },
+    { label: m.home_interests_robot(), labelPosition: [9.73, 6.81] },
+    { label: m.home_interests_drama(), labelPosition: [8.31, 11.27] },
+    { label: m.home_insterets_legal(), labelPosition: [0, 11.45] },
+    { label: m.home_interests_japan(), labelPosition: [10.11, 14.69] },
+    { label: m.home_interests_software(), labelPosition: [15.29, 11.94] },
+    { label: m.home_interests_hardware(), labelPosition: [11.79, 18.5] },
+    { label: m.home_interests_poetry(), labelPosition: [18.42, 16.38] }
   ];
 
   let comments: ComponentProps<Comment>[][] = [
     [
       {
-        username: m.user_yuan(),
+        username: m.home_comment_user_genshit(),
         handle: "@gayshitenjoyer",
-        comment: m.comment_yuan(),
+        comment: m.home_comment_genshit(),
         usernameHref: "https://genshin.hoyoverse.com/zh-tw/"
       },
-      { username: m.user_AIPorn(), handle: "@horn_yart", comment: m.comment_AIPorn() },
-      { username: m.user_yorMUM(), handle: "@yorMUM", comment: m.comment_yorMUM() }
+      { username: m.home_comment_user_ai(), handle: "@horn_yart", comment: m.home_comment_ai() },
+      {
+        username: m.home_comment_user_yorMUM(),
+        handle: "@yorMUM",
+        comment: m.home_comment_yorMUM()
+      }
     ],
     [
       {
-        username: m.user_yun(),
+        username: m.home_comment_user_yun(),
         handle: "@yun._.0618",
-        comment: m.comment_yun(),
+        comment: m.home_comment_yun(),
         usernameHref: "https://www.12339.gov.cn/h5_index"
       },
-      { username: m.user_dun(), handle: "@nobleg", comment: m.comment_dun() }
+      { username: m.home_comment_user_dun(), handle: "@nobleg", comment: m.home_comment_dun() }
     ],
     [
-      { username: m.user_kleeplayer(), handle: "@kleeplayer", comment: m.comment_kleeplayer() },
       {
-        username: m.user_alanwolk(),
+        username: m.home_comment_user_kleeplayer(),
+        handle: "@kleeplayer",
+        comment: m.home_comment_kleeplayer()
+      },
+      {
+        username: m.home_comment_user_alanwolk(),
         handle: "@alan_wolk",
-        comment: m.comment_alanwolk()
+        comment: m.home_comment_alanwolk()
       }
     ]
   ];
@@ -109,7 +117,7 @@
   <div class="max-w-4xl text-lg">{m.home_quote()}</div>
   <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
-    <span>{m.home_moreInfo()}</span>
+    <span>{m.home_more_info()}</span>
   </a>
 </section>
 
@@ -119,11 +127,11 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">{m.home_newsTitle()}</header>
-      <div class="text-lg">{m.home_newsDescription()}</div>
+      <header class="text-center text-2xl font-bold">{m.home_news_title()}</header>
+      <div class="text-lg">{m.home_news_description()}</div>
       <a class="btn-accent icon-flex mx-auto w-fit" href="{base}/post">
         <ArrowRight class="h-6 w-6" />
-        <span>{m.home_newsMore()}</span>
+        <span>{m.home_news_more()}</span>
       </a>
     </div>
     <div class="flex max-w-lg flex-col items-center justify-center gap-4">
@@ -140,8 +148,8 @@
     class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
   >
     <div class="max-w-lg flex-grow basis-80 space-y-4">
-      <header class="text-center text-2xl font-bold">{m.home_interestsTitle()}</header>
-      <div class="whitespace-pre-wrap text-lg">{m.home_interestsDescription()}</div>
+      <header class="text-center text-2xl font-bold">{m.home_interests_title()}</header>
+      <div class="whitespace-pre-wrap text-lg">{m.home_interests_description()}</div>
     </div>
     <ActivityFigure {activities} />
   </div>
@@ -149,7 +157,7 @@
 
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
-    <div class="text-2xl font-bold">{m.home_commentsTitle()}</div>
+    <div class="text-2xl font-bold">{m.home_comments_title()}</div>
     <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">
       {#each comments as comList}
         <div class="flex snap-start flex-col gap-4">

@@ -11,7 +11,7 @@
     <PageTitle current="postList" />
 
     <div class="whitespace-pre-wrap text-xl">
-      {m.post_postListDescription()}
+      {m.post_list_description()}
     </div>
 
     <div class="flex flex-col gap-4 py-4">

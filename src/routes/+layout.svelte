@@ -5,7 +5,7 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { i18n } from "$lib/i18n";
-  import { availableLanguageTags } from "$paraglide/runtime";
+  import { availableLanguageTags, languageTag } from "$paraglide/runtime";
   import * as m from "$paraglide/messages";
 
   import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
@@ -23,7 +23,7 @@
 
   export let data;
 
-  const { session, lang } = data;
+  const { session } = data;
 
   // TODO: scroll detection & changing title
 </script>
@@ -38,9 +38,9 @@
   <meta property="og:url" content={$page.url.href.split(/[?#]/)[0]} />
   <meta property="og:image" content="{$page.url.protocol}//{$page.url.host}{base}/thumbnail.png" />
 
-  <meta property="og:locale" content={lang} />
+  <meta property="og:locale" content={languageTag()} />
   {#each availableLanguageTags as tag}
-    {#if tag != lang}
+    {#if tag != languageTag()}
       <meta property="og:locale:alternative" content={tag} />
     {/if}
   {/each}
@@ -99,9 +99,9 @@
                 class="dropdown-item flex items-center gap-1 whitespace-nowrap p-2"
                 href={i18n.route($page.url.pathname)}
                 hreflang={tag}
-                aria-current={lang === tag ? "page" : undefined}
+                aria-current={tag === languageTag() ? "page" : undefined}
               >
-                {#if lang === tag}
+                {#if tag === languageTag()}
                   <Check class="h-4 w-4" />
                 {:else}
                   <div class="h-4 w-4" />
@@ -129,11 +129,11 @@
                 href="{base}/auth/signin"
                 data-no-translate
               >
-                {m.signIn()}
+                {m.sign_in()}
               </DropdownMenu.Item>
             {:else}
               <span class="px-4 text-sm font-bold">
-                {m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+                {m.signed_in_as({ user: session.user.name ?? session.user.email ?? "Unknown" })}
               </span>
               {#if session.user.role === "admin"}
                 <DropdownMenu.Item
@@ -141,7 +141,7 @@
                   href="{base}/newpost"
                   data-no-translate
                 >
-                  {m.post_newPost()}
+                  {m.post_new_post()}
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item
@@ -149,7 +149,7 @@
                   href="{base}/auth/signout"
                   data-no-translate
                 >
-                  {m.signOut()}
+                  {m.sign_out()}
                 </DropdownMenu.Item>
               {/if}
             {/if}
@@ -170,10 +170,10 @@
             <DropdownMenu.Item class="icon-flex dropdown-item" on:click={toggleMode}>
               {#if $mode === "light"}
                 <Sunny class="h-4 w-4" />
-                <span>{m.lightTheme()}</span>
+                <span>{m.light_theme()}</span>
               {:else}
                 <Night class="h-4 w-4" />
-                <span>{m.darkTheme()}</span>
+                <span>{m.dark_theme()}</span>
               {/if}
             </DropdownMenu.Item>
 
@@ -196,7 +196,7 @@
                     class="dropdown-item block whitespace-nowrap"
                     href={i18n.route($page.url.pathname)}
                     hreflang={tag}
-                    aria-current={lang === tag ? "page" : undefined}
+                    aria-current={tag === languageTag() ? "page" : undefined}
                   >
                     {m.lang({}, { languageTag: tag }) || tag}
                   </DropdownMenu.Item>
@@ -212,11 +212,11 @@
                 href="{base}/auth/signin"
                 data-no-translate
               >
-                {m.signIn()}
+                {m.sign_in()}
               </DropdownMenu.Item>
             {:else}
               <span class="px-4 text-sm font-bold">
-                {m.signedInAs({ user: session.user.name ?? session.user.email ?? "Unknown" })}
+                {m.signed_in_as({ user: session.user.name ?? session.user.email ?? "Unknown" })}
               </span>
               {#if session.user.role === "admin"}
                 <DropdownMenu.Item
@@ -224,7 +224,7 @@
                   href="{base}/newpost"
                   data-no-translate
                 >
-                  {m.post_newPost()}
+                  {m.post_new_post()}
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item
@@ -232,7 +232,7 @@
                   href="{base}/auth/signout"
                   data-no-translate
                 >
-                  {m.signOut()}
+                  {m.sign_out()}
                 </DropdownMenu.Item>
               {/if}
             {/if}
