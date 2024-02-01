@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   // sine wave range(0, 1)
-  let breath = Math.sin(Date.now() / 20) / 2 + 0.5;
+  let breath = 0;
 
   onMount(() => {
     const interval = setInterval(() => {

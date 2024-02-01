@@ -5,11 +5,11 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { i18n } from "$lib/i18n";
-  import { pageDetectTheme, useThemeStore } from "$lib/stores/theme";
   import { availableLanguageTags } from "$paraglide/runtime";
   import * as m from "$paraglide/messages";
 
   import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
+  import { ModeWatcher, toggleMode, mode } from "mode-watcher";
   import { DropdownMenu, Toggle } from "bits-ui";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
@@ -23,12 +23,7 @@
 
   export let data;
 
-  const { session, lang, theme: serverTheme } = data;
-
-  const theme = useThemeStore(pageDetectTheme(serverTheme));
-
-  // reactively set the global stores
-  $: theme.set(pageDetectTheme(serverTheme));
+  const { session, lang } = data;
 
   // TODO: scroll detection & changing title
 </script>
@@ -54,6 +49,8 @@
   <meta name="twitter:site" content="@tnfshcec" />
 </svelte:head>
 
+<ModeWatcher />
+
 <ParaglideJS {i18n}>
   <!-- nav bar -->
   <nav
@@ -73,9 +70,9 @@
         <!-- theme toggle button -->
         <Toggle.Root
           class="hidden rounded-sm p-2 transition-colors hover:bg-primary/20 sm:block"
-          onPressedChange={() => theme.toggle()}
+          onPressedChange={toggleMode}
         >
-          {#if $theme === "light"}
+          {#if $mode === "light"}
             <Sunny class="h-8 w-8" />
           {:else}
             <Night class="h-8 w-8" />
@@ -170,8 +167,8 @@
             transition={fly}
             transitionConfig={{ duration: 150, y: -10 }}
           >
-            <DropdownMenu.Item class="icon-flex dropdown-item" on:click={() => theme.toggle()}>
-              {#if $theme === "light"}
+            <DropdownMenu.Item class="icon-flex dropdown-item" on:click={toggleMode}>
+              {#if $mode === "light"}
                 <Sunny class="h-4 w-4" />
                 <span>{m.lightTheme()}</span>
               {:else}

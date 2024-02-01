@@ -21,6 +21,7 @@
     "js-yaml": "^4.1.0",
     "lru-cache": "^10.0.1",
     "marked-footnote": "^1.1.3",
+    "mode-watcher": "^0.2.0",
     "thunky": "^1.1.0",
     "yaml-front-matter": "^4.1.1"
   },
