@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "prettier --check . && eslint .",
+    "lint": "prettier --check . && eslint . && npx @inlang/cli lint --project ./tnfshcec.inlang",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -21,17 +21,18 @@
     "js-yaml": "^4.1.0",
     "lru-cache": "^10.0.1",
     "marked-footnote": "^1.1.3",
+    "mode-watcher": "^0.2.0",
     "thunky": "^1.1.0",
     "yaml-front-matter": "^4.1.1"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.54",
-    "@inlang/paraglide-js": "1.0.0-prerelease.17",
-    "@inlang/paraglide-js-adapter-vite": "^1.0.1",
+    "@inlang/paraglide-js": "1.2.1",
+    "@inlang/paraglide-js-adapter-sveltekit": "^0.3.2",
     "@melt-ui/pp": "^0.3.0",
     "@melt-ui/svelte": "^0.67.0",
     "@sveltejs/adapter-node": "^2.0.0",
-    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/kit": "^2.3.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tailwindcss/forms": "^0.5.4",
     "@tailwindcss/typography": "^0.5.9",
@@ -53,7 +54,6 @@
     "prettier-plugin-tailwindcss": "^0.5.4",
     "svelte": "^4.2.3",
     "svelte-check": "^3.6.0",
-    "svelte-link": "^1.4.0",
     "svelte-preprocess": "^5.0.3",
     "svelte-sequential-preprocessor": "^2.0.1",
     "tailwindcss": "^3.3.1",

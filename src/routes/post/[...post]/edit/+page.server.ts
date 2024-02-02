@@ -7,7 +7,7 @@ export const load = (async ({ params, locals }) => {
   if (session?.user?.role != "admin") error(401, "NO U"); // check permission
 
   const post = await parsePost(params.post).catch(() => {
-    error(404, "post not found"); // if no post, 拖出去，現在！ 
+    error(404, "post not found"); // if no post, 拖出去，現在！
   });
 
   const { md, ...data } = post; // extract data
@@ -31,7 +31,7 @@ export const actions = {
     const url = formData.get("url") as string;
     formData.delete("md");
 
-    const data = Object.fromEntries(formData.entries()) as { url: string;[k: string]: unknown };
+    const data = Object.fromEntries(formData.entries()) as { url: string; [k: string]: unknown };
 
     // NOTE: do necessarry type change
     if (data.pinned !== undefined) {

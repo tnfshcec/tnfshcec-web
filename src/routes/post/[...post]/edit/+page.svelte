@@ -3,10 +3,10 @@
   import { applyAction, deserialize } from "$app/forms";
   import { goto } from "$app/navigation";
   import { fade, fly } from "svelte/transition";
-  import { useI18nStores } from "$lib/stores/i18n";
   import { localeDateFromString } from "$lib/utils/date";
   import { addToast } from "$lib/components/Toaster.svelte";
   import { editField } from "$lib/components/actions";
+  import * as m from "$paraglide/messages";
 
   import { Dialog } from "bits-ui";
   import Carta from "$lib/components/Carta.svelte";
@@ -18,7 +18,6 @@
   export let data;
 
   let { md, data: postData } = data;
-  const { m } = useI18nStores();
   $: localeDate = localeDateFromString(postData.date ?? "");
 
   let editUrl = postData.url;
@@ -37,14 +36,14 @@
   async function savePost() {
     await formAction("?/save");
 
-    addToast({ data: { title: $m.post_saveMessage() } });
+    addToast({ data: { title: m.post_save_message() } });
   }
 
   async function deletePost() {
     // INFO: the user has confirmed it!
     await formAction("?/delete");
 
-    addToast({ data: { title: $m.post_deleteMessage() } });
+    addToast({ data: { title: m.post_delete_message() } });
 
     goto(`${base}/post`);
   }
@@ -59,8 +58,8 @@
       <Pin class="h-4 w-4 text-primary" />
     {/if}
     <span>
-      {postData.pinned && !postData.author && !postData.date ? $m.post_pinned() : ""}
-      {postData.author ? $m.post_postedBy({ user: postData.author }) : ""}
+      {postData.pinned && !postData.author && !postData.date ? m.post_pinned() : ""}
+      {postData.author ? m.post_posted_by({ user: postData.author }) : ""}
       {postData.author && postData.date ? "/" : ""}
       {localeDate}
     </span>
@@ -70,12 +69,12 @@
   <div class="absolute right-4 top-8 flex flex-grow basis-0 flex-wrap gap-2">
     <button class="icon-flex icon btn-accent" on:click={savePost}>
       <Save class="h-4 w-4" />
-      {$m.post_savePost()}
+      {m.post_save_post()}
     </button>
     <!-- do confirm delete -->
     <button class="icon-flex btn-text" on:click={() => (deleteDialogOpen = true)}>
       <Alert class="h-4 w-4" />
-      {$m.post_deletePost()}
+      {m.post_delete_post()}
     </button>
   </div>
 
@@ -95,14 +94,14 @@
       >
         <Dialog.Title class="text-lg font-bold">DELETE POST</Dialog.Title>
         <Dialog.Description class="whitespace-pre-wrap leading-normal text-text/80">
-          {$m.post_deleteConfirmation()}
+          {m.post_delete_confirmation()}
         </Dialog.Description>
         <div class="mt-6 flex justify-end gap-4">
           <Dialog.Close class="btn-text opacity-80">
-            {$m.dialogCancel()}
+            {m.dialog_cancel()}
           </Dialog.Close>
           <Dialog.Close class="btn-accent" on:click={() => deletePost()}>
-            {$m.dialogConfirm()}
+            {m.dialog_confirm()}
           </Dialog.Close>
         </div>
       </Dialog.Content>
@@ -113,38 +112,38 @@
   <form id="post-edit" class="space-y-4" bind:this={form}>
     <section class="grid grid-cols-2 gap-6">
       <input
-        use:editField={{ id: "url", label: $m.post_fieldUrl(), className: "col-span-2" }}
+        use:editField={{ id: "url", label: m.post_field_url(), className: "col-span-2" }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         bind:value={editUrl}
       />
       <input
-        use:editField={{ id: "title", label: $m.post_fieldTitle() }}
+        use:editField={{ id: "title", label: m.post_field_title() }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         bind:value={postData.title}
       />
       <input
-        use:editField={{ id: "author", label: $m.post_fieldAuthor() }}
+        use:editField={{ id: "author", label: m.post_field_author() }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         bind:value={postData.author}
       />
       <input
-        use:editField={{ id: "date", label: $m.post_fieldDate() }}
+        use:editField={{ id: "date", label: m.post_field_date() }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         type="date"
         bind:value={postData.date}
       />
       <input
-        use:editField={{ id: "image", label: $m.post_fieldImage() }}
+        use:editField={{ id: "image", label: m.post_field_image() }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         bind:value={postData.image}
       />
       <input
-        use:editField={{ id: "desc", label: $m.post_fieldDescription() }}
+        use:editField={{ id: "desc", label: m.post_field_description() }}
         class="block w-full border-0 border-b border-text/60 bg-transparent px-2 transition-colors focus:border-accent focus:ring-0"
         bind:value={postData.desc}
       />
       <input
-        use:editField={{ id: "pinned", label: $m.post_fieldPinned() }}
+        use:editField={{ id: "pinned", label: m.post_field_pinned() }}
         class="block h-4 w-4 rounded border-text/60 bg-transparent text-primary focus:ring-accent/60"
         type="checkbox"
         bind:checked={postData.pinned}
