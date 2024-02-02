@@ -1,8 +1,8 @@
 import { listSortedPosts } from "$lib/utils/posts";
-import type { PageServerLoad } from "./$types";
+import type { PageLoad } from "./$types";
 
 export const load = (async () => {
   return {
     posts: listSortedPosts()
   };
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;

@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { getPost } from "$lib/utils/posts";
-import type { PageData } from "./$types";
+import type { PageLoad } from "./$types";
 
 export const load = (async ({ params }) => {
   const post = getPost(params.post);
@@ -12,4 +12,4 @@ export const load = (async ({ params }) => {
     data: post.metadata,
     content: post.default
   };
-}) satisfies PageData;
+}) satisfies PageLoad;

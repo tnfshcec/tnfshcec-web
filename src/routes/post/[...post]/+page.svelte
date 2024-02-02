@@ -1,30 +1,20 @@
 <script lang="ts">
-<<<<<<< HEAD
-  import { createDialog, melt } from "@melt-ui/svelte";
-
-  // Components
-  import PageTitle from "$lib/components/PageTitle.svelte";
-=======
   import { Collapsible } from "bits-ui";
-  import Carta from "$lib/components/Carta.svelte";
->>>>>>> main
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
   import ChevronDown from "~icons/mdi/chevron-down";
   import ChevronUp from "~icons/mdi/chevron-up";
   import List from "~icons/mdi/format-list-bulleted-type";
-  import Pencil from "~icons/mdi/pencil-circle";
   import Pin from "~icons/mdi/pin";
 
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
-  import { base } from "$app/paths";
   import { fly } from "svelte/transition";
 
   export let data;
 
   let {
-    data: { title, author, date, image, pinned, url },
+    data: { title, author, date, image, pinned },
     content: postComp
   } = data;
   let localeDate = localeDateFromString(date ?? "");
@@ -68,29 +58,12 @@
     {#if pinned}
       <Pin class="h-4 w-4 text-primary" />
     {/if}
-<<<<<<< HEAD
-
-    <article class="prose space-y-4">
-      <svelte:component this={postComp} />
-    </article>
-=======
     <span>
       {pinned && !author && !date ? m.post_pinned() : ""}
       {author ? m.post_posted_by({ user: author }) : ""}
       {author && date ? "/" : ""}
       {localeDate}
     </span>
->>>>>>> main
-  </div>
-
-  <!-- admin controls -->
-  <div class="absolute right-4 top-8 flex flex-grow basis-0 flex-wrap gap-2">
-    {#if data.session?.user?.role === "admin"}
-      <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
-        <Pencil class="h-4 w-4" />
-        <span>{m.post_edit_post()}</span>
-      </a>
-    {/if}
   </div>
 
   <!-- image of post -->
@@ -106,6 +79,6 @@
 
   <!-- actual post content -->
   <article class="prose space-y-4" id="post-content">
-    <Carta value={md} type="viewer" />
+    <svelte:component this={postComp} />
   </article>
 </CenteredPage>

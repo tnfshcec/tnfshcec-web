@@ -6,7 +6,7 @@ date: 2023-5-??
 ---
 
 <script>
-  import Weird from "$lib/components/Weird.svelte";
+  import Weird from "$lib/components/svx/Weird.svelte";
 </script>
 
 <Weird />
