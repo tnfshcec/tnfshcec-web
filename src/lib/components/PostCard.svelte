@@ -15,7 +15,7 @@
   href="{base}/post/{post.url}"
 >
   <header>
-    <div class="text-primary/80 icon-flex">
+    <div class="icon-flex text-primary/80">
       {#if post.pinned}
         <Pin class="h-4 w-4 text-primary" />
       {/if}
