@@ -52,12 +52,13 @@
 <ModeWatcher />
 
 <ParaglideJS {i18n}>
-  <!-- nav bar -->
-  <nav
+  <!-- header bar -->
+  <header
     class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-4 py-2 backdrop-blur"
   >
     <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
-      <a href="{base}/" class="flex items-center gap-2 overflow-hidden">
+      <!-- no idea why normal link here doesn't get translated -->
+      <a href={i18n.resolveRoute(`${base}/`)} class="flex items-center gap-2 overflow-hidden">
         <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
         <div>
           <span class="whitespace-nowrap font-bold">{m.title()}</span>
@@ -240,7 +241,7 @@
         </DropdownMenu.Root>
       </div>
     </div>
-  </nav>
+  </header>
 
   <Toaster />
 
