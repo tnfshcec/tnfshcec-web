@@ -8,8 +8,5 @@ export const load = (async ({ params }) => {
     error(404, "not found");
   }
 
-  return {
-    data: post.metadata,
-    content: post.default
-  };
+  return post;
 }) satisfies PageLoad;

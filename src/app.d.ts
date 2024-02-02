@@ -1,7 +1,7 @@
-import "unplugin-icons/types/svelte";
-import { DefaultSession } from "@auth/core";
+import type { SvelteComponent } from "svelte";
 import type { AvailableLanguageTag } from "$paraglide/runtime";
-import type { Theme } from "$lib/stores/theme";
+
+import "unplugin-icons/types/svelte";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -14,6 +14,10 @@ declare global {
     }
     // interface PageData {}
     // interface Platform {}
+    interface Post {
+      content: SvelteComponent;
+      metadata: App.PostData;
+    }
     interface PostData {
       title?: string;
       author?: string;
@@ -21,28 +25,9 @@ declare global {
       date?: string;
       image?: string;
       pinned?: boolean;
-      url: string;
+      slug: string;
     }
   }
 }
 
-type Role = "user" | "admin";
-
-declare module "@auth/core/types" {
-  interface User {
-    role?: Role;
-  }
-
-  interface Session {
-    user?: {
-      role?: Role;
-    } & DefaultSession["user"];
-  }
-}
-
-declare module "@auth/core/jwt" {
-  interface JWT {
-    role?: Role;
-  }
-}
 export {};

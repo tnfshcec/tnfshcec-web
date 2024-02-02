@@ -14,7 +14,7 @@
   export let data;
 
   let {
-    data: { title, author, date, image, pinned },
+    metadata: { title, author, date, image, pinned },
     content: postComp
   } = data;
   let localeDate = localeDateFromString(date ?? "");

@@ -110,7 +110,7 @@
         </DropdownMenu.Root>
 
         <!-- dropdown for mobile -->
-        <DropdownMenu.Root>
+        <DropdownMenu.Root preventScroll={false}>
           <DropdownMenu.Trigger class="block sm:hidden">
             <Menu class="h-12 w-12" />
           </DropdownMenu.Trigger>

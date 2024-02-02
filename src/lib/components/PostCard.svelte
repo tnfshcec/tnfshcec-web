@@ -1,4 +1,4 @@
-<!-- CARD FOR EACH POST-->
+<!-- card for each post-->
 <script lang="ts">
   import Pin from "~icons/mdi/pin";
 
@@ -12,7 +12,7 @@
 
 <a
   class="flex w-full flex-col gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
-  href="{base}/post/{post.url}"
+  href="{base}/post/{post.slug}"
 >
   <header>
     <div class="icon-flex text-primary/80">

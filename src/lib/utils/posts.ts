@@ -1,22 +1,31 @@
 import type { SvelteComponent } from "svelte";
 
-export type MdsvexImport = { default: SvelteComponent; metadata: Record<string, string> };
+type MdsvexImport = { default: SvelteComponent; metadata?: Record<string, string> };
 
-const posts: Record<string, MdsvexImport> = import.meta.glob("/cec/**/*.{md,svx}", {
+const imported: Record<string, MdsvexImport> = import.meta.glob("/cec/**/*.{md,svx}", {
   eager: true
 });
+
+const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [path, object]) => {
+  const slug = path.substring(5, path.lastIndexOf("."));
+
+  acc[slug] = {
+    content: object.default,
+    metadata: {
+      slug: slug,
+      ...object.metadata
+    }
+  };
+
+  return acc;
+}, {});
 
 /**
  * @returns A list of post metadata, sorted with our method
  */
 export function listSortedPosts(): App.PostData[] {
-  return Object.entries(posts)
-    .map(([path, { metadata }]) => {
-      return {
-        url: path.substring(5, path.lastIndexOf(".")),
-        ...metadata
-      } as App.PostData;
-    })
+  return Object.values(posts)
+    .map((p) => p.metadata)
     .sort((a, b) => {
       const pin = +(b.pinned ?? 0) - +(a.pinned ?? 0);
 
@@ -35,7 +44,6 @@ export function listSortedPosts(): App.PostData[] {
  * @param slug The slug of the post
  * @returns The post specified, with a Svelte component and its metadata. If the post is not found, `undefined` is returned.
  */
-export function getPost(slug: string): MdsvexImport | undefined {
-  // we accept `.md` and `.svx`, so checking both
-  return posts[`/cec/${slug}.md`] || posts[`/cec/${slug}.svx`];
+export function getPost(slug: string): App.Post | undefined {
+  return posts[slug];
 }
