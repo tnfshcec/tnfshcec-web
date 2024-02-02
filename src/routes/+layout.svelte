@@ -5,6 +5,7 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { i18n } from "$lib/i18n";
+  import { getPageInfo } from "$lib/utils/pageInfo";
   import { availableLanguageTags, languageTag } from "$paraglide/runtime";
   import * as m from "$paraglide/messages";
 
@@ -22,15 +23,14 @@
   import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
-  import { HOST } from "$env/static/private";
-
+  const HOST = import.meta.env.HOST ?? $page.url.host;
+  $: info = getPageInfo($page.url);
   // TODO: scroll detection & changing title
 </script>
 
-<!-- TODO: dynamic meta -->
 <MetaTags
-  title={m.name()}
-  description={m.description()}
+  title={info.title}
+  description={info.description}
   canonical="{HOST}{base}{$page.url.pathname}"
   openGraph={{
     type: "website",
