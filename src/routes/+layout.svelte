@@ -11,6 +11,7 @@
   import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
   import { ModeWatcher, toggleMode, mode } from "mode-watcher";
   import { DropdownMenu, Toggle } from "bits-ui";
+  import { MetaTags } from "svelte-meta-tags";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
   import Sunny from "~icons/mdi/weather-sunny";
@@ -21,29 +22,23 @@
   import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
+  import { HOST } from "$env/static/private";
+
   // TODO: scroll detection & changing title
 </script>
 
 <!-- TODO: dynamic meta -->
-<svelte:head>
-  <meta name="description" content={m.description()} />
-
-  <meta property="og:title" content={m.name()} />
-  <meta property="og:description" content={m.description()} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={$page.url.href.split(/[?#]/)[0]} />
-  <meta property="og:image" content="{$page.url.protocol}//{$page.url.host}{base}/thumbnail.png" />
-
-  <meta property="og:locale" content={languageTag()} />
-  {#each availableLanguageTags as tag}
-    {#if tag != languageTag()}
-      <meta property="og:locale:alternative" content={tag} />
-    {/if}
-  {/each}
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@tnfshcec" />
-</svelte:head>
+<MetaTags
+  title={m.name()}
+  description={m.description()}
+  canonical="{HOST}{base}{$page.url.pathname}"
+  openGraph={{
+    type: "website",
+    locale: languageTag(),
+    images: [{ url: `${HOST}${base}/thumbnail.png`, width: 1280, height: 720, type: "image/png" }]
+  }}
+  twitter={{ handle: "@tnfshcec", cardType: "summary_large_image" }}
+/>
 
 <ModeWatcher />
 
