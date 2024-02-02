@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-node";
+import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { mdsvex } from "mdsvex";
 import mdsvexConfig from "./mdsvex.config.js";
@@ -27,6 +27,9 @@ const config = {
     },
     alias: {
       $paraglide: "./src/lib/paraglide"
+    },
+    prerender: {
+      handleMissingId: "warn"
     }
   }
 };
