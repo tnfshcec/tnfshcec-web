@@ -11,7 +11,7 @@ const base = dev ? "" : process.env.BASE_PATH ?? "";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  extensions: [".svelte", ".svx", ".md"],
+  extensions: [".svelte", ...mdsvexConfig.extensions],
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors

@@ -1,4 +1,4 @@
-import type { SvelteComponent } from "svelte";
+import type { ComponentType } from "svelte";
 import type { AvailableLanguageTag } from "$paraglide/runtime";
 
 import "unplugin-icons/types/svelte";
@@ -15,7 +15,7 @@ declare global {
     // interface PageData {}
     // interface Platform {}
     interface Post {
-      content: SvelteComponent;
+      content: ComponentType;
       metadata: App.PostData;
     }
     interface PostData {

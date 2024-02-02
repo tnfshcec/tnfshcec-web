@@ -1,6 +1,6 @@
-import type { SvelteComponent } from "svelte";
+import type { ComponentType } from "svelte";
 
-type MdsvexImport = { default: SvelteComponent; metadata?: Record<string, string> };
+type MdsvexImport = { default: ComponentType; metadata?: Record<string, string> };
 
 const imported: Record<string, MdsvexImport> = import.meta.glob("/cec/**/*.{md,svx}", {
   eager: true

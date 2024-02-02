@@ -15,7 +15,7 @@
 
   let {
     metadata: { title, author, date, image, pinned },
-    content: postComp
+    content
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
@@ -79,6 +79,6 @@
 
   <!-- actual post content -->
   <article class="prose space-y-4" id="post-content">
-    <svelte:component this={postComp} />
+    <svelte:component this={content} />
   </article>
 </CenteredPage>
