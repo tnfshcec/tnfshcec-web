@@ -5,6 +5,7 @@ import { base } from "$app/paths";
 
 type PageNavigation = {
   title: string;
+  pageTitle: string;
   description: string;
   path: string[];
 };
@@ -25,19 +26,22 @@ const navigate = availableLanguageTags.reduce<Record<string, PageNavigation>>((a
   const mOpts = [{}, { languageTag: lang }];
 
   acc[p("/")] = {
-    title: `${m.title(...mOpts)} - ${m.name(...mOpts)}`,
+    title: m.home(...mOpts),
+    pageTitle: `${m.title(...mOpts)} - ${m.name(...mOpts)}`,
     description: m.description(...mOpts),
     path: []
   };
   acc[p("/post")] = {
     title: m.post_list(...mOpts),
+    pageTitle: `${m.post_list(...mOpts)} | ${m.name(...mOpts)}`,
     description: m.description(...mOpts),
     path: ["/"].map(p)
   };
 
   for (const post of listSortedPosts()) {
     acc[p(`/post/${post.slug}`)] = {
-      title: `${post.title} | ${m.name(...mOpts)}` ?? `${m.title(...mOpts)} - ${m.name(...mOpts)}`,
+      title: `${post.title}`,
+      pageTitle: `${post.title} | ${m.name(...mOpts)}`,
       description: post.desc ?? m.description(...mOpts),
       path: ["/", "/post"].map(p)
     };
@@ -46,6 +50,6 @@ const navigate = availableLanguageTags.reduce<Record<string, PageNavigation>>((a
   return acc;
 }, {});
 
-export function getPageInfo(url: URL): PageNavigation {
-  return navigate[url.pathname];
+export function getPageInfo(path: string): PageNavigation {
+  return navigate[path];
 }

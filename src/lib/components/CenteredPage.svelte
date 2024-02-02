@@ -1,8 +1,9 @@
 <script lang="ts">
-  import PageTitle, { type Page } from "./PageTitle.svelte";
+  import { page } from "$app/stores";
+  import { getPageInfo } from "$lib/utils/pageInfo";
+  import ChevronRight from "~icons/mdi/chevron-right";
 
-  export let current: Page;
-  export let title: string | undefined;
+  const info = getPageInfo($page.url.pathname);
 </script>
 
 <div class="flex w-full p-4">
@@ -11,9 +12,23 @@
   </div>
 
   <div class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
-    <PageTitle {current} {title}>
-      <slot name="title" />
-    </PageTitle>
+    <!-- page title -->
+    <nav class="flex flex-col justify-center">
+      <span>
+        {#each info.path as page}
+          <span class="transition-colors hover:text-accent">
+            <a href={page}>
+              {getPageInfo(page).title}
+            </a>
+            <ChevronRight class="inline h-4 w-4" />
+          </span>
+        {/each}
+      </span>
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold">{info.title}</h1>
+      </div>
+    </nav>
+
     <slot />
   </div>
 

@@ -24,12 +24,12 @@
   import logo from "$lib/assets/logo.svg";
 
   const HOST = import.meta.env.HOST ?? $page.url.host;
-  $: info = getPageInfo($page.url);
+  $: info = getPageInfo($page.url.pathname);
   // TODO: scroll detection & changing title
 </script>
 
 <MetaTags
-  title={info.title}
+  title={info.pageTitle}
   description={info.description}
   canonical="{HOST}{base}{$page.url.pathname}"
   openGraph={{
