@@ -41,6 +41,9 @@ const config = {
       zIndex: {
         top: "9999"
       },
+      fontFamily: {
+        sans: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+      },
       typography: {
         DEFAULT: {
           css: {

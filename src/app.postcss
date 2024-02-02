@@ -23,17 +23,23 @@
 
 @layer components {
   .btn-accent {
-    @apply rounded p-2 transition-all;
+    @apply rounded p-2 transition-[border-color,shadow];
     @apply border border-accent/80 text-accent;
     @apply hover:border-accent hover:shadow-glow hover:shadow-accent/40 active:shadow-accent/60;
   }
   .btn-text {
-    @apply rounded p-2 transition-all;
+    @apply rounded p-2 transition-[border-color,shadow];
     @apply border border-text/80 text-text;
     @apply hover:border-text hover:shadow-glow hover:shadow-text/40 active:shadow-text/60;
   }
   .icon-flex {
     @apply flex items-center gap-2;
+  }
+  .dropdown-menu {
+    @apply z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur;
+  }
+  .dropdown-item {
+    @apply px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20;
   }
 }
 
