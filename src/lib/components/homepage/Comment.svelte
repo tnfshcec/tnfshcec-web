@@ -28,9 +28,8 @@
     background-attachment: fixed;
     background-size: 100% 100%;
     background-image: radial-gradient(circle at 83.01% 47.05%, rgb(var(--primary)), transparent 81%),
-      radial-gradient(circle at 37.72% 81.87%, rgb(var(--secondary) / 0.5), transparent 19%),
       radial-gradient(circle at 82.02% 97.01%, rgb(var(--accent)), transparent 63%),
-      radial-gradient(circle at 28.02% 57.03%, rgb(var(--accent)), transparent 33%),
-      radial-gradient(circle at 50% 50%, rgb(var(--text)), rgb(var(--text)) 100%);
+      radial-gradient(circle at 28.02% 57.03%, rgb(var(--accent)), transparent 43%);
+    background-color: rgb(var(--text));
   }
 </style>
