@@ -7,9 +7,11 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pin from "~icons/mdi/pin";
 
+  import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
-  import { fly } from "svelte/transition";
+
+  import "prism-themes/themes/prism-one-dark.css";
 
   export let data;
 

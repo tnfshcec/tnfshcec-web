@@ -134,7 +134,7 @@
         <span>{m.home_news_more()}</span>
       </a>
     </div>
-    <div class="flex max-w-lg flex-col items-center justify-center gap-4">
+    <div class="flex min-w-80 max-w-lg flex-1 flex-col items-center justify-center gap-4">
       {#each data.posts.slice(0, 3) as post}
         <PostCard {post} />
       {/each}
