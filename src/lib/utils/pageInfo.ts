@@ -1,7 +1,8 @@
 import * as m from "$paraglide/messages";
 import { listSortedPosts } from "./posts";
-import { availableLanguageTags, sourceLanguageTag } from "$paraglide/runtime";
+import { availableLanguageTags, setLanguageTag } from "$paraglide/runtime";
 import { base } from "$app/paths";
+import { i18n } from "$lib/i18n";
 
 type PageNavigation = {
   title: string;
@@ -10,45 +11,45 @@ type PageNavigation = {
   path: string[];
 };
 
-const navigate = availableLanguageTags.reduce<Record<string, PageNavigation>>((acc, lang) => {
-  /**
-   * simply named `p` because it's annoying to use this (see below)
-   * @returns The path for the language
-   */
-  function p(path: string) {
-    const isSource = lang === sourceLanguageTag;
-    // remove trailing slash: `/en/`
-    if (!isSource && path === "/") path = "";
+const navigate: Record<string, PageNavigation> = {};
 
-    return `${base}${lang === sourceLanguageTag ? "" : `/${lang}`}${path}`;
-  }
+// PERF: code looks dirty, i tried ;)
+for (const lang of availableLanguageTags) {
+  setLanguageTag(lang);
 
-  const mOpts = [{}, { languageTag: lang }];
+  const home = i18n.resolveRoute(base + "/");
+  const postList = i18n.resolveRoute(base + "/post");
 
-  acc[p("/")] = {
-    title: m.home(...mOpts),
-    pageTitle: `${m.title(...mOpts)} - ${m.name(...mOpts)}`,
-    description: m.description(...mOpts),
+  navigate[home] = {
+    title: `${m.title()} - ${m.name()}`,
+    pageTitle: m.home(),
+    description: m.description(),
     path: []
   };
-  acc[p("/post")] = {
-    title: m.post_list(...mOpts),
-    pageTitle: `${m.post_list(...mOpts)} | ${m.name(...mOpts)}`,
-    description: m.description(...mOpts),
-    path: ["/"].map(p)
+
+  navigate[postList] = {
+    title: `${m.post_list()} | ${m.name()}`,
+    pageTitle: m.post_list(),
+    description: m.description(),
+    path: [home]
   };
 
   for (const post of listSortedPosts()) {
-    acc[p(`/post/${post.slug}`)] = {
-      title: `${post.title}`,
-      pageTitle: `${post.title} | ${m.name(...mOpts)}`,
-      description: post.desc ?? m.description(...mOpts),
-      path: ["/", "/post"].map(p)
+    const url = i18n.resolveRoute(base + `/post/${post.slug}`);
+
+    navigate[url] = {
+      title: `${post.title} | ${m.name()}`,
+      pageTitle: `${post.title}`,
+      description: post.desc ?? m.description(),
+      path: [home, postList]
     };
   }
+}
 
-  return acc;
-}, {});
+// set the language back to default
+setLanguageTag(i18n.config.defaultLanguageTag);
+
+// console.log(navigate);
 
 export function getPageInfo(path: string): PageNavigation {
   return navigate[path];

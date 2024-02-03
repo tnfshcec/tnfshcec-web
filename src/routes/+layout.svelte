@@ -29,7 +29,7 @@
 </script>
 
 <MetaTags
-  title={info.pageTitle}
+  title={info.title}
   description={info.description}
   canonical="{HOST}{base}{$page.url.pathname}"
   openGraph={{

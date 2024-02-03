@@ -18,15 +18,16 @@
         {#each info.path as page}
           <span class="transition-colors hover:text-accent">
             <a href={page}>
-              {getPageInfo(page).title}
+              {getPageInfo(page).pageTitle}
             </a>
             <ChevronRight class="inline h-4 w-4" />
           </span>
         {/each}
       </span>
       <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-bold">{info.title}</h1>
+        <h1 class="text-3xl font-bold">{info.pageTitle}</h1>
       </div>
+      <slot name="title" />
     </nav>
 
     <slot />
