@@ -23,7 +23,7 @@
   import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
-  const HOST = import.meta.env.HOST ?? $page.url.host;
+  const ORIGIN = import.meta.env.ORIGIN ?? $page.url.origin;
   $: info = getPageInfo($page.url.pathname);
   // TODO: scroll detection & changing title
 </script>
@@ -31,11 +31,11 @@
 <MetaTags
   title={info.title}
   description={info.description}
-  canonical="{HOST}{base}{$page.url.pathname}"
+  canonical="{ORIGIN}{base}{$page.url.pathname}"
   openGraph={{
     type: "website",
     locale: languageTag(),
-    images: [{ url: `${HOST}${base}/thumbnail.png`, width: 1280, height: 720, type: "image/png" }]
+    images: [{ url: `${ORIGIN}${base}/thumbnail.png`, width: 1280, height: 720, type: "image/png" }]
   }}
   twitter={{ handle: "@tnfshcec", cardType: "summary_large_image" }}
 />
