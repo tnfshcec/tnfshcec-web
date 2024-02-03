@@ -30,8 +30,9 @@
 </script>
 
 <MetaTags
-  title={info.title}
-  description={info.description}
+  title={info?.title}
+  description={info?.description}
+  robots={info?.noindex ? "noindex" : "index,follow"}
   canonical={$page.url.toString()}
   openGraph={{
     type: "website",

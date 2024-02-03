@@ -1,6 +1,7 @@
 ---
 title: Elements
 desc: for testing purpose. contains all available elements. (excluding custom svelte ones)
+unlisted: true
 ---
 
 ## Headings

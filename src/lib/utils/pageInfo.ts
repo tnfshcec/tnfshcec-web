@@ -9,6 +9,7 @@ type PageNavigation = {
   pageTitle: string;
   description: string;
   path: string[];
+  noindex: boolean;
 };
 
 const navigate: Record<string, PageNavigation> = {};
@@ -24,24 +25,27 @@ for (const lang of availableLanguageTags) {
     title: `${m.title()} - ${m.name()}`,
     pageTitle: m.home(),
     description: m.description(),
-    path: []
+    path: [],
+    noindex: false
   };
 
   navigate[postList] = {
     title: `${m.post_list()} | ${m.name()}`,
     pageTitle: m.post_list(),
     description: m.description(),
-    path: [home]
+    path: [home],
+    noindex: false
   };
 
-  for (const post of listSortedPosts()) {
+  for (const post of listSortedPosts({ all: true })) {
     const url = i18n.resolveRoute(base + `/post/${post.slug}`);
 
     navigate[url] = {
       title: `${post.title} | ${m.name()}`,
       pageTitle: `${post.title}`,
       description: post.desc ?? m.description(),
-      path: [home, postList]
+      path: [home, postList],
+      noindex: post.unlisted ?? false
     };
   }
 }
@@ -51,6 +55,6 @@ setLanguageTag(i18n.config.defaultLanguageTag);
 
 // console.log(navigate);
 
-export function getPageInfo(path: string): PageNavigation {
+export function getPageInfo(path: string): PageNavigation | undefined {
   return navigate[path];
 }
