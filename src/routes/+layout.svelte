@@ -30,8 +30,9 @@
 </script>
 
 <MetaTags
-  title={info.title}
-  description={info.description}
+  title={info?.title}
+  description={info?.description}
+  robots={info?.noindex ? "noindex" : "index,follow"}
   canonical={$page.url.toString()}
   openGraph={{
     type: "website",
@@ -46,7 +47,6 @@
     ]
   }}
   twitter={{ handle: "@tnfshcec", cardType: "summary_large_image" }}
-  robots={info.noindex ? "noindex" : "index,follow"}
 />
 
 <ModeWatcher />

@@ -55,6 +55,6 @@ setLanguageTag(i18n.config.defaultLanguageTag);
 
 console.log(navigate);
 
-export function getPageInfo(path: string): PageNavigation {
+export function getPageInfo(path: string): PageNavigation | undefined {
   return navigate[path];
 }
