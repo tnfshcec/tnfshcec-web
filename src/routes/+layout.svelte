@@ -23,19 +23,27 @@
   import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
-  const ORIGIN = import.meta.env.ORIGIN ?? $page.url.origin;
-  $: info = getPageInfo($page.url.pathname);
+  // remove trailing slash in `pathname`, except the "/" path
+  // we'll just make it "/" if the trimmed url results in "" (empty string).
+  $: info = getPageInfo($page.url.pathname.replace(/\/$/, "") || "/");
   // TODO: scroll detection & changing title
 </script>
 
 <MetaTags
   title={info.title}
   description={info.description}
-  canonical="{ORIGIN}{base}{$page.url.pathname}"
+  canonical={$page.url.toString()}
   openGraph={{
     type: "website",
     locale: languageTag(),
-    images: [{ url: `${ORIGIN}${base}/thumbnail.png`, width: 1280, height: 720, type: "image/png" }]
+    images: [
+      {
+        url: `${$page.url.origin}${base}/thumbnail.png`,
+        width: 1280,
+        height: 720,
+        type: "image/png"
+      }
+    ]
   }}
   twitter={{ handle: "@tnfshcec", cardType: "summary_large_image" }}
 />
