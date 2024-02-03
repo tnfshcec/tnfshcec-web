@@ -53,7 +53,7 @@ for (const lang of availableLanguageTags) {
 // set the language back to default
 setLanguageTag(i18n.config.defaultLanguageTag);
 
-console.log(navigate);
+// console.log(navigate);
 
 export function getPageInfo(path: string): PageNavigation | undefined {
   return navigate[path];
