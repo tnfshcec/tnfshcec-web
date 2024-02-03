@@ -1,24 +1,23 @@
 <script lang="ts">
   import { Collapsible } from "bits-ui";
-  import Carta from "$lib/components/Carta.svelte";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
   import ChevronDown from "~icons/mdi/chevron-down";
   import ChevronUp from "~icons/mdi/chevron-up";
   import List from "~icons/mdi/format-list-bulleted-type";
-  import Pencil from "~icons/mdi/pencil-circle";
   import Pin from "~icons/mdi/pin";
 
+  import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
-  import { base } from "$app/paths";
-  import { fly } from "svelte/transition";
+
+  import "prism-themes/themes/prism-one-dark.css";
 
   export let data;
 
   let {
-    md,
-    data: { title, author, date, image, pinned, url }
+    metadata: { title, author, date, image, pinned },
+    content
   } = data;
   let localeDate = localeDateFromString(date ?? "");
 
@@ -69,16 +68,6 @@
     </span>
   </div>
 
-  <!-- admin controls -->
-  <div class="absolute right-4 top-8 flex flex-grow basis-0 flex-wrap gap-2">
-    {#if data.session?.user?.role === "admin"}
-      <a class="btn-accent icon-flex" href="{base}/post/{url}/edit">
-        <Pencil class="h-4 w-4" />
-        <span>{m.post_edit_post()}</span>
-      </a>
-    {/if}
-  </div>
-
   <!-- image of post -->
   {#if image}
     <div class="p-4">
@@ -92,6 +81,6 @@
 
   <!-- actual post content -->
   <article class="prose space-y-4" id="post-content">
-    <Carta value={md} type="viewer" />
+    <svelte:component this={content} />
   </article>
 </CenteredPage>

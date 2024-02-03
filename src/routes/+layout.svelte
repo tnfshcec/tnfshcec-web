@@ -21,10 +21,6 @@
   import Check from "~icons/mdi/check";
   import logo from "$lib/assets/logo.svg";
 
-  export let data;
-
-  const { session } = data;
-
   // TODO: scroll detection & changing title
 </script>
 
@@ -113,52 +109,8 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
-        <!-- account button -->
-        <DropdownMenu.Root preventScroll={false}>
-          <DropdownMenu.Trigger class="relative hidden after:content-[''] sm:block">
-            <Menu class="h-12 w-12" />
-          </DropdownMenu.Trigger>
-
-          <DropdownMenu.Content
-            class="dropdown-menu"
-            transition={fly}
-            transitionConfig={{ duration: 150, y: -10 }}
-          >
-            {#if session?.user === undefined}
-              <DropdownMenu.Item
-                class="dropdown-item block"
-                href="{base}/auth/signin"
-                data-no-translate
-              >
-                {m.sign_in()}
-              </DropdownMenu.Item>
-            {:else}
-              <span class="px-4 text-sm font-bold">
-                {m.signed_in_as({ user: session.user.name ?? session.user.email ?? "Unknown" })}
-              </span>
-              {#if session.user.role === "admin"}
-                <DropdownMenu.Item
-                  class="dropdown-item block"
-                  href="{base}/newpost"
-                  data-no-translate
-                >
-                  {m.post_new_post()}
-                </DropdownMenu.Item>
-
-                <DropdownMenu.Item
-                  class="dropdown-item block"
-                  href="{base}/auth/signout"
-                  data-no-translate
-                >
-                  {m.sign_out()}
-                </DropdownMenu.Item>
-              {/if}
-            {/if}
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
-
         <!-- dropdown for mobile -->
-        <DropdownMenu.Root>
+        <DropdownMenu.Root preventScroll={false}>
           <DropdownMenu.Trigger class="block sm:hidden">
             <Menu class="h-12 w-12" />
           </DropdownMenu.Trigger>
@@ -204,39 +156,6 @@
                 {/each}
               </DropdownMenu.SubContent>
             </DropdownMenu.Sub>
-
-            <DropdownMenu.Separator class="h-[1px] bg-text/20" />
-
-            {#if session?.user === undefined}
-              <DropdownMenu.Item
-                class="dropdown-item block"
-                href="{base}/auth/signin"
-                data-no-translate
-              >
-                {m.sign_in()}
-              </DropdownMenu.Item>
-            {:else}
-              <span class="px-4 text-sm font-bold">
-                {m.signed_in_as({ user: session.user.name ?? session.user.email ?? "Unknown" })}
-              </span>
-              {#if session.user.role === "admin"}
-                <DropdownMenu.Item
-                  class="dropdown-item block"
-                  href="{base}/newpost"
-                  data-no-translate
-                >
-                  {m.post_new_post()}
-                </DropdownMenu.Item>
-
-                <DropdownMenu.Item
-                  class="dropdown-item block"
-                  href="{base}/auth/signout"
-                  data-no-translate
-                >
-                  {m.sign_out()}
-                </DropdownMenu.Item>
-              {/if}
-            {/if}
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>
