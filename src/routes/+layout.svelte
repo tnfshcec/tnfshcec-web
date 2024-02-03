@@ -46,6 +46,7 @@
     ]
   }}
   twitter={{ handle: "@tnfshcec", cardType: "summary_large_image" }}
+  robots={info.noindex ? "noindex" : "index,follow"}
 />
 
 <ModeWatcher />

@@ -25,6 +25,7 @@ declare global {
       date?: string;
       image?: string;
       pinned?: boolean;
+      unlisted?: boolean;
       slug: string;
     }
   }
