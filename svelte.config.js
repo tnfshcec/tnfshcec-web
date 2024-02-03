@@ -23,13 +23,15 @@ const config = {
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
     adapter: adapter(),
     paths: {
-      base
+      base,
+      relative: false
     },
     alias: {
       $paraglide: "./src/lib/paraglide"
     },
     prerender: {
-      handleMissingId: "warn"
+      handleMissingId: "warn",
+      origin: process.env.ORIGIN
     }
   }
 };

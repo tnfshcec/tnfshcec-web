@@ -4,7 +4,7 @@
   import { anchorScroll } from "$lib/components/actions";
   import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
-  import PostCard from "$lib/components/PostCard.svelte";
+  import PostCard from "$lib/components/homepage/PostCard.svelte";
   import type { ComponentProps } from "svelte";
   import type { ActivityLabel } from "$lib/components/homepage/ActivityFigure.svelte";
 

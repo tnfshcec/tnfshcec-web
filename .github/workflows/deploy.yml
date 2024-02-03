@@ -25,6 +25,7 @@ jobs:
 
       - name: build
         env:
+          ORIGIN: "https://tnfshcec.com"
           # BASE_PATH: "/${{ github.event.repository.name }}"
         run: |
           npm run build

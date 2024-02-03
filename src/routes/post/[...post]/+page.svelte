@@ -48,7 +48,7 @@
   </Collapsible.Content>
 </Collapsible.Root>
 
-<CenteredPage current="post" {title}>
+<CenteredPage>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
     <p class="font-bold">{m.post_table_of_contents()}</p>
