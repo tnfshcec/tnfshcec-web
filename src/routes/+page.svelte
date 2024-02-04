@@ -5,7 +5,7 @@
   import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import type { ComponentProps } from "svelte";
+  import type { ComponentProps, ComponentType } from "svelte";
   import type { ActivityLabel } from "$lib/components/homepage/ActivityFigure.svelte";
 
   import Facebook from "~icons/mdi/facebook";
@@ -19,6 +19,15 @@
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
 
   export let data;
+
+  type Social = { name: string; href: string; icon: ComponentType };
+  let socials: Social[] = [
+    { name: "Facebook", href: "https://www.facebook.com/TNFSHCEC", icon: Facebook },
+    { name: "Instagram", href: "https://www.instagram.com/tnfshcec", icon: Instagram },
+    { name: "Threads", href: "https://www.threads.net/tnfshcec", icon: At },
+    { name: "X (Formerly Twitter)", href: "https://twitter.com/tnfshcec", icon: Twitter },
+    { name: "GitHub", href: "https://github.com/tnfshcec", icon: Github }
+  ];
 
   let activities: ActivityLabel[] = [
     { label: m.home_interests_religion(), labelPosition: [15.01, 5.69] },
@@ -84,6 +93,7 @@
           href="https://www.tnfsh.tn.edu.tw/form/Details.aspx?Parser=28,4,28,,,,34"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={m.home_tnfsh_link()}
         >
           <div
             class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
@@ -91,21 +101,19 @@
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
           />
         </a>
-        <a href="https://www.facebook.com/TNFSHCEC" target="_blank" rel="noopener noreferrer">
-          <Facebook class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
-        </a>
-        <a href="https://www.instagram.com/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <Instagram class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
-        </a>
-        <a href="https://www.threads.net/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <At class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
-        </a>
-        <a href="https://twitter.com/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <Twitter class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
-        </a>
-        <a href="https://github.com/tnfshcec" target="_blank" rel="noopener noreferrer">
-          <Github class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
-        </a>
+        {#each socials as social}
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={m.home_social_link({ name: social.name })}
+          >
+            <svelte:component
+              this={social.icon}
+              class="h-8 w-8 text-text/80 transition-colors hover:text-accent"
+            />
+          </a>
+        {/each}
       </div>
     </div>
     <HeroGradient />
