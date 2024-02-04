@@ -23,7 +23,7 @@ const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [p
 /**
  * @returns A list of post metadata, sorted with our method
  */
-export function listSortedPosts({ all } = { all: true }): App.PostData[] {
+export function listSortedPosts({ all } = { all: false }): App.PostData[] {
   return Object.values(posts)
     .map((p) => p.metadata)
     .filter((p) => all || !p.unlisted)
