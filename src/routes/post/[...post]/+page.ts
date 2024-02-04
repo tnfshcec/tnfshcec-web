@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
-import { getPost } from "$lib/utils/posts";
-import type { PageLoad } from "./$types";
+import { getPost, listSortedPosts } from "$lib/utils/posts";
+import type { PageLoad, EntryGenerator } from "./$types";
 
 export const load = (async ({ params }) => {
   const post = getPost(params.post);
@@ -10,3 +10,7 @@ export const load = (async ({ params }) => {
 
   return post;
 }) satisfies PageLoad;
+
+export const entries: EntryGenerator = () => {
+  return listSortedPosts({ all: true }).map((p) => ({ post: p.slug }));
+};
