@@ -126,6 +126,25 @@ function createLabel<T extends number | string>(idOrName: T): NameOrId<T> {
 let a = createLabel("typescript");
 ```
 
+## Containers
+
+::: note
+You can create containers like this. It makes a container box!
+:::
+
+::: info Don't look at this
+And you can set custom titles like this!
+:::
+
+::: important
+There 5 types of containers (for now) (if added more please update):
+`note`, `info`, `important`, `warning`, `caution`
+:::
+
+::: caution Not that caution but here this is
+_The types are shamelessly taken from GitHub's gfm alerts._
+:::
+
 ## Misc
 
 <sup>Lorem</sup> <sub>ipsum</sub> <cite>dolor sit amet</cite>, <acronym title="Consectetur Adipiscing Elit">consectetur adipiscing elit</acronym>, <abbr title="Aliqua">sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</abbr>. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br><br>
