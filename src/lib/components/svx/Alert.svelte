@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$paraglide/messages";
   import Information from "~icons/mdi/information-outline";
   import Lightbulb from "~icons/mdi/lightbulb-outline";
   import MessageAlert from "~icons/mdi/message-alert-outline";
@@ -8,11 +9,11 @@
   export let title: keyof typeof titlesInfo;
 
   const titlesInfo = {
-    "!NOTE": ["note", "Note", Information],
-    "!TIP": ["tip", "Tip", Lightbulb],
-    "!IMPORTANT": ["important", "Important", MessageAlert],
-    "!WARNING": ["warning", "Warning", Alert],
-    "!CAUTION": ["caution", "Caution", AlertOctagon]
+    "!NOTE": ["note", m.alert_note(), Information],
+    "!TIP": ["tip", m.alert_tip(), Lightbulb],
+    "!IMPORTANT": ["important", m.alert_important(), MessageAlert],
+    "!WARNING": ["warning", m.alert_warning(), Alert],
+    "!CAUTION": ["caution", m.alert_caution(), AlertOctagon]
   } as const;
 
   const alertInfo = titlesInfo[title];

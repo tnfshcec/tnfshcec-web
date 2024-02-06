@@ -1,4 +1,9 @@
 {
+  "alert_caution": "Caution",
+  "alert_important": "Important",
+  "alert_note": "Note",
+  "alert_tip": "Tip",
+  "alert_warning": "Warning",
   "dark_theme": "Dark Theme",
   "description": "國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL",
   "dialog_cancel": "Cancel",
