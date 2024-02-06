@@ -41,7 +41,6 @@
     "prettier-plugin-tailwindcss": "^0.5.4",
     "prism-themes": "^1.9.0",
     "rehype-external-links": "^3.0.0",
-    "remark-flexible-containers": "^1.0.7",
     "remark-footnotes": "^2.0.0",
     "svelte": "^4.2.3",
     "svelte-check": "^3.6.0",

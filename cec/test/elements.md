@@ -126,24 +126,16 @@ function createLabel<T extends number | string>(idOrName: T): NameOrId<T> {
 let a = createLabel("typescript");
 ```
 
-## Containers
+## Alerts
 
-::: note
-You can create containers like this. It makes a container box!
-:::
+> [!NOTE]
+> You can create containers like this. It makes a container box!
 
-::: info Don't look at this
-And you can set custom titles like this!
-:::
+> [!TIP]
+> The types are: `note`, `tip`, `important`, `warning`, `caution`
 
-::: important
-There 5 types of containers (for now) (if added more please update):
-`note`, `info`, `important`, `warning`, `caution`
-:::
-
-::: caution Not that caution but here this is
-_The types are shamelessly taken from GitHub's gfm alerts._
-:::
+> [!CAUTION]
+> _This syntax is shamelessly taken from GitHub's gfm alerts._
 
 ## Misc
 
