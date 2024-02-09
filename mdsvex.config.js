@@ -1,6 +1,9 @@
 import remarkFootnotes from "remark-footnotes";
 import rehypeExternalLinks from "rehype-external-links";
 import { visit } from "unist-util-visit";
+import { escapeSvelte } from "mdsvex";
+import { codeToHtml } from "shiki";
+import { transformerTwoslash } from "@shikijs/twoslash";
 
 const remarkSpoiler = () => (tree) =>
   visit(tree, "text", (node) => {
@@ -31,6 +34,18 @@ const remarkAlerts = () => (tree) =>
 export default {
   extensions: [".svx", ".md"],
   layout: "./src/lib/components/MdsvexLayout.svelte",
+  highlight: {
+    highlighter: async (code, lang, meta) => {
+      const html = await codeToHtml(code, {
+        lang,
+        meta: { __raw: meta },
+        theme: "one-dark-pro",
+        transformers: [transformerTwoslash({ explicitTrigger: true })]
+      });
+
+      return `{@html \`${escapeSvelte(html)}\` }`;
+    }
+  },
   remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],
   rehypePlugins: [
     [

@@ -11,7 +11,8 @@
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
 
-  import "prism-themes/themes/prism-one-dark.css";
+  // for shiki twoslash (cool typescript lsp things)
+  import "./twoslash-style.css";
 
   export let data;
 
