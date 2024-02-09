@@ -17,7 +17,7 @@
   export let data;
 
   let {
-    metadata: { title, author, date, image, pinned },
+    metadata: { title, author, date, image, tags, pinned },
     content
   } = data;
   let localeDate = localeDateFromString(date ?? "");
@@ -84,4 +84,14 @@
   <article class="prose space-y-4" id="post-content">
     <svelte:component this={content} />
   </article>
+
+  {#if tags}
+    <div class="flex gap-2">
+      {#each tags as tag}
+        <div class="btn-accent">
+          #{tag}
+        </div>
+      {/each}
+    </div>
+  {/if}
 </CenteredPage>
