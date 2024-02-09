@@ -4,6 +4,7 @@ import { visit } from "unist-util-visit";
 import { escapeSvelte } from "mdsvex";
 import { codeToHtml } from "shiki";
 import { transformerTwoslash } from "@shikijs/twoslash";
+import { transformerNotationDiff, transformerMetaHighlight } from "@shikijs/transformers";
 
 const remarkSpoiler = () => (tree) =>
   visit(tree, "text", (node) => {
@@ -40,7 +41,11 @@ export default {
         lang,
         meta: { __raw: meta },
         theme: "one-dark-pro",
-        transformers: [transformerTwoslash({ explicitTrigger: true })]
+        transformers: [
+          transformerTwoslash({ explicitTrigger: true }),
+          transformerNotationDiff(),
+          transformerMetaHighlight()
+        ]
       });
 
       return `{@html \`${escapeSvelte(html)}\` }`;

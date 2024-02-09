@@ -104,11 +104,16 @@ This is an inline note. ^[You can type footnotes inline, so you don’t have to 
 
 ## Code
 
-```ts twoslash title="examples/index.ts"
-for (let x in [0]) console.log(x);
+```ts twoslash {3-4} title="examples/index.ts"
+for (let x in [0, 1, 2]) console.log(x);
+
+// for twoslash's markup notations,
+// checkout https://twoslash.netlify.app/refs/notations
+// ---cut-after---
+"uwu";
 ```
 
-```ts twoslash {1-6}
+```ts twoslash
 interface IdLabel {
   id: number /* some fields */;
 }
@@ -123,7 +128,9 @@ function createLabel<T extends number | string>(idOrName: T): NameOrId<T> {
   throw "unimplemented";
 }
 
-let a = createLabel("typescript");
+// @noErrors
+let a = createLabel("yavascript"); // [!code --]
+let a = createLabel("typescript"); // [!code ++]
 ```
 
 ## Alerts

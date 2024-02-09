@@ -65,12 +65,21 @@
   @apply text-xl;
 }
 
-.prose pre {
-  @apply overflow-x-auto;
-}
-
 .prose :not(pre) > code {
   @apply bg-secondary;
+}
+
+.prose code > span.line.highlighted {
+  @apply bg-primary/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
+}
+
+.prose code > span.line.diff.remove {
+  @apply bg-error/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
+  @apply before:content-['-'] before:text-error before:absolute before:left-1;
+}
+.prose code > span.line.diff.add {
+  @apply bg-success/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
+  @apply before:content-['+'] before:text-success before:absolute before:left-1;
 }
 
 .prose span.spoiler {
