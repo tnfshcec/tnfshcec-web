@@ -29,7 +29,7 @@
 
 <style>
   .markdown-alert {
-    border-color: rgb(var(--alert-color));
+    border-color: rgb(var(--alert-color) / 50%);
   }
 
   .markdown-alert p {
@@ -45,14 +45,14 @@
   }
 
   .markdown-alert-important {
-    --alert-color: var(--accent);
+    --alert-color: var(--success);
   }
 
   .markdown-alert-warning {
-    --alert-color: var(--accent);
+    --alert-color: var(--warning);
   }
 
   .markdown-alert-caution {
-    --alert-color: var(--accent);
+    --alert-color: var(--error);
   }
 </style>

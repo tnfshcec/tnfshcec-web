@@ -129,7 +129,7 @@ let a = createLabel("typescript");
 ## Alerts
 
 > [!NOTE]
-> You can create containers like this. It makes a container box!
+> You can create containers like this. It makes an alert block!
 
 > [!TIP]
 > The types are: `note`, `tip`, `important`, `warning`, `caution`

@@ -18,18 +18,14 @@ const remarkAlerts = () => (tree) =>
     visit(quote, "linkReference", (link, index, linkParent) => {
       const title = link.children[0].value;
       if (alerts.includes(title)) {
-        console.log("found", title);
-        quote.type = "alert";
-        quote.data = { hName: "alert", hProperties: { title } };
+        quote.type = "alert"; // set HAST node type
+        quote.data = { hName: "alert", hProperties: { title } }; // set HTML tag & attributes
 
-        // remove the [!ALERT] part
+        // remove the [!ALERT] part from markdown (remove this linkReference)
         linkParent.children.splice(index, 1);
       }
     })
   );
-
-/** @type {(string: string) => string} */
-const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 /** @type import("mdsvex").MdsvexOptions */
 export default {
