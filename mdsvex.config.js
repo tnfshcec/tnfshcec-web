@@ -42,13 +42,20 @@ export default {
         meta: { __raw: meta },
         theme: "one-dark-pro",
         transformers: [
-          transformerTwoslash({ explicitTrigger: true }),
+          // transformerTwoslash({ explicitTrigger: true }),
           transformerNotationDiff(),
           transformerMetaHighlight()
         ]
       });
 
-      return `{@html \`${escapeSvelte(html)}\` }`;
+      // find `title="something cool"` (or without quotes)
+      const title = (meta.match(/\btitle=(?:[^"'\s]+\b|["'][^"']*["']\B)/) ?? [""])[0];
+      const nocopy = meta.match(/\bnocopy\b/) ? "nocopy" : "";
+
+      const attr = `lang="${lang}" ${title} ${nocopy}`;
+
+      // warp the html with custom component `codeblock` (see MdsvexLayout.svelte)
+      return `<Components.codeblock ${attr}>{@html \`${escapeSvelte(html)}\` }</Components.codeblock>`;
     }
   },
   remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],

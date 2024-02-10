@@ -65,21 +65,25 @@
   @apply text-xl;
 }
 
+.prose pre {
+  @apply my-0;
+}
+
 .prose :not(pre) > code {
   @apply bg-secondary;
 }
 
 .prose code > span.line.highlighted {
-  @apply bg-primary/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
+  @apply -mx-4 inline-block w-[calc(100%_+_2rem)] bg-primary/20 px-4;
 }
 
 .prose code > span.line.diff.remove {
-  @apply bg-error/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
-  @apply before:content-['-'] before:text-error before:absolute before:left-1;
+  @apply -mx-4 inline-block w-[calc(100%_+_2rem)] bg-error/20 px-4;
+  @apply before:absolute before:left-1 before:text-error before:content-['-'];
 }
 .prose code > span.line.diff.add {
-  @apply bg-success/20 inline-block w-[calc(100%_+_2rem)] -mx-4 px-4;
-  @apply before:content-['+'] before:text-success before:absolute before:left-1;
+  @apply -mx-4 inline-block w-[calc(100%_+_2rem)] bg-success/20 px-4;
+  @apply before:absolute before:left-1 before:text-success before:content-['+'];
 }
 
 .prose span.spoiler {
