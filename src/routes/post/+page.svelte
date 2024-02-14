@@ -52,14 +52,13 @@
   </div>
 
   <!-- tags buttons for desktop, on the right -->
-  <div class="sticky top-20 hidden w-max min-w-64 max-w-xs space-y-2 p-4 lg:block" slot="right">
-    <p class="font-bold">Filter By Tags</p>
+  <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block" slot="right">
+    <p class="font-bold">{m.post_filter_tags()}</p>
     <div class="flex flex-wrap gap-2">
       {#each allTags as tag}
         <a
-          class="btn-accent whitespace-nowrap {tags.includes(tag)
-            ? ''
-            : 'border-opacity-60 text-opacity-80'}"
+          class="btn-accent whitespace-nowrap transition-colors
+                {tags.includes(tag) ? '' : 'border-opacity-40 text-opacity-60'}"
           href="{base}/post{getTagsParam(tags, tag)}"
         >
           #{tag}
