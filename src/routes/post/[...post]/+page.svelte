@@ -13,6 +13,7 @@
 
   // for shiki twoslash (cool typescript lsp things)
   import "./twoslash-style.css";
+  import { base } from "$app/paths";
 
   export let data;
 
@@ -28,7 +29,7 @@
 <!-- table of contents on mobile view -->
 <Collapsible.Root class="sticky top-20 z-10" bind:open={tableOfContentsOpen}>
   <Collapsible.Trigger
-    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
+    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 lg:hidden"
   >
     <List class="h-4 w-4" />
     <span>{m.post_table_of_contents()}</span>
@@ -51,7 +52,7 @@
 
 <CenteredPage>
   <!-- table of contents, on the right -->
-  <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
+  <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" slot="right">
     <p class="font-bold">{m.post_table_of_contents()}</p>
     <TableOfContents selector="#post-content" />
   </div>
@@ -88,9 +89,9 @@
   {#if tags}
     <div class="flex gap-2">
       {#each tags as tag}
-        <div class="btn-accent">
+        <a class="btn-accent" href="{base}/post?tags={tag}">
           #{tag}
-        </div>
+        </a>
       {/each}
     </div>
   {/if}
