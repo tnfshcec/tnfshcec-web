@@ -87,6 +87,7 @@
   </article>
 
   {#if tags}
+    <hr class="w-full text-text/20" />
     <div class="flex gap-2">
       {#each tags as tag}
         <a class="btn-accent" href="{base}/post?tags={tag}">
