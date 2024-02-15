@@ -23,7 +23,7 @@ const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [p
 
 export const allTags = Object.values(posts)
   .flatMap((p) => p.metadata.tags)
-  .filter((tag) => tag); // filter out undefined
+  .filter((tag): tag is string => !!tag); // filter out undefined
 
 /**
  * @returns A list of post metadata, sorted with our method

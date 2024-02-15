@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
@@ -8,9 +9,13 @@
 
   export let data;
 
-  // get current `?tags={value}`, handle null, filter out empty strings
-  $: tags = ($page.url.searchParams.get("tags") ?? "").split(",").filter((t) => t);
-  $: console.log(tags);
+  /** current filtering tags */
+  let tags: string[] = [];
+
+  $: if (browser) {
+    const tagsParam = $page.url.searchParams.get("tags") ?? "";
+    tags = tagsParam.split(",").filter((t) => t); // remove empty strings with filter()
+  }
 
   /**
    * Toggles the tags in searchParams
@@ -58,7 +63,7 @@
       {#each allTags as tag}
         <a
           class="btn-accent whitespace-nowrap transition-colors
-                {tags.includes(tag) ? '' : 'border-opacity-40 text-opacity-60'}"
+                {tags.includes(tag) ? '' : 'border-opacity-40 text-opacity-80'}"
           href="{base}/post{getTagsParam(tags, tag)}"
         >
           #{tag}
