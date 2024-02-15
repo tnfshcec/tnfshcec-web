@@ -23,16 +23,13 @@
    * For example:
    * `tagA,tagB` with `tabC` becomes `tagA,tagB,tagC`
    * `tagA,tagB,tagC` with `tagB` becomes `tagA,tagC`
-   *
-   * And `?tags=` is padded for the param
    */
   function getTagsParam(currentTags: string[], tag: string): string {
     const index = currentTags.indexOf(tag);
 
-    const param =
-      index === -1 ? [...currentTags, tag].join(",") : currentTags.toSpliced(index, 1).join(",");
-
-    return param === "" ? "" : `?tags=${param}`;
+    return index === -1
+      ? [...currentTags, tag].join(",") // add in the tag
+      : currentTags.toSpliced(index, 1).join(","); // remove the tag
   }
 </script>
 
@@ -50,7 +47,7 @@
 
   <div class="flex flex-col gap-4 py-4">
     {#each data.posts as post (post.slug)}
-      {#if tags.length === 0 || tags.some((tag) => post.tags?.includes(tag))}
+      {#if tags.length === 0 || tags.every((tag) => post.tags?.includes(tag))}
         <PostCard displayTags {post} />
       {/if}
     {/each}
@@ -61,10 +58,11 @@
     <p class="font-bold">{m.post_filter_tags()}</p>
     <div class="flex flex-wrap gap-2">
       {#each allTags as tag}
+        {@const tagsParam = getTagsParam(tags, tag)}
         <a
-          class="btn-accent whitespace-nowrap transition-colors
-                {tags.includes(tag) ? '' : 'border-opacity-40 text-opacity-80'}"
-          href="{base}/post{getTagsParam(tags, tag)}"
+          class="btn-accent whitespace-nowrap
+                {tags.includes(tag) ? '' : 'border-opacity-10 text-opacity-80'}"
+          href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
         >
           #{tag}
         </a>
