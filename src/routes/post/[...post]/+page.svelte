@@ -7,13 +7,13 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pin from "~icons/mdi/pin";
 
+  import { base } from "$app/paths";
   import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
 
   // for shiki twoslash (cool typescript lsp things)
-  import "./twoslash-style.css";
-  import { base } from "$app/paths";
+  // import "./twoslash-style.css";
 
   export let data;
 

@@ -49,8 +49,8 @@ export default {
       });
 
       // find `title="something cool"` (or without quotes)
-      const title = (meta.match(/\btitle=(?:[^"'\s]+\b|["'][^"']*["']\B)/) ?? [""])[0];
-      const nocopy = meta.match(/\bnocopy\b/) ? "nocopy" : "";
+      const title = (meta?.match(/\btitle=(?:[^"'\s]+\b|["'][^"']*["']\B)/) ?? [""])[0];
+      const nocopy = meta?.match(/\bnocopy\b/) ? "nocopy" : "";
 
       const attr = `lang="${lang}" ${title} ${nocopy}`;
 
