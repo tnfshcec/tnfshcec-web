@@ -7,16 +7,18 @@
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pin from "~icons/mdi/pin";
 
+  import { base } from "$app/paths";
   import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { localeDateFromString } from "$lib/utils/date";
 
-  import "prism-themes/themes/prism-one-dark.css";
+  // for shiki twoslash (cool typescript lsp things)
+  // import "./twoslash-style.css";
 
   export let data;
 
   let {
-    metadata: { title, author, date, image, pinned },
+    metadata: { title, author, date, image, tags, pinned },
     content
   } = data;
   let localeDate = localeDateFromString(date ?? "");
@@ -27,7 +29,7 @@
 <!-- table of contents on mobile view -->
 <Collapsible.Root class="sticky top-20 z-10" bind:open={tableOfContentsOpen}>
   <Collapsible.Trigger
-    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 md:hidden"
+    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 lg:hidden"
   >
     <List class="h-4 w-4" />
     <span>{m.post_table_of_contents()}</span>
@@ -50,7 +52,7 @@
 
 <CenteredPage>
   <!-- table of contents, on the right -->
-  <div class="sticky top-20 hidden w-max max-w-xs p-4 md:block" slot="right">
+  <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" slot="right">
     <p class="font-bold">{m.post_table_of_contents()}</p>
     <TableOfContents selector="#post-content" />
   </div>
@@ -83,4 +85,15 @@
   <article class="prose space-y-4" id="post-content">
     <svelte:component this={content} />
   </article>
+
+  {#if tags}
+    <hr class="w-full text-text/20" />
+    <div class="flex gap-2">
+      {#each tags as tag}
+        <a class="btn-accent" href="{base}/post?tags={tag}">
+          #{tag}
+        </a>
+      {/each}
+    </div>
+  {/if}
 </CenteredPage>

@@ -1,3 +1,4 @@
+import { dev } from "$app/environment";
 import type { ComponentType } from "svelte";
 
 type MdsvexImport = { default: ComponentType; metadata?: Record<string, string> };
@@ -20,10 +21,14 @@ const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [p
   return acc;
 }, {});
 
+export const allTags = Object.values(posts)
+  .flatMap((p) => p.metadata.tags)
+  .filter((tag): tag is string => !!tag); // filter out undefined
+
 /**
  * @returns A list of post metadata, sorted with our method
  */
-export function listSortedPosts({ all } = { all: false }): App.PostData[] {
+export function listSortedPosts({ all } = { all: dev }): App.PostData[] {
   return Object.values(posts)
     .map((p) => p.metadata)
     .filter((p) => all || !p.unlisted)

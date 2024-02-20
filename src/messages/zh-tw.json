@@ -1,4 +1,9 @@
 {
+  "alert_caution": "Caution",
+  "alert_important": "Important",
+  "alert_note": "Note",
+  "alert_tip": "Tip",
+  "alert_warning": "警告",
   "dark_theme": "深色主題",
   "description": "國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL",
   "dialog_cancel": "取消",
@@ -51,6 +56,7 @@
   "post_field_pinned": "釘選",
   "post_field_title": "標題",
   "post_field_url": "連結",
+  "post_filter_tags": "使用標籤過濾",
   "post_list": "最新消息",
   "post_list_description": "在電梯遇到了一個女生\n她對我笑了一下\n按下了第8層\n呵 真會暗示\n她8層有點喜歡我吧\n但我是不會暈的 (ゝ∀･)⌒☆",
   "post_new_post": "創建新文章",

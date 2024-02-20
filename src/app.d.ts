@@ -24,6 +24,7 @@ declare global {
       desc?: string;
       date?: string;
       image?: string;
+      tags?: string[];
       pinned?: boolean;
       unlisted?: boolean;
       slug: string;

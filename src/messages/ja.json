@@ -1,4 +1,9 @@
 {
+  "alert_caution": "Caution",
+  "alert_important": "Important",
+  "alert_note": "Note",
+  "alert_tip": "Tip",
+  "alert_warning": "Warning",
   "dark_theme": "ダークテーマ",
   "description": "國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL",
   "dialog_cancel": "キャンセル",
@@ -51,6 +56,7 @@
   "post_field_pinned": "ピン留め",
   "post_field_title": "タイトル",
   "post_field_url": "URL",
+  "post_filter_tags": "Filter By Tags",
   "post_list": "最新のニュース",
   "post_list_description": "エレベーターで女の子に出会った。\n彼女は微笑んで、8階を押した。\nふふ、確かに何かを示唆している。\nでも、8階が好きになるほど私は軽い男じゃないよ。(ゝ∀･)⌒☆",
   "post_new_post": "新しい投稿を作成",
