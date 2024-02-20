@@ -1,0 +1,5 @@
+# dumb robots, like your MUM!
+
+User-agent: *
+
+Disallow:

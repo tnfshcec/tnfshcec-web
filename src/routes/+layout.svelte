@@ -74,9 +74,9 @@
           onPressedChange={toggleMode}
         >
           {#if $mode === "light"}
-            <Sunny class="h-8 w-8" />
+            <Sunny class="h-8 w-8" aria-label={m.light_theme()} />
           {:else}
-            <Night class="h-8 w-8" />
+            <Night class="h-8 w-8" aria-label={m.dark_theme()} />
           {/if}
         </Toggle.Root>
 
@@ -85,7 +85,7 @@
           <DropdownMenu.Trigger
             class="hidden items-center rounded-sm border border-text/20 p-1 transition-colors hover:bg-primary/20 sm:flex"
           >
-            <Earth class="h-8 w-8" />
+            <Earth class="h-8 w-8" aria-label={m.language()} />
             <ChevronDown class="h-6 w-6" />
           </DropdownMenu.Trigger>
 
@@ -116,7 +116,7 @@
         <!-- dropdown for mobile -->
         <DropdownMenu.Root preventScroll={false}>
           <DropdownMenu.Trigger class="block sm:hidden">
-            <Menu class="h-12 w-12" />
+            <Menu class="h-12 w-12" aria-label={m.menu()} />
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content
