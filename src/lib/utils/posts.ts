@@ -21,10 +21,6 @@ const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [p
   return acc;
 }, {});
 
-export const allTags = Object.values(posts)
-  .flatMap((p) => p.metadata.tags)
-  .filter((tag): tag is string => !!tag); // filter out undefined
-
 /**
  * @returns A list of post metadata, sorted with our method
  */
@@ -52,4 +48,14 @@ export function listSortedPosts({ all } = { all: dev }): App.PostData[] {
  */
 export function getPost(slug: string): App.Post | undefined {
   return posts[slug];
+}
+
+/**
+ * @returns A list of available tags
+ */
+export function getTags({ all } = { all: dev }) {
+  return Object.values(posts)
+    .filter((p) => all || !p.metadata.unlisted)
+    .flatMap((p) => p.metadata.tags)
+    .filter((tag): tag is string => !!tag); // filter out undefined
 }

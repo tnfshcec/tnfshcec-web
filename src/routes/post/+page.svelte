@@ -4,7 +4,6 @@
   import { page } from "$app/stores";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import { allTags } from "$lib/utils/posts";
   import * as m from "$paraglide/messages";
 
   export let data;
@@ -40,7 +39,7 @@
 
   <!-- tags buttons for mobile -->
   <div class="flex w-full flex-wrap gap-2 lg:hidden">
-    {#each allTags as tag}
+    {#each data.tags as tag}
       <a class="btn-accent whitespace-nowrap" href="?tags={tag}">#{tag}</a>
     {/each}
   </div>
@@ -57,7 +56,7 @@
   <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block" slot="right">
     <p class="font-bold">{m.post_filter_tags()}</p>
     <div class="flex flex-wrap gap-2">
-      {#each allTags as tag}
+      {#each data.tags as tag}
         {@const tagsParam = getTagsParam(tags, tag)}
         <a
           class="btn-accent whitespace-nowrap
