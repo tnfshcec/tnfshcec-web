@@ -53,19 +53,21 @@
   </div>
 
   <!-- tags buttons for desktop, on the right -->
-  <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block" slot="right">
-    <p class="font-bold">{m.post_filter_tags()}</p>
-    <div class="flex flex-wrap gap-2">
-      {#each data.tags as tag}
-        {@const tagsParam = getTagsParam(tags, tag)}
-        <a
-          class="btn-accent whitespace-nowrap
+  {#if data.tags.length > 0}
+    <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block" slot="right">
+      <p class="font-bold">{m.post_filter_tags()}</p>
+      <div class="flex flex-wrap gap-2">
+        {#each data.tags as tag}
+          {@const tagsParam = getTagsParam(tags, tag)}
+          <a
+            class="btn-accent whitespace-nowrap
                 {tags.includes(tag) ? '' : 'border-opacity-10 text-opacity-80'}"
-          href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
-        >
-          #{tag}
-        </a>
-      {/each}
+            href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
+          >
+            #{tag}
+          </a>
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
 </CenteredPage>
