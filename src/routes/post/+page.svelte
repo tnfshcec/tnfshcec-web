@@ -4,7 +4,6 @@
   import { page } from "$app/stores";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import { allTags } from "$lib/utils/posts";
   import * as m from "$paraglide/messages";
 
   export let data;
@@ -40,7 +39,7 @@
 
   <!-- tags buttons for mobile -->
   <div class="flex w-full flex-wrap gap-2 lg:hidden">
-    {#each allTags as tag}
+    {#each data.tags as tag}
       <a class="btn-accent whitespace-nowrap" href="?tags={tag}">#{tag}</a>
     {/each}
   </div>
@@ -53,20 +52,24 @@
     {/each}
   </div>
 
-  <!-- tags buttons for desktop, on the right -->
-  <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block" slot="right">
-    <p class="font-bold">{m.post_filter_tags()}</p>
-    <div class="flex flex-wrap gap-2">
-      {#each allTags as tag}
-        {@const tagsParam = getTagsParam(tags, tag)}
-        <a
-          class="btn-accent whitespace-nowrap
+  <svelte:fragment slot="right">
+    <!-- tags buttons for desktop, on the right -->
+    {#if data.tags.length > 0}
+      <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block">
+        <p class="font-bold">{m.post_filter_tags()}</p>
+        <div class="flex flex-wrap gap-2">
+          {#each data.tags as tag}
+            {@const tagsParam = getTagsParam(tags, tag)}
+            <a
+              class="btn-accent whitespace-nowrap
                 {tags.includes(tag) ? '' : 'border-opacity-10 text-opacity-80'}"
-          href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
-        >
-          #{tag}
-        </a>
-      {/each}
-    </div>
-  </div>
+              href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
+            >
+              #{tag}
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  </svelte:fragment>
 </CenteredPage>
