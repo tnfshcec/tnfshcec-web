@@ -3,12 +3,13 @@
   import Pin from "~icons/mdi/pin";
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import { localeDateFromString } from "$lib/utils/date";
+  import { localeDate } from "$lib/utils/date";
+  import { languageTag } from "$paraglide/runtime";
 
   export let post: App.PostData;
   export let displayTags = false;
 
-  let localeDate = localeDateFromString(post.date ?? "");
+  let date = localeDate(post.date, languageTag());
 </script>
 
 <a
@@ -21,7 +22,7 @@
     <div class="icon-flex text-primary/80">
       {post.author ?? ""}
       {post.author && post.date ? "/" : ""}
-      {localeDate}
+      {date}
       {#if post.pinned}
         <Pin class="h-4 w-4 text-primary" />
       {/if}

@@ -3,25 +3,15 @@
  * If `date` is invalid, returns `fallback` instead.
  * The default `fallback` is `undefined`.
  */
-export function localeDate(date: Date): string | undefined;
-export function localeDate<T>(date: Date, fallback: T): string | T;
-
-export function localeDate<T>(date: Date, fallback?: T) {
-  return isNaN(date.valueOf())
-    ? fallback
-    : date.toLocaleString("zh-TW", {
+export function localeDate<T extends string | undefined>(date: T, locale: string) {
+  const dateObj = new Date(date ?? "");
+  return isNaN(dateObj.valueOf())
+    ? date
+    : dateObj.toLocaleString(locale, {
         year: "numeric",
         month: "long",
         day: "numeric"
       });
-}
-
-/**
- * Return a locale date string from another `string`.
- * If the `date` string is invalid, itself is returned.
- */
-export function localeDateFromString(date: string): string {
-  return localeDate(new Date(date), date);
 }
 
 /**

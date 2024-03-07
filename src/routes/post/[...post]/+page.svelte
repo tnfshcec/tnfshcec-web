@@ -10,7 +10,8 @@
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
-  import { localeDateFromString } from "$lib/utils/date";
+  import { languageTag } from "$paraglide/runtime.js";
+  import { localeDate } from "$lib/utils/date";
 
   // for shiki twoslash (cool typescript lsp things)
   // import "./twoslash-style.css";
@@ -21,7 +22,7 @@
     metadata: { title, author, date, image, tags, pinned },
     content
   } = data;
-  let localeDate = localeDateFromString(date ?? "");
+  let locDate = localeDate(date, languageTag());
 
   let tableOfContentsOpen = false;
 </script>
@@ -66,7 +67,7 @@
       {pinned && !author && !date ? m.post_pinned() : ""}
       {author ? m.post_posted_by({ user: author }) : ""}
       {author && date ? "/" : ""}
-      {localeDate}
+      {locDate}
     </span>
   </div>
 

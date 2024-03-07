@@ -19,12 +19,14 @@
   const alertInfo = titlesInfo[title];
 </script>
 
-<div class="markdown-alert border-l-4 px-4 markdown-alert-{alertInfo[0]} [&>*]:m-0">
-  <p class="icon-flex font-bold">
+<div class="markdown-alert border-l-4 px-4 markdown-alert-{alertInfo[0]}">
+  <span class="icon-flex font-bold">
     <svelte:component this={alertInfo[2]} />
     {alertInfo[1]}
-  </p>
-  <slot />
+  </span>
+  <div class="[&>*:first-child]:mt-0">
+    <slot />
+  </div>
 </div>
 
 <style>
@@ -32,7 +34,7 @@
     border-color: rgb(var(--alert-color) / 50%);
   }
 
-  .markdown-alert p {
+  .markdown-alert span {
     color: rgb(var(--alert-color));
   }
 
