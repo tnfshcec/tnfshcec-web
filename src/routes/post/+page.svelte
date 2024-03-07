@@ -40,7 +40,14 @@
   <!-- tags buttons for mobile -->
   <div class="flex w-full flex-wrap gap-2 lg:hidden">
     {#each data.tags as tag}
-      <a class="btn-accent whitespace-nowrap" href="?tags={tag}">#{tag}</a>
+      {@const tagsParam = getTagsParam(tags, tag)}
+      <a
+        class="btn-accent whitespace-nowrap
+          {tags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
+        href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
+      >
+        #{tag}
+      </a>
     {/each}
   </div>
 
@@ -62,7 +69,7 @@
             {@const tagsParam = getTagsParam(tags, tag)}
             <a
               class="btn-accent whitespace-nowrap
-                {tags.includes(tag) ? '' : 'border-opacity-10 text-opacity-80'}"
+                {tags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
               href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
             >
               #{tag}
