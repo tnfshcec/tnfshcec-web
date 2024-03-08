@@ -13,7 +13,7 @@
 </script>
 
 <a
-  class="grid grid-cols-[1fr_auto] grid-rows-2 w-full gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
+  class="grid grid-cols-[1fr_fit-content(40%)] w-full gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
   href="{base}/post/{post.slug}"
   transition:fly={{ y: 10, duration: 250 }}
 >
@@ -34,7 +34,7 @@
   {/if}
 
   {#if displayTags && post.tags}
-    <div class="flex gap-2 text-text/80">
+    <div class="flex gap-2 text-text/80 col-span-full">
       {#each post.tags as tag}
         <a class="transition-colors hover:text-text hover:underline" href="{base}/post?tags={tag}">
           #{tag}
