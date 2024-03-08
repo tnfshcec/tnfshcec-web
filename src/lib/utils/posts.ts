@@ -54,8 +54,11 @@ export function getPost(slug: string): App.Post | undefined {
  * @returns A list of available tags
  */
 export function getTags({ all } = { all: dev }) {
-  return Object.values(posts)
+  const allTags = Object.values(posts)
     .filter((p) => all || !p.metadata.unlisted)
     .flatMap((p) => p.metadata.tags)
     .filter((tag): tag is string => !!tag); // filter out undefined
+
+  // allTags contains duplicates so we put it in Set()
+  return new Set(allTags);
 }
