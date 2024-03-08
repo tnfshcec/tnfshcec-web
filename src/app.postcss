@@ -65,6 +65,14 @@
   @apply rounded border-text/60 bg-transparent checked:bg-primary focus:ring-accent/60;
 }
 
+.prose ul.contains-task-list {
+  @apply list-none pl-0;
+}
+
+.prose li.task-list-item input {
+  @apply mr-2;
+}
+
 .prose :not(pre) > code {
   @apply bg-secondary;
 }
