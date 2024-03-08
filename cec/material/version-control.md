@@ -48,9 +48,13 @@ _核心概念其實就是這樣，
     但既然是不同的分支，兩邊有不同的改動，那就有可能兩邊會衝突。叫做 Merge Conflict。
 
     > [!NOTE]
-    > 嚴格來說 git_（下面會講到）_有三種做分支處理與合併的方法：`fast forward`、`merge`、`rebase`
+    > 嚴格來說 git _（下面會講到）_ 有三種做分支處理與合併的方法：`fast forward`、`merge`、`rebase`
     >
     > 這部份初學者大概還不需要知道，有需要再自己查資料嘍
+
+    在 GitHub _（一樣下面會講到）_有所謂的 Pull Request (PR)，
+    和合併分支的概念相似。
+    都是將一個分支合併進另一個，將新改動合併進去。
 
 5. Remote
 
@@ -135,6 +139,21 @@ Git 週邊的生態已經發展得非常蓬勃，我們不需要自己架設 git
 這就交給各位自己探索吧。
 
 ## 參考用指令及範例
+
+1. Init
+
+`init` 就是 Initialize，初始化的意思。
+```sh
+$ git init
+```
+
+這可以幫你把一個 git repo 準備好，讓你可以開始進行版本管理。
+
+> [!NOTE]
+> 通常我們第一個 commit message 會寫
+> ```
+> Inital commit
+> ```
 
 1. Status
 
