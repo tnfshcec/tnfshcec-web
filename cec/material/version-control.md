@@ -110,14 +110,14 @@ _順帶一提，他是在 Linux 開發期間為了改善版本控制軟體誕生
 Git 週邊的生態已經發展得非常蓬勃，我們不需要自己架設 git remote server，
 已經有很多存在許久的平台可以幫你管理、儲存 git repo。
 
-1. GitHub
+1. [GitHub](https://github.com/)
 
     目前市面上最大的 Git 託管平台，也是我們讓你們註冊的平台。
     我們在 GitHub 上有 [tnfshcec](https://github.com/tnfshcec) 這個組織，可以給你各位社員加入。
     
     _目前微軟收購，也就是說，你逃不過比爾蓋茲的魔掌。_
 
-2. GitLab
+2. [GitLab](https://about.gitlab.com/)
 
     目前 GitHub 佔了這個市場的大半，但 GitLab 就是我們第二個選項了。
     GitLab 除了直接使用官方的平台還可以自架（Self-host），
@@ -125,7 +125,7 @@ Git 週邊的生態已經發展得非常蓬勃，我們不需要自己架設 git
 
     _其實我對它們都不是很熟，但一樣，如果各位有興趣都可以去查 Google。_
 
-3. Bitbucket、Gitea 等其他平台
+3. [Bitbucket](https://bitbucket.org/)、[Gitea](https://about.gitea.com/) 及 [Gitee](https://gitee.com/) 等其他平台
 
     這是一個開放的市場！在這裡我們還有很多種選擇，就看各位喜歡那個了。
 
@@ -260,7 +260,7 @@ $ git checkout [分支名稱]
 $ git merge
 ```
 
-2. Push
+3. Push
 
 把本機的 Commit 送上 Remote
 ```sh
@@ -268,7 +268,7 @@ git push [遠程主機名] [本地分支名]:[遠程分支名]
 # 把 [本地] 推到 [遠程]
 ```
 
-3. Pull
+4. Pull
 
 把 Remote 的內容拉進本機，
 pull 的指令格式為：
