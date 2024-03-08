@@ -13,18 +13,20 @@
 </script>
 
 <a
-  class="grid grid-cols-[auto_1fr] grid-rows-2 w-full gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
+  class="grid grid-cols-[1fr_auto] grid-rows-2 w-full gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
   href="{base}/post/{post.slug}"
   transition:fly={{ y: 10, duration: 250 }}
 >
-  <header class="text-lg font-bold">{post.title}</header>
+  <header class="text-lg font-bold icon-flex">
+    {#if post.pinned}
+      <Pin class="h-5 w-5 text-primary" />
+    {/if}
+    {post.title}
+  </header>
 
-  <div class="justify-end text-primary/80 row-span-2">
+  <div class="text-end text-primary/80 row-span-2">
     <div>{post.author ?? ""}</div>
     <div>{date ?? ""}</div>
-    {#if post.pinned}
-      <Pin class="h-4 w-4 text-primary" />
-    {/if}
   </div>
 
   {#if post.desc}

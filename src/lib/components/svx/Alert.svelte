@@ -19,7 +19,7 @@
   const alertInfo = titlesInfo[title];
 </script>
 
-<div class="markdown-alert border-l-4 px-4 markdown-alert-{alertInfo[0]}">
+<div class="markdown-alert my-5 border-l-4 px-4 markdown-alert-{alertInfo[0]}">
   <span class="icon-flex font-bold">
     <svelte:component this={alertInfo[2]} />
     {alertInfo[1]}

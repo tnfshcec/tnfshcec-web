@@ -23,7 +23,7 @@
   }
 </script>
 
-<div class="group relative rounded-sm bg-secondary">
+<div class="group relative my-5 rounded-sm bg-secondary">
   {#if title}
     <span class="mx-4 inline-block py-1">{title}</span>
   {/if}
