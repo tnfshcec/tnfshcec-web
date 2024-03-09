@@ -2,7 +2,7 @@
 title: "[教材] 基礎Markdown使用教學"
 author: "114級電機社 (第一屆) - HeyLoon"
 desc: "在🐔社出生的馬克大奧聖經🫶"
-date: 2024-03-09
+date: 2024-03-10
 tags: [教材, 第一屆歷史資料, 中文]
 ---
 
@@ -522,6 +522,6 @@ sequenceDiagram
 [Maxkit - 如何在 Markdown 輸入數學公式及符號](https://blog.maxkit.com.tw/2020/02/markdown.html)  
 [8分鐘讓你快速掌握Markdown](https://www.bilibili.com/video/BV1JA411h7Gw/?spm_id_from=333.337.search-card.all.click&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
 [[Markdown + Typora/VSCode 超全教程] 给大一新生安利的文本神器 !](https://www.bilibili.com/video/BV1hG411p7fX/?spm_id_from=333.788.recommend_more_video.-1&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
-[BEYOND【海闊天空】Music Video (粵) (HD)](https://youtu.be/qu_FSptjRic?si=57-bRU6VLio_uzTz)
-[Obsidian - Sharpen your thinking](https://obsidian.md/)
-[Appflowy - Github](https://github.com/AppFlowy-IO/AppFlowy)
+[BEYOND【海闊天空】Music Video (粵) (HD)](https://youtu.be/qu_FSptjRic?si=57-bRU6VLio_uzTz)  
+[Hack your brain with Obsidian.md](https://www.youtube.com/watch?v=DbsAQSIKQXk)  
+[Appflowy - Github](https://github.com/AppFlowy-IO/AppFlowy)  
