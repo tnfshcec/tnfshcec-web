@@ -1,19 +1,52 @@
 ---
 title: "[教材] 基礎Markdown使用教學"
-author: "114級電機社 (第一屆) - Heyloon"
+author: "114級電機社 (第一屆) - HeyLoon"
 desc: "在🐔社出生的馬克大奧聖經🫶"
 date: 2024-03-09
 tags: [教材, 第一屆歷史資料, 中文]
 ---
 
->放下Word，立地成材
+<script>
+  import atarayo from "./image/atarayo.png"
+  import atarayo2 from "./image/atarayo2.png"
+  import block from "./image/block.png"
+  import boss1 from "./image/boss1.png"
+  import boss2 from "./image/boss2.png"
+  import boss3 from "./image/boss3.png"
+  import boss4 from "./image/boss4.png"
+  import boss5 from "./image/boss5.png"
+  import boss6 from "./image/boss6.png"
+  import boss7 from "./image/boss7.png"
+  import boss8 from "./image/boss8.png"
+  import codeblock_tab from "./image/codeblock_tab.png"
+  import codeblock from "./image/codeblock.png"
+  import conflict from "./image/conflict.png"
+  import dc from "./image/DC.png"
+  import footnote from "./image/footnote.png"
+  import happy from "./image/happy.png"
+  import key from "./image/key.png"
+  import line from "./image/line.png"
+  import list from "./image/list.png"
+  import listinlist from "./image/listinlist.png"
+  import math from "./image/math.png"
+  import pic from "./image/pic.png"
+  import table from "./image/table.png"
+  import table2 from "./image/table2.png"
+  import taowa from "./image/taowa.png"
+  import title from "./image/title.png"
+  import todo from "./image/todo.png"
+</script> 
+
+> 放下Word，立地成材
 
 ## Markdown是什麼?
-馬克大奧，一種非常輕的標記語言，與一般程式語言不同的是，他的重點在於直接的"表達"，非常快速的寫出文檔。 甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。
-使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html` 甚至是電子閱讀器使用的 `epub`。
+馬克大奧，一種非常輕的標記語言，與一般程式語言不同的是，他的重點在於直接的"表達"，非常快速的寫出和讀出文檔。
+> [!TIP] Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需求的話讓他越好讀越好
+甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。
+使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html`、`html` 甚至是電子閱讀器使用的 `epub`。
 
-<img src="/cec/material/markdown-tutorial/image/DC.png" width="35%">
-🔺在DIscord中使用Markdown
+<img src={dc} width="35%">
+▲ 在Discord中使用Markdown
 
 
 
@@ -26,6 +59,7 @@ tags: [教材, 第一屆歷史資料, 中文]
 > - StackEdit - ⭐⭐⭐⭐，免費，Chrome應用程式，線上同步
 > - Notion - ⭐⭐⭐⭐，部分免費，算有名的筆記軟體
 > - dillinger - ⭐⭐⭐⭐，跟`StackEdit`差不多，同步方式更多
+> - AppFlowy - ⭐⭐⭐⭐，開源免費，多平台
 > - typora - ⭐⭐⭐，收費，多平台
 > - obsidian - ⭐⭐⭐，部分免費，多平台
 > - VSCode - ⭐⭐，免費，要裝插件才勉強能用
@@ -44,9 +78,10 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
 ###### 六級標題
 ```
 顯示的效果就是:
-![各級標題的顯示效果](/cec/material/markdown-tutorial/image/title.png)
+<img src={title} width="100%">
 
-> [!NOTE] 在 `#` 以後務必要加空白鍵，否則無法正常顯示  
+> [!NOTE] 
+> 在 `#` 以後務必要加空白鍵，否則無法正常顯示  
 > 另外在打 `--` 及 `==` 時會將上方文字分別自動調整為1級及2級標題，部分軟體及網站不支援不建議使用  
 > 額外補充，大部分時候3~4級就已經跟一般文字大小差不多了，建議做為小標
 
@@ -54,7 +89,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
 一開始使用Markdown時我也有這樣的疑惑，到底怎樣才算"換行"  
 在Markdown裡換行有兩種方式，第一種是在**文字尾端加上兩個空白鍵**  
 第二種是直接換兩行開啟新段落，例如:
-<img src="/cec/material/markdown-tutorial/image/line.png" width="15%">
+<img src={line} width="15%">
 
 #### 2.1 Markdown 的字體
 跟Word一樣，Markdown可以使用以下語法改變字體樣式:
@@ -68,7 +103,7 @@ ___粗斜體___
 ```
 
 ### 3. Markdown 的列表
-跟Python很像，Markdown有**有序列表**和**無序列表**
+Markdown有**有序列表**和**無序列表**
 
 #### 3.1 有序列表
 **有序列表**用數字加上 `.` 來使用，例如:
@@ -78,7 +113,8 @@ ___粗斜體___
 3. 第三項
 ```
 顯示結果同上，不額外展示
-> [!NOTE] 無論有序還是無序，請務必在標點後加上空白鍵!  
+> [!NOTE] 
+> 無論有序還是無序，請務必在標點後加上空白鍵!  
 > 有序列表大部分時候只支援數字，使用 `I` 或 `甲` 之類其他計算方式是不行的喔
 
 #### 3.2 無序列表
@@ -89,7 +125,7 @@ ___粗斜體___
 - 第三項
 ```
 就會顯示:
-<img src="/cec/material/markdown-tutorial/image/list.png" width="30%">
+<img src={list} width="30%">
 
 無序列表還有一種待辦清單的型態，例如:
 ```markdown
@@ -98,7 +134,7 @@ ___粗斜體___
 - [ ] 喜歡兄弟
 ```
 顯示:
-<img src="/cec/material/markdown-tutorial/image/todo.png" width="40%">
+<img src={todo} width="40%">
 
 #### 3.3 子列表
 在列表底下接上子列表，只需要在選項前面加上**2**或**4**個空格就好，例如:
@@ -111,32 +147,32 @@ ___粗斜體___
     + 第二款  
 ```
 顯示的結果為:
-<img src="/cec/material/markdown-tutorial/image/listinlist.png" width="30%">
+<img src={listinlist} width="30%">
 
-### 4. Markdown 的區塊
-區塊這部分跟列表的邏輯其實大同小異，這邊直接舉個例子:
+### 4. Markdown 的區塊引言
+區塊引言這部分跟列表的邏輯其實大同小異，這邊直接舉個例子:
 ```markdown
 > 區塊
 ```
 在 `>` 後面加上`空白鍵`再加上自己要的文字，就可以做到這樣的效果:
-<img src="/cec/material/markdown-tutorial/image/block.png" width="30%">
+<img src={block} width="30%">
 
-如果想要在區塊裡面使用區塊、在區塊中使用列表或是在列表中使用區塊，邏輯上其實都差不多，例如:
+如果想要在區塊引言裡面使用區塊引言、在區塊引言中使用列表或是在列表中使用區塊引言，邏輯上其實都差不多，例如:
 ```markdown
-> 區塊
-> > 裡面的區塊
-> > > 再裡面的區塊
+> 區塊引言
+> > 裡面的區塊引言
+> > > 再裡面的區塊引言
 
 > 區塊
 > 1. 裡面的有序列表
 > - 裡面的無序列表
 
 1. 有序列表
-> 裡面的區塊
+> 裡面的區塊引言
 2. 有序列表
 ```
 結果如下:
-<img src="/cec/material/markdown-tutorial/image/taowa.png" width="30%">
+<img src={taowa} width="30%">
 
 > [!NOTE] 這裡唯一需要注意的只有區塊後面無論如何**一定要加空白鍵**，沒有 `>>>` 這種使用方式
 
@@ -146,7 +182,7 @@ ___粗斜體___
 誰平常會用 `and` 代替 `&&` 啊?
 ```
 就會顯示:
-<img src="/cec/material/markdown-tutorial/image/codeblock.png" width="30%">
+<img src={codeblock} width="30%">
 
 但當我們有一大串code想要寫的時候怎辦呢? 這時候有兩種辦法
 1. 使用**4個空白鍵**或是**1個tab**
@@ -158,7 +194,7 @@ ___粗斜體___
       }
     ```
     效果:
-    <img src="/cec/material/markdown-tutorial/image/codeblock_tab.png" width="30%">
+    <img src={codeblock_tab} width="30%">
 
 2. 使用 ``` 把程式碼包起來
    ````markdown
@@ -172,9 +208,9 @@ ___粗斜體___
    ````
 
   效果:
-  <img src="/cec/material/markdown-tutorial/image/codeblock_tab.png" width="30%">
+  <img src={codeblock_tab} width="30%">
 
-  > [!NOTE] 如果希望區塊裡的程式碼可以區分顏色的話，可以在第一行的```後面加上程式語言的名稱，顏色就會自己加上了
+  > [!NOTE] 如果希望區塊裡的程式碼可以區分顏色的話，可以在第一行的```後面加上程式語言的名稱，顏色就會自己加上了 (有些軟體不支援)
 
 ### 6. Markdown 的連結
 要在Markdown裡面讓文字變成超連結也有兩種方式:
@@ -191,7 +227,7 @@ or
 <https://www.youtube.com/watch?v=8L5cQlXMpeY>
 ```
 看起來就會像:
-<img src="/cec/material/markdown-tutorial/image/atarayo.png" width="30%">
+<img src={atarayo} width="30%">
 
 還有一種進階用法，把變量賦值在其他地方，例如:
 ```markdown
@@ -205,7 +241,7 @@ or
 [3]: https://www.youtube.com/watch?v=zO8yNYEsYTc
 ```
 效果:
-<img src="/cec/material/markdown-tutorial/image/atarayo2.png" width="40%">
+<img src={atarayo2} width="40%">
 
 ### 7. Markdown 的圖片
 上面傳了那麼多圖片，終於講到圖片了
@@ -213,14 +249,14 @@ or
 ```markdown
 ![alt文本](圖片連結/位置 "標題")
 ```
-標題事實上可有可無，只會影響使用者將圖標放上去之後會不會顯示文字  
+標題事實上可有可無，只會影響使用者將圖標放上去之後會不會顯示文字還有盲人聽不聽得到  
 實例如下:
 ```markdown
 開心嗎?
 ![開心嗎](https://ppt.cc/fKCtWx "開心嗎?")
 ```
 效果:
-<img src="/cec/material/markdown-tutorial/image/happy.png" width="50%">
+<img src={happy} width="50%">
 
 當然，圖片那個類似賦值的方式也可以使用喔:
 ```markdown
@@ -236,9 +272,10 @@ or
 [4]: https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg
 ```
 效果:
-<img src="/cec/material/markdown-tutorial/image/pic.png" width="50%">
+<img src={pic} width="50%">
 
-> [!NOTE] Markdown的圖片有個致命傷: 不能調整大小  
+> [!NOTE] 
+> Markdown的圖片有個致命傷: 不能調整大小  
 > 這時候就先折衷一下吧，用普通的img標籤:
 > ```
 > <img src="https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg" width="50%">
@@ -255,9 +292,10 @@ or
 | 格子 | 格子 |
 ```
 顯示結果:
-<img src="/cec/material/markdown-tutorial/image/table.png" width="50%">
+<img src={table} width="50%">
 
-> [!TIP] 這部分手寫真的會非常噁心，而且很容易寫到不知道自己在寫什麼，所以狀況許可下還是使用網路上的產生器或是VScode的插件較佳
+> [!TIP] 
+> 這部分手寫真的會非常噁心，而且很容易寫到不知道自己在寫什麼，所以狀況許可下還是使用網路上的產生器或是VScode的插件較佳
 
 > [!NOTE] 用 `:` 可以讓表格裡的文字靠某一邊對齊，例如:
 > ```markdown
@@ -267,10 +305,24 @@ or
 > | 格子 | 格子 | 格子 |
 > ```
 > 顯示結果:
-> <img src="/cec/material/markdown-tutorial/image/table2.png" width="50%">
+> <img src={table2} width="50%">
 
-### 9. Markdown 的你可能不會想用的進階功能
-#### 9.1 註腳
+#### 9 支援HTML
+如果你比較細心一點，應該可以看到上面的Note有寫到可以使用img標籤，這是因為Markdown有支援HTML  
+大部分在Markdown範圍外的文字編輯都可以靠HTML做到，支援的有:  
+`<kbd>` `<b>` `<i>` `<em>` `<sup>` `<sub>` `<br>`  
+例如:
+```markdown
+使用 <kbd>ale</kbd>+<kbd>F4</kbd> 啟動遊戲加速
+```
+顯示:
+<img src={key} width="30%">
+
+### 10. Markdown 的你可能不會想用的非核心功能
+合先敘明，以下功能大多為**非常用**功能或是**不一定通用**的功能，如果遇到了恭喜你就只能用，但請在心中默念三次
+> 不要遇到 不要遇到 不要遇到
+
+#### 10.1 註腳
 在寫小論文的時候常常會需要像Wikipedia那樣有個註腳，可以這樣實現:
 ```markdown
 寫文章需要
@@ -280,27 +332,16 @@ or
 [^1] 註釋欸
 ```
 實際看起來:
-<img src="/cec/material/markdown-tutorial/image/footnote.png" width="30%">
+<img src={footnote} width="30%">
 
-#### 9.2 跳轉
+#### 10.2 跳轉
 讓你可以跳到其他章節，例如:
 ```markdown
 [跳轉](#1-markdown-的標題)
 ```
 就會顯示一個叫[跳轉](#1-markdown-的標題)的超連結，讓你跳到想要的章節
 
-#### 9.3 支援HTML
-如果你比較細心一點，應該可以看到上面的Note有寫到可以使用img標籤，這是因為Markdown有支援HTML  
-大部分在Markdown範圍外的文字編輯都可以靠HTM做到，支援的有:  
-`<kbd>` `<b>` `<i>` `<em>` `<sup>` `<sub>` `<br>`  
-例如:
-```markdown
-使用 <kbd>ale</kbd>+<kbd>F4</kbd> 啟動遊戲加速
-```
-顯示:
-<img src="/cec/material/markdown-tutorial/image/key.png" width="30%">
-
-#### 9.4 衝突解決
+#### 10.3 衝突解決
 Markdown佔用了很多字符，所以如果有特別想顯示被占用的字符 (例如 `*` 之類的) ，  
 就可以在前面加反斜線來顯示
 ```markdown
@@ -308,9 +349,9 @@ Markdown佔用了很多字符，所以如果有特別想顯示被占用的字符
 \*\*顯示星號\*\*
 ```
 實際顯示:
-<img src="/cec/material/markdown-tutorial/image/conflict.png" width="30%">
+<img src={conflict} width="30%">
 
-#### 9.5 公式
+#### 10.5 公式
 > Markdown沒有寫不出來的格式，只看在你能承受多少
 
 背後的運作原理比較複雜，有需要再來問我們:D  
@@ -336,11 +377,11 @@ e^{i\frac{\pi}2} \quad e^{\frac{i\pi}2}& e^{i\pi/2} \\
 $$
 ```
 顯示: 
-<img src="/cec/material/markdown-tutorial/image/math.png" width="30%">
+<img src={math} width="30%">
 
 太噁心啦😍😍😍😍
 
-#### 9.6 大魔王 - 流程圖、順序圖、甘特圖
+#### 10.6 大魔王 - 流程圖、順序圖、甘特圖
 還好沒有註釋，所以底下這邊就任我放:D  
 以下分別是[流程圖](#962-直向流程圖)、[順序圖](#965-uml順序圖)及[甘特圖](#968-甘特圖)的樣板
 #####9.6.1 橫向流程圖
@@ -354,7 +395,7 @@ A[方形] -->B(圓形)
     F[向流程圖]
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss1.png" width="40%">
+<img src={boss1} width="40%">
 
 ##### 9.6.2 直向流程圖
 ````markdown
@@ -367,7 +408,7 @@ A[方形] --> B(圓角)
     F[直向流程圖]
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss2.png" width="25%">
+<img src={boss2} width="25%">
 
 ##### 9.6.3 標準流程圖(橫)
 ````markdown
@@ -383,7 +424,7 @@ cond(yes)->io(bottom)->e
 cond(no)->sub1(right)->op
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss4.png" width="40%">
+<img src={boss4} width="40%">
 
 
 ##### 9.6.4 標準流程圖(直)
@@ -400,7 +441,7 @@ cond(yes)->io->e
 cond(no)->sub1(right)->op
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss3.png" width="25%">
+<img src={boss3} width="25%">
 
 ##### 9.6.5 UML順序圖
 ````markdown
@@ -412,7 +453,7 @@ B-->A: 回應
 A->B: 再回應
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss5.png" width="25%">
+<img src={boss5} width="25%">
 
 ##### 9.6.6 UML順序圖(複雜版)
 ````markdown
@@ -430,7 +471,7 @@ participant C
 Note right of C: C描述
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss6.png" width="30%">
+<img src={boss6} width="30%">
 
 ##### 9.6.7 UML標準順序圖
 ````markdown
@@ -448,7 +489,7 @@ sequenceDiagram
     B-->C: B回覆C
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss7.png" width="50%">
+<img src={boss7} width="50%">
 
 ##### 9.6.8 甘特圖
 ````markdown
@@ -473,7 +514,7 @@ sequenceDiagram
         C                               : 48h
 ```
 ````
-<img src="/cec/material/markdown-tutorial/image/boss8.png" width="50%">
+<img src={boss8} width="50%">
 
 ## 總結
 以上是入門Markdown的所有內容! 如果需要額外的補充歡迎再隨時問!
@@ -482,3 +523,5 @@ sequenceDiagram
 [8分鐘讓你快速掌握Markdown](https://www.bilibili.com/video/BV1JA411h7Gw/?spm_id_from=333.337.search-card.all.click&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
 [[Markdown + Typora/VSCode 超全教程] 给大一新生安利的文本神器 !](https://www.bilibili.com/video/BV1hG411p7fX/?spm_id_from=333.788.recommend_more_video.-1&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
 [BEYOND【海闊天空】Music Video (粵) (HD)](https://youtu.be/qu_FSptjRic?si=57-bRU6VLio_uzTz)
+[Obsidian - Sharpen your thinking](https://obsidian.md/)
+[Appflowy - Github](https://github.com/AppFlowy-IO/AppFlowy)
