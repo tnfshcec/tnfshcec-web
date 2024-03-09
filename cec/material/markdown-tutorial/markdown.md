@@ -376,7 +376,7 @@ or
 > 顯示結果:
 > <img src={table2} width="50%">
 
-#### 9 支援HTML
+### 9. 支援HTML
 
 如果你比較細心一點，應該可以看到上面的Note有寫到可以使用img標籤，這是因為Markdown有支援HTML  
 大部分在Markdown範圍外的文字編輯都可以靠HTML做到，支援的有:  
