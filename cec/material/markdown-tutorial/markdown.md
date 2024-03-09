@@ -33,7 +33,7 @@ tags: [教材, 第一屆歷史資料, 中文]
   import table from "./image/table.png"
   import table2 from "./image/table2.png"
   import taowa from "./image/taowa.png"
-  import title from "./image/title.png"
+  import titles from "./image/title.png"
   import todo from "./image/todo.png"
 </script> 
 
@@ -78,7 +78,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
 ###### 六級標題
 ```
 顯示的效果就是:
-<img src={title} width="100%">
+<img src={titles} width="100%">
 
 > [!NOTE] 
 > 在 `#` 以後務必要加空白鍵，否則無法正常顯示  
