@@ -13,28 +13,29 @@
 </script>
 
 <a
-  class="grid grid-cols-[1fr_fit-content(40%)] w-full gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
+  class="grid w-full grid-cols-[1fr_fit-content(40%)] gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
   href="{base}/post/{post.slug}"
   transition:fly={{ y: 10, duration: 250 }}
 >
-  <header class="text-lg font-bold icon-flex">
+  <header class="icon-flex text-lg font-bold">
     {#if post.pinned}
       <Pin class="h-5 w-5 text-primary" />
     {/if}
     {post.title}
   </header>
 
-  <div class="text-end text-primary/80 row-span-2">
+  <div class="row-span-2 text-end text-primary/80">
     <div>{post.author ?? ""}</div>
     <div>{date ?? ""}</div>
   </div>
 
-  {#if post.desc}
-    <div class="text-text/80">{post.desc}</div>
-  {/if}
+  <div class="text-text/80">
+    <span class="font-bold italic">{post.unlisted ? "（設定隱藏）" : ""}</span>
+    {post.desc ?? ""}
+  </div>
 
   {#if displayTags && post.tags}
-    <div class="flex gap-2 text-text/80 col-span-full">
+    <div class="col-span-full flex gap-2 text-text/80">
       {#each post.tags as tag}
         <a class="transition-colors hover:text-text hover:underline" href="{base}/post?tags={tag}">
           #{tag}

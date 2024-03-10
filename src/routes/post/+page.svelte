@@ -61,7 +61,7 @@
 
   <svelte:fragment slot="right">
     <!-- tags buttons for desktop, on the right -->
-    {#if data.tags.length > 0}
+    {#if data.tags.size > 0}
       <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block">
         <p class="font-bold">{m.post_filter_tags()}</p>
         <div class="flex flex-wrap gap-2">

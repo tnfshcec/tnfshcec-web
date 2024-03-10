@@ -44,7 +44,7 @@ tags: [教材, 第一屆歷史資料, 中文]
 馬克大奧，一種非常輕的標記語言，與一般程式語言不同的是，他的重點在於直接的「表達」，非常快速的寫出和讀出文檔。
 
 Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需求的話讓他越好讀越好。  
-使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html`、`html` 甚至是電子閱讀器使用的 `epub`。甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。  
+使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html`、`html` 甚至是電子閱讀器使用的 `epub`。甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。
 
 <img src={dc} width="35%">
 ▲ 在Discord中使用Markdown
@@ -73,7 +73,6 @@ Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需�
 
 理所當然的，Markdown的後綴是 **_.md_**。
 許多網站都支援Markdown，為求方便，這次使用即時預覽 `typora` 作介紹。
-
 
 ### 1. Markdown 的標題
 
@@ -124,11 +123,11 @@ ___粗斜體___
 ```
 
 > [!NOTE]
-> 通常斜體會使用 `_斜體_`、粗體使用 `**粗體**`。粗斜體使用 `**_粗斜體_**`
+> 通常斜體會使用 `_斜體_`、粗體使用 `**粗體**`。
+> 粗斜體使用 `**_粗斜體_**`。
 >
 > 這沒有硬性規定，也不是只有這種用法，
 > ~~但我的格式化工具會直接把它改成那樣~~
-
 
 ### 3. Markdown 的列表
 
@@ -246,12 +245,12 @@ Markdown有**有序列表**和**無序列表**
 
 1. 使用**4個空白鍵**或是**1個tab**
 
+   <!-- prettier-ignore -->
    ```markdown
-   int main()
-   {
-   cout << "Hello, C++!" << endl;
-   return 0;
-   }
+       int main() {
+           cout << "Hello, C++!" << endl;
+           return 0;
+       }
    ```
 
    效果：
@@ -260,11 +259,10 @@ Markdown有**有序列表**和**無序列表**
 2. 使用 ``` 把程式碼包起來
    ````markdown
    ```
-    int main()
-    {
-    cout << "Hello, C++!" << endl;
-    return 0;
-    }
+   int main() {
+       cout << "Hello, C++!" << endl;
+       return 0;
+   }
    ```
    ````
 
