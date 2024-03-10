@@ -12,17 +12,34 @@
   import * as m from "$paraglide/messages";
   import { languageTag } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
+  import { getPost } from "$lib/utils/posts.js";
 
   // for shiki twoslash (cool typescript lsp things)
   // import "./twoslash-style.css";
 
   export let data;
 
-  let {
-    metadata: { title, author, date, image, tags, pinned },
-    content
-  } = data;
-  let locDate = localeDate(date, languageTag());
+  // ignoring the potential `undefined` here,
+  // because if it's undefined,
+  // we should have thrown an error at `load()`
+  $: post = getPost(data.slug)!;
+  $: metadata = post.metadata;
+  $: content = post.content;
+  $: locDate = localeDate(metadata.date, languageTag());
+
+  let infoText: string | undefined;
+
+  $: if (metadata.author && metadata.date) {
+    infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
+  } else if (metadata.author && !metadata.date) {
+    infoText = m.post_posted_by({ user: metadata.author });
+  } else if (!metadata.author && metadata.author) {
+    infoText = locDate;
+  } else if (metadata.pinned) {
+    infoText = m.post_pinned();
+  } else {
+    infoText = undefined;
+  }
 
   let tableOfContentsOpen = false;
 </script>
@@ -60,22 +77,19 @@
 
   <!-- post info, under the title -->
   <div class="icon-flex" slot="title">
-    {#if pinned}
+    {#if metadata.pinned}
       <Pin class="h-4 w-4 text-primary" />
     {/if}
-    <span>
-      {pinned && !author && !date ? m.post_pinned() : ""}
-      {author ? m.post_posted_by({ user: author }) : ""}
-      {author && date ? "/" : ""}
-      {locDate}
-    </span>
+    {#if infoText}
+      <span>{infoText}</span>
+    {/if}
   </div>
 
   <!-- image of post -->
-  {#if image}
+  {#if metadata.image}
     <div class="p-4">
       <img
-        src={image}
+        src={metadata.image}
         alt=""
         class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
       />
@@ -87,10 +101,10 @@
     <svelte:component this={content} />
   </article>
 
-  {#if tags}
+  {#if metadata.tags}
     <hr class="w-full text-text/20" />
     <div class="flex gap-2">
-      {#each tags as tag}
+      {#each metadata.tags as tag}
         <a class="btn-accent" href="{base}/post?tags={tag}">
           #{tag}
         </a>

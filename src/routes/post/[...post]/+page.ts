@@ -1,14 +1,15 @@
-import { error } from "@sveltejs/kit";
 import { getPost, listSortedPosts } from "$lib/utils/posts";
+import { error } from "@sveltejs/kit";
 import type { PageLoad, EntryGenerator } from "./$types";
 
 export const load = (async ({ params }) => {
-  const post = getPost(params.post);
-  if (!post) {
-    error(404, "not found");
-  }
+  // not sending the result of `getPost()`
+  // because it contains a Svelte component
+  // and sending a component through `load()`
+  // is not properly supported
+  if (!getPost(params.post)) error(404, "post not found");
 
-  return post;
+  return { slug: params.post };
 }) satisfies PageLoad;
 
 export const entries: EntryGenerator = () => {
