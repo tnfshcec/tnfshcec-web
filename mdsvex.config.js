@@ -31,6 +31,22 @@ const remarkAlerts = () => (tree) =>
     })
   );
 
+const rehypeImage = () => (tree) => {
+  visit(tree, "element", (node) => {
+    if (node.tagName === "img" && node.properties.src.startsWith("./")) {
+      // test if src is a relative path by checking "./"
+      node.properties.src = `{new URL('${node.properties.src}', import.meta.url).href}`;
+    }
+  });
+  visit(tree, "raw", (node) => {
+    // replace `src="relative path"` with `src="static asset import"`
+    node.value = node.value.replaceAll(
+      /src=(?:"(\.\/[^"]*)"|'(\.\/[^']*)')/g,
+      (_, g1, g2) => `src={new URL(\`${g1 ?? g2}\`, import.meta.url).href}`
+    );
+  });
+};
+
 /** @type import("mdsvex").MdsvexOptions */
 export default {
   extensions: [".svx", ".md"],
@@ -61,6 +77,7 @@ export default {
   remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],
   rehypePlugins: [
     [
+      rehypeImage,
       rehypeExternalLinks,
       {
         rel: ["nofollow", "noopener", "noreferrer", "external"],

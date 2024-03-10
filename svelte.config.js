@@ -31,7 +31,8 @@ const config = {
     },
     prerender: {
       handleMissingId: "warn",
-      origin: process.env.ORIGIN
+      origin: process.env.ORIGIN,
+      entries: ["*", "/en", "/ja"] // temporary fix because it wouldn't get crawled
     }
   }
 };
