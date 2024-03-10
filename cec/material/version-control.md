@@ -155,7 +155,7 @@ $ git init
 > Inital commit
 > ```
 
-1. Status
+2. Status
 
 ```sh
 $ git status
@@ -163,7 +163,7 @@ $ git status
 用來確認目前 git repo 的狀態。
 一個檔案可能會是 `untracted`、`unstaged`、`staged`，詳情參考下面。
 
-2. Add / Commit
+3. Add / Commit
 
     新增的檔案的狀態叫 `Untracted`，代表「尚未追蹤」，
     而修改過得檔案狀態叫 `Unstaged`，
@@ -243,7 +243,7 @@ $ git status
     ```
     顯示什麼都幹不了後，就是所有更變都提交了
 
-2. Branch
+4. Branch
 
 創建新的分支:
 ```sh
@@ -260,7 +260,7 @@ $ git checkout [分支名稱]
 $ git merge
 ```
 
-3. Push
+5. Push
 
 把本機的 Commit 送上 Remote
 ```sh
@@ -268,7 +268,7 @@ git push [遠程主機名] [本地分支名]:[遠程分支名]
 # 把 [本地] 推到 [遠程]
 ```
 
-4. Pull
+6. Pull
 
 把 Remote 的內容拉進本機，
 pull 的指令格式為：
