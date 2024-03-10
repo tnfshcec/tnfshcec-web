@@ -67,7 +67,7 @@ Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需�
 > 當然，任何文字編輯器都能使用！
 > 這就是純文字格式的好處👍
 >
-> 有點（沒）用的書: [了不起的Markdown](https://www.books.com.tw/products/CN11667983)
+> 有點（沒）用的書： [了不起的Markdown](https://www.books.com.tw/products/CN11667983)
 
 ## Markdown，啟動！
 
@@ -76,7 +76,7 @@ Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需�
 
 ### 1. Markdown 的標題
 
-Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
+Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如：
 
 ```markdown
 # 一級標題
@@ -92,7 +92,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
 ###### 六級標題
 ```
 
-顯示的效果就是:
+顯示的效果就是：
 <img src={titles} width="100%">
 
 > [!TIP]
@@ -104,12 +104,12 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如:
 
 一開始使用Markdown時我也有這樣的疑惑，到底怎樣才算"換行"  
 在Markdown裡換行有兩種方式，第一種是在**文字尾端加上兩個空白鍵**  
-第二種是直接換兩行開啟新段落，例如:
+第二種是直接換兩行開啟新段落，例如：
 <img src={line} width="15%">
 
 #### 2.1 Markdown 的字體
 
-跟Word一樣，Markdown可以使用以下語法改變字體樣式:
+跟Word一樣，Markdown可以使用以下語法改變字體樣式：
 
 <!-- prettier-ignore -->
 ```markdown
@@ -290,7 +290,7 @@ or
 <https://www.youtube.com/watch?v=8L5cQlXMpeY>
 ```
 
-看起來就會像:
+看起來就會像：
 <img src={atarayo} width="30%">
 
 還有一種進階用法，把變量賦值在其他地方，例如：
@@ -306,36 +306,43 @@ or
 [3]: https://www.youtube.com/watch?v=zO8yNYEsYTc
 ```
 
-效果:
+效果：
 <img src={atarayo2} width="40%">
 
 ### 7. Markdown 的圖片
 
 上面傳了那麼多圖片，終於講到圖片了
-大致上的格式長這樣:
+大致上的格式長這樣：
 
 ```markdown
-![alt文本](圖片連結/位置 "標題")
+![alt文本](圖片連結/位置)
 ```
 
-標題事實上可有可無，只會影響使用者將圖標放上去之後會不會顯示文字還有盲人聽不聽得到  
-實例如下:
+alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述，
+可以進而讓**其他無法看到圖片的人**也能了解這個圖片的意含。  
+實例如下：
+
+```markdown
+![開心嗎](https://ppt.cc/fKCtWx)
+```
+
+在某些軟體中你可以在圖片連結後面加上標題，它可能會顯示在圖片附近：
 
 ```markdown
 開心嗎？
 ![開心嗎](https://ppt.cc/fKCtWx "開心嗎？")
 ```
 
-效果:
+效果：
 <img src={happy} width="50%">
 
-當然，圖片那個類似賦值的方式也可以使用喔:
+當然，圖片那個類似賦值的方式也可以使用喔：
 
 ```markdown
 聽說[あたらよ][1]是114級社長的本命團欸，
 他最喜歡[「僕は...」][2]和[10月無口な君を忘れる][3]了
 我這樣打了一堆字之後，
-在底下放個連結也可以連上喔:D
+在底下放個連結也可以連上喔：D
 [atarayo][4]
 
 [1]: https://www.youtube.com/channel/UCgrtbLQsox2EYtF0iVclZjA
@@ -344,12 +351,12 @@ or
 [4]: https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg
 ```
 
-效果:
+效果：
 <img src={pic} width="50%">
 
 > [!NOTE]
-> Markdown的圖片有個致命傷: 不能調整大小  
-> 這時候就先折衷一下吧，用普通的img標籤:
+> Markdown的圖片有個致命傷：不能自由調整大小  
+> 這時候就先折衷一下吧，用普通的img標籤：
 >
 > ```
 > <img src="https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg" width="50%">
@@ -358,8 +365,8 @@ or
 ### 8. Markdown 的表格
 
 哈哈，是不是越看越頭疼，接下來更頭疼的要來了  
-這大概是整個Markdown除了數學以外的部分最令人詬病的地方: 勾使一樣的表格系統  
-先來個範例:
+這大概是整個Markdown除了數學以外的部分最令人詬病的地方： 勾使一樣的表格系統  
+先來個範例：
 
 ```markdown
 | 表頭 | 表頭 |
@@ -377,7 +384,8 @@ or
 >
 > 就算你已經手寫了還是請你用 Prettier 格式化一下 🤧
 
-> [!NOTE] 用 `:` 可以讓表格裡的文字靠某一邊對齊，例如:
+> [!TIP]
+> 用 `:` 可以讓表格裡的文字靠某一邊對齊，例如：
 >
 > ```markdown
 > | 左對齊 | 右對齊 | 居中對齊 |
@@ -386,21 +394,21 @@ or
 > | 格子   |   格子 |   格子   |
 > ```
 >
-> 顯示結果:
+> 顯示結果：
 > <img src={table2} width="50%">
 
 ### 9. 支援HTML
 
 如果你比較細心一點，應該可以看到上面的Note有寫到可以使用img標籤，這是因為Markdown有支援HTML  
-大部分在Markdown範圍外的文字編輯都可以靠HTML做到，支援的有:  
+大部分在Markdown範圍外的文字編輯都可以靠HTML做到，支援的有：  
 `<kbd>` `<b>` `<i>` `<em>` `<sup>` `<sub>` `<br>`  
-例如:
+例如：
 
 ```markdown
 使用 <kbd>ale</kbd>+<kbd>F4</kbd> 啟動遊戲加速
 ```
 
-顯示:
+顯示：
 <img src={key} width="30%">
 
 ### 10. Markdown 的你可能不會想用的非核心功能
@@ -411,7 +419,7 @@ or
 
 #### 10.1 註腳
 
-在寫小論文的時候常常會需要像Wikipedia那樣有個註腳，可以這樣實現:
+在寫小論文的時候常常會需要像Wikipedia那樣有個註腳，可以這樣實現：
 
 ```markdown
 寫文章需要
@@ -421,12 +429,12 @@ or
 [^1] 註釋欸
 ```
 
-實際看起來:
+實際看起來：
 <img src={footnote} width="30%">
 
 #### 10.2 跳轉
 
-讓你可以跳到其他章節，例如:
+讓你可以跳到其他章節，例如：
 
 ```markdown
 [跳轉](#1-markdown-的標題)
@@ -445,21 +453,21 @@ Markdown佔用了很多字符，所以如果有特別想顯示被占用的字符
 
 ```markdown
 **加粗**
-\*\*顯示星號\*\*
+\\*\\*顯示星號\\*\\*
 ```
 
-實際顯示:
+實際顯示：
 <img src={conflict} width="30%">
 
 #### 10.5 公式
 
-> KaTeX沒有寫不出來的格式，只看在你能承受多少
+> KaTeX沒有寫不出來的公式，只看在你能承受多少
 
 背後的運作原理比較複雜，有需要再來問我們:D  
 大部分的情況下都可以直接看[KaTeX的支援列表](https://katex.org/docs/supported.html)來使用  
 這邊炫個技，剩下各位自己琢墨
 
-```markdown
+```latex
 $$
         \begin{pmatrix}
         1 & a_1 & a_1^2 & \cdots & a_1^n \\
@@ -479,7 +487,7 @@ e^{i\frac{\pi}2} \quad e^{\frac{i\pi}2}& e^{i\pi/2} \\
 $$
 ```
 
-顯示:
+顯示：
 <img src={math} width="30%">
 
 太噁心啦😍😍😍😍
@@ -491,7 +499,7 @@ $$
 
 ##### 10.6.1 橫向流程圖
 
-````markdown
+````mermaid
 ```mermaid
 graph LR
 A[方形] -->B(圓形)
@@ -506,7 +514,7 @@ A[方形] -->B(圓形)
 
 ##### 10.6.2 直向流程圖
 
-````markdown
+````mermaid
 ```mermaid
 graph TD
 A[方形] --> B(圓角)
@@ -591,7 +599,7 @@ Note right of C: C描述
 
 ##### 10.6.7 UML標準順序圖
 
-````markdown
+````mermaid
 ```mermaid
 sequenceDiagram
     participant A
@@ -611,7 +619,7 @@ sequenceDiagram
 
 ##### 10.6.8 甘特圖
 
-````markdown
+````mermaid
 ```mermaid
         gantt
         dateFormat  YYYY-MM-DD
@@ -639,7 +647,7 @@ sequenceDiagram
 ## 總結
 
 以上是入門Markdown的所有內容！ 如果需要額外的補充歡迎再隨時問！
-補充連結:  
+補充連結：  
 [Maxkit - 如何在 Markdown 輸入數學公式及符號](https://blog.maxkit.com.tw/2020/02/markdown.html)  
 [8分鐘讓你快速掌握Markdown](https://www.bilibili.com/video/BV1JA411h7Gw/?spm_id_from=333.337.search-card.all.click&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
 [[Markdown + Typora/VSCode 超全教程] 给大一新生安利的文本神器 !](https://www.bilibili.com/video/BV1hG411p7fX/?spm_id_from=333.788.recommend_more_video.-1&vd_source=886ccfcc8bb350cf9b5294a1d20aca71)  
