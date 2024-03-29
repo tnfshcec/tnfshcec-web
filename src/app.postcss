@@ -83,15 +83,29 @@
 
 .prose code > span.line.diff.remove {
   @apply -mx-4 inline-block w-[calc(100%_+_2rem)] bg-error/20 px-4;
-  @apply before:absolute before:left-1 before:text-error before:content-['-'];
+  @apply after:absolute after:left-1 after:text-error after:content-['-'];
 }
 .prose code > span.line.diff.add {
   @apply -mx-4 inline-block w-[calc(100%_+_2rem)] bg-success/20 px-4;
-  @apply before:absolute before:left-1 before:text-success before:content-['+'];
+  @apply after:absolute after:left-1 after:text-success after:content-['+'];
 }
 
 .prose span.spoiler {
   @apply blur-sm transition-['filter'] hover:blur-none;
+}
+
+.prose .numbers code {
+  counter-reset: step;
+  counter-increment: step 0;
+}
+
+.prose .numbers code .line::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 1rem;
+  margin-right: 0.75rem;
+  display: inline-block;
+  text-align: right;
 }
 
 /* vim: set ft=css: */

@@ -106,11 +106,11 @@ This is an inline note. ^[You can type footnotes inline, so you don’t have to 
 
 Usage of relative paths (`./path/to/image`) will be translated into Vite's
 [asset import](https://vitejs.dev/guide/assets#new-url-url-import-meta-url).
-![Super Abstract](./test-image.png "_Super Abstract yaaaa_")
+![Super Abstract](./test-image.png "Super Abstract yaaaa")
 
 ## Code
 
-```ts twoslash {3-4} title="examples/index.ts"
+```ts twoslash {3-4} title="examples/index.ts" nonumbers
 for (let x in [0, 1, 2]) console.log(x);
 
 // for twoslash's markup notations,

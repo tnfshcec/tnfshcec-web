@@ -2,9 +2,14 @@
   import ContentCopy from "~icons/mdi/content-copy";
   import Check from "~icons/mdi/text-box-check";
 
-  export let lang: string = "";
-  export let title: string = "";
-  export let nocopy: boolean = false;
+  export let lang = "";
+  export let title = "";
+
+  /** whether to display copy button */
+  export let nocopy = false;
+
+  /** when `false`, adds the `numbers` class, which is styled in `src/app.postcss` */
+  export let nonumbers = false;
 
   let copyButton: HTMLButtonElement;
   let copied = false;
@@ -23,7 +28,7 @@
   }
 </script>
 
-<div class="group relative my-5 rounded-sm bg-secondary">
+<div class="group relative my-5 rounded-sm bg-secondary {nonumbers ? '' : 'numbers'}">
   {#if title}
     <span class="mx-4 inline-block py-1">{title}</span>
   {/if}
