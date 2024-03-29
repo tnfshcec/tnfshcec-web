@@ -3,7 +3,8 @@ title: "[歷史文件] 如何利用3D Pose Estimation 模型和視訊鏡頭實�
 author: "113級任務型機器人社 (第九屆) - Mungbean"
 desc: "智慧物聯網創意應用競賽"
 date: 2023-10-05
-tags: [機器人社歷史資料, 中文]
+lang: zh-tw
+tags: [機器人社歷史資料]
 ---
 
 ## 發想源起
