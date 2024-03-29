@@ -1,5 +1,6 @@
 import remarkFootnotes from "remark-footnotes";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeSlug from "rehype-slug";
 import { visit } from "unist-util-visit";
 import { escapeSvelte } from "mdsvex";
 import { codeToHtml } from "shiki";
@@ -78,8 +79,9 @@ export default {
   },
   remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],
   rehypePlugins: [
+    rehypeImage,
+    rehypeSlug,
     [
-      rehypeImage,
       rehypeExternalLinks,
       {
         rel: ["nofollow", "noopener", "noreferrer", "external"],
