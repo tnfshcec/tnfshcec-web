@@ -13,7 +13,7 @@
 
   <!-- page info, only render in there is -->
   {#if info}
-    <div class="relative flex w-full min-w-0 max-w-screen-xl flex-col gap-4">
+    <div class="relative flex w-full min-w-0 max-w-screen-lg flex-col gap-4">
       <!-- page title -->
       <nav class="flex flex-col justify-center">
         <span>
