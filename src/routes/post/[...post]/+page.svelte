@@ -6,6 +6,7 @@
   import ChevronUp from "~icons/mdi/chevron-up";
   import List from "~icons/mdi/format-list-bulleted-type";
   import Pin from "~icons/mdi/pin";
+  import Alert from "~icons/mdi/alert-outline";
 
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
@@ -90,9 +91,19 @@
     <div class="p-4">
       <img
         src={metadata.image}
-        alt=""
+        alt={metadata.title}
         class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
       />
+    </div>
+  {/if}
+
+  <!-- language notice -->
+  {#if metadata.lang && metadata.lang !== languageTag()}
+    <div
+      class="icon-flex rounded border border-primary p-4 font-bold shadow-glow-sm shadow-primary"
+    >
+      <Alert class="h-4 w-4" />
+      {m.post_lang_notice()}
     </div>
   {/if}
 

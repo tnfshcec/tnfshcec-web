@@ -58,6 +58,7 @@
   "post_field_image": "圖片",
   "post_field_pinned": "釘選",
   "post_field_title": "標題",
+  "post_lang_notice": "這篇文章並非使用目前語言書寫。",
   "post_field_url": "連結",
   "post_filter_tags": "使用標籤過濾",
   "post_list": "最新消息",
