@@ -1,8 +1,8 @@
 {
-  "alert_caution": "Caution",
-  "alert_important": "Important",
+  "alert_caution": "注意",
+  "alert_important": "重要",
   "alert_note": "Note",
-  "alert_tip": "Tip",
+  "alert_tip": "提示",
   "alert_warning": "警告",
   "dark_theme": "深色主題",
   "description": "國立臺南第一高級中學電機（🐔）（日研、佛、法研、話劇）詩社（教團）（雞舍）OFFICIAL",
@@ -71,6 +71,6 @@
   "post_table_of_contents": "在此頁面",
   "sign_in": "登入",
   "sign_out": "登出",
-  "signed_in_as": "{user} 傻逼成功登陸",
+  "signed_in_as": "{user} 傻逼成功登入",
   "title": "新樓醫院心臟科附屬"
 }
