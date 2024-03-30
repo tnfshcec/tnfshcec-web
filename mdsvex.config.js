@@ -1,5 +1,6 @@
 import remarkFootnotes from "remark-footnotes";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeSlug from "rehype-slug";
 import { visit } from "unist-util-visit";
 import { escapeSvelte } from "mdsvex";
 import { codeToHtml } from "shiki";
@@ -33,7 +34,7 @@ const remarkAlerts = () => (tree) =>
 
 const rehypeImage = () => (tree) => {
   visit(tree, "element", (node) => {
-    if (node.tagName === "img" && node.properties.src.startsWith("./")) {
+    if (node.properties.src?.startsWith("./")) {
       // test if src is a relative path by checking "./"
       node.properties.src = `{new URL('${node.properties.src}', import.meta.url).href}`;
     }
@@ -64,11 +65,13 @@ export default {
         ]
       });
 
-      // find `title="something cool"` (or without quotes)
-      const title = (meta?.match(/\btitle=(?:[^"'\s]+\b|["'][^"']*["']\B)/) ?? [""])[0];
-      const nocopy = meta?.match(/\bnocopy\b/) ? "nocopy" : "";
+      // match attribute-like strings, and feed them into props
+      // for example: `src="adfjkl;" hello yourmom='sorry'`
+      // regex is unly sorry _please do it if there's a better way ;)_
+      const attrMatch = meta?.matchAll(/(?:\w+)(?:="[^"]*"|='[^']*')?(?:\s|$)/g) ?? [];
 
-      const attr = `lang="${lang}" ${title} ${nocopy}`;
+      let attr = [...attrMatch].join("");
+      if (lang) attr += ` lang="${lang}"`;
 
       // warp the html with custom component `codeblock` (see MdsvexLayout.svelte)
       return `<Components.codeblock ${attr}>{@html \`${escapeSvelte(html)}\` }</Components.codeblock>`;
@@ -76,8 +79,9 @@ export default {
   },
   remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],
   rehypePlugins: [
+    rehypeImage,
+    rehypeSlug,
     [
-      rehypeImage,
       rehypeExternalLinks,
       {
         rel: ["nofollow", "noopener", "noreferrer", "external"],

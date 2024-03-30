@@ -3,7 +3,8 @@ title: "[教材] 版本控制"
 author: "114級電機社 (第一屆)"
 desc: "電機社有史以來第一次團體行動"
 date: 2024-03-08
-tags: [教材, 第一屆歷史資料, 中文]
+lang: zh-tw
+tags: [教材, 第一屆歷史資料]
 ---
 
 > 據說 PalWorld 在開發初期還不知道有 git 這東西，
@@ -144,21 +145,21 @@ Git 週邊的生態已經發展得非常蓬勃，我們不需要自己架設 git
 
 `init` 就是 Initialize，初始化的意思。
 ```sh
-$ git init
+git init
 ```
 
 這可以幫你把一個 git repo 準備好，讓你可以開始進行版本管理。
 
 > [!NOTE]
 > 通常我們第一個 commit message 會寫
-> ```
+> ```txt nonumbers
 > Inital commit
 > ```
 
 2. Status
 
 ```sh
-$ git status
+git status
 ```
 用來確認目前 git repo 的狀態。
 一個檔案可能會是 `untracted`、`unstaged`、`staged`，詳情參考下面。
@@ -169,20 +170,20 @@ $ git status
     而修改過得檔案狀態叫 `Unstaged`，
     兩者都需要先加入 `Staged` Changes（暫存區？）。
     ```sh
-    $ git add [檔案/資料夾]
+    git add [檔案/資料夾]
     ```
 
     > [!TIP]
     > Add 目前資料夾的所有更變：
     > ```sh
-    > $ git add .
+    > git add .
     > ```
     >
     > 如果你正在項目的根目錄，這就會加入所有檔案了喔。
 
     在所有需要提交的 code 已經存在暫存區後，是時候將成果提交到倉庫中了！
     ```sh
-    $ git commit -m [訊息/備註]
+    git commit -m [訊息/備註]
     ```
     為了避免不知道自己在幹嘛，提交 commit 時會加入備註（commit message，應該叫訊息吧？），
     通常會寫整體改動了什麼、為什麼做改動、或處理了什麼 Issue。
@@ -190,7 +191,7 @@ $ git status
     > [!IMPORTANT]
     > Commit message 可以有多行字，格式大致如下：
     >
-    > ```txt numbers
+    > ```txt
     > 簡略概要
     >
     > 詳細描述
@@ -201,7 +202,7 @@ $ git status
     > 如果你懶的想要寫什麼東西，下面是你可以 _亂打_ 的訊息：<br>
     > **注意如果這不是你自己的個人項目，你最好多想想怎麼寫會比較好。**
     > 
-    > ```
+    > ```txt nonumbers
     > Added [FILE]
     > Fixed [ISSUE]
     > Deleted [FILE]
@@ -210,13 +211,13 @@ $ git status
 
     如果沒把握自己有沒有傳上去，可以使用
     ```sh
-    $ git status
+    git status
     ```
     來確認目前狀態（是否提交），例如：
     ```sh
-    $ git status
+    git status
     ```
-    ```
+    ```txt nonumbers
     On branch your-branch
     Your branch is up to date with 'origin/your-branch'.
 
@@ -229,15 +230,15 @@ $ git status
     no changes added to commit (use "git add" and/or "git commit -a")
     ```
     ```sh
-    $ git add .
-    $ git commit -m '你媽'
+    git add .
+    git commit -m '你媽'
     ```
-    ```
+    ```txt nonumbers
     [OOOXXX] 你媽
     X files changed, X insertions(+)
     ```
 
-    ```sh
+    ```txt nonumbers
     $ git status
     nothing to commit (working directory clean)
     ```
@@ -247,17 +248,17 @@ $ git status
 
 創建新的分支:
 ```sh
-$ git branch [分支名稱] 
+git branch [分支名稱] 
 ```
 
 切換分支:
 ```sh
-$ git checkout [分支名稱] 
+git checkout [分支名稱] 
 ```
 
 合併分支:
 ```sh
-$ git merge
+git merge
 ```
 
 5. Push

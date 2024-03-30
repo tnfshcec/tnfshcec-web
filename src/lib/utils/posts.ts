@@ -1,20 +1,34 @@
 import { dev } from "$app/environment";
+import { isAvailableLanguageTag } from "$paraglide/runtime";
+import * as m from "$paraglide/messages";
 import type { ComponentType } from "svelte";
 
-type MdsvexImport = { default: ComponentType; metadata?: Record<string, string> };
+type MdsvexImport = { default: ComponentType; metadata?: Record<string, unknown> };
 
 const imported: Record<string, MdsvexImport> = import.meta.glob("/cec/**/*.{md,svx}", {
   eager: true
 });
 
-const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [path, object]) => {
+const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [path, imported]) => {
   const slug = path.substring(5, path.lastIndexOf("."));
 
+  // if `lang` is set
+  if (isAvailableLanguageTag(imported.metadata?.lang)) {
+    const langName = m.lang({}, { languageTag: imported.metadata.lang });
+
+    // push element if isArray, replace if not
+    if (Array.isArray(imported.metadata.tags)) {
+      imported.metadata.tags.push(langName);
+    } else {
+      imported.metadata.tags = [langName];
+    }
+  }
+
   acc[slug] = {
-    content: object.default,
+    content: imported.default,
     metadata: {
       slug: slug,
-      ...object.metadata
+      ...imported.metadata
     }
   };
 

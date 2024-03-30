@@ -3,7 +3,8 @@ title: "[教材] 基礎Markdown使用教學"
 author: "114級電機社 (第一屆) - HeyLoon"
 desc: "在🐔社出生的馬克大奧聖經🫶"
 date: 2024-03-10
-tags: [教材, 第一屆歷史資料, 中文]
+lang: zh-tw
+tags: [教材, 第一屆歷史資料]
 ---
 
 > 放下Word，立地成材
@@ -15,7 +16,7 @@ tags: [教材, 第一屆歷史資料, 中文]
 Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需求的話讓他越好讀越好。  
 使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html`、`html` 甚至是電子閱讀器使用的 `epub`。甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。
 
-<img src="./markdown-tutorial/image/DC.png" width="35%">
+<img src="./markdown-tutorial/image/DC.png" alt="DC使用效果圖" width="35%">
 ▲ 在Discord中使用Markdown
 
 在 Markdown 被提出來後，又有了許多**擴展**，它們為 Markdown 增加功能、讓 Markdown 更加易讀，但**擴展**出來的功能可能就**不是每套軟體都支援**。  
@@ -62,7 +63,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如：
 ```
 
 顯示的效果就是：
-<img src="./markdown-tutorial/image/title.png" width="100%">
+<img src="./markdown-tutorial/image/title.png" alt="標題效果圖" width="100%">
 
 > [!TIP]
 > 在 `#` 以後務必要加空白鍵，否則無法正常顯示  
@@ -74,7 +75,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如：
 一開始使用Markdown時我也有這樣的疑惑，到底怎樣才算"換行"  
 在Markdown裡換行有兩種方式，第一種是在**文字尾端加上兩個空白鍵**  
 第二種是直接換兩行開啟新段落，例如：
-<img src="./markdown-tutorial/image/line.png" width="15%">
+<img src="./markdown-tutorial/image/line.png" alt="段落效果圖" width="15%">
 
 #### 2.1 Markdown 的字體
 
@@ -131,7 +132,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 就會顯示：
-<img src="./markdown-tutorial/image/list.png" width="30%">
+<img src="./markdown-tutorial/image/list.png" alt="無序列表效果圖" width="30%">
 
 無序列表還有一種待辦清單的型態，例如：
 
@@ -142,7 +143,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/todo.png" width="40%">
+<img src="./markdown-tutorial/image/todo.png" alt="代辦清單效果圖" width="40%">
 
 #### 3.3 子列表
 
@@ -161,7 +162,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 顯示的結果為：
-<img src="./markdown-tutorial/image/listinlist.png" width="30%">
+<img src="./markdown-tutorial/image/listinlist.png" alt="子列表效果圖" width="30%">
 
 ### 4. Markdown 的區塊引言 （BlockQuote）
 
@@ -172,7 +173,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 在 `>` 後面加上`空白鍵`再加上自己要的文字，就可以做到這樣的效果：
-<img src="./markdown-tutorial/image/block.png" width="30%">
+<img src="./markdown-tutorial/image/block.png" alt="區塊效果圖" width="30%">
 
 如果想要在區塊引言裡面使用另一個區塊引言、在區塊引言中使用列表或是在列表中使用區塊引言，邏輯上其實都差不多，例如：
 
@@ -195,7 +196,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 結果如下：
-<img src="./markdown-tutorial/image/taowa.png" width="30%">
+<img src="./markdown-tutorial/image/taowa.png" alt="子區塊效果圖" width="30%">
 
 > [!TIP] 這裡唯一需要注意的只有區塊後面無論如何**一定要加空白鍵**，沒有 `>>>` 這種使用方式
 
@@ -208,7 +209,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 就會顯示：
-<img src="./markdown-tutorial/image/codeblock.png" width="30%">
+<img src="./markdown-tutorial/image/codeblock.png" alt="程式碼區塊效果圖" width="30%">
 
 但當我們有一大串code想要寫的時候怎辦呢？ 這時候有兩種辦法
 
@@ -223,7 +224,7 @@ Markdown有**有序列表**和**無序列表**
    ```
 
    效果：
-   <img src="./markdown-tutorial/image/codeblock_tab.png" width="30%">
+   <img src="./markdown-tutorial/image/codeblock_tab.png" alt="程式碼區塊進階效果圖" width="30%">
 
 2. 使用 ``` 把程式碼包起來
    ````markdown
@@ -236,7 +237,7 @@ Markdown有**有序列表**和**無序列表**
    ````
 
 效果：
-<img src="./markdown-tutorial/image/codeblock_tab.png" width="30%">
+<img src="./markdown-tutorial/image/codeblock_tab.png" alt="程式碼區塊進階效果圖" width="30%">
 
 > [!NOTE] 如果希望區塊裡的程式碼可以區分顏色的話，可以在第一行的```後面加上程式語言的名稱，顏色就會自己加上了 (有些軟體不支援)
 
@@ -260,7 +261,7 @@ or
 ```
 
 看起來就會像：
-<img src="./markdown-tutorial/image/atarayo.png" width="30%">
+<img src="./markdown-tutorial/image/atarayo.png" alt="連結效果圖" width="30%">
 
 還有一種進階用法，把變量賦值在其他地方，例如：
 
@@ -276,7 +277,7 @@ or
 ```
 
 效果：
-<img src="./markdown-tutorial/image/atarayo2.png" width="40%">
+<img src="./markdown-tutorial/image/atarayo2.png" alt="連結效果圖2" width="40%">
 
 ### 7. Markdown 的圖片
 
@@ -303,7 +304,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 效果：
-<img src="./markdown-tutorial/image/happy.png" width="50%">
+<img src="./markdown-tutorial/image/happy.png" alt="圖片效果圖" width="50%">
 
 當然，圖片那個類似賦值的方式也可以使用喔：
 
@@ -321,7 +322,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 效果：
-<img src="./markdown-tutorial/image/pic.png" width="50%">
+<img src="./markdown-tutorial/image/pic.png" alt="圖片效果圖2" width="50%">
 
 > [!NOTE]
 > Markdown的圖片有個致命傷：不能自由調整大小  
@@ -345,7 +346,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 顯示結果:
-<img src="./markdown-tutorial/image/table.png" width="50%">
+<img src="./markdown-tutorial/image/table.png" alt="表格效果圖" width="50%">
 
 > [!NOTE]
 > 這部分手寫真的會很難，而且很容易寫到不知道自己在寫什麼，
@@ -364,7 +365,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 > ```
 >
 > 顯示結果：
-> <img src="./markdown-tutorial/image/table2.png" width="50%">
+> <img src="./markdown-tutorial/image/table2.png" alt="表格效果圖2" width="50%">
 
 ### 9. 支援HTML
 
@@ -378,7 +379,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/key.png" width="30%">
+<img src="./markdown-tutorial/image/key.png" alt="HTML效果圖" width="30%">
 
 ### 10. Markdown 的你可能不會想用的非核心功能
 
@@ -399,7 +400,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 實際看起來：
-<img src="./markdown-tutorial/image/footnote.png" width="30%">
+<img src="./markdown-tutorial/image/footnote.png" alt="註腳效果圖" width="30%">
 
 #### 10.2 跳轉
 
@@ -426,7 +427,7 @@ Markdown佔用了很多字符，所以如果有特別想顯示被占用的字符
 ```
 
 實際顯示：
-<img src="./markdown-tutorial/image/conflict.png" width="30%">
+<img src="./markdown-tutorial/image/conflict.png" alt="衝突效果圖" width="30%">
 
 #### 10.5 公式
 
@@ -457,7 +458,7 @@ $$
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/math.png" width="30%">
+<img src="./markdown-tutorial/image/math.png" alt="公式效果圖" width="30%">
 
 太噁心啦😍😍😍😍
 
@@ -479,7 +480,7 @@ A[方形] -->B(圓形)
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss1.png" width="40%">
+<img src="./markdown-tutorial/image/boss1.png" alt="語錄評比1" width="40%">
 
 ##### 10.6.2 直向流程圖
 
@@ -494,7 +495,7 @@ A[方形] --> B(圓角)
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss2.png" width="25%">
+<img src="./markdown-tutorial/image/boss2.png" alt="語錄評比2" width="25%">
 
 ##### 10.6.3 標準流程圖(橫)
 
@@ -512,7 +513,7 @@ cond(no)->sub1(right)->op
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss4.png" width="40%">
+<img src="./markdown-tutorial/image/boss4.png" alt="語錄評比" width="40%">
 
 ##### 10.6.4 標準流程圖(直)
 
@@ -530,7 +531,7 @@ cond(no)->sub1(right)->op
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss3.png" width="25%">
+<img src="./markdown-tutorial/image/boss3.png" alt="語錄評比" width="25%">
 
 ##### 10.6.5 UML順序圖
 
@@ -544,7 +545,7 @@ A->B: 再回應
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss5.png" width="25%">
+<img src="./markdown-tutorial/image/boss5.png" alt="語錄評比" width="25%">
 
 ##### 10.6.6 UML順序圖(複雜版)
 
@@ -564,7 +565,7 @@ Note right of C: C描述
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss6.png" width="30%">
+<img src="./markdown-tutorial/image/boss6.png" alt="語錄評比" width="30%">
 
 ##### 10.6.7 UML標準順序圖
 
@@ -584,7 +585,7 @@ sequenceDiagram
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss7.png" width="50%">
+<img src="./markdown-tutorial/image/boss7.png" alt="語錄評比" width="50%">
 
 ##### 10.6.8 甘特圖
 
@@ -611,7 +612,7 @@ sequenceDiagram
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss8.png" width="50%">
+<img src="./markdown-tutorial/image/boss8.png" alt="語錄評比" width="50%">
 
 ## 總結
 
