@@ -1,5 +1,5 @@
 ---
-title: "[教材] [CTF] Linux / Unix 實用概念介紹"
+title: "[教材] Linux / Unix 實用概念介紹"
 author: "114級電機社 (第一屆)"
 desc: "不寫下來誰會記得"
 date: 2024-03-編輯中
@@ -115,5 +115,3 @@ echo Hello World
 ## 執行檔（Executable）
 
 ## 檔案權限（Permission）
-
-## SSH

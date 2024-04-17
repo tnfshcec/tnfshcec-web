@@ -60,5 +60,8 @@
     "unplugin-icons": "^0.18.1",
     "vite": "^5.2.7"
   },
-  "type": "module"
+  "type": "module",
+  "trustedDependencies": [
+    "svelte-preprocess"
+  ]
 }
