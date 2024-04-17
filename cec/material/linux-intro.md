@@ -1,10 +1,11 @@
 ---
-title: "[教材] Linux / Unix 實用概念介紹"
+title: "[資源] Linux / Unix 實用概念介紹"
 author: "114級電機社 (第一屆)"
 desc: "不寫下來誰會記得"
-date: 2024-03-編輯中
+date: 2024-04-編輯中
 lang: zh-tw
 tags: [教材, 電機社 CTF, 第一屆歷史資料]
+unlisted: true
 ---
 
 原本搞 CTF 就沒想要再寫，結果我還是來了
