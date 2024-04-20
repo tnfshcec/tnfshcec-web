@@ -58,13 +58,8 @@
     "typescript": "^5.4.3",
     "unist-util-visit": "^5.0.0",
     "unplugin-icons": "^0.18.1",
+    "vaul-svelte": "^0.3.0",
     "vite": "^5.2.7"
   },
-  "type": "module",
-  "trustedDependencies": [
-    "svelte-preprocess"
-  ],
-  "dependencies": {
-    "vaul-svelte": "^0.3.0"
-  }
+  "type": "module"
 }
