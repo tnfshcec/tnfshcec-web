@@ -40,7 +40,7 @@
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 md:flex">
         <a
-          href={i18n.resolveRoute(`${base}/posts`)}
+          href={i18n.resolveRoute(`${base}/post`)}
           class="shrink-0 transition-colors hover:text-accent"
         >
           {m.post_list()}
@@ -109,7 +109,7 @@
 
             <a
               class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/posts"
+              href="{base}/post"
             >
               <Star class="h-4 w-4" />
               {m.post_list()}
