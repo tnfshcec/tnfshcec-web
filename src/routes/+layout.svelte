@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../app.postcss";
 
-  import { fly } from "svelte/transition";
+  import { fly, slide } from "svelte/transition";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { i18n } from "$lib/i18n";
@@ -11,7 +11,8 @@
 
   import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
   import { ModeWatcher, toggleMode, mode } from "mode-watcher";
-  import { DropdownMenu, Toggle } from "bits-ui";
+  import { DropdownMenu, Toggle, Collapsible, Separator } from "bits-ui";
+  import { Drawer } from "vaul-svelte";
   import { MetaTags } from "svelte-meta-tags";
   import Toaster from "$lib/components/Toaster.svelte";
   import Menu from "~icons/mdi/menu";
@@ -21,6 +22,8 @@
   import ChevronRight from "~icons/mdi/chevron-right";
   import ChevronDown from "~icons/mdi/chevron-down";
   import Check from "~icons/mdi/check";
+  import Flag from "~icons/mdi/flag-triangle";
+  import Star from "~icons/mdi/star-four-points";
   import logo from "$lib/assets/logo.svg";
 
   // remove trailing slash in `pathname`, except the "/" path
@@ -90,14 +93,14 @@
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content
-            class="dropdown-menu"
+            class="z-top max-w-xs rounded border border-text/20 bg-background/60 backdrop-blur"
             sideOffset={4}
             transition={fly}
             transitionConfig={{ duration: 150, y: -10 }}
           >
             {#each availableLanguageTags as tag}
               <DropdownMenu.Item
-                class="dropdown-item flex items-center gap-1 whitespace-nowrap p-2"
+                class="flex items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
                 href={i18n.route($page.url.pathname)}
                 hreflang={tag}
                 aria-current={tag === languageTag() ? "page" : undefined}
@@ -105,7 +108,7 @@
                 {#if tag === languageTag()}
                   <Check class="h-4 w-4" />
                 {:else}
-                  <div class="h-4 w-4" />
+                  <div class="h-4 w-4" role="none" />
                 {/if}
                 {m.lang({}, { languageTag: tag }) || tag}
               </DropdownMenu.Item>
@@ -113,55 +116,84 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
-        <!-- dropdown for mobile -->
-        <DropdownMenu.Root preventScroll={false}>
-          <DropdownMenu.Trigger class="block sm:hidden">
+        <!-- drawer for mobile -->
+        <Drawer.Root direction="right">
+          <Drawer.Trigger class="block sm:hidden">
             <Menu class="h-12 w-12" aria-label={m.menu()} />
-          </DropdownMenu.Trigger>
+          </Drawer.Trigger>
 
-          <DropdownMenu.Content
-            class="dropdown-menu"
-            transition={fly}
-            transitionConfig={{ duration: 150, y: -10 }}
-          >
-            <DropdownMenu.Item class="icon-flex dropdown-item" on:click={toggleMode}>
-              {#if $mode === "light"}
-                <Sunny class="h-4 w-4" />
-                <span>{m.light_theme()}</span>
-              {:else}
-                <Night class="h-4 w-4" />
-                <span>{m.dark_theme()}</span>
-              {/if}
-            </DropdownMenu.Item>
+          <Drawer.Portal>
+            <Drawer.Overlay class="fixed inset-0 bg-[black]/20" />
+            <Drawer.Content
+              class="fixed bottom-0 right-0 top-0 z-top flex min-w-80 max-w-[90%] flex-col rounded-l border border-text/20 bg-background py-4 shadow-lg"
+            >
+              <Drawer.Title class="px-4 text-lg font-bold">Menu</Drawer.Title>
 
-            <DropdownMenu.Sub>
-              <DropdownMenu.SubTrigger
-                class="icon-flex px-4 py-2 transition-colors hover:bg-primary/20"
+              <hr class="my-2 w-full text-text/20" />
+
+              <a
+                class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+                href="{base}/posts"
               >
-                <Earth class="h-4 w-4" />
-                <span>{m.language()}</span>
-                <ChevronRight class="ml-auto h-4 w-4" />
-              </DropdownMenu.SubTrigger>
-
-              <DropdownMenu.SubContent
-                class="z-top max-w-xs rounded border border-primary/40 bg-background/60 backdrop-blur"
-                transition={fly}
-                transitionConfig={{ duration: 150, y: -10 }}
+                <Star class="h-4 w-4" />
+                {m.post_list()}
+              </a>
+              <a
+                class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+                href="https://ctf.tnfshcec.com"
               >
-                {#each availableLanguageTags as tag}
-                  <DropdownMenu.Item
-                    class="dropdown-item block whitespace-nowrap"
-                    href={i18n.route($page.url.pathname)}
-                    hreflang={tag}
-                    aria-current={tag === languageTag() ? "page" : undefined}
-                  >
-                    {m.lang({}, { languageTag: tag }) || tag}
-                  </DropdownMenu.Item>
-                {/each}
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Sub>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+                <Flag class="h-4 w-4" />
+                GCUP CTF
+              </a>
+
+              <hr class="my-2 w-full text-text/20" />
+
+              <button
+                class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+                on:click={toggleMode}
+              >
+                {#if $mode === "light"}
+                  <Sunny class="h-4 w-4" />
+                  <span>{m.light_theme()}</span>
+                {:else}
+                  <Night class="h-4 w-4" />
+                  <span>{m.dark_theme()}</span>
+                {/if}
+              </button>
+
+              <Collapsible.Root>
+                <Collapsible.Trigger
+                  class="icon-flex group w-full px-4 py-2 transition-colors hover:bg-primary/20"
+                >
+                  <Earth class="h-4 w-4" />
+                  <span>{m.language()}</span>
+                  <ChevronRight
+                    class="ml-auto h-4 w-4 transition-transform group-data-[state=open]:rotate-90"
+                  />
+                </Collapsible.Trigger>
+
+                <Collapsible.Content transition={slide}>
+                  {#each availableLanguageTags as tag}
+                    <!-- that href is disgusting, but paraglide somehow doesn't work here -->
+                    <a
+                      class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors hover:bg-primary/20"
+                      href={i18n.resolveRoute(i18n.route($page.url.pathname), tag)}
+                      hreflang={tag}
+                      aria-current={tag === languageTag() ? "page" : undefined}
+                    >
+                      {#if tag === languageTag()}
+                        <Check class="h-4 w-4" />
+                      {:else}
+                        <div class="h-4 w-4" role="none" />
+                      {/if}
+                      {m.lang({}, { languageTag: tag }) || tag}
+                    </a>
+                  {/each}
+                </Collapsible.Content>
+              </Collapsible.Root>
+            </Drawer.Content>
+          </Drawer.Portal>
+        </Drawer.Root>
       </div>
     </div>
   </header>

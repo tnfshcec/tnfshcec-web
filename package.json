@@ -63,5 +63,8 @@
   "type": "module",
   "trustedDependencies": [
     "svelte-preprocess"
-  ]
+  ],
+  "dependencies": {
+    "vaul-svelte": "^0.3.0"
+  }
 }
