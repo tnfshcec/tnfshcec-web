@@ -5,7 +5,7 @@
   import { page } from "$app/stores";
   import { i18n } from "$lib/i18n";
   import { getPageInfo } from "$lib/utils/pageInfo";
-  import { languageTag } from "$paraglide/runtime";
+  import { availableLanguageTags, languageTag } from "$paraglide/runtime";
 
   import Header from "$lib/components/Header.svelte";
   import Toaster from "$lib/components/Toaster.svelte";
@@ -50,3 +50,15 @@
     <slot />
   </main>
 </ParaglideJS>
+
+<!--
+    NOTE: This is a hack for SvelteKit to crawl the i18n pages.
+    The ParaglideJS component already add similar <link> elements with _absolute_ links, which is better for SEO.
+    But Sveltekit doesn't crawl absolute links for prerendering, so we add our own <link> with relative paths.
+    Our <link>'s rel isn't spec'd so there should be no effect.
+-->
+<svelte:head>
+  {#each availableLanguageTags as tag}
+    <link rel="alt-lang" href={i18n.resolveRoute(i18n.route($page.url.pathname), tag)} />
+  {/each}
+</svelte:head>
