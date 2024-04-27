@@ -4,7 +4,7 @@ author: "114級電機社 (第一屆)"
 desc: "突然發現 Google 很有用"
 date: 2024-04-16
 lang: zh-tw
-tags: [教材, 第一屆歷史資料]
+tags: [ESP32, 教材, 第一屆歷史資料]
 ---
 
 電機社終於要教硬體，問題就是我也沒玩過
@@ -47,13 +47,17 @@ tags: [教材, 第一屆歷史資料]
 
    這邊需要做幾個步驟：
 
-   1. 在「檔案 > 喜好設定 > 額外的開發板管理員網址」，新增這個網址：
+   1. 在「File > Preferences > Additional board api URLs」，新增這個網址：
 
       https://dl.espressif.com/dl/package_esp32_index.json
 
       ![Arduino IDE setting](./esp32-intro-assets/arduino-ide-setting1.png)
 
-   2. 在「開發版管理員」，搜尋並安裝 ESP32：
+      > [!NOTE]
+      > 中文：「檔案 > 喜好設定 > 額外的開發板管理員網址」  
+      > 你也可以在喜好設定的介面找到語言設定。
+
+   2. 在「Boards Manager」，搜尋並安裝 ESP32：
 
       ![Arduino IDE setting](./esp32-intro-assets/arduino-ide-setting2.png)
 
@@ -80,10 +84,13 @@ tags: [教材, 第一屆歷史資料]
 
 ### 第一支程式
 
+> [!NOTE]
+> 這邊使用的板子是 ESP32 DEVKIT V1 _（應該是）＿，其他系列的 ESP32 開發板可能和下面的結果不大一樣。
+
 有了開發環境、有了板子，就可以寫第一支程式了！
 我們要讓板子上的 LED 閃爍，一下亮、一下暗，這基本上就是開發版界的 Hello World 了。
 
-我們可以直接在 Arduino IDE 裡的「檔案 > 範例 > 01.Basics > Blink」找到使 LED 閃爍的程式，
+我們可以直接在 Arduino IDE 裡的「File > Examples > 01.Basics > Blink」找到使 LED 閃爍的程式，
 IDE 裡已經內建了：）
 
 你會看到類似這樣的程式碼：
@@ -171,6 +178,12 @@ Hard resetting via RTS pin...
 
 那應該就成功了。看看你的 ESP32 上有沒有 LED 在閃吧！
 
-## 連接其他感測器
+## 基礎概念
 
 🚧 UNDER CONSTRUCTION 🚧
+
+### Arduino 程式運作
+
+### Pinout
+
+### Serial Console
