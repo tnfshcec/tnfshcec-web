@@ -85,7 +85,7 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 ### 第一支程式
 
 > [!NOTE]
-> 這邊使用的板子是 ESP32 DEVKIT V1 _（應該是）＿，其他系列的 ESP32 開發板可能和下面的結果不大一樣。
+> 這邊使用的板子是 ESP32 DEVKIT V1 _（應該是）_，其他系列的 ESP32 開發板可能和下面的結果不大一樣。
 
 有了開發環境、有了板子，就可以寫第一支程式了！
 我們要讓板子上的 LED 閃爍，一下亮、一下暗，這基本上就是開發版界的 Hello World 了。
@@ -183,6 +183,20 @@ Hard resetting via RTS pin...
 🚧 UNDER CONSTRUCTION 🚧
 
 ### Arduino 程式運作
+
+官方簡介：https://docs.arduino.cc/learn/programming/sketches/
+
+簡單來講，我們在這邊寫的是一個類似 C 語言的程式。
+也就是說，各位應該都熟悉如何宣告變數、使用函式、寫註解。
+Arduino 程式比較不同的地方在於他的起始點 `setup()`、主迴圈 `loop()`、和其他已經提供好的代號及函式。
+
+讓我們來看看幾個常用的：
+
+1. `setup()`、`loop()`
+
+2. `pinMode()`、`digitalWrite()`、`HIGH`、`LOW`
+
+3. `delay()`
 
 ### Pinout
 

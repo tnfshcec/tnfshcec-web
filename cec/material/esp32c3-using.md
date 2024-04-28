@@ -2,7 +2,7 @@
 title: "[教材] ESP32-C3 上手"
 author: "114級電機社 (第一屆)"
 desc: "二十七點，寫教材"
-date: 2024-04-編輯中
+date: 2024-04-29
 lang: zh-tw
 tags: [ESP32, 教材, 第一屆歷史資料]
 ---
@@ -25,6 +25,7 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 _（上面文檔的本子和我們的不大依樣，因為我們的 C3 是雙 USB Type-C 的，但大部分資訊應該沒有差很多）_
 
 這邊我寫幾個有趣的點：
+
 1. 板子上的 LED 是 RGB 的
 2. 它支援 WiFi、藍芽
 3. 上面有好多電源和接地針腳
@@ -131,14 +132,15 @@ void loop() {
 
 _修改自 https://shop.mirotek.com.tw/iot/esp32-start-10/_
 
-接線：（=）
+接線：
+![HC-SR04 wiring](./esp32c3-using-assets/hc-sr04-wiring.png)
 
 ```c
-#define TRIG_PIN 17 // 發出觸發訊號腳位
-#define ECHO_PIN 16 // 接收測量結果訊號腳位
+#define TRIG_PIN 3 // 發出觸發訊號腳位
+#define ECHO_PIN 2 // 接收測量結果訊號腳位
 
 void setup() {
-  pinMode(TRIG_PIN, OUTPUT); 
+  pinMode(TRIG_PIN, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -149,7 +151,7 @@ void loop() {
   delay(1000);
 }
 
-unsigned long ping() { 
+unsigned long ping() {
   digitalWrite(TRIG_PIN, HIGH); // 啟動超音波
   delayMicroseconds(10);  // 維持 10 微秒的 HIGH 訊號
   digitalWrite(TRIG_PIN, LOW);  // 關閉超音波
@@ -177,7 +179,7 @@ unsigned long ping() {
 
 #### 發送訊號
 
-接線：（=）
+接線：![buzzer wiring](./esp32c3-using-assets/buzzer-wiring.png "如果用的是 MH-FMD 板子，電源（VCC）和 I/O 是分開的。和單獨的這種不大一樣。")
 
 我們可以用 Arduino 內建的 [`tone()`](https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/) 函式，直接控制發出 PWM 訊號。
 
@@ -220,7 +222,59 @@ digitalWrite(PIN, HIGH);
 
 ### 組合你的零件
 
-我們的目標是讓距離在不同地方時發出的聲音不同，所以只要把剛剛兩個零件結合，搭配程式碼，
-就可以完成啦！
+我們的目標是讓距離在不同地方時發出的聲音不同，所以只要把剛剛兩個零件結合，
+搭配程式碼，就可以完成啦！
 
+先把兩個零件都接上：
+![complete piano wiring](./esp32c3-using-assets/piano-wiring.png "如果蜂鳴器是用板子的話，記得電源接電源、I/O 才接 GPIO！")
 
+再來想想：
+
+既然我們的目標是**在不同的感測距離，讓蜂鳴器發出不同聲音**，
+那麼我們就修改既有的距離感測的程式，讓它在不同的距離下發送不同的訊號不就行了？
+
+```c
+#define TRIG_PIN 3 // 發出觸發訊號腳位
+#define ECHO_PIN 2 // 接收測量結果訊號腳位
+#define BUZZER_PIN 10 // 發出蜂鳴器訊號的腳位
+
+void setup() {
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  unsigned long d = ping() / 58; // 計算距離
+  Serial.print(d);
+  Serial.println("cm");
+  delay(200);
+
+  if (d <= 5) { // 小於等於 5 公分
+    tone(BUZZER_PIN, 262); // 262 Hz 是中央 Do
+  } else if (d <= 10) {
+    tone(BUZZER_PIN, 294);
+  } else if (d <= 15) {
+    tone(BUZZER_PIN, 330);
+  } else {
+    noTone(BUZZER_PIN);
+    // digitalWrite(BUZZER_PIN, HIGH);
+  }
+}
+
+unsigned long ping() {
+  digitalWrite(TRIG_PIN, HIGH); // 啟動超音波
+  delayMicroseconds(10);  // 維持 10 微秒的 HIGH 訊號
+  digitalWrite(TRIG_PIN, LOW);  // 關閉超音波
+  return pulseIn(ECHO_PIN, HIGH); // 計算傳回時間
+}
+```
+
+> [!IMPORTANT]
+> 如果你用的是 MH-FMD 板子，因為「低電平觸發」的關係，
+> 你需要在 `noTone()` 之後再加 `digitalWrite(PIN, HIGH)` 讓它停止！
+
+當然，這邊只會在 5 公分內、10 公分內、15 公分內分別發出中央 Do、Re、Mi 的音，
+剩下的音就讓你們自由發揮了！
+
+![air piano irl](./esp32c3-using-assets/piano-irl.jpg "我的鋼琴")
