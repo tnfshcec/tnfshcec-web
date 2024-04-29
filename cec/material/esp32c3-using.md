@@ -22,7 +22,7 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 
 官方文檔：https://docs.espressif.com/projects/esp-idf/en/stable/esp32c3/hw-reference/esp32c3/user-guide-devkitm-1.html
 
-_（上面文檔的本子和我們的不大依樣，因為我們的 C3 是雙 USB Type-C 的，但大部分資訊應該沒有差很多）_
+_（上面文檔的板子和我們的不大一樣，因為我們的 C3 是雙 USB Type-C 的，但大部分資訊應該沒有差很多）_
 
 這邊我寫幾個有趣的點：
 
@@ -36,7 +36,7 @@ _（上面文檔的本子和我們的不大依樣，因為我們的 C3 是雙 US
 
 ![pinout](https://docs.espressif.com/projects/esp-idf/en/stable/esp32c3/_images/esp32-c3-devkitm-1-v1-pinout.png "來源：ESPRESSIF Docs")
 
-可以看到我們有 3V3 (3.3V) 和 5V0 (5V) 但針腳各兩個、還有好幾個接地、剩餘的都是 GPIO ，
+可以看到我們有 `3V3` (3.3V) 和 `5V0` (5V) 但針腳各兩個、還有好幾個接地、剩餘的都是 GPIO ，
 也就是我們可以自由運用的輸入 / 輸出針腳。
 
 ## Blink，開發板界的你好世界
