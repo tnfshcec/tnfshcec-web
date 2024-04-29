@@ -1,6 +1,6 @@
 ---
 title: "[資源] Linux / Unix 實用概念介紹"
-author: "114級電機社 (第一屆)"
+author: "114級電機社 (第一屆) - EGRO"
 desc: "不寫下來誰會記得"
 date: 2024-04-編輯中
 lang: zh-tw

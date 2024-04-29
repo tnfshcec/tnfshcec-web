@@ -1,6 +1,6 @@
 ---
 title: "[教材] ESP32-C3 上手"
-author: "114級電機社 (第一屆)"
+author: "114級電機社 (第一屆) - EGRO"
 desc: "二十七點，寫教材"
 date: 2024-04-29
 lang: zh-tw

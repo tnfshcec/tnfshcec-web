@@ -1,6 +1,6 @@
 ---
 title: "[教材] ESP32 初體驗"
-author: "114級電機社 (第一屆)"
+author: "114級電機社 (第一屆) - EGRO"
 desc: "突然發現 Google 很有用"
 date: 2024-04-16
 lang: zh-tw
