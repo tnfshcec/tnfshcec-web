@@ -47,7 +47,7 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 
    這邊需要做幾個步驟：
 
-   1. 在「File > Preferences > Additional board api URLs」，新增這個網址：
+   1. 在「File > Preferences > Additional board manager URLs」，新增這個網址：
 
       https://dl.espressif.com/dl/package_esp32_index.json
 
@@ -180,8 +180,6 @@ Hard resetting via RTS pin...
 那應該就成功了。看看你的 ESP32 上有沒有 LED 在閃吧！
 
 ## 基礎概念
-
-🚧 UNDER CONSTRUCTION 🚧
 
 ### Arduino 程式運作
 
@@ -320,7 +318,7 @@ void loop() {
 至於要用什麼函式做輸出，看看 [`print()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/print)、
 [`println()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/println)、
 [`printf()`](https://dev.to/codemee/printf-ge-shi-zi-chuan-de-shi-yong-fang-fa-n8f)。
-（我找不到 `Serial.printf()` 在 Arduino 官網的文檔，所以這是 C 語言的 `printf()`。用法一樣，不過是 `Serial` 的方法。）
+（我找不到 `Serial.printf()` 在 Arduino 官網的文檔，所以這是 C 語言的 `printf()`。用法一樣，不過這邊是 `Serial` 的方法。）
 
 ## 基礎就這樣了！
 

@@ -16,7 +16,7 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 
 **_你需要先設定好 Arduino IDE 才能繼續往下喔。
 看看[上一篇文寫的設定方法](https://www.tnfshcec.com/post/material/esp32-intro#%E9%96%8B%E5%A7%8B%E4%BD%BF%E7%94%A8-esp32)吧。
-關於 Arduino 程式的基本運作，也請看看[上一篇文的介紹]()。_**
+關於 Arduino 程式的基本運作，也請看看[上一篇文的介紹](http://localhost:5173/post/material/esp32-intro#%E5%9F%BA%E7%A4%8E%E6%A6%82%E5%BF%B5)。_**
 
 ## 關於我們的 ESP32-C3
 
@@ -168,7 +168,7 @@ unsigned long ping() {
    ![PWM signal](./esp32c3-using-assets/pwm-signal.webp)
 
    PWM 就是像這樣的一高一低的訊號，同時可以控制
-   [工作週期（Duty Cycle）](https://zh.wikipedia.org/wiki/%E5%B7%A5%E4%BD%9C%E9%80%B1%E6%9C%9F?oldformat=true)（寬度？）、
+   [工作週期（Duty Cycle）](https://zh.wikipedia.org/wiki/%E5%B7%A5%E4%BD%9C%E9%80%B1%E6%9C%9F)（寬度？）、
    頻率（Frequency），送出不同的資訊。**不過在這邊頻率的調整對我們比較重要。**
 
 2. 音調
