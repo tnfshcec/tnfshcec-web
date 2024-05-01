@@ -304,8 +304,8 @@ Arduino 已經有內建 [Serial](https://www.arduino.cc/reference/en/language/fu
 
    ![serial console bitrate](./esp32-intro-assets/serial-console-bitrate.png)
 
-2. [`Serial.print()`]()、[`Serial.println()`]()：Arduino 內建的輸出文字函式。
-   用法就像 C 語言的 `print()` 和 `println()`。
+2. [`Serial.print()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/print/)、[`Serial.println()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/println/)：Arduino 內建的輸出文字函式。
+   兩個都會將函式參數輸出，差別在於 `println()` 會順便在結尾換行（`ln` 代表的就是 `line`）。
 3. `Serial.printf()`：在 Arduino IDE 使用 [ESP32 函式庫](https://github.com/espressif/arduino-esp32/blob/master/cores/esp32/Print.h)時才有。
    用法如 C 語言的 `printf()`。
 
@@ -327,11 +327,6 @@ void loop() {
   delay(1000);
 }
 ```
-
-至於要用什麼函式做輸出，看看 [`print()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/print)、
-[`println()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/println)、
-[`printf()`](https://dev.to/codemee/printf-ge-shi-zi-chuan-de-shi-yong-fang-fa-n8f)。
-（我找不到 `Serial.printf()` 在 Arduino 官網的文檔，所以這是 C 語言的 `printf()`。用法一樣，不過這邊是 `Serial` 的方法。）
 
 ## 基礎就這樣了！
 
