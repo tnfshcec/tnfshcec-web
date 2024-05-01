@@ -5,6 +5,7 @@ desc: "114級電機社CTF第一版全套題組詳解"
 date: 2024-04-16
 lang: zh-tw
 tags: [教材, 電機社 CTF, 第一屆歷史資料]
+unlisted: true
 ---
 
 ## 前言
