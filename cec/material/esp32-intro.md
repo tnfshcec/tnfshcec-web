@@ -296,6 +296,19 @@ Arduino 程式比較不同的地方在於他的起始點 `setup()`、主迴圈 `
 
 也就是說，我們可以在 ESP32 上連線到 Serial Console 與電腦做通訊、產出輸出與輸入。
 
+Arduino 已經有內建 [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/)
+可以讓我們直接做序列通訊。這邊是幾個常使用的函式：
+
+1. [`Serial.begin()`](https://www.arduino.cc/reference/en/language/functions/communication/serial/begin/)：
+   設定好通訊的資料傳輸速度。你可以在 Arduino IDE 的 Serial Console 中確認。
+
+   ![serial console bitrate](./esp32-intro-assets/serial-console-bitrate.png)
+
+2. [`Serial.print()`]()、[`Serial.println()`]()：Arduino 內建的輸出文字函式。
+   用法就像 C 語言的 `print()` 和 `println()`。
+3. `Serial.printf()`：在 Arduino IDE 使用 [ESP32 函式庫](https://github.com/espressif/arduino-esp32/blob/master/cores/esp32/Print.h)時才有。
+   用法如 C 語言的 `printf()`。
+
 ```c
 /* 每秒進行輸出，並從 0 開始數秒數。 */
 void setup() {
