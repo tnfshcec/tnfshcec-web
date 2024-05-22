@@ -83,7 +83,6 @@ void loop() {
 ### WiFi
 
 參考：
-
 - https://shop.mirotek.com.tw/iot/esp32-start-23/
 - https://randomnerdtutorials.com/esp32-useful-wi-fi-functions-arduino/
 
@@ -95,7 +94,7 @@ WiFi 和藍芽一樣，底層邏輯已經有函式庫幫忙寫好了，我們只
 ```c
 #include <WiFi.h> // 調用 WiFi.h （函式庫的標頭檔）
 const char *ssid     = "********"; // ssid: 網路名稱
-const char *password = "********"; // pasword: 網路密碼
+const char *password = "********"; // password: 網路密碼
 
 void setup() {
   Serial.begin(115200);
@@ -118,7 +117,7 @@ void setup() {
 
   Serial.println("--------------------");
 
-  // 顯示WiFi連線狀態資訊：工作模式、Channel、SSID、Passphrase、BSSID
+  // 顯示 WiFi 連線狀態資訊：工作模式、Channel、SSID、Passphrase、BSSID
   Serial.println("WiFi status:");
   WiFi.printDiag(Serial);
 }
@@ -398,27 +397,225 @@ void loop() {
 
 1. **接線**
 
-2. **發出聲音**
+VCC 電源、GND 接地、I/O 接 GPIO 
 
-3. **調整音高**
+2. **發出聲音、調整音高**
+
+要發出聲音，肯定就得在 I/O 的針腳發送訊號。
+這邊只要發出 PWM 訊號，就可以透過頻率讓它發出不同音高。
+
+Arduino 有內建 `tone()` 函式，可以直接輸出不同頻率的 PWM 訊號：
+
+```c
+tone(PIN, 262);
+tone(PIN, 262, 200);
+// tone(PIN, FREQUENCY [, DURATION(ms)])
+// tone(針腳, 頻率 [, 時間（毫秒）])
+
+noTone(PIN);
+// 停止 `tone()` 函式開始的訊號。
+// 因為 `tone()` 函式呼叫後會在程式運行的同時持續發送訊號，
+// 如果你沒有指定時間（DURATION），你就需要 `noTone()` 停止這個訊號。
+```
+
+3. **停止發聲**
+
+你應該會在 MH-FMD 蜂鳴器的板子上看到「低電平觸發」的字樣。
+顧名思義，他在收到低電位的訊號時，反而會發出聲音。
+
+如果要停止它的發聲，就給它 `HIGH` 訊號就好了：`digitalWrite(PIN, HIGH)`
 
 ## 超音波測距
 
 1. **接線**
 
+VCC 電源、GND 接地、TRIG 和 ECHO 接 GPIO 
+
 2. **送出觸發訊號、讀取時間**
+
+簡單來講，給 TRIG pin 一個訊號（10 微秒的 HIGH），他就會發射超音播進行測距，
+期間 ECHO pin 會給一個訊號代表超音波來回的時間，接著就能在程式裡運用這段時間、計算距離了。
+
+> [!NOTE]
+> ECHO pin 的回傳時間除以 58 就是公分的距離了。
+>
+> 如果你好奇是怎麼算的：https://shop.mirotek.com.tw/iot/esp32-start-10/
+
+```c
+#define TRIG_PIN 3 // 發出觸發訊號腳位
+#define ECHO_PIN 2 // 接收測量結果訊號腳位
+
+void setup() {
+  pinMode(TRIG_PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  unsigned long d = ping() / 58; // 計算距離（傳回時間 / 58 就是公分的距離）
+  Serial.print(d);
+  Serial.println("cm");
+  delay(1000);
+}
+
+unsigned long ping() {
+  digitalWrite(TRIG_PIN, HIGH); // 啟動超音波
+  delayMicroseconds(10);  // 維持 10 微秒的 HIGH 訊號
+  digitalWrite(TRIG_PIN, LOW);  // 關閉超音波
+  return pulseIn(ECHO_PIN, HIGH); // 計算傳回時間
+}
+```
 
 ## 麥克風傳感器
 
 1. **接線**
 
+VCC (+) 接到電源、GND (G) 接到接地、OUT (DO 或 AO) 接到 GPIO
+
 2. **接收音訊**
+
+你會發現這邊的訊號分成數位和類比兩種，差別在這裡：
+- 數位（Digital）訊號：只要偵測到聲音，就會輸出 `HIGH` 高電位訊號。
+- 類比（Analog）訊號：聲音越大，訊號越強。
+
+兩個就分別對應使用 `digitalRead(PIN)` 和 `analogRead(PIN)` 讀取。
+
+```c
+#define SOUND_PIN 19
+#define LED_PIN 23
+
+void setup() {
+  pinMode(SOUND_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+}
+
+void loop() {
+  if (analogRead(SOUND_PIN) >= 1024) {
+    digitalWrite(LED_PIN, HIGH);
+  } else {
+    digitalWrite(LED_PIN, LOW);
+  }
+  delay(100);
+}
+```
+
+> [!NOTE]
+> 通常音訊的讀取會先取一段時間的樣，再使用這段時間內的訊號最大值、最小值或平均值。
 
 ## 溫度傳感器
 
 1. **接線**
 
+這個零件使用 I2C 進行資料傳輸，所以你會看到 SDA 和 SCL 兩個 I2C 的針腳。
+
+電源就接電源、GND 接接地、SDA 和 SCL 分別接在你的開發板上對應的針腳、ALT 接在 GPIO。
+
+ADD0 我們不會接在板子上，它是用來更變這個零件的位址。如果你有多個溫度傳感器，你才會需要做更改。
+
 2. **接收溫度資訊**
+
+```c
+/** 來源 https://learn.sparkfun.com/tutorials/tmp102-digital-temperature-sensor-hookup-guide/all */
+  #include <Wire.h> // 用來建立 I2C 通訊
+#include <SparkFunTMP102.h> // 用來處理 TMP102 的訊號
+
+// 連接
+// VCC = 3.3V
+// GND = GND
+// SDA = A4
+// SCL = A5
+const int ALERT_PIN = A3;
+
+TMP102 sensor0;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(); // 加入 I2C 匯流排
+
+  pinMode(ALERT_PIN,INPUT);  // 宣告 alertPin 為輸入
+
+  /* TMP102 使用預設設定，地址為 0x48，使用 Wire。
+
+     選擇性地，如果地址跳線被修改，或者使用不同的 I2C 匯流排，
+     這些參數可以在這裡更改。例如：sensor0.begin(0x49,Wire1)
+
+     成功連接返回 true，否則返回 false。 */
+  if(!sensor0.begin())
+  {
+    Serial.println("無法連接 TMP102。");
+    Serial.println("板子是否已連接？設備 ID 是否正確？");
+    while(1);
+  }
+
+  Serial.println("已連接到 TMP102！");
+  delay(100);
+
+  // 初始化 sensor0 設置
+  // 這些設置會保存在傳感器中，即使斷電也會保留
+
+  // 設定觸發警報前的連續故障數量。
+  // 0-3: 0:1 次故障, 1:2 次故障, 2:4 次故障, 3:6 次故障。
+  sensor0.setFault(0);  // 立即觸發警報
+
+  // 設定警報的極性。(0:有效低, 1:有效高)。
+  sensor0.setAlertPolarity(1); // 有效高
+
+  // 將傳感器設置為比較器模式 (0) 或中斷模式 (1)。
+  sensor0.setAlertMode(0); // 比較器模式。
+
+  // 設定轉換速率（傳感器獲取新讀數的速度）
+  //0-3: 0:0.25Hz, 1:1Hz, 2:4Hz, 3:8Hz
+  sensor0.setConversionRate(2);
+
+  //設置擴展模式。
+  //0:12 位元溫度 (-55°C 到 +128°C) 1:13 位元溫度 (-55°C 到 +150°C)
+  sensor0.setExtendedMode(0);
+
+  //設置 T_HIGH，上限以觸發警報
+  sensor0.setHighTempF(82.0);  // 設置 T_HIGH 為華氏度
+  //sensor0.setHighTempC(29.4); // 設置 T_HIGH 為攝氏度
+
+  //設置 T_LOW，下限以關閉警報
+  sensor0.setLowTempF(81.0);  // 設置 T_LOW 為華氏度
+ //sensor0.setLowTempC(26.67); // 設置 T_LOW 為攝氏度
+}
+
+void loop()
+{
+  float temperature;
+  boolean alertPinState, alertRegisterState;
+
+  // 開啟傳感器以開始測量溫度。
+  // 通常電流消耗約為 ~10uA。
+  sensor0.wakeup();
+
+  // 讀取溫度資料
+  temperature = sensor0.readTempF();
+  //temperature = sensor0.readTempC();
+
+  // Check for Alert
+  alertPinState = digitalRead(ALERT_PIN); // 從針腳讀取警報
+  alertRegisterState = sensor0.alert();   // 從註冊讀取警報
+
+  // 讓感測器進入睡眠模式以節省能源
+  // 通常電流消耗約為 <0.5uA.
+  sensor0.sleep();
+
+  // 印出溫度及警報狀態
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+
+  Serial.print("\tAlert Pin: ");
+  Serial.print(alertPinState);
+
+  Serial.print("\tAlert Register: ");
+  Serial.println(alertRegisterState);
+
+  delay(1000);  // 等待 1000ms
+}
+```
+
+> [!NOTE]
+> _這部分是 ChatGPT 翻譯的，正確性我不知道，有時間我再測試_
 
 ## LCD 液晶螢幕
 
