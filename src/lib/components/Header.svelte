@@ -129,10 +129,10 @@
               on:click={toggleMode}
             >
               {#if $mode === "light"}
-                <Sunny class="h-4 w-4" />
+                <Night class="h-4 w-4" />
                 <span>{m.light_theme()}</span>
               {:else}
-                <Night class="h-4 w-4" />
+                <Sunny class="h-4 w-4" />
                 <span>{m.dark_theme()}</span>
               {/if}
             </button>
