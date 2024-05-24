@@ -5,8 +5,10 @@
   import * as m from "$paraglide/messages";
   import { availableLanguageTags, languageTag } from "$paraglide/runtime";
   import { fly, slide } from "svelte/transition";
+  import type { Readable } from "svelte/store";
 
   import logo from "$lib/assets/logo.svg";
+  import uwuLogo from "$lib/assets/uwu-logo.png";
   import { Collapsible, DropdownMenu } from "bits-ui";
   import { mode, toggleMode } from "mode-watcher";
   import { Drawer } from "vaul-svelte";
@@ -19,6 +21,9 @@
   import Star from "~icons/mdi/star-four-points";
   import Night from "~icons/mdi/weather-night";
   import Sunny from "~icons/mdi/weather-sunny";
+  import { getContext } from "svelte";
+
+  let uwu = getContext<Readable<boolean>>("uwu");
 </script>
 
 <header
@@ -27,7 +32,7 @@
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <!-- no idea why normal link here doesn't get translated -->
     <a href={i18n.resolveRoute(`${base}/`)} class="flex items-center gap-2 overflow-hidden">
-      <img src={logo} class="h-12 w-12" alt="TNFSHCEC icon" />
+      <img src={$uwu ? uwuLogo : logo} class="h-12" alt="TNFSHCEC icon" />
       <div>
         <span class="whitespace-nowrap font-bold">{m.title()}</span>
         <br />

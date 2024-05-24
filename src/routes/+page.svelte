@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { getContext, type ComponentProps, type ComponentType } from "svelte";
+  import type { Readable } from "svelte/store";
   import { base } from "$app/paths";
   import * as m from "$paraglide/messages";
   import { anchorScroll } from "$lib/components/actions";
   import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import type { ComponentProps, ComponentType } from "svelte";
   import type { ActivityLabel } from "$lib/components/homepage/ActivityFigure.svelte";
 
   import Facebook from "~icons/mdi/facebook";
@@ -15,6 +16,7 @@
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
+  import uwuLogo from "$lib/assets/uwu-logo.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
 
@@ -77,6 +79,8 @@
       }
     ]
   ];
+
+  let uwu = getContext<Readable<boolean>>("uwu");
 </script>
 
 <section class="h-[65vh] min-h-[20rem] w-full items-center p-4">
@@ -85,7 +89,13 @@
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
-        <header class="text-4xl font-bold">{m.home_title()}</header>
+        <header class="text-4xl font-bold">
+          {#if $uwu}
+            <img src={uwuLogo} />
+          {:else}
+            {m.home_title()}
+          {/if}
+        </header>
         <section class="text-xl">{m.home_description()}</section>
       </div>
       <div class="flex items-center justify-center gap-2">

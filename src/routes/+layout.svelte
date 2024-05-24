@@ -1,8 +1,11 @@
 <script lang="ts">
   import "../app.postcss";
 
+  import { setContext } from "svelte";
+  import { writable, type Readable } from "svelte/store";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
+  import { browser } from "$app/environment";
   import { i18n } from "$lib/i18n";
   import { getPageInfo } from "$lib/utils/pageInfo";
   import { availableLanguageTags, languageTag } from "$paraglide/runtime";
@@ -16,7 +19,31 @@
   // remove trailing slash in `pathname`, except the "/" path
   // we'll just make it "/" if the trimmed url results in "" (empty string).
   $: info = getPageInfo($page.url.pathname.replace(/\/$/, "") || "/");
-  // TODO: scroll detection & changing title
+
+  // uwu stuff
+  let uwu = writable(false);
+  setContext<Readable<boolean>>("uwu", { subscribe: uwu.subscribe });
+
+  $: if (browser) {
+    let localUwu = localStorage.getItem("uwu");
+    let uwuEnabled = localUwu === "true";
+    switch ($page.url.searchParams.get("uwu")) {
+      case "":
+      case "1":
+      case "true":
+        uwuEnabled = true;
+        break;
+      case "0":
+      case "false":
+        uwuEnabled = false;
+        break;
+    }
+    uwu.set(uwuEnabled);
+  }
+
+  uwu.subscribe((enabled) => {
+    if (browser) localStorage.setItem("uwu", enabled ? "true" : "false");
+  });
 </script>
 
 <MetaTags
