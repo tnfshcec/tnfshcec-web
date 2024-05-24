@@ -91,7 +91,7 @@
       <div class="space-y-4">
         <header class="text-4xl font-bold">
           {#if $uwu}
-            <img src={uwuLogo} />
+            <img src={uwuLogo} alt="kawaii tnfshcec logo" />
           {:else}
             {m.home_title()}
           {/if}

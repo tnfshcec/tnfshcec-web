@@ -1,8 +1,7 @@
-import { env } from "$env/dynamic/private";
 import { listSortedPosts } from "$lib/utils/posts";
 import type { RequestHandler } from "./$types";
 
-const ORIGIN = env.ORIGIN ?? "https://www.tnfshcec.com";
+const ORIGIN = import.meta.env.ORIGIN ?? "https://www.tnfshcec.com";
 
 const render = (): string =>
   `
@@ -27,6 +26,7 @@ const render = (): string =>
 </urlset>
 `.trim();
 
+export const prerender = true;
 export const trailingSlash = "never";
 
 export const GET: RequestHandler = async () =>
