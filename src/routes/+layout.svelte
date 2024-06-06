@@ -39,11 +39,8 @@
         break;
     }
     uwu.set(uwuEnabled);
+    localStorage.setItem("uwu", uwuEnabled ? "true" : "false");
   }
-
-  uwu.subscribe((enabled) => {
-    if (browser) localStorage.setItem("uwu", enabled ? "true" : "false");
-  });
 </script>
 
 <MetaTags

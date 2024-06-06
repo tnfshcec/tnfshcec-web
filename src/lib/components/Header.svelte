@@ -19,6 +19,7 @@
   import Flag from "~icons/mdi/flag-triangle";
   import Menu from "~icons/mdi/menu";
   import Star from "~icons/mdi/star-four-points";
+  import Info from "~icons/mdi/information-outline";
   import Night from "~icons/mdi/weather-night";
   import Sunny from "~icons/mdi/weather-sunny";
   import { getContext } from "svelte";
@@ -47,13 +48,14 @@
     <!-- disable flex-shrink, so only the title above shrinks -->
     <div class="ml-6 shrink-0">
       <!-- navbar buttons for larger screens -->
-      <div class="hidden items-center gap-6 md:flex">
+      <div class="hidden items-center gap-6 lg:flex">
         <a
           href={i18n.resolveRoute(`${base}/post`)}
           class="shrink-0 transition-colors hover:text-accent"
         >
           {m.post_list()}
         </a>
+        <a href="{base}/post/about">{m.about()}</a>
         <a href="https://ctf.tnfshcec.com" class="shrink-0 transition-colors hover:text-accent">
           GCUP CTF
         </a>
@@ -103,7 +105,7 @@
 
       <!-- drawer for mobile -->
       <Drawer.Root direction="right">
-        <Drawer.Trigger class="block md:hidden">
+        <Drawer.Trigger class="block lg:hidden">
           <Menu class="h-12 w-12" aria-label={m.menu()} />
         </Drawer.Trigger>
 
@@ -112,7 +114,7 @@
           <Drawer.Content
             class="fixed bottom-0 right-0 top-0 z-top flex min-w-80 max-w-[90%] flex-col rounded-l border border-text/20 bg-background py-4 shadow-lg"
           >
-            <Drawer.Title class="px-4 text-lg font-bold">Menu</Drawer.Title>
+            <Drawer.Title class="px-4 text-lg font-bold">{m.menu()}</Drawer.Title>
 
             <hr class="my-2 w-full text-text/20" />
 
@@ -122,6 +124,13 @@
             >
               <Star class="h-4 w-4" />
               {m.post_list()}
+            </a>
+            <a
+              class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+              href="{base}/post/about"
+            >
+              <Info class="h-4 w-4" />
+              {m.about()}
             </a>
             <a
               class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
