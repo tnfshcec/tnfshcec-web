@@ -29,18 +29,27 @@
     <div>{date ?? ""}</div>
   </div>
 
-  <div class="text-text/80">
-    <span class="font-bold italic">{post.unlisted ? "（設定隱藏）" : ""}</span>
+  <div>
+    <span class="font-bold italic text-text/80">{post.unlisted ? "（設定隱藏）" : ""}</span>
     {post.desc ?? ""}
   </div>
 
   {#if displayTags && post.tags}
-    <div class="col-span-full flex gap-2 text-text/80">
+    <div class="col-span-full flex gap-2 overflow-clip text-text/80" id="tags-container">
       {#each post.tags as tag}
-        <a class="transition-colors hover:text-text hover:underline" href="{base}/post?tags={tag}">
+        <a
+          class="flex-shrink-0 transition-colors hover:text-text hover:underline"
+          href="{base}/post?tags={tag}"
+        >
           #{tag}
         </a>
       {/each}
     </div>
   {/if}
 </a>
+
+<style>
+  #tags-container {
+    mask-image: linear-gradient(to right, white, 95%, transparent);
+  }
+</style>

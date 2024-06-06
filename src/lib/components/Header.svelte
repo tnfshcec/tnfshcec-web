@@ -31,13 +31,17 @@
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <!-- no idea why normal link here doesn't get translated -->
-    <a href={i18n.resolveRoute(`${base}/`)} class="flex items-center gap-2 overflow-hidden">
-      <img src={$uwu ? uwuLogo : logo} class="h-12" alt="TNFSHCEC icon" />
-      <div>
-        <span class="whitespace-nowrap font-bold">{m.title()}</span>
-        <br />
-        <span class="whitespace-nowrap text-xl font-bold">{m.name()}</span>
-      </div>
+    <a
+      href={i18n.resolveRoute(`${base}/`)}
+      class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2"
+    >
+      <img
+        src={$uwu ? uwuLogo : logo}
+        class="col-start-1 row-span-2 row-start-1"
+        alt="TNFSHCEC icon"
+      />
+      <div class="col-start-2 whitespace-nowrap font-bold">{m.title()}</div>
+      <div class="col-start-2 whitespace-nowrap text-xl font-bold" id="header-name">{m.name()}</div>
     </a>
 
     <!-- disable flex-shrink, so only the title above shrinks -->
@@ -189,5 +193,9 @@
     position: relative;
     top: 0.2em;
     left: 0.2em;
+  }
+
+  #header-name {
+    mask-image: linear-gradient(to right, white, 95%, transparent);
   }
 </style>
