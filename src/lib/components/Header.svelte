@@ -34,7 +34,7 @@
     <!-- no idea why normal link here doesn't get translated -->
     <a
       href={i18n.resolveRoute(`${base}/`)}
-      class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2"
+      class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2 overflow-hidden"
     >
       <img
         src={$uwu ? uwuLogo : logo}
