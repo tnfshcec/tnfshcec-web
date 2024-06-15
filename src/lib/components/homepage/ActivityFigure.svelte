@@ -1,19 +1,27 @@
-<script context="module" lang="ts">
-  export type ActivityLabel = {
-    label: string;
-    labelPosition: [number, number];
-  };
-</script>
-
 <script lang="ts">
   import { sineOut } from "svelte/easing";
+  import { getContext } from "svelte";
+  import type { Readable } from "svelte/store";
   import logo from "$lib/assets/logo.svg";
+  import * as m from "$paraglide/messages";
+  import { base } from "$app/paths";
 
-  export let activities: ActivityLabel[];
+  let uwu = getContext<Readable<boolean>>("uwu");
+
+  let activities = [
+    { label: m.home_interests_religion(), labelPosition: [15.01, 5.69] },
+    { label: m.home_interests_robot(), labelPosition: [9.73, 6.81] },
+    { label: m.home_interests_drama(), labelPosition: [8.31, 11.27] },
+    { label: m.home_insterets_legal(), labelPosition: [0, 11.45] },
+    { label: m.home_interests_japan(), labelPosition: [10.11, 14.69] },
+    { label: m.home_interests_software(), labelPosition: [15.29, 11.94] },
+    { label: m.home_interests_hardware(), labelPosition: [11.79, 18.5] },
+    { label: m.home_interests_poetry(), labelPosition: [18.42, 16.38] }
+  ];
 
   // drag animation parameters
-  const threshold = 150;
-  const multiplier = 1 / 6.9;
+  const THRESHOLD = 150;
+  const MULTIPLIER = 1 / 6.9;
   function dragStart(e: MouseEvent & { currentTarget: HTMLDivElement }) {
     // add events
     window.addEventListener("mousemove", onDrag);
@@ -30,10 +38,10 @@
       let movedX = e.clientX - initialMousePos[0];
       let movedY = e.clientY - initialMousePos[1];
       const dist = Math.sqrt(movedX * movedX + movedY * movedY);
-      const rate = sineOut(Math.min((dist / threshold) * multiplier, 1));
+      const rate = sineOut(Math.min((dist / THRESHOLD) * MULTIPLIER, 1));
 
-      movedX = rate * threshold * (movedX / dist);
-      movedY = rate * threshold * (movedY / dist);
+      movedX = rate * THRESHOLD * (movedX / dist);
+      movedY = rate * THRESHOLD * (movedY / dist);
 
       node.style.left = initialPos[0] + movedX + "px";
       node.style.top = initialPos[1] + movedY + "px";
@@ -74,19 +82,27 @@
     </filter>
     <image href={logo} width="100%" height="100%" filter="url(#inset-shadow)" />
   </svg>
+
   {#each activities as act}
-    <div class="group">
-      <div
-        class="btn-accent absolute cursor-grab select-none whitespace-nowrap"
-        style:left="{act.labelPosition[0]}rem"
-        style:top="{act.labelPosition[1]}rem"
-        role="presentation"
-        on:mousedown={dragStart}
-      >
-        {act.label}
-      </div>
+    <div
+      class="btn-accent absolute cursor-grab select-none whitespace-nowrap"
+      style:left="{act.labelPosition[0]}rem"
+      style:top="{act.labelPosition[1]}rem"
+      role="presentation"
+      on:mousedown={dragStart}
+    >
+      {act.label}
     </div>
   {/each}
+
+  <a
+    class="btn-accent absolute select-none whitespace-nowrap"
+    style:left="19.21rem"
+    style:top="3.89rem"
+    href={$uwu ? `${base}/?uwu=0` : `${base}/?uwu`}
+  >
+    {$uwu ? "no uwu" : "uwu?"}
+  </a>
 </div>
 
 <style>

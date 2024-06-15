@@ -3,7 +3,7 @@
   import { getPageInfo } from "$lib/utils/pageInfo";
   import ChevronRight from "~icons/mdi/chevron-right";
 
-  const info = getPageInfo($page.url.pathname);
+  $: info = getPageInfo($page.url.pathname);
 </script>
 
 <div class="flex w-full p-4">
