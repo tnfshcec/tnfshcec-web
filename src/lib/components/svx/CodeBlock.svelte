@@ -35,7 +35,7 @@
 
   {#if lang && !title}
     <span
-      class="absolute right-2 text-text/40 opacity-100 transition-opacity group-hover:opacity-0"
+      class="absolute right-2 text-[#727A80] opacity-100 transition-opacity group-hover:opacity-0"
     >
       {lang}
     </span>
@@ -43,7 +43,7 @@
 
   {#if !nocopy}
     <button
-      class="absolute right-2 top-2 rounded-sm border-text/20 bg-secondary/50
+      class="absolute right-2 top-2 rounded-sm border-[#434A52] bg-[#1B212A] text-[#e3f0f2]
              {title ? 'p-1' : 'border p-2 opacity-0 transition-opacity group-hover:opacity-100'}"
       bind:this={copyButton}
       on:click={copy}

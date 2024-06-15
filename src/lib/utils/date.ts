@@ -1,29 +1,11 @@
 /**
- * Returns a locale date string from `date`.
- * If `date` is invalid, returns `fallback` instead.
- * The default `fallback` is `undefined`.
+ * Validates if the string passed in is a valid `Date`.
+ * If the string is NOT a valid date (e.g. is `undefined`, empty string),
+ * the return `null`. Otherwise, a `Date` object is returned.
+ *
+ * @returns A `Date` if string is valid. Else `null`.
  */
-export function localeDate<T extends string | undefined>(date: T, locale: string) {
-  const dateObj = new Date(date ?? "");
-  return isNaN(dateObj.valueOf())
-    ? date
-    : dateObj.toLocaleString(locale, {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
+export function validDate(string?: string) {
+  const dateObj = new Date(string ?? "");
+  return isNaN(dateObj.valueOf()) ? null : dateObj;
 }
-
-/**
- * Returns an ISO 8601 date string (HTML Date String) from a `Date`.
- * If `date` is invalid, `fallback` is returned.
- * The default `fallback` is `undefiend`
- */
-export function isoDateString(date: Date): string | undefined;
-export function isoDateString<T>(date: Date, fallback: T): string | T;
-
-export function isoDateString<T>(date: Date, fallback?: T) {
-  return isNaN(date.valueOf()) ? fallback : date.toISOString().substring(0, 10);
-}
-
-// eggrror404 sama is so nb

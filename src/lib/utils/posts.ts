@@ -1,6 +1,7 @@
 import { dev } from "$app/environment";
 import { isAvailableLanguageTag } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
+import { validDate } from "./date";
 import type { ComponentType } from "svelte";
 
 type MdsvexImport = { default: ComponentType; metadata?: Record<string, unknown> };
@@ -49,8 +50,8 @@ export function listSortedPosts({ all } = { all: dev }): App.PostData[] {
         return pin;
       }
 
-      const dateA = a.date ? Date.parse(a.date) : 0;
-      const dateB = b.date ? Date.parse(b.date) : 0;
+      const dateA = validDate(a.date)?.valueOf() ?? 0;
+      const dateB = validDate(b.date)?.valueOf() ?? 0;
 
       return dateB - dateA;
     });

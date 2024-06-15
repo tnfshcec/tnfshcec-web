@@ -1,12 +1,12 @@
 <script lang="ts">
+  import { getContext, type ComponentProps, type ComponentType } from "svelte";
+  import type { Readable } from "svelte/store";
   import { base } from "$app/paths";
   import * as m from "$paraglide/messages";
   import { anchorScroll } from "$lib/components/actions";
   import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import type { ComponentProps, ComponentType } from "svelte";
-  import type { ActivityLabel } from "$lib/components/homepage/ActivityFigure.svelte";
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
@@ -15,6 +15,7 @@
   import Github from "~icons/mdi/github";
   import ArrowDown from "~icons/mdi/arrow-down-drop-circle-outline";
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
+  import uwuLogo from "$lib/assets/uwu-logo.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
 
@@ -27,17 +28,6 @@
     { name: "Threads", href: "https://www.threads.net/tnfshcec", icon: At },
     { name: "X (Formerly Twitter)", href: "https://twitter.com/tnfshcec", icon: Twitter },
     { name: "GitHub", href: "https://github.com/tnfshcec", icon: Github }
-  ];
-
-  let activities: ActivityLabel[] = [
-    { label: m.home_interests_religion(), labelPosition: [15.01, 5.69] },
-    { label: m.home_interests_robot(), labelPosition: [9.73, 6.81] },
-    { label: m.home_interests_drama(), labelPosition: [8.31, 11.27] },
-    { label: m.home_insterets_legal(), labelPosition: [0, 11.45] },
-    { label: m.home_interests_japan(), labelPosition: [10.11, 14.69] },
-    { label: m.home_interests_software(), labelPosition: [15.29, 11.94] },
-    { label: m.home_interests_hardware(), labelPosition: [11.79, 18.5] },
-    { label: m.home_interests_poetry(), labelPosition: [18.42, 16.38] }
   ];
 
   let comments: ComponentProps<Comment>[][] = [
@@ -77,6 +67,8 @@
       }
     ]
   ];
+
+  let uwu = getContext<Readable<boolean>>("uwu");
 </script>
 
 <section class="h-[65vh] min-h-[20rem] w-full items-center p-4">
@@ -85,7 +77,13 @@
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
-        <header class="text-4xl font-bold">{m.home_title()}</header>
+        <header class="text-4xl font-bold">
+          {#if $uwu}
+            <img src={uwuLogo} alt="kawaii tnfshcec logo" />
+          {:else}
+            {m.home_title()}
+          {/if}
+        </header>
         <section class="text-xl">{m.home_description()}</section>
       </div>
       <div class="flex items-center justify-center gap-2">
@@ -159,7 +157,7 @@
       <header class="text-center text-2xl font-bold">{m.home_interests_title()}</header>
       <div class="whitespace-pre-wrap text-lg">{m.home_interests_description()}</div>
     </div>
-    <ActivityFigure {activities} />
+    <ActivityFigure />
   </div>
 </section>
 

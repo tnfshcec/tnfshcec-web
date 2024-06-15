@@ -3,7 +3,7 @@
   import { getPageInfo } from "$lib/utils/pageInfo";
   import ChevronRight from "~icons/mdi/chevron-right";
 
-  const info = getPageInfo($page.url.pathname);
+  $: info = getPageInfo($page.url.pathname);
 </script>
 
 <div class="flex w-full p-4">
@@ -13,7 +13,9 @@
 
   <!-- page info, only render in there is -->
   {#if info}
-    <div class="relative flex w-full min-w-0 max-w-screen-lg flex-col gap-4">
+    <div
+      class="relative flex w-full min-w-0 max-w-screen-md flex-col gap-4 break-words [&_*]:max-w-full"
+    >
       <!-- page title -->
       <nav class="flex flex-col justify-center">
         <span>
