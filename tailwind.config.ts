@@ -63,14 +63,14 @@ const config = {
             "--tw-prose-counters": "rgb(var(--primary))",
             "--tw-prose-bullets": "rgb(var(--primary))",
             "--tw-prose-hr": "rgb(var(--text) / 50%)",
-            "--tw-prose-quotes": "rgb(var(--primary))",
+            "--tw-prose-quotes": "rgb(var(--text))",
             "--tw-prose-quote-borders": "rgb(var(--primary) / 50%)",
-            "--tw-prose-captions": "rgb(var(--text))",
+            "--tw-prose-captions": "rgb(var(--text) / 80%)",
             "--tw-prose-kbd": "rgb(var(--text))",
             "--tw-prose-code": "rgb(var(--text))",
             "--tw-prose-pre-code": "rgb(var(--text))",
             "--tw-prose-pre-bg": "rgb(var(--secondary))",
-            "--tw-prose-kbd-shadows": "rgb(var(--secondary))",
+            "--tw-prose-kbd-shadows": "var(--text)",
             "--tw-prose-th-borders": "rgb(var(--text) / 50%)",
             "--tw-prose-td-borders": "rgb(var(--text) / 50%)"
           }
