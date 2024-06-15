@@ -150,10 +150,10 @@
             >
               {#if $mode === "light"}
                 <Night class="h-4 w-4" />
-                <span>{m.light_theme()}</span>
+                <span>{m.dark_theme()}</span>
               {:else}
                 <Sunny class="h-4 w-4" />
-                <span>{m.dark_theme()}</span>
+                <span>{m.light_theme()}</span>
               {/if}
             </button>
 

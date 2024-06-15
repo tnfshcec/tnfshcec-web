@@ -3,13 +3,17 @@
   import Pin from "~icons/mdi/pin";
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import { localeDate } from "$lib/utils/date";
+  import { validDate } from "$lib/utils/date";
   import { languageTag } from "$paraglide/runtime";
 
   export let post: App.PostData;
   export let displayTags = false;
 
-  let date = localeDate(post.date, languageTag());
+  let date = validDate(post.date)?.toLocaleString(languageTag(), {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 </script>
 
 <a

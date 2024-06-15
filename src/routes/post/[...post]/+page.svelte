@@ -12,7 +12,7 @@
   import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { languageTag } from "$paraglide/runtime.js";
-  import { localeDate } from "$lib/utils/date";
+  import { validDate } from "$lib/utils/date";
   import { getPost } from "$lib/utils/posts.js";
 
   // for shiki twoslash (cool typescript lsp things)
@@ -26,7 +26,11 @@
   $: post = getPost(data.slug)!;
   $: metadata = post.metadata;
   $: content = post.content;
-  $: locDate = localeDate(metadata.date, languageTag());
+  $: locDate = validDate(metadata.date)?.toLocaleString(languageTag(), {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 
   let infoText: string | undefined;
 
@@ -114,7 +118,7 @@
 
   {#if metadata.tags}
     <hr class="w-full text-text/20" />
-    <div class="flex gap-2">
+    <div class="flex flex-wrap gap-2">
       {#each metadata.tags as tag}
         <a class="btn-accent" href="{base}/post?tags={tag}">
           #{tag}
