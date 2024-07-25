@@ -34,17 +34,15 @@
   {/if}
 
   {#if lang && !title}
-    <span
-      class="absolute right-2 text-[#727A80] opacity-100 transition-opacity group-hover:opacity-0"
-    >
+    <span class="absolute right-2 text-[#e0def4]/60 transition-opacity group-hover:opacity-0">
       {lang}
     </span>
   {/if}
 
   {#if !nocopy}
     <button
-      class="absolute right-2 top-2 rounded-sm border-[#434A52] bg-[#1B212A] text-[#e3f0f2]
-             {title ? 'p-1' : 'border p-2 opacity-0 transition-opacity group-hover:opacity-100'}"
+      class="absolute right-2 top-2 rounded-sm bg-secondary/60 text-text
+             {title ? 'p-1' : 'p-2 opacity-0 transition-opacity group-hover:opacity-100'}"
       bind:this={copyButton}
       on:click={copy}
       aria-label="copy"
