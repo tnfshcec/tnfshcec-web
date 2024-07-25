@@ -17,7 +17,7 @@
         {/if}
       </span>
       <br />
-      <span class="text-primary">{handle}</span>
+      <span class="text-text/60">{handle}</span>
     </div>
   </div>
   <div class="text-lg">{comment}</div>
