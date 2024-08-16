@@ -28,13 +28,13 @@
     {post.title}
   </header>
 
-  <div class="row-span-2 text-end text-primary/80">
+  <div class="row-span-2 text-end text-text/60">
     <div>{post.author ?? ""}</div>
     <div>{date ?? ""}</div>
   </div>
 
   <div>
-    <span class="font-bold italic text-text/80">{post.unlisted ? "（設定隱藏）" : ""}</span>
+    <span class="font-bold italic text-text">{post.unlisted ? "（設定隱藏）" : ""}</span>
     {post.desc ?? ""}
   </div>
 

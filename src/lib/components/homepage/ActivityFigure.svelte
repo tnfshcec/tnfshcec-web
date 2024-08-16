@@ -77,7 +77,7 @@
       <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
 
       <!-- Cut color inside shadow -->
-      <feFlood flood-color="rgb(var(--primary))" flood-opacity=".95" result="color" />
+      <feFlood flood-color="rgb(var(--accent))" flood-opacity=".95" result="color" />
       <feComposite operator="in" in="color" in2="inverse" result="shadow" />
     </filter>
     <image href={logo} width="100%" height="100%" filter="url(#inset-shadow)" />
