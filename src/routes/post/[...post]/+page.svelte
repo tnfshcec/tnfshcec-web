@@ -30,7 +30,6 @@
   });
 
   let infoText: string | undefined;
-
   $: if (metadata.author && metadata.date) {
     infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
   } else if (metadata.author && !metadata.date) {
@@ -43,6 +42,7 @@
     infoText = undefined;
   }
 
+  // toc state for mobile view
   let tableOfContentsOpen = false;
 </script>
 

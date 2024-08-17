@@ -53,13 +53,14 @@
   "post_field_image": "圖片",
   "post_field_pinned": "釘選",
   "post_field_title": "標題",
-  "post_lang_notice": "這篇文章並非使用目前語言書寫。",
   "post_field_url": "連結",
   "post_filter_tags": "使用標籤過濾",
+  "post_lang_notice": "這篇文章並非使用目前語言書寫。",
   "post_list": "最新消息",
   "post_list_description": "在電梯遇到了一個女生\n她對我笑了一下\n按下了第8層\n呵 真會暗示\n她8層有點喜歡我吧\n但我是不會暈的 (ゝ∀･)⌒☆",
   "post_pinned": "釘選",
   "post_posted_by": "作者： {user}",
   "post_table_of_contents": "在此頁面",
+  "scroll_to_top": "回到最上方",
   "title": "國立臺南第一高級中學"
 }
