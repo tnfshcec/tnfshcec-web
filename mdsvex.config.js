@@ -4,7 +4,6 @@ import rehypeSlug from "rehype-slug";
 import { visit } from "unist-util-visit";
 import { escapeSvelte } from "mdsvex";
 import { codeToHtml } from "shiki";
-import { transformerTwoslash } from "@shikijs/twoslash";
 import { transformerNotationDiff, transformerMetaHighlight } from "@shikijs/transformers";
 
 const remarkSpoiler = () => (tree) =>
@@ -58,11 +57,7 @@ export default {
         lang,
         meta: { __raw: meta },
         theme: "one-dark-pro",
-        transformers: [
-          // transformerTwoslash({ explicitTrigger: true }),
-          transformerNotationDiff(),
-          transformerMetaHighlight()
-        ]
+        transformers: [transformerNotationDiff(), transformerMetaHighlight()]
       });
 
       // match attribute-like strings, and feed them into props

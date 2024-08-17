@@ -15,9 +15,6 @@
   import { validDate } from "$lib/utils/date";
   import { getPost } from "$lib/utils/posts.js";
 
-  // for shiki twoslash (cool typescript lsp things)
-  // import "./twoslash-style.css";
-
   export let data;
 
   // ignoring the potential `undefined` here,

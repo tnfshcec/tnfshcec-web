@@ -21,7 +21,6 @@
     "@melt-ui/svelte": "^0.83.0",
     "@playwright/test": "^1.45.0",
     "@shikijs/transformers": "^1.12.1",
-    "@shikijs/twoslash": "^1.12.1",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.3.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
