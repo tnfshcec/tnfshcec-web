@@ -13,14 +13,11 @@
   import * as m from "$paraglide/messages";
   import { languageTag } from "$paraglide/runtime.js";
   import { validDate } from "$lib/utils/date";
-  import { getPost } from "$lib/utils/posts.js";
 
   export let data;
 
-  // ignoring the potential `undefined` here,
-  // because if it's undefined,
-  // we should have thrown an error at `load()`
-  $: post = getPost(data.slug)!;
+  // NOTE: `data.post` will change when url changes.
+  $: post = data.post;
   $: metadata = post.metadata;
   $: content = post.content;
   $: locDate = validDate(metadata.date)?.toLocaleString(languageTag(), {
@@ -70,7 +67,7 @@
   </Collapsible.Content>
 </Collapsible.Root>
 
-<CenteredPage>
+<CenteredPage title="{metadata.title} | {m.name()}" breadcrumb={["home", "postList"]}>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" slot="right">
     <p class="font-bold">{m.post_table_of_contents()}</p>
