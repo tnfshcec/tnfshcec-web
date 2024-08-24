@@ -36,23 +36,84 @@ package.json
 
 ## 新增、更新文章
 
+我們的文章都放在 `cec/` 資料夾裡。
+裡面你會看到很多 `something.md` 的文字檔，一個檔案就是一篇文章。
+同時，這個檔案的路徑會直接對應他的網址路徑，例如：`cec/docs/contribution-guide.md` -> `/post/docs/contribution-guide`
+
+至於詳細的介紹，請往下滑：
+
 ### 檔案結構
 
 最簡單來說，這就是 Markdown。
 但是加了 GFM、一些自訂的擴充功能，還有支援 Svelte 語法。（謝謝 mdsvex 和 remark！）
 
-1. **FrontMatter**（文章資料）
+1. **Frontmatter**（文章資料）
+
+  Frontmatter 是置於 Markdown 內容之前，用於描述檔案附加資料的方式。
+  Markdown 的 Frontmatter 是在檔案的最上方、上下用 `---` 包圍的一個區塊，裡面使用 yaml 格式指定資料。
+  例如：
+
+  ```md
+  ---
+  hello: world
+  mom: 123kg
+  ---
+
+  **Markdown 內容**
+  ```
+
+  > [!NOTE]
+  > 這邊就不為 yaml 多做介紹，他類似 json，是個資料表示方式，大致使用 `key: value` 的格式。
+  > 詳細的規則和格式，就請各位去 Google 一下了。
+
+  而我們網站的文章都可以指定以下的幾個 key，會用於網站各處的顯示。
+  （以下也附上他們的資料型態，以 TS 的方式呈現。）
+
+  - `title`: `string`。文章的標題。
+  - `author`: `string`。文章的作者。
+  - `desc`: `string`。文章的概述或簡介。
+  - `date`: `string`。寫作的日期。使用 [ISO 8601](https://zh.wikipedia.org/wiki/ISO_8601) 的日期格式會自動轉成用戶界面的語言。例如 `2024-01-23`。
+  - `image`: `string`。文章相關的圖片，會顯示在文章頁面的背景。這邊請填圖片網址。
+  - `lang`: `string`。文章的語言。目前我們網站有 `zh-tw`、`en`、`ja` 三種。輸入其他語言可能出現未定義的行為。
+  - `tags`: `string[]`。文章的標籤。如果 `lang` 有被指定，會自動加上那個語言的標籤。
+  - `pinned`: `boolean`。文章是否釘選。預設 `false`。釘選的文章會在列表最上方顯示。
+  - `unlisted`: `boolean`。文章是否不公開顯示。預設 `false`。不公開的文章需要直接使用網址查看，在列表不會出現，搜尋引擎也不會列出（應該）。請注意不公開的文章仍然可以被任何有網址的人檢視。
+
+  > [!TIP]
+  > 這邊看不懂就算了，看一下其他文章的 Frontmatter 是怎麼寫的，複製過來改一下就好了。
+  > （那樣搞不好還比較快。）
 
 2. **內文**
 
-> [!TIP]
-> 內文中可以使用的元素大致都列在 [Elements](/post/test/elements)，[原始碼在這邊](https://github.com/tnfshcec/tnfshcec-web/blob/main/cec/test/elements.md)。
+  內文就是 Markdown 內容了。不清楚的往這邊走：[\[教材\] 基礎Markdown使用教學](/post/material/markdown)
+
+  除了基礎的 Markdown 語法，我們支援、增加了一些另外的語法：表格、 ||暴雷內容|| 、GFM Alert、
+  程式區塊的特殊功能（[指定檔案名](/post/test/elements#code)、[指定 highlight](https://shiki.style/packages/transformers#transformermetahighlight)、[diff 註解](https://shiki.style/packages/transformers#transformernotationdiff)）
+
+  另外可以直接使用 Svelte 組件（Components），也可以使用 Svelte 的語法（像是 Svelte 的反應系統）。
+
+  > [!TIP]
+  > 內文中可以使用的元素大致都列在 [Elements](/post/test/elements)，[原始碼在這邊](https://github.com/tnfshcec/tnfshcec-web/blob/main/cec/test/elements.md)。
 
 ### 進行更改
 
-<!--建立 Fork-->
+講完了內容寫什麼，來講講到底要怎麼新增文章、或對現有內容修改。
+
+首先，你可以使用你喜歡的編輯器，或是直接用 GitHub 提供的編輯模式寫作。
+因為我們都是 Markdown 文字檔而已，GitHub 的編輯器其實不會太糟，你也能預覽檔案渲染出來會長什麼樣（不過有一兩個我們特定的語法 GitHub 看不懂）。
+在 GitHub 編輯完，應該就可以直接 commit、送 PR 了。就免去了其他麻煩。
+
+如果你要在其他地方編輯，你需要在我們的主分支以外的地方編輯。也就是說，你需要建立一個 Fork 或是開新的分支。
+（[tnfshcec/tnfshcec-web](https://github.com/tnfshcec/tnfshcec-web) 的 `main` 分支的程式碼會直接部署上 https://www.tnfshcec.com ！
+為了避免有意料之外的東西跑出去，我們禁止直接在 `main` 中 commit。）
+
+提醒各位，我們的 Markdown 檔案都放在 `cec/` 資料夾裡，檔案路徑對應他的網址路徑。
 
 ### 提交更改
+
+進行你的更改後，照平常的流程 commit 完後，就可以送 PR 提交這些更改了。
+
+送完 PR，有人檢查 OK 之後，就可以合併進主分支，接著就會自動部署上這個網站了！
 
 ## 貢獻、改動網頁本身
 
