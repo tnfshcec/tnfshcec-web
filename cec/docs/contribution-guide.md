@@ -19,7 +19,7 @@ lang: zh-tw
 
 ```txt nonumbers
 📁 cec —— 文章 / 教材儲存位置
-📁 src —— 網站主要程式內容
+📁 src —— 網站主要程式內容（詳細介紹在下方）
 📁 static —— 網站靜態內容（如圖片）
 📁 tests —— 網站端對端（End-to-End）測試
 📁 tnfshcec.inlang —— 多語言工具 Inlang 設定檔
@@ -99,13 +99,26 @@ package.json
 
 講完了內容寫什麼，來講講到底要怎麼新增文章、或對現有內容修改。
 
-首先，你可以使用你喜歡的編輯器，或是直接用 GitHub 提供的編輯模式寫作。
+首先，你可以直接用 GitHub 提供的編輯模式寫作。
 因為我們都是 Markdown 文字檔而已，GitHub 的編輯器其實不會太糟，你也能預覽檔案渲染出來會長什麼樣（不過有一兩個我們特定的語法 GitHub 看不懂）。
 在 GitHub 編輯完，應該就可以直接 commit、送 PR 了。就免去了其他麻煩。
 
-如果你要在其他地方編輯，你需要在我們的主分支以外的地方編輯。也就是說，你需要建立一個 Fork 或是開新的分支。
-（[tnfshcec/tnfshcec-web](https://github.com/tnfshcec/tnfshcec-web) 的 `main` 分支的程式碼會直接部署上 https://www.tnfshcec.com ！
-為了避免有意料之外的東西跑出去，我們禁止直接在 `main` 中 commit。）
+或是，你可以把 repo 複製下來，使用你喜歡的編輯器編輯，並在我們這個實際的頁面做預覽。
+
+> [!TIP]
+> 複製 repo，啟動開發 server 的方法：
+> 
+> 1. 要做編輯的話，先 fork 這個 repo，不然你沒辦法上傳！（有權限的話，你也可以新增分支）
+> 2. 把 repo 複製下來，啟動 server
+>   ```sh
+>   git clone https://github.com/<username>/tnfshcec-web.git # Use tnfshcec as username if you are not making modifications
+>   cd tnfshcec-web
+>   npm run dev                                              # Start the dev server
+>   ```
+>
+> Dev server 啟動後，就可以開始編輯檔案了，每次儲存檔案網頁預覽就會熱重載（Hot reload），不需要手動 F5。
+
+做完更改，寫完 commit 之後，就可以上傳到你的 fork 裡面，並提交一個 PR。
 
 提醒各位，我們的 Markdown 檔案都放在 `cec/` 資料夾裡，檔案路徑對應他的網址路徑。
 
@@ -114,6 +127,10 @@ package.json
 進行你的更改後，照平常的流程 commit 完後，就可以送 PR 提交這些更改了。
 
 送完 PR，有人檢查 OK 之後，就可以合併進主分支，接著就會自動部署上這個網站了！
+
+> [!NOTE]
+> 或許 PR 不會合併得這麼順利，畢竟這是個社團的項目，可能需要大家好好討論過後，
+> 才能讓東西通過。
 
 ## 貢獻、改動網頁本身
 
@@ -145,8 +162,87 @@ package.json
 - [mdsvex](https://mdsvex.pngwn.io/) - 提供 Svelte 中的 Markdown 讀取
 - [Unplugin Icons](https://github.com/unplugin/unplugin-icons) - 提供圖標
 
-這邊就看你需要什麼了
+就看你需要什麼了
+
+### 原始碼大致架構
+
+```txt nonumbers
+📁 cec —— 文章 / 教材儲存位置
+📁 src —— 網站主要程式內容
+┣ 📁 lib —— 一些在各頁面會用到的素材 (assets) / 組件 (components) / 函式
+┣ 📁 messages —— 各語言的訊息翻譯
+  ┗ (language).json
+┣ 📁 routes —— ★ 網站的各個路徑。每個資料夾會對應到一個路徑。
+  ┣ 📁 路徑...
+  ┗ +page.svelte / +page.ts —— 這個路徑上的頁面
+┣ app.d.ts —— 適用於整個 codebase 的 type 定義（TypeScript 特定的東西）
+┣ app.html —— 每一個頁面的基底。一般不會在這裡做改動。
+┣ app.postcss —— 適用於每個頁面的 CSS 規則。如果不是每個頁面都需要，請不要隨便更改。
+┗ hooks.server.ts / hooks.ts —— Hook 系統，一般也不會碰到這邊。
+📁 static —— 網站靜態內容（如圖片、robots.txt）
+其他省略...
+```
+
+因為我們使用 SvelteKit 框架，你可能需要去好好了解 SvelteKit 的架構。
+
+編輯頁面時，每一個頁面都是一個 Svelte 組件，所以看不懂的話，請移駕到 [Svelte Learn](https://learn.svelte.dev)
+或查看 [Svelte Docs](https://svelte.dev/docs/introduction) 和 [SvelteKit Docs](https://kit.svelte.dev/docs/introduction)。
 
 ### 進行更改、測試功能
 
+這邊就要看你想要新增或修改什麼了，這邊我沒辦法幫你太多，
+如果有問題，還請你直接找身邊的人 / 學長 / 維護或開發網頁的 114 級幫忙，
+如果我們知道怎麼做，我們都是很樂意幫忙的，除非他是學測或分科戰士（請幫他們加油謝謝 🥲）。
+
+注意這邊你也必須要自己 fork 或是新增分支，我們的主分支是不能直接進行更動的。
+
+> [!TIP]
+> 複製 repo，啟動開發 server 的方法：
+> 
+> 1. 要做編輯的話，先 fork 這個 repo，不然你沒辦法上傳！（有權限的話，你也可以新增分支）
+> 2. 把 repo 複製下來，啟動 server
+>   ```sh
+>   git clone https://github.com/<username>/tnfshcec-web.git # Use tnfshcec as username if you are not making modifications
+>   cd tnfshcec-web
+>   npm run dev                                              # Start the dev server
+>   ```
+>
+> Dev server 啟動後，就可以開始編輯檔案了，每次儲存檔案網頁預覽就會熱重載（Hot reload），不需要手動 F5。
+
+*（其實編輯文章和程式碼是一樣的動作，只是我覺得把程式碼放在下面比較沒那麼嚇人而已。）*
+
+做完你的修改，記得測試一下！寫出來的 code 常常想像和表現的不一樣，或是漏掉了什麼邊緣情況。
+
+還有，做完你的編輯麻煩用我們的格式化工具讓程式碼變成統一格式！
+我們整個 codebase 基本上都遵守格式化工具的規則，如此讓不同人寫的 code 也能有一致的格式。
+
+> [!NOTE]
+> **使用 Prettier 工具的方法**
+>
+> Prettier 是我們目前使用的格式化工具，讓整個 repo 的程式碼統一風格。
+>
+> 最簡單的方法，是安裝 [Prettier 的 VSCode 插件](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)，
+> 之後右鍵選單就看得到格式化（Format）的選項了。
+> 你也可以打開自動格式化的設定，讓你每次儲存檔案，程式碼就會變成該有的樣子。
+>
+> 如果你不用 VSCode 想打指令的，可以用 `npx prettier --write <檔案或資料夾>`
+
 ### 提交更改
+
+提交更改就是一樣的步驟了，儲存檔案、寫好 commit、推（push）上雲端，然後提交你的 PR。
+接著管理員就會來幫你審核了。
+
+> [!IMPORTANT]
+> 新增或修改的功能，還請你在 PR 訊息裡解釋一下是做什麼用的、會關什麼 issue、為什麼要做之類的相關資訊，
+> ~~不然我不會通靈~~不然看到的人大概會霧煞煞不知道這是要幹嘛。
+>
+> 多溝通出來的功能，也應該會讓更多人感到滿意的。
+
+## 結語
+
+接下來，就歡迎各位來作貢獻啦！
+
+尤其是電機社社員、幹部，我在製作開發這個網站時也是透過做這些動作，一點點、一點點學習起來的。
+希望你們也能在做的的過程中，學到一點東西。
+
+現在，為了讓電機社繼續飛揚，我想這裡的各位必須跟上、甚至超越我們，參與、學習，並且一起進步！
