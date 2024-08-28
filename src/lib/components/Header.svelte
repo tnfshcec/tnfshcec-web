@@ -65,7 +65,11 @@
         <!-- theme toggle button -->
         <button class="rounded-sm p-2 transition-colors hover:bg-primary/20" on:click={toggleMode}>
           {#if $mode === "light"}
-            <Night class="h-8 w-8" aria-label={m.dark_theme()} />
+            <!-- awkward fix - see https://github.com/tnfshcec/tnfshcec-web/issues/56#issuecomment-2315897422 -->
+            <!-- basically we make the two SVGs different so Svelte updates it. -->
+            <span>
+              <Night class="h-8 w-8" aria-label={m.dark_theme()} id="night" />
+            </span>
           {:else}
             <Sunny class="h-8 w-8" aria-label={m.light_theme()} />
           {/if}

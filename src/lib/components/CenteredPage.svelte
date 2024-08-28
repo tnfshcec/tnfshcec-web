@@ -10,7 +10,7 @@
     },
     postList: {
       name: m.post_list(),
-      url: `${base}/posts`
+      url: `${base}/post`
     }
   };
 
