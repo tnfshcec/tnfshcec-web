@@ -1,9 +1,21 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { getPageInfo } from "$lib/utils/pageInfo";
   import ChevronRight from "~icons/mdi/chevron-right";
+  import * as m from "$paraglide/messages";
+  import { base } from "$app/paths";
 
-  $: info = getPageInfo($page.url.pathname);
+  const breadcrumbPages = {
+    home: {
+      name: m.home(),
+      url: `${base}/`
+    },
+    postList: {
+      name: m.post_list(),
+      url: `${base}/post`
+    }
+  };
+
+  export let breadcrumb: (keyof typeof breadcrumbPages)[] = [];
+  export let title: string;
 </script>
 
 <div class="flex w-full p-4">
@@ -11,32 +23,29 @@
     <slot name="left" />
   </div>
 
-  <!-- page info, only render in there is -->
-  {#if info}
-    <div
-      class="relative flex w-full min-w-0 max-w-screen-md flex-col gap-4 break-words [&_*]:max-w-full"
-    >
-      <!-- page title -->
-      <nav class="flex flex-col justify-center">
-        <span>
-          {#each info.path as page}
-            <span class="transition-colors hover:text-accent">
-              <a href={page}>
-                {getPageInfo(page)?.pageTitle}
-              </a>
-              <ChevronRight class="inline h-4 w-4" />
-            </span>
-          {/each}
-        </span>
-        <div class="flex items-center justify-between">
-          <h1 class="text-3xl font-bold">{info.pageTitle}</h1>
-        </div>
-        <slot name="title" />
-      </nav>
+  <div
+    class="relative flex w-full min-w-0 max-w-screen-md flex-col gap-4 break-words [&_*]:max-w-full"
+  >
+    <!-- page title -->
+    <nav class="flex flex-col justify-center">
+      <span>
+        {#each breadcrumb as page}
+          <span class="transition-colors hover:text-accent">
+            <a href={breadcrumbPages[page].url}>
+              {breadcrumbPages[page].name}
+            </a>
+            <ChevronRight class="inline h-4 w-4" />
+          </span>
+        {/each}
+      </span>
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold">{title}</h1>
+      </div>
+      <slot name="title" />
+    </nav>
 
-      <slot />
-    </div>
-  {/if}
+    <slot />
+  </div>
 
   <div class="order-last flex-1">
     <slot name="right" />

@@ -18,6 +18,7 @@
   import uwuLogo from "$lib/assets/uwu-logo.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
+  import { listSortedPosts } from "$lib/utils/posts";
 
   export let data;
 

@@ -1,3 +1,5 @@
+import { languageTag } from "$paraglide/runtime";
+
 /**
  * Validates if the string passed in is a valid `Date`.
  * If the string is NOT a valid date (e.g. is `undefined`, empty string),
@@ -8,4 +10,20 @@
 export function validDate(string?: string) {
   const dateObj = new Date(string ?? "");
   return isNaN(dateObj.valueOf()) ? null : dateObj;
+}
+
+/**
+ * Converts a date-string to a locale specific text.
+ *
+ * @returns Locale text of the date. Returns the original string if date-string is not valid.
+ */
+export function localeDate(string?: string) {
+  const valid = validDate(string);
+  return valid
+    ? valid.toLocaleString(languageTag(), {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    : string;
 }

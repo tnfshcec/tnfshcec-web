@@ -12,28 +12,17 @@
   import { fly } from "svelte/transition";
   import * as m from "$paraglide/messages";
   import { languageTag } from "$paraglide/runtime.js";
-  import { validDate } from "$lib/utils/date";
-  import { getPost } from "$lib/utils/posts.js";
-
-  // for shiki twoslash (cool typescript lsp things)
-  // import "./twoslash-style.css";
+  import { localeDate } from "$lib/utils/date";
 
   export let data;
 
-  // ignoring the potential `undefined` here,
-  // because if it's undefined,
-  // we should have thrown an error at `load()`
-  $: post = getPost(data.slug)!;
+  // NOTE: `data.post` will change when url changes.
+  $: post = data.post;
   $: metadata = post.metadata;
   $: content = post.content;
-  $: locDate = validDate(metadata.date)?.toLocaleString(languageTag(), {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+  $: locDate = localeDate(metadata.date);
 
   let infoText: string | undefined;
-
   $: if (metadata.author && metadata.date) {
     infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
   } else if (metadata.author && !metadata.date) {
@@ -46,6 +35,7 @@
     infoText = undefined;
   }
 
+  // toc state for mobile view
   let tableOfContentsOpen = false;
 </script>
 
@@ -73,7 +63,7 @@
   </Collapsible.Content>
 </Collapsible.Root>
 
-<CenteredPage>
+<CenteredPage title={metadata.title ?? ""} breadcrumb={["home", "postList"]}>
   <!-- table of contents, on the right -->
   <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" slot="right">
     <p class="font-bold">{m.post_table_of_contents()}</p>
