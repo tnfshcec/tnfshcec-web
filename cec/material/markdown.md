@@ -9,22 +9,41 @@ tags: [教材, 第一屆歷史資料]
 
 > 放下Word，立地成材
 
-## Markdown是什麼？
+## Markdown 是什麼？
 
 馬克大奧，一種非常輕的標記語言，與一般程式語言不同的是，他的重點在於直接的「表達」，非常快速的寫出和讀出文檔。
 
-Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需求的話讓他越好讀越好。  
-使用Markdown寫出來的文檔可以非常簡單的導出成`docx`、`html`、`html` 甚至是電子閱讀器使用的 `epub`。甚至在 [Discord](https://discord.com/) 的聊天室中可以直接使用，功能媲美其他筆記軟體。
+為什麼這麼說呢？  
+因為它當初設計就是用來在只有**純文字**的環境下使用的。像是 email、社群貼文這類，沒辦法直接選擇粗體、沒有辦法強調字眼的地方。
 
-<img src="./markdown-tutorial/image/DC.png" alt="DC使用效果圖" width="35%">
-▲ 在Discord中使用Markdown
+所以我們會用 `**` 或 `__` 包圍文字代表強調、前綴加個 `-` 或 `+` 表示清單。
 
-在 Markdown 被提出來後，又有了許多**擴展**，它們為 Markdown 增加功能、讓 Markdown 更加易讀，但**擴展**出來的功能可能就**不是每套軟體都支援**。  
-最常見的擴展肯定就是 GFM (GitHub Flavored Markdown) 了。不過在這邊我們大致上不會特別細分哪些是核心語法、哪些是擴展語法，只把常見（常用）的語法列出來。  
+Markdown 就是這樣的概念。
+在有了這些幾乎是約定俗成的習慣後，John Gruber [在一篇文章中](https://daringfireball.net/projects/markdown/)
+整理、標準化並命名了這套系統，就變成了我們現在的 Markdown。
+
+> [!TIP]
+> 所以 Markdown 不是什麼可以下載的軟體，請不要去 Google 找「Markdown windows 10 免費下載」謝謝。
+
+Markdown 誕生的目的是**易寫**和**易讀**，畢竟你在純文字的情境下也能很清楚的知道一篇文章的架構（像標題、強調等）。
+
+在現代的開發工具的幫助下，
+使用 Markdown 寫出來的文檔可以非常簡單的導出成 `docx`、`html`、`pdf`，甚至是電子閱讀器使用的 `epub`。
+
+不少服務 / 軟體也使用這套規則用來表示文字的架構，
+在 [Discord](https://discord.com/) 的聊天室中可以直接使用，Reddit、Facebook 等地方也都（大概）可以（在某些地方）使用。
+
+![DC使用效果圖](./markdown-assets/DC.png "▲ 在 Discord 中使用 Markdown")
+
+在 Markdown 被提出來後，又有了許多**擴展**，它們為 Markdown 增加功能、讓 Markdown 更加易讀，但**擴展**出來的功能可能就**不是每套軟體都支援**。
+
+最常見的擴展肯定就是 GFM (GitHub Flavored Markdown) 了。不過在這邊我們大致上不會特別細分哪些是核心語法、哪些是擴展語法，只把常見（常用）的語法列出來。
 （最後第 10. 點就是那些不常見、比較特定的語法，必要時再使用即可，否則有些功能在某些軟體沒辦法支援。）
 
 > [!NOTE]
-> 私心推薦Markdown的寫作平台
+> 私心推薦 Markdown 的寫作平台
+>
+> 它們會將 Markdown 語法顯示為一般的附文本（rich text）模式，就像你在 Word 會看到的那樣。
 >
 > - StackEdit - ⭐⭐⭐⭐，免費，Chrome應用程式，線上同步
 > - Notion - ⭐⭐⭐⭐，部分免費，算有名的筆記軟體
@@ -41,8 +60,8 @@ Markdown誕生的目的是**易寫**和**易讀**，所以如果沒有特殊需�
 
 ## Markdown，啟動！
 
-理所當然的，Markdown的後綴是 **_.md_**。
-許多網站都支援Markdown，為求方便，這次使用即時預覽 `typora` 作介紹。
+理所當然的，Markdown 的後綴是 **_.md_**。
+許多網站 / 軟體都支援 Markdown，為求方便，這次使用即時預覽 `typora` 作介紹。
 
 ### 1. Markdown 的標題
 
@@ -63,7 +82,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如：
 ```
 
 顯示的效果就是：
-<img src="./markdown-tutorial/image/title.png" alt="標題效果圖" width="100%">
+![標題效果圖](./markdown-assets/title.png)
 
 > [!TIP]
 > 在 `#` 以後務必要加空白鍵，否則無法正常顯示  
@@ -75,7 +94,7 @@ Markdown 共有**六級**標題，`#` 的數量即代表1~6級標題，例如：
 一開始使用Markdown時我也有這樣的疑惑，到底怎樣才算"換行"  
 在Markdown裡換行有兩種方式，第一種是在**文字尾端加上兩個空白鍵**  
 第二種是直接換兩行開啟新段落，例如：
-<img src="./markdown-tutorial/image/line.png" alt="段落效果圖" width="15%">
+![段落效果圖](./markdown-assets/line.png)
 
 #### 2.1 Markdown 的字體
 
@@ -132,7 +151,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 就會顯示：
-<img src="./markdown-tutorial/image/list.png" alt="無序列表效果圖" width="30%">
+![無序列表效果圖](./markdown-assets/list.png)
 
 無序列表還有一種待辦清單的型態，例如：
 
@@ -143,26 +162,28 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/todo.png" alt="代辦清單效果圖" width="40%">
+![代辦清單效果圖](./markdown-assets/todo.png)
 
 #### 3.3 子列表
 
 在列表底下接上子列表，只需要在選項前面加上**2**或**4**個空格就好，例如：
 
+<!-- prettier-ignore -->
 ```markdown
 1. 第一項
-
-- 第一款
-
-2. 第二款
-
+    - 第一款
+    2. 第二款
 - 第一項
-  1. 第一款
-  - 第二款
+    1. 第一條
+    - 第二款
 ```
 
 顯示的結果為：
-<img src="./markdown-tutorial/image/listinlist.png" alt="子列表效果圖" width="30%">
+![子列表效果圖](./markdown-assets/listinlist.png)
+
+> [!NOTE]
+> 拜託不要這樣寫清單，看起來有夠亂  
+> 誰會寫個清單一下從標點變成標數字？
 
 ### 4. Markdown 的區塊引言 （BlockQuote）
 
@@ -173,7 +194,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 在 `>` 後面加上`空白鍵`再加上自己要的文字，就可以做到這樣的效果：
-<img src="./markdown-tutorial/image/block.png" alt="區塊效果圖" width="30%">
+![區塊效果圖](./markdown-assets/block.png)
 
 如果想要在區塊引言裡面使用另一個區塊引言、在區塊引言中使用列表或是在列表中使用區塊引言，邏輯上其實都差不多，例如：
 
@@ -196,7 +217,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 結果如下：
-<img src="./markdown-tutorial/image/taowa.png" alt="子區塊效果圖" width="30%">
+![子區塊效果圖](./markdown-assets/taowa.png)
 
 > [!TIP] 這裡唯一需要注意的只有區塊後面無論如何**一定要加空白鍵**，沒有 `>>>` 這種使用方式
 
@@ -209,7 +230,7 @@ Markdown有**有序列表**和**無序列表**
 ```
 
 就會顯示：
-<img src="./markdown-tutorial/image/codeblock.png" alt="程式碼區塊效果圖" width="30%">
+![程式碼區塊效果圖](./markdown-assets/codeblock.png)
 
 但當我們有一大串code想要寫的時候怎辦呢？ 這時候有兩種辦法
 
@@ -224,7 +245,7 @@ Markdown有**有序列表**和**無序列表**
    ```
 
    效果：
-   <img src="./markdown-tutorial/image/codeblock_tab.png" alt="程式碼區塊進階效果圖" width="30%">
+   ![程式碼區塊進階效果圖](./markdown-assets/codeblock_tab.png)
 
 2. 使用 ``` 把程式碼包起來
    ````markdown
@@ -237,7 +258,7 @@ Markdown有**有序列表**和**無序列表**
    ````
 
 效果：
-<img src="./markdown-tutorial/image/codeblock_tab.png" alt="程式碼區塊進階效果圖" width="30%">
+![程式碼區塊進階效果圖](./markdown-assets/codeblock_tab.png)
 
 > [!NOTE] 如果希望區塊裡的程式碼可以區分顏色的話，可以在第一行的```後面加上程式語言的名稱，顏色就會自己加上了 (有些軟體不支援)
 
@@ -261,7 +282,7 @@ or
 ```
 
 看起來就會像：
-<img src="./markdown-tutorial/image/atarayo.png" alt="連結效果圖" width="30%">
+![連結效果圖](./markdown-assets/atarayo.png)
 
 還有一種進階用法，把變量賦值在其他地方，例如：
 
@@ -277,7 +298,7 @@ or
 ```
 
 效果：
-<img src="./markdown-tutorial/image/atarayo2.png" alt="連結效果圖2" width="40%">
+![連結效果圖2](./markdown-assets/atarayo2.png)
 
 ### 7. Markdown 的圖片
 
@@ -304,7 +325,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 效果：
-<img src="./markdown-tutorial/image/happy.png" alt="圖片效果圖" width="50%">
+![圖片效果圖](./markdown-assets/happy.png)
 
 當然，圖片那個類似賦值的方式也可以使用喔：
 
@@ -322,14 +343,14 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 效果：
-<img src="./markdown-tutorial/image/pic.png" alt="圖片效果圖2" width="50%">
+![圖片效果圖2](./markdown-assets/pic.png)
 
 > [!NOTE]
 > Markdown的圖片有個致命傷：不能自由調整大小  
 > 這時候就先折衷一下吧，用普通的img標籤：
 >
 > ```
-> <img src="https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg" width="50%">
+> ![](https://i.ytimg.com/vi/8L5cQlXMpeY/maxresdefault.jpg)
 > ```
 
 ### 8. Markdown 的表格
@@ -346,7 +367,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 顯示結果:
-<img src="./markdown-tutorial/image/table.png" alt="表格效果圖" width="50%">
+![表格效果圖](./markdown-assets/table.png)
 
 > [!NOTE]
 > 這部分手寫真的會很難，而且很容易寫到不知道自己在寫什麼，
@@ -365,7 +386,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 > ```
 >
 > 顯示結果：
-> <img src="./markdown-tutorial/image/table2.png" alt="表格效果圖2" width="50%">
+> ![表格效果圖2](./markdown-assets/table2.png)
 
 ### 9. 支援HTML
 
@@ -379,7 +400,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/key.png" alt="HTML效果圖" width="30%">
+![HTML效果圖](./markdown-assets/key.png)
 
 ### 10. Markdown 的你可能不會想用的非核心功能
 
@@ -400,7 +421,7 @@ alt事實上可有可無，但給瀏覽器、文字閱讀器看到這段描述�
 ```
 
 實際看起來：
-<img src="./markdown-tutorial/image/footnote.png" alt="註腳效果圖" width="30%">
+![註腳效果圖](./markdown-assets/footnote.png)
 
 #### 10.2 跳轉
 
@@ -427,7 +448,7 @@ Markdown佔用了很多字符，所以如果有特別想顯示被占用的字符
 ```
 
 實際顯示：
-<img src="./markdown-tutorial/image/conflict.png" alt="衝突效果圖" width="30%">
+![衝突效果圖](./markdown-assets/conflict.png)
 
 #### 10.5 公式
 
@@ -458,7 +479,7 @@ $$
 ```
 
 顯示：
-<img src="./markdown-tutorial/image/math.png" alt="公式效果圖" width="30%">
+![公式效果圖](./markdown-assets/math.png)
 
 太噁心啦😍😍😍😍
 
@@ -480,7 +501,7 @@ A[方形] -->B(圓形)
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss1.png" alt="語錄評比1" width="40%">
+![語錄評比1](./markdown-assets/boss1.png)
 
 ##### 10.6.2 直向流程圖
 
@@ -495,7 +516,7 @@ A[方形] --> B(圓角)
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss2.png" alt="語錄評比2" width="25%">
+![語錄評比2](./markdown-assets/boss2.png)
 
 ##### 10.6.3 標準流程圖(橫)
 
@@ -513,7 +534,7 @@ cond(no)->sub1(right)->op
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss4.png" alt="語錄評比" width="40%">
+![語錄評比](./markdown-assets/boss4.png)
 
 ##### 10.6.4 標準流程圖(直)
 
@@ -531,7 +552,7 @@ cond(no)->sub1(right)->op
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss3.png" alt="語錄評比" width="25%">
+![語錄評比](./markdown-assets/boss3.png)
 
 ##### 10.6.5 UML順序圖
 
@@ -545,7 +566,7 @@ A->B: 再回應
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss5.png" alt="語錄評比" width="25%">
+![語錄評比](./markdown-assets/boss5.png)
 
 ##### 10.6.6 UML順序圖(複雜版)
 
@@ -565,7 +586,7 @@ Note right of C: C描述
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss6.png" alt="語錄評比" width="30%">
+![語錄評比](./markdown-assets/boss6.png)
 
 ##### 10.6.7 UML標準順序圖
 
@@ -585,7 +606,7 @@ sequenceDiagram
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss7.png" alt="語錄評比" width="50%">
+![語錄評比](./markdown-assets/boss7.png)
 
 ##### 10.6.8 甘特圖
 
@@ -612,7 +633,7 @@ sequenceDiagram
 ```
 ````
 
-<img src="./markdown-tutorial/image/boss8.png" alt="語錄評比" width="50%">
+![語錄評比](./markdown-assets/boss8.png)
 
 ## 總結
 

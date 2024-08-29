@@ -18,6 +18,12 @@ tags: [ESP32, 教材, 第一屆歷史資料]
 
 內建 LED 應該是大家最熟悉的部份吧，畢竟它最常被我們拿來 Blink 測試板子有沒有問題。
 
+> [!TIP]
+> 各型的板子的內建 LED 所在的 GPIO 位置可能都不一樣，
+> `BUILTIN_LED` 的定義也就都不盡相同。
+>
+> 如果預設沒有定義好的 `BUILTIN_LED`，就請你去找找你的開發板的說明文檔囉。
+
 ```c
 void loop() {
   digitalWrite(BUILTIN_LED, HIGH); // 設成高電位（亮）
@@ -83,6 +89,7 @@ void loop() {
 ### WiFi
 
 參考：
+
 - https://shop.mirotek.com.tw/iot/esp32-start-23/
 - https://randomnerdtutorials.com/esp32-useful-wi-fi-functions-arduino/
 
@@ -237,10 +244,10 @@ void loop() {
 
 ## 麵包板
 
-> 麵包板（英語：Breadboard）或叫免焊萬用電路板（solderless breadboard），為電子電路設計中常用的一種基底。
-> 與印刷電路板不同，麵包板無需焊接或損壞電路軌道，因此可以反覆使用。
-> 麵包板非常適合用於打造原型產品，在學生和技術教育領域非常受歡迎。
-> ——[麵包板 - 維基百科](https://zh.wikipedia.org/zh-hant/%E9%9D%A2%E5%8C%85%E6%9D%BF)
+麵包板為電子電路設計中常用的一種基底。
+與印刷電路板不同，麵包板無需焊接或損壞電路軌道，因此可以反覆使用。
+麵包板非常適合用於打造原型產品，在學生和技術教育領域非常受歡迎。
+——[麵包板 - 維基百科](https://zh.wikipedia.org/zh-hant/%E9%9D%A2%E5%8C%85%E6%9D%BF)
 
 總之，就是讓你簡單接線的板子。因為它已經在裡面幫你接好了。
 
@@ -350,7 +357,8 @@ void setup() {
 }
 
 void loop() {
-  if (digitalRead(BUTTON_PIN) == HIGH) {
+  // 我們用了上拉電阻（INPUT_PULLUP），所以按鈕按下時是 LOW 訊號！
+  if (digitalRead(BUTTON_PIN) == LOW) {
     digitalWrite(LED_PIN, HIGH);
   } else {
     digitalWrite(LED_PIN, LOW);
@@ -397,7 +405,7 @@ void loop() {
 
 1. **接線**
 
-VCC 電源、GND 接地、I/O 接 GPIO 
+VCC 電源、GND 接地、I/O 接 GPIO
 
 2. **發出聲音、調整音高**
 
@@ -429,7 +437,7 @@ noTone(PIN);
 
 1. **接線**
 
-VCC 電源、GND 接地、TRIG 和 ECHO 接 GPIO 
+VCC 電源、GND 接地、TRIG 和 ECHO 接 GPIO
 
 2. **送出觸發訊號、讀取時間**
 
@@ -474,6 +482,7 @@ VCC (+) 接到電源、GND (G) 接到接地、OUT (DO 或 AO) 接到 GPIO
 2. **接收音訊**
 
 你會發現這邊的訊號分成數位和類比兩種，差別在這裡：
+
 - 數位（Digital）訊號：只要偵測到聲音，就會輸出 `HIGH` 高電位訊號。
 - 類比（Analog）訊號：聲音越大，訊號越強。
 
@@ -513,16 +522,19 @@ ADD0 我們不會接在板子上，它是用來更變這個零件的位址。如
 
 2. **接收溫度資訊**
 
+已經有現成的函式庫可以幫忙處理與 TMP102 的溝通：
+[sparkfun/SparkFun_TMP102_Arduino_Library](https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library)
+
+參考：https://learn.sparkfun.com/tutorials/tmp102-digital-temperature-sensor-hookup-guide/all
+
+> [!NOTE]
+> 以下的程式碼是由函式庫的範例修改與刪減。
+> 如果想要看原本函式庫提供的程式碼，[走這邊](https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library/tree/master/examples)
+
 ```c
-/** 來源 https://learn.sparkfun.com/tutorials/tmp102-digital-temperature-sensor-hookup-guide/all */
-  #include <Wire.h> // 用來建立 I2C 通訊
+#include <Wire.h> // 用來建立 I2C 通訊
 #include <SparkFunTMP102.h> // 用來處理 TMP102 的訊號
 
-// 連接
-// VCC = 3.3V
-// GND = GND
-// SDA = A4
-// SCL = A5
 const int ALERT_PIN = A3;
 
 TMP102 sensor0;
@@ -531,18 +543,12 @@ void setup() {
   Serial.begin(115200);
   Wire.begin(); // 加入 I2C 匯流排
 
-  pinMode(ALERT_PIN,INPUT);  // 宣告 alertPin 為輸入
+  pinMode(ALERT_PIN,INPUT);
 
-  /* TMP102 使用預設設定，地址為 0x48，使用 Wire。
-
-     選擇性地，如果地址跳線被修改，或者使用不同的 I2C 匯流排，
-     這些參數可以在這裡更改。例如：sensor0.begin(0x49,Wire1)
-
-     成功連接返回 true，否則返回 false。 */
-  if(!sensor0.begin())
-  {
+  // TMP102 使用預設設定，地址為 0x48，使用上面的 Wire。
+  // 成功連接返回 true，否則返回 false。
+  if (!sensor0.begin()) {
     Serial.println("無法連接 TMP102。");
-    Serial.println("板子是否已連接？設備 ID 是否正確？");
     while(1);
   }
 
@@ -556,27 +562,25 @@ void setup() {
   // 0-3: 0:1 次故障, 1:2 次故障, 2:4 次故障, 3:6 次故障。
   sensor0.setFault(0);  // 立即觸發警報
 
-  // 設定警報的極性。(0:有效低, 1:有效高)。
-  sensor0.setAlertPolarity(1); // 有效高
+  // 設定警報的極性。(0:有效LOW, 1:有效HIGH)。
+  sensor0.setAlertPolarity(1); // HIGH
 
   // 將傳感器設置為比較器模式 (0) 或中斷模式 (1)。
   sensor0.setAlertMode(0); // 比較器模式。
 
   // 設定轉換速率（傳感器獲取新讀數的速度）
-  //0-3: 0:0.25Hz, 1:1Hz, 2:4Hz, 3:8Hz
+  // 0:0.25Hz, 1:1Hz, 2:4Hz, 3:8Hz
   sensor0.setConversionRate(2);
 
-  //設置擴展模式。
-  //0:12 位元溫度 (-55°C 到 +128°C) 1:13 位元溫度 (-55°C 到 +150°C)
+  // 設置擴展模式。
+  // 0:12 位元溫度 (-55°C 到 +128°C), 1:13 位元溫度 (-55°C 到 +150°C)
   sensor0.setExtendedMode(0);
 
-  //設置 T_HIGH，上限以觸發警報
-  sensor0.setHighTempF(82.0);  // 設置 T_HIGH 為華氏度
-  //sensor0.setHighTempC(29.4); // 設置 T_HIGH 為攝氏度
+  // 設置 T_HIGH，上限以觸發警報
+  sensor0.setHighTempC(29.4);
 
-  //設置 T_LOW，下限以關閉警報
-  sensor0.setLowTempF(81.0);  // 設置 T_LOW 為華氏度
- //sensor0.setLowTempC(26.67); // 設置 T_LOW 為攝氏度
+  // 設置 T_LOW，下限以關閉警報
+  sensor0.setLowTempC(26.67);
 }
 
 void loop()
@@ -589,10 +593,9 @@ void loop()
   sensor0.wakeup();
 
   // 讀取溫度資料
-  temperature = sensor0.readTempF();
-  //temperature = sensor0.readTempC();
+  temperature = sensor0.readTempC();
 
-  // Check for Alert
+  // 讀取警報
   alertPinState = digitalRead(ALERT_PIN); // 從針腳讀取警報
   alertRegisterState = sensor0.alert();   // 從註冊讀取警報
 
@@ -613,9 +616,6 @@ void loop()
   delay(1000);  // 等待 1000ms
 }
 ```
-
-> [!NOTE]
-> _這部分是 ChatGPT 翻譯的，正確性我不知道，有時間我再測試_
 
 ## LCD 液晶螢幕
 

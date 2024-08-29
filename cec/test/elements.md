@@ -110,16 +110,17 @@ Usage of relative paths (`./path/to/image`) will be translated into Vite's
 
 ## Code
 
+- `{a-b,c}` 會 highlight 第 a 到 b 行和第 c 行
+- `title=""` 指定標題 / 檔案名
+- `nonumbers` 去掉前面的數字
+
 ```ts twoslash {3-4} title="examples/index.ts" nonumbers
 for (let x in [0, 1, 2]) console.log(x);
 
-// for twoslash's markup notations,
-// checkout https://twoslash.netlify.app/refs/notations
-// ---cut-after---
 "uwu";
 ```
 
-```ts twoslash
+```ts
 interface IdLabel {
   id: number /* some fields */;
 }
@@ -127,14 +128,11 @@ interface NameLabel {
   name: string /* other fields */;
 }
 type NameOrId<T extends number | string> = T extends number ? IdLabel : NameLabel;
-// This comment should not be included
 
-// ---cut---
 function createLabel<T extends number | string>(idOrName: T): NameOrId<T> {
   throw "unimplemented";
 }
 
-// @noErrors
 let a = createLabel("yavascript"); // [!code --]
 let a = createLabel("typescript"); // [!code ++]
 ```
