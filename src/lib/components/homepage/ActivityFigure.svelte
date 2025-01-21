@@ -89,7 +89,7 @@
       style:left="{act.labelPosition[0]}rem"
       style:top="{act.labelPosition[1]}rem"
       role="presentation"
-      on:mousedown={dragStart}
+      onmousedown={dragStart}
     >
       {act.label}
     </div>

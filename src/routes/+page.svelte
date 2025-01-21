@@ -20,7 +20,7 @@
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
   import { listSortedPosts } from "$lib/utils/posts";
 
-  export let data;
+  let { data } = $props();
 
   type Social = { name: string; href: string; icon: ComponentType };
   let socials: Social[] = [
@@ -98,7 +98,7 @@
             class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
             style:mask="url({TNFSH_emblem}) center / contain no-repeat"
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
-          />
+></div>
         </a>
         {#each socials as social}
           <a
@@ -107,8 +107,7 @@
             rel="noopener noreferrer"
             aria-label={m.home_social_link({ name: social.name })}
           >
-            <svelte:component
-              this={social.icon}
+            <social.icon
               class="h-8 w-8 text-text/80 transition-colors hover:text-accent"
             />
           </a>

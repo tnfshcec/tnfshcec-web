@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { Collapsible } from "bits-ui";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
@@ -14,29 +16,31 @@
   import { languageTag } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
 
-  export let data;
+  let { data } = $props();
 
   // NOTE: `data.post` will change when url changes.
-  $: post = data.post;
-  $: metadata = post.metadata;
-  $: content = post.content;
-  $: locDate = localeDate(metadata.date);
+  let post = $derived(data.post);
+  let metadata = $derived(post.metadata);
+  let content = $derived(post.content);
+  let locDate = $derived(localeDate(metadata.date));
 
-  let infoText: string | undefined;
-  $: if (metadata.author && metadata.date) {
-    infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
-  } else if (metadata.author && !metadata.date) {
-    infoText = m.post_posted_by({ user: metadata.author });
-  } else if (!metadata.author && metadata.author) {
-    infoText = locDate;
-  } else if (metadata.pinned) {
-    infoText = m.post_pinned();
-  } else {
-    infoText = undefined;
-  }
+  let infoText: string | undefined = $state();
+  run(() => {
+    if (metadata.author && metadata.date) {
+      infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
+    } else if (metadata.author && !metadata.date) {
+      infoText = m.post_posted_by({ user: metadata.author });
+    } else if (!metadata.author && metadata.author) {
+      infoText = locDate;
+    } else if (metadata.pinned) {
+      infoText = m.post_pinned();
+    } else {
+      infoText = undefined;
+    }
+  });
 
   // toc state for mobile view
-  let tableOfContentsOpen = false;
+  let tableOfContentsOpen = $state(false);
 </script>
 
 <!-- table of contents on mobile view -->
@@ -65,12 +69,15 @@
 
 <CenteredPage title={metadata.title ?? ""} breadcrumb={["home", "postList"]}>
   <!-- table of contents, on the right -->
-  <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" slot="right">
-    <p class="font-bold">{m.post_table_of_contents()}</p>
-    <TableOfContents selector="#post-content" />
-  </div>
+  {#snippet right()}
+    <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" >
+      <p class="font-bold">{m.post_table_of_contents()}</p>
+      <TableOfContents selector="#post-content" />
+    </div>
+  {/snippet}
 
   <!-- post info, under the title -->
+  <!-- @migration-task: migrate this slot by hand, `title` would shadow a prop on the parent component -->
   <div class="icon-flex" slot="title">
     {#if metadata.pinned}
       <Pin class="h-4 w-4 text-primary" />
@@ -102,8 +109,9 @@
   {/if}
 
   <!-- actual post content -->
+  {@const SvelteComponent = content}
   <article class="prose space-y-4" id="post-content">
-    <svelte:component this={content} />
+    <SvelteComponent />
   </article>
 
   {#if metadata.tags}

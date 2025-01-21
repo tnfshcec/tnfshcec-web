@@ -6,7 +6,12 @@
   import Alert from "~icons/mdi/alert-outline";
   import AlertOctagon from "~icons/mdi/alert-octagon-outline";
 
-  export let title: keyof typeof titlesInfo;
+  interface Props {
+    title: keyof typeof titlesInfo;
+    children?: import('svelte').Snippet;
+  }
+
+  let { title, children }: Props = $props();
 
   const titlesInfo = {
     "!NOTE": ["note", m.alert_note(), Information],
@@ -17,15 +22,17 @@
   } as const;
 
   const alertInfo = titlesInfo[title];
+
+  const SvelteComponent = $derived(alertInfo[2]);
 </script>
 
 <div class="markdown-alert my-5 border-l-4 px-4 markdown-alert-{alertInfo[0]}">
   <span class="icon-flex font-bold">
-    <svelte:component this={alertInfo[2]} />
+    <SvelteComponent />
     {alertInfo[1]}
   </span>
   <div class="[&>*:first-child]:mt-0">
-    <slot />
+    {@render children?.()}
   </div>
 </div>
 

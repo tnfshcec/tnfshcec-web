@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   // sine wave range(0, 1)
-  let breath = 0;
+  let breath = $state(0);
 
   onMount(() => {
     const interval = setInterval(() => {
@@ -17,7 +17,7 @@
   class="absolute right-0 top-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
   style:--size="{breath * 30 + 100}%"
   id="hero-gradient"
-/>
+></div>
 
 <style>
   #hero-gradient {

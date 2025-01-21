@@ -1,11 +1,24 @@
 <!-- https://www.melt-ui.com/docs/builders/table-of-contents -->
 <script lang="ts">
+  import Tree from './Tree.svelte';
+  import { createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
   import { type TableOfContentsItem, type TableOfContentsElements, melt } from "@melt-ui/svelte";
 
-  export let tree: TableOfContentsItem[] = [];
-  export let activeHeadingIdxs: number[];
-  export let item: TableOfContentsElements["item"];
-  export let level = 1;
+  interface Props {
+    tree?: TableOfContentsItem[];
+    activeHeadingIdxs: number[];
+    item: TableOfContentsElements["item"];
+    level?: number;
+  }
+
+  let {
+    tree = [],
+    activeHeadingIdxs,
+    item,
+    level = 1
+  }: Props = $props();
 </script>
 
 <ul class="m-0 list-none {level !== 1 ? 'pl-4' : ''}">
@@ -17,7 +30,7 @@
           use:melt={$item(heading.id)}
           class="inline-flex items-center justify-center gap-2 text-text/60 no-underline transition-colors
                  hover:!text-accent data-[active]:text-text"
-          on:click
+          onclick={bubble('click')}
         >
           <!--
             Along with the heading title, the original heading node
@@ -27,7 +40,7 @@
           {@html heading.node.innerHTML}
         </a>
         {#if heading.children && heading.children.length}
-          <svelte:self
+          <Tree
             tree={heading.children}
             level={level + 1}
             {activeHeadingIdxs}

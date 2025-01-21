@@ -1,11 +1,11 @@
 <!-- TRUTH -->
 <script lang="ts">
-  let n = 0;
+  let n = $state(0);
 </script>
 
 <p>游😶育是甲，這是真的!</p>
 
-<button class="btn-accent" on:click={() => n++}> 猜謎: 南一中第一甲是誰? </button>
+<button class="btn-accent" onclick={() => n++}> 猜謎: 南一中第一甲是誰? </button>
 
 <p>
   {#each Array(n) as _}

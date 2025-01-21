@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { browser } from "$app/environment";
   import { base } from "$app/paths";
   import { page } from "$app/stores";
@@ -6,15 +8,17 @@
   import PostCard from "$lib/components/homepage/PostCard.svelte";
   import * as m from "$paraglide/messages";
 
-  export let data;
+  let { data } = $props();
 
   /** current filtering tags */
-  let tags: string[] = [];
+  let tags: string[] = $state([]);
 
-  $: if (browser) {
-    const tagsParam = $page.url.searchParams.get("tags") ?? "";
-    tags = tagsParam.split(",").filter((t) => t); // remove empty strings with filter()
-  }
+  run(() => {
+    if (browser) {
+      const tagsParam = $page.url.searchParams.get("tags") ?? "";
+      tags = tagsParam.split(",").filter((t) => t); // remove empty strings with filter()
+    }
+  });
 
   /**
    * Toggles the tags in searchParams
@@ -59,24 +63,26 @@
     {/each}
   </div>
 
-  <svelte:fragment slot="right">
-    <!-- tags buttons for desktop, on the right -->
-    {#if data.tags.size > 0}
-      <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block">
-        <p class="font-bold">{m.post_filter_tags()}</p>
-        <div class="flex flex-wrap gap-2">
-          {#each data.tags as tag}
-            {@const tagsParam = getTagsParam(tags, tag)}
-            <a
-              class="btn-accent whitespace-nowrap
-                {tags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
-              href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
-            >
-              #{tag}
-            </a>
-          {/each}
+  {#snippet right()}
+  
+      <!-- tags buttons for desktop, on the right -->
+      {#if data.tags.size > 0}
+        <div class="sticky top-20 hidden w-max max-w-xs space-y-2 p-4 lg:block">
+          <p class="font-bold">{m.post_filter_tags()}</p>
+          <div class="flex flex-wrap gap-2">
+            {#each data.tags as tag}
+              {@const tagsParam = getTagsParam(tags, tag)}
+              <a
+                class="btn-accent whitespace-nowrap
+                  {tags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
+                href="{base}/post{tagsParam === '' ? '' : '?tags=' + tagsParam}"
+              >
+                #{tag}
+              </a>
+            {/each}
+          </div>
         </div>
-      </div>
-    {/if}
-  </svelte:fragment>
+      {/if}
+    
+  {/snippet}
 </CenteredPage>

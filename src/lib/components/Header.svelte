@@ -33,7 +33,7 @@
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <!-- no idea why normal link here doesn't get translated -->
     <a
-      href={i18n.resolveRoute(`${base}/`)}
+      href="{base}/"
       class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2 overflow-hidden"
     >
       <img
@@ -50,7 +50,7 @@
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 lg:flex">
         <a
-          href={i18n.resolveRoute(`${base}/post`)}
+          href="{base}/post"
           class="shrink-0 transition-colors hover:text-accent"
         >
           {m.post_list()}
@@ -63,7 +63,7 @@
         </a>
 
         <!-- theme toggle button -->
-        <button class="rounded-sm p-2 transition-colors hover:bg-primary/20" on:click={toggleMode}>
+        <button class="rounded-sm p-2 transition-colors hover:bg-primary/20" onclick={toggleMode}>
           {#if $mode === "light"}
             <!-- awkward fix - see https://github.com/tnfshcec/tnfshcec-web/issues/56#issuecomment-2315897422 -->
             <!-- basically we make the two SVGs different so Svelte updates it. -->
@@ -100,7 +100,7 @@
                 {#if tag === languageTag()}
                   <Check class="h-4 w-4" />
                 {:else}
-                  <div role="none" />
+                  <div role="none"></div>
                 {/if}
                 {m.lang({}, { languageTag: tag }) || tag}
               </DropdownMenu.Item>
@@ -150,7 +150,7 @@
 
             <button
               class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
-              on:click={toggleMode}
+              onclick={toggleMode}
             >
               {#if $mode === "light"}
                 <Night class="h-4 w-4" />
@@ -184,7 +184,7 @@
                     {#if tag === languageTag()}
                       <Check class="h-4 w-4" />
                     {:else}
-                      <div class="h-4 w-4" role="none" />
+                      <div class="h-4 w-4" role="none"></div>
                     {/if}
                     {m.lang({}, { languageTag: tag }) || tag}
                   </a>
