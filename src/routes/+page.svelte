@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { getContext, type ComponentProps, type ComponentType } from "svelte";
-  import type { Readable } from "svelte/store";
+  import { type Component, type ComponentProps } from "svelte";
   import { base } from "$app/paths";
   import * as m from "$paraglide/messages";
   import { anchorScroll } from "$lib/components/actions";
+  import { uwu } from "$lib/utils/uwu.svelte";
   import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
+  import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
 
   import Facebook from "~icons/mdi/facebook";
   import Instagram from "~icons/mdi/instagram";
@@ -17,21 +18,10 @@
   import ArrowRight from "~icons/mdi/arrow-right-drop-circle-outline";
   import uwuLogo from "$lib/assets/uwu-logo.png";
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
-  import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
-  import { listSortedPosts } from "$lib/utils/posts";
 
   let { data } = $props();
 
-  type Social = { name: string; href: string; icon: ComponentType };
-  let socials: Social[] = [
-    { name: "Facebook", href: "https://www.facebook.com/TNFSHCEC", icon: Facebook },
-    { name: "Instagram", href: "https://www.instagram.com/tnfshcec", icon: Instagram },
-    { name: "Threads", href: "https://www.threads.net/tnfshcec", icon: At },
-    { name: "X (Formerly Twitter)", href: "https://twitter.com/tnfshcec", icon: Twitter },
-    { name: "GitHub", href: "https://github.com/tnfshcec", icon: Github }
-  ];
-
-  let comments: ComponentProps<Comment>[][] = [
+  let comments = [
     [
       {
         username: m.home_comment_user_genshit(),
@@ -68,9 +58,20 @@
       }
     ]
   ];
-
-  let uwu = getContext<Readable<boolean>>("uwu");
 </script>
+
+{#snippet socialIcon(name:string, href:string, Icon:Component)}
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={m.home_social_link({ name })}
+  >
+    <Icon
+      class="h-8 w-8 text-text/80 transition-colors hover:text-accent"
+    />
+  </a>
+{/snippet}
 
 <section class="h-[65vh] min-h-[20rem] w-full items-center p-4">
   <div class="relative mx-auto h-full max-w-screen-xl">
@@ -79,7 +80,7 @@
     >
       <div class="space-y-4">
         <header class="text-4xl font-bold">
-          {#if $uwu}
+          {#if uwu.enabled}
             <img src={uwuLogo} alt="kawaii tnfshcec logo" />
           {:else}
             {m.home_title()}
@@ -100,18 +101,11 @@
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
 ></div>
         </a>
-        {#each socials as social}
-          <a
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={m.home_social_link({ name: social.name })}
-          >
-            <social.icon
-              class="h-8 w-8 text-text/80 transition-colors hover:text-accent"
-            />
-          </a>
-        {/each}
+        {@render socialIcon("Facebook", "https://www.facebook.com/TNFSHCEC", Facebook )}
+        {@render socialIcon("Instagram", "https://www.instagram.com/tnfshcec", Instagram )}
+        {@render socialIcon("Threads", "https://www.threads.net/tnfshcec", At )}
+        {@render socialIcon("X (Formerly Twitter)", "https://twitter.com/tnfshcec", Twitter )}
+        {@render socialIcon("GitHub", "https://github.com/tnfshcec", Github )}
       </div>
     </div>
     <HeroGradient />
@@ -161,17 +155,83 @@
   </div>
 </section>
 
+{#snippet comment(username:string, handle:string, comment:string)}
+  <div class="flex w-72 flex-col gap-2 rounded bg-secondary px-4 py-2">
+    <div class="flex items-center gap-2">
+      <div class="comment-pfp h-8 w-8 rounded-full"></div>
+      <div>
+        <span>
+          {username}
+        </span>
+        <br />
+        <span class="text-text/60">{handle}</span>
+      </div>
+    </div>
+    <div class="text-lg">{comment}</div>
+  </div>
+{/snippet}
+
+<!-- comments -->
 <section class="w-full px-4 py-16" id="comments">
   <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
     <div class="text-2xl font-bold">{m.home_comments_title()}</div>
+
     <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">
-      {#each comments as comList}
-        <div class="flex snap-start flex-col gap-4">
-          {#each comList as comment}
-            <Comment {...comment} />
-          {/each}
-        </div>
-      {/each}
+      <!-- column 1 -->
+      <div class="flex snap-start flex-col gap-4">
+        {@render comment(
+           m.home_comment_user_genshit(),
+           "@gayshitenjoyer",
+           m.home_comment_genshit()
+        )}
+        {@render comment(
+          m.home_comment_user_ai(),
+          "@horn_yart",
+          m.home_comment_ai()
+        )}
+        {@render comment(
+           m.home_comment_user_yorMUM(),
+           "@yorMUM",
+           m.home_comment_yorMUM()
+        )}
+      </div>
+      <!-- column 2 -->
+      <div class="flex snap-start flex-col gap-4">
+        {@render comment(
+           m.home_comment_user_yun(),
+           "@yun._.0618",
+           m.home_comment_yun(),
+        )}
+        {@render comment(
+         m.home_comment_user_dun(),
+          "@nobleg",
+          m.home_comment_dun()
+        )}
+      </div>
+      <!-- column 3 -->
+      <div class="flex snap-start flex-col gap-4">
+        {@render comment(
+           m.home_comment_user_kleeplayer(),
+           "@kleeplayer",
+           m.home_comment_kleeplayer()
+        )}
+        {@render comment(
+           m.home_comment_user_alanwolk(),
+           "@alan_wolk",
+           m.home_comment_alanwolk()
+        )}
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .comment-pfp {
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    background-image: radial-gradient(circle at 83.01% 47.05%, rgb(var(--primary)), transparent 81%),
+      radial-gradient(circle at 82.02% 97.01%, rgb(var(--accent)), transparent 63%),
+      radial-gradient(circle at 28.02% 57.03%, rgb(var(--accent)), transparent 43%);
+    background-color: rgb(var(--text));
+  }
+</style>

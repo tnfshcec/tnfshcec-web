@@ -5,7 +5,7 @@
   import * as m from "$paraglide/messages";
   import { availableLanguageTags, languageTag } from "$paraglide/runtime";
   import { fly, slide } from "svelte/transition";
-  import type { Readable } from "svelte/store";
+  import { uwu } from "$lib/utils/uwu.svelte";
 
   import logo from "$lib/assets/logo.svg";
   import uwuLogo from "$lib/assets/uwu-logo.png";
@@ -22,9 +22,6 @@
   import Info from "~icons/mdi/information-outline";
   import Night from "~icons/mdi/weather-night";
   import Sunny from "~icons/mdi/weather-sunny";
-  import { getContext } from "svelte";
-
-  let uwu = getContext<Readable<boolean>>("uwu");
 </script>
 
 <header
@@ -37,7 +34,7 @@
       class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2 overflow-hidden"
     >
       <img
-        src={$uwu ? uwuLogo : logo}
+        src={uwu.enabled ? uwuLogo : logo}
         class="col-start-1 row-span-2 row-start-1"
         alt="TNFSHCEC icon"
       />
