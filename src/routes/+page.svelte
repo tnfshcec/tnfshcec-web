@@ -73,8 +73,8 @@
   </a>
 {/snippet}
 
-<section class="h-[65vh] min-h-[20rem] w-full items-center p-4">
-  <div class="relative mx-auto h-full max-w-screen-xl">
+<section class="w-full items-center p-4">
+  <div class="relative mx-auto min-h-[60vh] max-w-screen-xl">
     <div
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
@@ -86,7 +86,7 @@
             {m.home_title()}
           {/if}
         </header>
-        <section class="text-xl">{m.home_description()}</section>
+        <p class="sm:text-xl">{m.home_description()}</p>
       </div>
       <div class="flex items-center justify-center gap-2">
         <a
@@ -99,7 +99,7 @@
             class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
             style:mask="url({TNFSH_emblem}) center / contain no-repeat"
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
-></div>
+          ></div>
         </a>
         {@render socialIcon("Facebook", "https://www.facebook.com/TNFSHCEC", Facebook )}
         {@render socialIcon("Instagram", "https://www.instagram.com/tnfshcec", Instagram )}
