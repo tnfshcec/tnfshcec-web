@@ -1,4 +1,4 @@
-import remarkFootnotes from "remark-footnotes";
+import remarkGFM from "remark-gfm";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 import { visit } from "unist-util-visit";
@@ -72,7 +72,7 @@ export default {
       return `<Components.codeblock ${attr}>{@html \`${escapeSvelte(html)}\` }</Components.codeblock>`;
     }
   },
-  remarkPlugins: [remarkSpoiler, remarkAlerts, [remarkFootnotes, { inlineNotes: true }]],
+  remarkPlugins: [remarkSpoiler, remarkAlerts, remarkGFM],
   rehypePlugins: [
     rehypeImage,
     rehypeSlug,
