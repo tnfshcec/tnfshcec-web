@@ -114,7 +114,7 @@
 
 <!-- more -->
 <section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
-  <div class="max-w-4xl text-lg">{m.home_quote()}</div>
+  <div class="max-w-4xl sm:text-lg">{m.home_quote()}</div>
   <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
     <span>{m.home_more_info()}</span>

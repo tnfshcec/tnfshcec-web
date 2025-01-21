@@ -1,9 +1,6 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
-  import { browser } from "$app/environment";
   import { base } from "$app/paths";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
   import * as m from "$paraglide/messages";
@@ -13,11 +10,9 @@
   /** current filtering tags */
   let tags: string[] = $state([]);
 
-  run(() => {
-    if (browser) {
-      const tagsParam = $page.url.searchParams.get("tags") ?? "";
+  $effect(() => {
+      const tagsParam = page.url.searchParams.get("tags") ?? "";
       tags = tagsParam.split(",").filter((t) => t); // remove empty strings with filter()
-    }
   });
 
   /**

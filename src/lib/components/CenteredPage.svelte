@@ -3,6 +3,18 @@
   import ChevronRight from "~icons/mdi/chevron-right";
   import * as m from "$paraglide/messages";
   import { base } from "$app/paths";
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    breadcrumb: (keyof typeof breadcrumbPages)[];
+    title: string;
+    left?: Snippet;
+    right?: Snippet;
+    belowTitle?: Snippet;
+    children?: Snippet;
+  }
+
+  const { breadcrumb = [], title, left, right, belowTitle, children }: Props = $props();
 
   const breadcrumbPages = {
     home: {
@@ -14,14 +26,11 @@
       url: `${base}/post`
     }
   };
-
-  export let breadcrumb: (keyof typeof breadcrumbPages)[] = [];
-  export let title: string;
 </script>
 
 <div class="flex w-full p-4">
   <div class="flex-1">
-    <slot name="left" />
+    {@render left?.()}
   </div>
 
   <div
@@ -42,13 +51,13 @@
       <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold">{title}</h1>
       </div>
-      <slot name="title" />
+      {@render belowTitle?.()}
     </nav>
 
-    <slot />
+    {@render children?.()}
   </div>
 
   <div class="order-last flex-1">
-    <slot name="right" />
+    {@render right?.()}
   </div>
 </div>

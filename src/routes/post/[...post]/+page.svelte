@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import { Collapsible } from "bits-ui";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import TableOfContents from "$lib/components/TableOfContents";
@@ -21,11 +19,11 @@
   // NOTE: `data.post` will change when url changes.
   let post = $derived(data.post);
   let metadata = $derived(post.metadata);
-  let content = $derived(post.content);
+  let Content = $derived(post.content);
   let locDate = $derived(localeDate(metadata.date));
 
   let infoText: string | undefined = $state();
-  run(() => {
+  $effect(() => {
     if (metadata.author && metadata.date) {
       infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
     } else if (metadata.author && !metadata.date) {
@@ -77,8 +75,8 @@
   {/snippet}
 
   <!-- post info, under the title -->
-  <!-- @migration-task: migrate this slot by hand, `title` would shadow a prop on the parent component -->
-  <div class="icon-flex" slot="title">
+  {#snippet belowTitle()}
+  <div class="icon-flex">
     {#if metadata.pinned}
       <Pin class="h-4 w-4 text-primary" />
     {/if}
@@ -86,6 +84,7 @@
       <span>{infoText}</span>
     {/if}
   </div>
+  {/snippet}
 
   <!-- image of post -->
   {#if metadata.image}
@@ -101,7 +100,7 @@
   <!-- language notice -->
   {#if metadata.lang && metadata.lang !== languageTag()}
     <div
-      class="icon-flex rounded border border-primary p-4 font-bold shadow-glow-sm shadow-primary"
+      class="icon-flex rounded border border-primary p-4 font-bold"
     >
       <Alert class="h-4 w-4" />
       {m.post_lang_notice()}
@@ -109,9 +108,8 @@
   {/if}
 
   <!-- actual post content -->
-  {@const SvelteComponent = content}
   <article class="prose space-y-4" id="post-content">
-    <SvelteComponent />
+    <Content />
   </article>
 
   {#if metadata.tags}
