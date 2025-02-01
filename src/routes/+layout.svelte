@@ -1,31 +1,27 @@
 <script lang="ts">
   import "../app.postcss";
 
-  import { setContext } from "svelte";
-  import { writable, type Readable } from "svelte/store";
-  import { page } from "$app/stores";
-  import { browser } from "$app/environment";
+  import { page } from "$app/state";
   import { i18n } from "$lib/i18n";
+  import { uwu } from "$lib/utils/uwu.svelte";
   import { availableLanguageTags } from "$paraglide/runtime";
   import extend from "just-extend";
 
   import Header from "$lib/components/Header.svelte";
-  import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
+  import { ParaglideJS } from "@inlang/paraglide-sveltekit";
   import { ModeWatcher } from "mode-watcher";
   import { MetaTags } from "svelte-meta-tags";
 
-  export let data;
+  let { data, children } = $props();
 
-  const meta = extend(true, {}, data.baseMetaTags, $page.data.pageMetaTags);
+  const meta = extend(true, {}, data.baseMetaTags, page.data.pageMetaTags);
 
   // uwu stuff
-  let uwu = writable(false);
-  setContext<Readable<boolean>>("uwu", { subscribe: uwu.subscribe });
-
-  $: if (browser) {
+  // read uwu state from localStorage and url param
+  $effect(() => {
     let localUwu = localStorage.getItem("uwu");
     let uwuEnabled = localUwu === "true";
-    switch ($page.url.searchParams.get("uwu")) {
+    switch (page.url.searchParams.get("uwu")) {
       case "":
       case "1":
       case "true":
@@ -36,9 +32,9 @@
         uwuEnabled = false;
         break;
     }
-    uwu.set(uwuEnabled);
+    uwu.enabled = uwuEnabled;
     localStorage.setItem("uwu", uwuEnabled ? "true" : "false");
-  }
+  });
 </script>
 
 <MetaTags {...meta} />
@@ -49,7 +45,7 @@
   <Header />
 
   <main>
-    <slot />
+    {@render children?.()}
   </main>
 </ParaglideJS>
 
@@ -61,6 +57,6 @@
 -->
 <svelte:head>
   {#each availableLanguageTags as tag}
-    <link rel="alt-lang" href={i18n.resolveRoute(i18n.route($page.url.pathname), tag)} />
+    <link rel="alt-lang" href={i18n.resolveRoute(i18n.route(page.url.pathname), tag)} />
   {/each}
 </svelte:head>

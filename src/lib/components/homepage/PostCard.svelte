@@ -5,8 +5,12 @@
   import { fly } from "svelte/transition";
   import { localeDate } from "$lib/utils/date";
 
-  export let post: App.PostData;
-  export let displayTags = false;
+  interface Props {
+    post: App.PostData;
+    displayTags?: boolean;
+  }
+
+  let { post, displayTags = false }: Props = $props();
 
   let date = localeDate(post.date);
 </script>

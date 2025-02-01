@@ -1,8 +1,17 @@
 <script lang="ts">
-  export let username: string;
-  export let handle: `@${string}`;
-  export let comment: string;
-  export let usernameHref = "";
+  interface Props {
+    username: string;
+    handle: `@${string}`;
+    comment: string;
+    usernameHref?: string;
+  }
+
+  let {
+    username,
+    handle,
+    comment,
+    usernameHref = ""
+  }: Props = $props();
 </script>
 
 <div class="flex w-72 flex-col gap-2 rounded bg-secondary px-4 py-2">

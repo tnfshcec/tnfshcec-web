@@ -6,7 +6,11 @@
   import ChevronUp from "~icons/mdi/chevron-up";
   import * as m from "$paraglide/messages";
 
-  export let selector: string;
+  interface Props {
+    selector: string;
+  }
+
+  let { selector }: Props = $props();
 
   const {
     elements: { item },
@@ -20,7 +24,7 @@
   });
 
   // reactive scrollY for "scroll to top" button
-  let scrollY = 0;
+  let scrollY = $state(0);
   let setter = () => (scrollY = window.scrollY);
   onMount(() => {
     window.addEventListener("scroll", setter);

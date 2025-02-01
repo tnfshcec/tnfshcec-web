@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let src = "";
-  export let alt = "";
-  export let title: string | undefined = undefined;
+  interface Props {
+    src?: string;
+    alt?: string;
+    title?: string | undefined;
+  }
+
+  let { src = "", alt = "", title = undefined }: Props = $props();
 </script>
 
 <figure>

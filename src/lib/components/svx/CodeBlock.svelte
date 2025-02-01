@@ -2,17 +2,30 @@
   import ContentCopy from "~icons/mdi/content-copy";
   import Check from "~icons/mdi/text-box-check";
 
-  export let lang = "";
-  export let title = "";
 
-  /** whether to display copy button */
-  export let nocopy = false;
+  
 
-  /** when `false`, adds the `numbers` class, which is styled in `src/app.postcss` */
-  export let nonumbers = false;
+  
+  interface Props {
+    lang?: string;
+    title?: string;
+    /** whether to display copy button */
+    nocopy?: boolean;
+    /** when `false`, adds the `numbers` class, which is styled in `src/app.postcss` */
+    nonumbers?: boolean;
+    children?: import('svelte').Snippet;
+  }
 
-  let copyButton: HTMLButtonElement;
-  let copied = false;
+  let {
+    lang = "",
+    title = "",
+    nocopy = false,
+    nonumbers = false,
+    children
+  }: Props = $props();
+
+  let copyButton: HTMLButtonElement = $state();
+  let copied = $state(false);
   let copiedTimeout: NodeJS.Timeout | undefined;
 
   function copy() {
@@ -44,7 +57,7 @@
       class="absolute right-2 top-2 rounded-sm bg-secondary/60 text-text
              {title ? 'p-1' : 'p-2 opacity-0 transition-opacity group-hover:opacity-100'}"
       bind:this={copyButton}
-      on:click={copy}
+      onclick={copy}
       aria-label="copy"
     >
       {#if !copied}
@@ -55,5 +68,5 @@
     </button>
   {/if}
 
-  <slot />
+  {@render children?.()}
 </div>
