@@ -24,13 +24,12 @@
 </script>
 
 <header
-  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-4 py-2 backdrop-blur"
+  class="sticky top-0 z-50 h-14 w-full border-b border-text/10 bg-background/60 px-4 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
-    <!-- no idea why normal link here doesn't get translated -->
     <a
       href="{base}/"
-      class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2 overflow-hidden"
+      class="grid w-full grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-2 overflow-hidden"
     >
       <img
         src={uwu.enabled ? uwuLogo : logo}
@@ -38,11 +37,11 @@
         alt="TNFSHCEC icon"
       />
       <div class="col-start-2 whitespace-nowrap font-bold">{m.title()}</div>
-      <div class="col-start-2 whitespace-nowrap text-xl font-bold" id="header-name">{m.name()}</div>
+      <div class="col-start-2 whitespace-nowrap text-lg font-bold" id="header-name">{m.name()}</div>
     </a>
 
     <!-- disable flex-shrink, so only the title above shrinks -->
-    <div class="ml-6 shrink-0">
+    <div class="my-auto ml-6 shrink-0">
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 lg:flex">
         <a href="{base}/post" class="shrink-0 transition-colors hover:text-accent">
@@ -104,7 +103,7 @@
       <!-- drawer for mobile -->
       <Drawer.Root direction="right">
         <Drawer.Trigger class="block lg:hidden">
-          <Menu class="h-12 w-12" aria-label={m.menu()} />
+          <Menu class="h-10 w-10" aria-label={m.menu()} />
         </Drawer.Trigger>
 
         <Drawer.Portal>
