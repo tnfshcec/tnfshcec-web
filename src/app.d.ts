@@ -1,5 +1,4 @@
 import type { ComponentType } from "svelte";
-import type { AvailableLanguageTag } from "$paraglide/runtime";
 
 import "unplugin-icons/types/svelte";
 
@@ -8,10 +7,7 @@ import "unplugin-icons/types/svelte";
 declare global {
   namespace App {
     // interface Error {}
-    interface Locals {
-      lang: AvailableLanguageTag;
-      theme: Theme;
-    }
+    // interface Locals {}
     // interface PageData {}
     // interface Platform {}
     interface Post {
