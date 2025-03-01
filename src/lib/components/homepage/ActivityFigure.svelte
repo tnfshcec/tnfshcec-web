@@ -1,12 +1,9 @@
 <script lang="ts">
   import { sineOut } from "svelte/easing";
-  import { getContext } from "svelte";
-  import type { Readable } from "svelte/store";
+  import { uwu } from "$lib/utils/uwu.svelte";
   import logo from "$lib/assets/logo.svg";
   import * as m from "$paraglide/messages";
   import { base } from "$app/paths";
-
-  let uwu = getContext<Readable<boolean>>("uwu");
 
   let activities = [
     { label: m.home_interests_religion(), labelPosition: [15.01, 5.69] },
@@ -99,9 +96,9 @@
     class="btn-accent absolute select-none whitespace-nowrap"
     style:left="19.21rem"
     style:top="3.89rem"
-    href={$uwu ? `${base}/?uwu=0` : `${base}/?uwu`}
+    href={uwu.enabled ? `${base}/?uwu=0` : `${base}/?uwu`}
   >
-    {$uwu ? "no uwu" : "uwu?"}
+    {uwu.enabled ? "no uwu" : "uwu?"}
   </a>
 </div>
 
