@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
@@ -9,6 +10,7 @@
 
   /** current filtering tags */
   let currentTags: string[] = $derived.by(() => {
+    if (!browser) return [];
     const tagsParam = page.url.searchParams.get("tags") ?? "";
     return tagsParam.split(",").filter((t) => t); // remove empty strings with filter()
   });
