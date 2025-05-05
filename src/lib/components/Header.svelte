@@ -1,9 +1,8 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { page } from "$app/state";
-  import { i18n } from "$lib/i18n";
-  import * as m from "$paraglide/messages";
-  import { availableLanguageTags, languageTag } from "$paraglide/runtime";
+  import { m } from "$paraglide/messages";
+  import { locales, getLocale, localizeHref, setLocale } from "$paraglide/runtime";
   import { uwu } from "$lib/utils/uwu.svelte";
 
   import logo from "$lib/assets/logo.svg";
@@ -77,22 +76,23 @@
             sideOffset={4}
             preventScroll={false}
           >
-            {#each availableLanguageTags as tag}
+            {#each locales as loc}
               <DropdownMenu.Item
                 class="px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                aria-current={tag === languageTag() ? "page" : undefined}
+                aria-current={loc === getLocale() ? "page" : undefined}
               >
                 <a
-                  href={i18n.route(page.url.pathname)}
-                  hreflang={tag}
+                  href={localizeHref(page.url.pathname, { locale: loc })}
+                  hreflang={loc}
                   class="flex items-center gap-2 whitespace-nowrap"
+                  data-sveltekit-reload
                 >
-                  {#if tag === languageTag()}
+                  {#if loc === getLocale()}
                     <Check class="h-4 w-4" />
                   {:else}
                     <div role="none"></div>
                   {/if}
-                  {m.lang({}, { languageTag: tag }) || tag}
+                  {m.lang({}, { locale: loc }) || loc}
                 </a>
               </DropdownMenu.Item>
             {/each}
@@ -164,19 +164,20 @@
               </Collapsible.Trigger>
 
               <Collapsible.Content class="rounded-b border-b border-text/20">
-                {#each availableLanguageTags as tag}
+                {#each locales as loc}
                   <a
                     class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors last:rounded-b hover:bg-primary/20"
-                    href={i18n.route(page.url.pathname)}
-                    hreflang={tag}
-                    aria-current={tag === languageTag() ? "page" : undefined}
+                    href={localizeHref(page.url.pathname, { locale: loc })}
+                    hreflang={loc}
+                    aria-current={loc === getLocale() ? "page" : undefined}
+                    data-sveltekit-reload
                   >
-                    {#if tag === languageTag()}
+                    {#if loc === getLocale()}
                       <Check class="h-4 w-4" />
                     {:else}
                       <div class="h-4 w-4" role="none"></div>
                     {/if}
-                    {m.lang({}, { languageTag: tag }) || tag}
+                    {m.lang({}, { locale: loc }) || loc}
                   </a>
                 {/each}
               </Collapsible.Content>

@@ -13,7 +13,18 @@ export default defineConfig({
     sveltekit(),
     paraglideVitePlugin({
       project: "./tnfshcec.inlang",
-      outdir: "./src/lib/paraglide"
+      outdir: "./src/lib/paraglide",
+      strategy: ["url", "cookie"],
+      urlPatterns: [
+        {
+          pattern: "/:path(.*)?",
+          localized: [
+            ["en", "/en/:path(.*)?"],
+            ["ja", "/ja/:path(.*)?"],
+            ["zh-tw", "/:path(.*)?"],
+          ],
+        },
+      ],
     }),
     Icons({
       compiler: "svelte"

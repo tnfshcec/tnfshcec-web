@@ -34,7 +34,7 @@
   });
 </script>
 
-<MetaTags {...meta} />
+<MetaTags {...metaTags} />
 
 <ModeWatcher />
 

@@ -1,4 +1,4 @@
-import { languageTag } from "$paraglide/runtime";
+import { getLocale } from "$paraglide/runtime";
 
 /**
  * Validates if the string passed in is a valid `Date`.
@@ -20,7 +20,7 @@ export function validDate(string?: string) {
 export function localeDate(string?: string) {
   const valid = validDate(string);
   return valid
-    ? valid.toLocaleString(languageTag(), {
+    ? valid.toLocaleString(getLocale(), {
         year: "numeric",
         month: "long",
         day: "numeric"
