@@ -1,7 +1,7 @@
 <script lang="ts">
   import { type Component } from "svelte";
   import { base } from "$app/paths";
-  import * as m from "$paraglide/messages";
+  import { m } from "$paraglide/messages.js";
   import { anchorScroll } from "$lib/components/actions";
   import { uwu } from "$lib/utils/uwu.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";

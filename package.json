@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.54",
-    "@inlang/paraglide-sveltekit": "^0.15.5",
+    "@inlang/paraglide-js": "2.0.12",
     "@melt-ui/pp": "^0.3.0",
     "@melt-ui/svelte": "^0.86.0",
     "@playwright/test": "^1.45.0",
@@ -51,8 +51,5 @@
     "vaul-svelte": "^1.0.0-next.3",
     "vite": "^6.0.0"
   },
-  "type": "module",
-  "dependencies": {
-    "just-extend": "^6.2.0"
-  }
+  "type": "module"
 }

@@ -10,8 +10,8 @@
 
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import * as m from "$paraglide/messages";
-  import { languageTag } from "$paraglide/runtime.js";
+  import { m}  from "$paraglide/messages";
+  import { getLocale } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
 
   let { data } = $props();
@@ -98,7 +98,7 @@
   {/if}
 
   <!-- language notice -->
-  {#if metadata.lang && metadata.lang !== languageTag()}
+  {#if metadata.lang && metadata.lang !== getLocale()}
     <div class="icon-flex rounded border border-primary p-4 font-bold">
       <Alert class="h-4 w-4" />
       {m.post_lang_notice()}

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://inlang.com/schema/inlang-message-format",
   "about": "關於",
   "alert_caution": "注意",
   "alert_important": "重要",

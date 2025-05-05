@@ -3,7 +3,7 @@
   import { page } from "$app/state";
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
-  import * as m from "$paraglide/messages";
+  import { m } from "$paraglide/messages";
 
   let { data } = $props();
 
