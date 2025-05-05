@@ -1,5 +1,5 @@
 import { base } from "$app/paths";
-import { languageTag } from "$paraglide/runtime";
+import { getLocale } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
 import type { MetaTagsProps } from "svelte-meta-tags";
 import type { LayoutLoad } from "./$types";
@@ -13,7 +13,7 @@ export const load = (async ({ url }) => {
     canonical: url.toString(),
     openGraph: {
       type: "website",
-      locale: languageTag(),
+      locale: getLocale(),
       images: [
         {
           url: `${url.origin}${base}/thumbnail.png`,
@@ -23,7 +23,7 @@ export const load = (async ({ url }) => {
         }
       ]
     },
-    twitter: { handle: "@tnfshcec", cardType: "summary_large_image" }
+    twitter: { creator: "@tnfshcec", cardType: "summary_large_image" }
   } satisfies MetaTagsProps;
 
   return {

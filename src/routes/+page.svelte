@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { type Component, type ComponentProps } from "svelte";
+  import { type Component } from "svelte";
   import { base } from "$app/paths";
-  import * as m from "$paraglide/messages";
+  import { m } from "$paraglide/messages.js";
   import { anchorScroll } from "$lib/components/actions";
   import { uwu } from "$lib/utils/uwu.svelte";
-  import Comment from "$lib/components/homepage/Comment.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
   import HeroGradient from "$lib/components/homepage/HeroGradient.svelte";
@@ -20,56 +19,11 @@
   import TNFSH_emblem from "$lib/assets/TNFSH_emblem.svg";
 
   let { data } = $props();
-
-  let comments = [
-    [
-      {
-        username: m.home_comment_user_genshit(),
-        handle: "@gayshitenjoyer",
-        comment: m.home_comment_genshit(),
-        usernameHref: "https://genshin.hoyoverse.com/zh-tw/"
-      },
-      { username: m.home_comment_user_ai(), handle: "@horn_yart", comment: m.home_comment_ai() },
-      {
-        username: m.home_comment_user_yorMUM(),
-        handle: "@yorMUM",
-        comment: m.home_comment_yorMUM()
-      }
-    ],
-    [
-      {
-        username: m.home_comment_user_yun(),
-        handle: "@yun._.0618",
-        comment: m.home_comment_yun(),
-        usernameHref: "https://www.12339.gov.cn/h5_index"
-      },
-      { username: m.home_comment_user_dun(), handle: "@nobleg", comment: m.home_comment_dun() }
-    ],
-    [
-      {
-        username: m.home_comment_user_kleeplayer(),
-        handle: "@kleeplayer",
-        comment: m.home_comment_kleeplayer()
-      },
-      {
-        username: m.home_comment_user_alanwolk(),
-        handle: "@alan_wolk",
-        comment: m.home_comment_alanwolk()
-      }
-    ]
-  ];
 </script>
 
-{#snippet socialIcon(name:string, href:string, Icon:Component)}
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={m.home_social_link({ name })}
-  >
-    <Icon
-      class="h-8 w-8 text-text/80 transition-colors hover:text-accent"
-    />
+{#snippet socialIcon(name: string, href: string, Icon: Component)}
+  <a {href} target="_blank" rel="noopener noreferrer" aria-label={m.home_social_link({ name })}>
+    <Icon class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
   </a>
 {/snippet}
 
@@ -101,11 +55,11 @@
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
           ></div>
         </a>
-        {@render socialIcon("Facebook", "https://www.facebook.com/TNFSHCEC", Facebook )}
-        {@render socialIcon("Instagram", "https://www.instagram.com/tnfshcec", Instagram )}
-        {@render socialIcon("Threads", "https://www.threads.net/tnfshcec", At )}
-        {@render socialIcon("X (Formerly Twitter)", "https://twitter.com/tnfshcec", Twitter )}
-        {@render socialIcon("GitHub", "https://github.com/tnfshcec", Github )}
+        {@render socialIcon("Facebook", "https://www.facebook.com/TNFSHCEC", Facebook)}
+        {@render socialIcon("Instagram", "https://www.instagram.com/tnfshcec", Instagram)}
+        {@render socialIcon("Threads", "https://www.threads.net/tnfshcec", At)}
+        {@render socialIcon("X (Formerly Twitter)", "https://twitter.com/tnfshcec", Twitter)}
+        {@render socialIcon("GitHub", "https://github.com/tnfshcec", Github)}
       </div>
     </div>
     <HeroGradient />
@@ -155,7 +109,7 @@
   </div>
 </section>
 
-{#snippet comment(username:string, handle:string, comment:string)}
+{#snippet comment(username: string, handle: string, comment: string)}
   <div class="flex w-72 flex-col gap-2 rounded bg-secondary px-4 py-2">
     <div class="flex items-center gap-2">
       <div class="comment-pfp h-8 w-8 rounded-full"></div>
@@ -180,46 +134,26 @@
       <!-- column 1 -->
       <div class="flex snap-start flex-col gap-4">
         {@render comment(
-           m.home_comment_user_genshit(),
-           "@gayshitenjoyer",
-           m.home_comment_genshit()
+          m.home_comment_user_genshit(),
+          "@gayshitenjoyer",
+          m.home_comment_genshit()
         )}
-        {@render comment(
-          m.home_comment_user_ai(),
-          "@horn_yart",
-          m.home_comment_ai()
-        )}
-        {@render comment(
-           m.home_comment_user_yorMUM(),
-           "@yorMUM",
-           m.home_comment_yorMUM()
-        )}
+        {@render comment(m.home_comment_user_ai(), "@horn_yart", m.home_comment_ai())}
+        {@render comment(m.home_comment_user_yorMUM(), "@yorMUM", m.home_comment_yorMUM())}
       </div>
       <!-- column 2 -->
       <div class="flex snap-start flex-col gap-4">
-        {@render comment(
-           m.home_comment_user_yun(),
-           "@yun._.0618",
-           m.home_comment_yun(),
-        )}
-        {@render comment(
-         m.home_comment_user_dun(),
-          "@nobleg",
-          m.home_comment_dun()
-        )}
+        {@render comment(m.home_comment_user_yun(), "@yun._.0618", m.home_comment_yun())}
+        {@render comment(m.home_comment_user_dun(), "@nobleg", m.home_comment_dun())}
       </div>
       <!-- column 3 -->
       <div class="flex snap-start flex-col gap-4">
         {@render comment(
-           m.home_comment_user_kleeplayer(),
-           "@kleeplayer",
-           m.home_comment_kleeplayer()
+          m.home_comment_user_kleeplayer(),
+          "@kleeplayer",
+          m.home_comment_kleeplayer()
         )}
-        {@render comment(
-           m.home_comment_user_alanwolk(),
-           "@alan_wolk",
-           m.home_comment_alanwolk()
-        )}
+        {@render comment(m.home_comment_user_alanwolk(), "@alan_wolk", m.home_comment_alanwolk())}
       </div>
     </div>
   </div>
@@ -229,7 +163,11 @@
   .comment-pfp {
     background-attachment: fixed;
     background-size: 100% 100%;
-    background-image: radial-gradient(circle at 83.01% 47.05%, rgb(var(--primary)), transparent 81%),
+    background-image: radial-gradient(
+        circle at 83.01% 47.05%,
+        rgb(var(--primary)),
+        transparent 81%
+      ),
       radial-gradient(circle at 82.02% 97.01%, rgb(var(--accent)), transparent 63%),
       radial-gradient(circle at 28.02% 57.03%, rgb(var(--accent)), transparent 43%);
     background-color: rgb(var(--text));

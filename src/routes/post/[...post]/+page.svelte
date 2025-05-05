@@ -10,8 +10,8 @@
 
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import * as m from "$paraglide/messages";
-  import { languageTag } from "$paraglide/runtime.js";
+  import { m}  from "$paraglide/messages";
+  import { getLocale } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
 
   let { data } = $props();
@@ -42,7 +42,7 @@
 </script>
 
 <!-- table of contents on mobile view -->
-<Collapsible.Root class="sticky top-20 z-10" bind:open={tableOfContentsOpen}>
+<Collapsible.Root class="sticky top-14 z-10" bind:open={tableOfContentsOpen}>
   <Collapsible.Trigger
     class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 lg:hidden"
   >
@@ -68,7 +68,7 @@
 <CenteredPage title={metadata.title ?? ""} breadcrumb={["home", "postList"]}>
   <!-- table of contents, on the right -->
   {#snippet right()}
-    <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block" >
+    <div class="sticky top-20 hidden w-max max-w-xs p-4 lg:block">
       <p class="font-bold">{m.post_table_of_contents()}</p>
       <TableOfContents selector="#post-content" />
     </div>
@@ -76,14 +76,14 @@
 
   <!-- post info, under the title -->
   {#snippet belowTitle()}
-  <div class="icon-flex">
-    {#if metadata.pinned}
-      <Pin class="h-4 w-4 text-primary" />
-    {/if}
-    {#if infoText}
-      <span>{infoText}</span>
-    {/if}
-  </div>
+    <div class="icon-flex">
+      {#if metadata.pinned}
+        <Pin class="h-4 w-4 text-primary" />
+      {/if}
+      {#if infoText}
+        <span>{infoText}</span>
+      {/if}
+    </div>
   {/snippet}
 
   <!-- image of post -->
@@ -98,10 +98,8 @@
   {/if}
 
   <!-- language notice -->
-  {#if metadata.lang && metadata.lang !== languageTag()}
-    <div
-      class="icon-flex rounded border border-primary p-4 font-bold"
-    >
+  {#if metadata.lang && metadata.lang !== getLocale()}
+    <div class="icon-flex rounded border border-primary p-4 font-bold">
       <Alert class="h-4 w-4" />
       {m.post_lang_notice()}
     </div>

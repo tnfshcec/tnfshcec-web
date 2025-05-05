@@ -1,5 +1,5 @@
 import { dev } from "$app/environment";
-import { isAvailableLanguageTag } from "$paraglide/runtime";
+import { isLocale } from "$paraglide/runtime";
 import * as m from "$paraglide/messages";
 import { validDate } from "./date";
 import type { ComponentType } from "svelte";
@@ -14,8 +14,8 @@ const posts = Object.entries(imported).reduce<Record<string, App.Post>>((acc, [p
   const slug = path.substring(5, path.lastIndexOf("."));
 
   // if `lang` is set
-  if (isAvailableLanguageTag(imported.metadata?.lang)) {
-    const langName = m.lang({}, { languageTag: imported.metadata.lang });
+  if (isLocale(imported.metadata?.lang)) {
+    const langName = m.lang({}, { locale: imported.metadata.lang });
 
     // push element if isArray, replace if not
     if (Array.isArray(imported.metadata.tags)) {

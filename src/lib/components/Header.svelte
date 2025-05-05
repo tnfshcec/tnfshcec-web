@@ -1,9 +1,8 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { page } from "$app/state";
-  import { i18n } from "$lib/i18n";
-  import * as m from "$paraglide/messages";
-  import { availableLanguageTags, languageTag } from "$paraglide/runtime";
+  import { m } from "$paraglide/messages";
+  import { locales, getLocale, localizeHref, setLocale } from "$paraglide/runtime";
   import { uwu } from "$lib/utils/uwu.svelte";
 
   import logo from "$lib/assets/logo.svg";
@@ -24,13 +23,12 @@
 </script>
 
 <header
-  class="sticky top-0 z-50 h-20 w-full border-b border-text/10 bg-background/60 px-4 py-2 backdrop-blur"
+  class="sticky top-0 z-50 h-14 w-full border-b border-text/10 bg-background/60 px-4 backdrop-blur"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
-    <!-- no idea why normal link here doesn't get translated -->
     <a
       href="{base}/"
-      class="grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-2 overflow-hidden"
+      class="grid w-full grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-2 overflow-hidden"
     >
       <img
         src={uwu.enabled ? uwuLogo : logo}
@@ -38,11 +36,11 @@
         alt="TNFSHCEC icon"
       />
       <div class="col-start-2 whitespace-nowrap font-bold">{m.title()}</div>
-      <div class="col-start-2 whitespace-nowrap text-xl font-bold" id="header-name">{m.name()}</div>
+      <div class="col-start-2 whitespace-nowrap text-lg font-bold" id="header-name">{m.name()}</div>
     </a>
 
     <!-- disable flex-shrink, so only the title above shrinks -->
-    <div class="ml-6 shrink-0">
+    <div class="my-auto ml-6 shrink-0">
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 lg:flex">
         <a href="{base}/post" class="shrink-0 transition-colors hover:text-accent">
@@ -78,22 +76,23 @@
             sideOffset={4}
             preventScroll={false}
           >
-            {#each availableLanguageTags as tag}
+            {#each locales as loc}
               <DropdownMenu.Item
                 class="px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                aria-current={tag === languageTag() ? "page" : undefined}
+                aria-current={loc === getLocale() ? "page" : undefined}
               >
                 <a
-                  href={i18n.route(page.url.pathname)}
-                  hreflang={tag}
+                  href={localizeHref(page.url.pathname, { locale: loc })}
+                  hreflang={loc}
                   class="flex items-center gap-2 whitespace-nowrap"
+                  data-sveltekit-reload
                 >
-                  {#if tag === languageTag()}
+                  {#if loc === getLocale()}
                     <Check class="h-4 w-4" />
                   {:else}
                     <div role="none"></div>
                   {/if}
-                  {m.lang({}, { languageTag: tag }) || tag}
+                  {m.lang({}, { locale: loc }) || loc}
                 </a>
               </DropdownMenu.Item>
             {/each}
@@ -104,7 +103,7 @@
       <!-- drawer for mobile -->
       <Drawer.Root direction="right">
         <Drawer.Trigger class="block lg:hidden">
-          <Menu class="h-12 w-12" aria-label={m.menu()} />
+          <Menu class="h-10 w-10" aria-label={m.menu()} />
         </Drawer.Trigger>
 
         <Drawer.Portal>
@@ -165,19 +164,20 @@
               </Collapsible.Trigger>
 
               <Collapsible.Content class="rounded-b border-b border-text/20">
-                {#each availableLanguageTags as tag}
+                {#each locales as loc}
                   <a
                     class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors last:rounded-b hover:bg-primary/20"
-                    href={i18n.route(page.url.pathname)}
-                    hreflang={tag}
-                    aria-current={tag === languageTag() ? "page" : undefined}
+                    href={localizeHref(page.url.pathname, { locale: loc })}
+                    hreflang={loc}
+                    aria-current={loc === getLocale() ? "page" : undefined}
+                    data-sveltekit-reload
                   >
-                    {#if tag === languageTag()}
+                    {#if loc === getLocale()}
                       <Check class="h-4 w-4" />
                     {:else}
                       <div class="h-4 w-4" role="none"></div>
                     {/if}
-                    {m.lang({}, { languageTag: tag }) || tag}
+                    {m.lang({}, { locale: loc }) || loc}
                   </a>
                 {/each}
               </Collapsible.Content>

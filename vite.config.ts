@@ -1,5 +1,5 @@
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import { sveltekit } from "@sveltejs/kit/vite";
-import { paraglide } from "@inlang/paraglide-sveltekit/vite"
 import { defineConfig, searchForWorkspaceRoot } from "vite";
 import Icons from "unplugin-icons/vite";
 
@@ -11,9 +11,20 @@ export default defineConfig({
   },
   plugins: [
     sveltekit(),
-    paraglide({
+    paraglideVitePlugin({
       project: "./tnfshcec.inlang",
-      outdir: "./src/lib/paraglide"
+      outdir: "./src/lib/paraglide",
+      strategy: ["url", "cookie"],
+      urlPatterns: [
+        {
+          pattern: "/:path(.*)?",
+          localized: [
+            ["en", "/en/:path(.*)?"],
+            ["ja", "/ja/:path(.*)?"],
+            ["zh-tw", "/:path(.*)?"],
+          ],
+        },
+      ],
     }),
     Icons({
       compiler: "svelte"

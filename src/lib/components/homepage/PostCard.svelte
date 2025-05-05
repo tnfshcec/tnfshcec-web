@@ -4,6 +4,7 @@
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
   import { localeDate } from "$lib/utils/date";
+  import { goto } from "$app/navigation";
 
   interface Props {
     post: App.PostData;
@@ -13,6 +14,11 @@
   let { post, displayTags = false }: Props = $props();
 
   let date = localeDate(post.date);
+
+  function gotoTag(event: MouseEvent, tag: string) {
+    event.preventDefault();
+    goto(`${base}/post?tags=${tag}`);
+  }
 </script>
 
 <a
@@ -40,12 +46,12 @@
   {#if displayTags && post.tags}
     <div class="col-span-full flex gap-2 overflow-clip text-text/80" id="tags-container">
       {#each post.tags as tag}
-        <a
+        <button
           class="flex-shrink-0 transition-colors hover:text-text hover:underline"
-          href="{base}/post?tags={tag}"
+          onclick={(event) => gotoTag(event, tag)}
         >
           #{tag}
-        </a>
+        </button>
       {/each}
     </div>
   {/if}
