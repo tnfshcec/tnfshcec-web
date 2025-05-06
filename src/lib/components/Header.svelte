@@ -2,7 +2,7 @@
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { m } from "$paraglide/messages";
-  import { locales, getLocale, localizeHref, setLocale } from "$paraglide/runtime";
+  import { locales, getLocale, localizeHref } from "$paraglide/runtime";
   import { uwu } from "$lib/utils/uwu.svelte";
 
   import logo from "$lib/assets/logo.svg";
@@ -76,23 +76,23 @@
             sideOffset={4}
             preventScroll={false}
           >
-            {#each locales as loc}
+            {#each locales as locale}
               <DropdownMenu.Item
                 class="px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
-                aria-current={loc === getLocale() ? "page" : undefined}
+                aria-current={locale === getLocale() ? "page" : undefined}
               >
                 <a
-                  href={localizeHref(page.url.pathname, { locale: loc }).replace(/\/$/, "")}
-                  hreflang={loc}
+                  href={localizeHref(page.url.pathname, { locale })}
+                  hreflang={locale}
                   class="flex items-center gap-2 whitespace-nowrap"
                   data-sveltekit-reload
                 >
-                  {#if loc === getLocale()}
+                  {#if locale === getLocale()}
                     <Check class="h-4 w-4" />
                   {:else}
                     <div role="none"></div>
                   {/if}
-                  {m.lang({}, { locale: loc }) || loc}
+                  {m.lang({}, { locale }) || locale}
                 </a>
               </DropdownMenu.Item>
             {/each}
@@ -164,20 +164,20 @@
               </Collapsible.Trigger>
 
               <Collapsible.Content class="rounded-b border-b border-text/20">
-                {#each locales as loc}
+                {#each locales as locale}
                   <a
                     class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors last:rounded-b hover:bg-primary/20"
-                    href={localizeHref(page.url.pathname, { locale: loc }).replace(/\/$/, "")}
-                    hreflang={loc}
-                    aria-current={loc === getLocale() ? "page" : undefined}
+                    href={localizeHref(page.url.pathname, { locale })}
+                    hreflang={locale}
+                    aria-current={locale === getLocale() ? "page" : undefined}
                     data-sveltekit-reload
                   >
-                    {#if loc === getLocale()}
+                    {#if locale === getLocale()}
                       <Check class="h-4 w-4" />
                     {:else}
                       <div class="h-4 w-4" role="none"></div>
                     {/if}
-                    {m.lang({}, { locale: loc }) || loc}
+                    {m.lang({}, { locale }) || locale}
                   </a>
                 {/each}
               </Collapsible.Content>

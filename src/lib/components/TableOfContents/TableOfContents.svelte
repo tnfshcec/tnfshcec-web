@@ -19,7 +19,7 @@
     selector,
     exclude: ["h1", "h4", "h5", "h6"],
     activeType: "all",
-    scrollOffset: scrollOffset(),
+    scrollOffset: 56,
     headingFilterFn: (heading) => !heading.hasAttribute("data-toc-ignore")
   });
 
