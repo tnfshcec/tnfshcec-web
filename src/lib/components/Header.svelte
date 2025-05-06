@@ -82,7 +82,7 @@
                 aria-current={loc === getLocale() ? "page" : undefined}
               >
                 <a
-                  href={localizeHref(page.url.pathname, { locale: loc })}
+                  href={localizeHref(page.url.pathname, { locale: loc }).replace(/\/$/, "")}
                   hreflang={loc}
                   class="flex items-center gap-2 whitespace-nowrap"
                   data-sveltekit-reload
@@ -167,7 +167,7 @@
                 {#each locales as loc}
                   <a
                     class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors last:rounded-b hover:bg-primary/20"
-                    href={localizeHref(page.url.pathname, { locale: loc })}
+                    href={localizeHref(page.url.pathname, { locale: loc }).replace(/\/$/, "")}
                     hreflang={loc}
                     aria-current={loc === getLocale() ? "page" : undefined}
                     data-sveltekit-reload
