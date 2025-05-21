@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-
   interface Props {
     src?: string;
     alt?: string;
