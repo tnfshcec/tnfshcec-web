@@ -33,36 +33,30 @@ const remarkAlerts = () => (tree) =>
 
 const rehypeImage = () => (tree) => {
   visit(tree, "element", (node, index, parent) => {
-    // look for images generated inside <p> tags
-    const images = node.children?.filter(
-      (child) => child.tagName === "Components.img" && child.properties.src?.startsWith("./")
-    );
+    if (!node.children) return;
 
-    // if found image move it out of the <p>
-    if (images && images.length > 0) {
-      const pIndex = parent.children.indexOf(node);
-      parent.children.splice(pIndex + 1, 0, ...images);
+    // find <p>s that contain <img>s
+    for (let [i, child] of node.children.entries()) {
+      if (child.tagName !== "Components.img") return;
 
-      for (let img of images) {
-        const imgIndex = node.children.indexOf(img);
-        node.children.splice(imgIndex, 1);
+      if (child.properties.src?.startsWith("./")) {
+        // update relative src url for vite to process
+        child.properties.src = `{new URL('${child.properties.src}', import.meta.url).href}`;
       }
 
-      // console.log(parent);
+      // insert this <img> after this <p> (move it out!)
+      parent.children.splice(index + 1, 0, child);
+
+      // remove the original <img> inside <p>
+      node.children.splice(i, 1);
     }
 
-    if (node.properties.src?.startsWith("./")) {
-      // test if src is a relative path by checking "./"
-      // console.log(node)
-      node.properties.src = `{new URL('${node.properties.src}', import.meta.url).href}`;
+    if (node.children.length === 0) {
+      parent.children.splice(index, 1);
+
+      // tell visitor to go to next element (since we removed the current one)
+      return index + 1;
     }
-  });
-  visit(tree, "raw", (node) => {
-    // replace `src="relative path"` with `src="static asset import"`
-    node.value = node.value.replaceAll(
-      /src=(?:"(\.\/[^"]*)"|'(\.\/[^']*)')/g,
-      (_, g1, g2) => `src={new URL(\`${g1 ?? g2}\`, import.meta.url).href}`
-    );
   });
 };
 
