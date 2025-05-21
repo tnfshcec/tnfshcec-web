@@ -45,15 +45,12 @@ const rehypeImage = () => (tree) => {
       const count = url_count.get(id);
       const dupe = urls.get(url);
 
-      if (dupe && count) {
+      if (count && !dupe) {
         url_count.set(id, count + 1);
         id = `${id}_${count}`;
-      } else if (dupe && !count) {
+      } else if (!dupe) {
         url_count.set(id, 1);
-        id = `${id}_1`;
-      } else {
-        url_count.set(id, 1);
-      }
+      } // if there is dupe we can just reuse the id
 
       urls.set(url, id);
 
@@ -63,32 +60,48 @@ const rehypeImage = () => (tree) => {
     return url;
   }
   visit(tree, "element", (node, index, parent) => {
-    if (!node.children) return;
+    if (node.tagName != "p" || !node.children?.some((child) => child?.tagName === "Components.img")) return;
 
-    let foundImages = false;
+    let lastIndex = index;
 
     // find <p>s that contain <img>s
-    for (let [i, child] of node.children.entries()) {
-      if (child.tagName !== "Components.img") continue;
-      foundImages = true;
+    for (let child of node.children) {
+      if (child.tagName === "Components.img") {
+        // handle relatvie urls if needed
+        child.properties.src = transformUrl(child.properties.src);
 
-      // handle relatvie urls if needed
-      child.properties.src = transformUrl(child.properties.src);
-
-      // insert this <img> after this <p> (move it out!)
-      parent.children.splice(index + 1, 0, child);
-
-      // remove the original <img> inside <p>
-      node.children.splice(i, 1);
+        // insert this <img> after this <p> (move it out!)
+        parent.children.splice(lastIndex + 1, 0, child);
+        lastIndex = lastIndex + 1;
+      } else if (lastIndex === index || parent.children[lastIndex].tagName === "Components.img") {
+        // when we haven't added anything OR when last added image
+        // insert a new <p> (because we will delete the original <p>)
+        parent.children.splice(lastIndex + 1, 0, {
+          type: "element",
+          tagName: "p",
+          properties: {},
+          children: [child]
+        });
+        lastIndex = lastIndex + 1;
+      } else if (parent.children[lastIndex].tagName === "p") {
+        // when last added <p>
+        // we should just add child to it
+        parent.children[lastIndex].children.push(child);
+      } else {
+        throw new Error("Parse error in rehypeImage. Bad lastIndex.");
+      }
     }
 
-    if (foundImages) {
-      parent.children.splice(index, 1);
-
-      // tell visitor to go to next element (since we added it)
-      // the image wouldn't show if we don't do this for some reason
-      return index + 1;
-    }
+    // since we copied all the elements, we should be safe to delete the original <p>
+    parent.children.splice(index, 1);
+  });
+  visit(tree, "raw", (node) => {
+    // transform regular element src as well
+    // INFO: this does not limit to images, which is probably the intended behavior
+    node.value = node.value.replaceAll(
+      /src=(?:"(\.\/[^"]*)"|'(\.\/[^']*)')/g,
+      (_, g1, g2) => `src=${transformUrl(g1 ?? g2)}`
+    );
   });
 
   let imports = "";
@@ -98,7 +111,6 @@ const rehypeImage = () => (tree) => {
 
   visit(tree, "raw", (node) => {
     if (node.value.includes("<script>")) {
-      count++;
       node.value = node.value.replace("<script>", `<script>\n${imports}`);
     }
   });
