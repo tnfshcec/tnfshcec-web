@@ -32,9 +32,28 @@ const remarkAlerts = () => (tree) =>
   );
 
 const rehypeImage = () => (tree) => {
-  visit(tree, "element", (node) => {
+  visit(tree, "element", (node, index, parent) => {
+    // look for images generated inside <p> tags
+    const images = node.children?.filter(
+      (child) => child.tagName === "Components.img" && child.properties.src?.startsWith("./")
+    );
+
+    // if found image move it out of the <p>
+    if (images && images.length > 0) {
+      const pIndex = parent.children.indexOf(node);
+      parent.children.splice(pIndex + 1, 0, ...images);
+
+      for (let img of images) {
+        const imgIndex = node.children.indexOf(img);
+        node.children.splice(imgIndex, 1);
+      }
+
+      // console.log(parent);
+    }
+
     if (node.properties.src?.startsWith("./")) {
       // test if src is a relative path by checking "./"
+      // console.log(node)
       node.properties.src = `{new URL('${node.properties.src}', import.meta.url).href}`;
     }
   });
