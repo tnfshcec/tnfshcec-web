@@ -1,5 +1,6 @@
 ---
 title: Multi-Image Test
+unlisted: true
 ---
 
 Regular images should be extracted out of the `<p>` tags normally placed around them.
