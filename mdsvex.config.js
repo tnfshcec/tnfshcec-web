@@ -32,17 +32,48 @@ const remarkAlerts = () => (tree) =>
   );
 
 const rehypeImage = () => (tree) => {
+  const urls = new Map();
+  const url_count = new Map();
+
+  /** source: https://github.com/pngwn/MDsveX/discussions/246#discussioncomment-732230 */
+  function transformUrl(url) {
+    // work if is relative path (starting with .)
+    if (url?.startsWith(".")) {
+      // create the identifier by replacing unsupported characters with _
+      let id = url.replace(/[^\p{ID_Continue}]/gu, "_");
+
+      const count = url_count.get(id);
+      const dupe = urls.get(url);
+
+      if (dupe && count) {
+        url_count.set(id, count + 1);
+        id = `${id}_${count}`;
+      } else if (dupe && !count) {
+        url_count.set(id, 1);
+        id = `${id}_1`;
+      } else {
+        url_count.set(id, 1);
+      }
+
+      urls.set(url, id);
+
+      return `{${id}}`;
+    }
+
+    return url;
+  }
   visit(tree, "element", (node, index, parent) => {
     if (!node.children) return;
 
+    let foundImages = false;
+
     // find <p>s that contain <img>s
     for (let [i, child] of node.children.entries()) {
-      if (child.tagName !== "Components.img") return;
+      if (child.tagName !== "Components.img") continue;
+      foundImages = true;
 
-      if (child.properties.src?.startsWith("./")) {
-        // update relative src url for vite to process
-        child.properties.src = `{new URL('${child.properties.src}', import.meta.url).href}`;
-      }
+      // handle relatvie urls if needed
+      child.properties.src = transformUrl(child.properties.src);
 
       // insert this <img> after this <p> (move it out!)
       parent.children.splice(index + 1, 0, child);
@@ -51,11 +82,24 @@ const rehypeImage = () => (tree) => {
       node.children.splice(i, 1);
     }
 
-    if (node.children.length === 0) {
+    if (foundImages) {
       parent.children.splice(index, 1);
 
-      // tell visitor to go to next element (since we removed the current one)
+      // tell visitor to go to next element (since we added it)
+      // the image wouldn't show if we don't do this for some reason
       return index + 1;
+    }
+  });
+
+  let imports = "";
+  for (let [url, id] of urls) {
+    imports += `import ${id} from "${url}";\n`;
+  }
+
+  visit(tree, "raw", (node) => {
+    if (node.value.includes("<script>")) {
+      count++;
+      node.value = node.value.replace("<script>", `<script>\n${imports}`);
     }
   });
 };
