@@ -1,13 +1,14 @@
 import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { mdsvex } from "mdsvex";
+import { paraglideAnchors } from "./sveltekit-paraglidejs-anchors.js";
 import mdsvexConfig from "./mdsvex.config.js";
 
 import sequence from "svelte-sequential-preprocessor";
 import { preprocessMeltUI } from "@melt-ui/pp";
 
 const dev = process.argv.includes("dev");
-const base = dev ? "" : process.env.BASE_PATH ?? "";
+const base = dev ? "" : (process.env.BASE_PATH ?? "");
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -15,7 +16,12 @@ const config = {
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors
-  preprocess: sequence([mdsvex(mdsvexConfig), vitePreprocess(), preprocessMeltUI()]),
+  preprocess: sequence([
+    mdsvex(mdsvexConfig),
+    vitePreprocess(),
+    preprocessMeltUI(),
+    paraglideAnchors()
+  ]),
 
   kit: {
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
