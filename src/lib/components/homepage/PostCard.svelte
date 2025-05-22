@@ -5,6 +5,7 @@
   import { fly } from "svelte/transition";
   import { localeDate } from "$lib/utils/date";
   import { goto } from "$app/navigation";
+  import { localizeHref } from "$paraglide/runtime";
 
   interface Props {
     post: App.PostData;
@@ -23,7 +24,7 @@
 
 <a
   class="grid w-full grid-cols-[1fr_fit-content(40%)] gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
-  href="{base}/post/{post.slug}"
+  href={localizeHref(`${base}/post/${post.slug}`)}
   transition:fly={{ y: 10, duration: 250 }}
 >
   <header class="icon-flex text-lg font-bold">

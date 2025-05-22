@@ -2,6 +2,7 @@
   import { type Component } from "svelte";
   import { base } from "$app/paths";
   import { m } from "$paraglide/messages.js";
+  import { localizeHref } from "$paraglide/runtime.js";
   import { anchorScroll } from "$lib/components/actions";
   import { uwu } from "$lib/utils/uwu.svelte";
   import ActivityFigure from "$lib/components/homepage/ActivityFigure.svelte";
@@ -83,7 +84,7 @@
     <div class="max-w-lg flex-grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{m.home_news_title()}</header>
       <div class="text-lg">{m.home_news_description()}</div>
-      <a class="btn-accent icon-flex mx-auto w-fit" href="{base}/post">
+      <a class="btn-accent icon-flex mx-auto w-fit" href={localizeHref(`${base}/post`)}>
         <ArrowRight class="h-6 w-6" />
         <span>{m.home_news_more()}</span>
       </a>

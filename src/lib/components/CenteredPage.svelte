@@ -2,6 +2,7 @@
 <script lang="ts">
   import ChevronRight from "~icons/mdi/chevron-right";
   import * as m from "$paraglide/messages";
+  import { localizeHref } from "$paraglide/runtime";
   import { base } from "$app/paths";
   import type { Snippet } from "svelte";
 
@@ -41,7 +42,7 @@
       <span>
         {#each breadcrumb as page}
           <span class="transition-colors hover:text-accent">
-            <a href={breadcrumbPages[page].url}>
+            <a href={localizeHref(breadcrumbPages[page].url)}>
               {breadcrumbPages[page].name}
             </a>
             <ChevronRight class="inline h-4 w-4" />

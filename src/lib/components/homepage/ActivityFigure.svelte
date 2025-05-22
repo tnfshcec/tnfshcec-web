@@ -3,6 +3,7 @@
   import { uwu } from "$lib/utils/uwu.svelte";
   import logo from "$lib/assets/logo.svg";
   import * as m from "$paraglide/messages";
+  import { localizeHref } from "$paraglide/runtime";
   import { base } from "$app/paths";
 
   let activities = [
@@ -96,7 +97,7 @@
     class="btn-accent absolute select-none whitespace-nowrap"
     style:left="19.21rem"
     style:top="3.89rem"
-    href={uwu.enabled ? `${base}/?uwu=0` : `${base}/?uwu`}
+    href={localizeHref(uwu.enabled ? `${base}/?uwu=0` : `${base}/?uwu`)}
   >
     {uwu.enabled ? "no uwu" : "uwu?"}
   </a>

@@ -11,7 +11,7 @@
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
   import { m}  from "$paraglide/messages";
-  import { getLocale } from "$paraglide/runtime.js";
+  import { getLocale, localizeHref } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
 
   let { data } = $props();
@@ -114,7 +114,7 @@
     <hr class="w-full text-text/20" />
     <div class="flex flex-wrap gap-2">
       {#each metadata.tags as tag}
-        <a class="btn-accent" href="{base}/post?tags={tag}">
+        <a class="btn-accent" href={localizeHref(`${base}/post?tags={tag}`)}>
           #{tag}
         </a>
       {/each}
