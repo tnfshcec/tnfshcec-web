@@ -27,7 +27,7 @@
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a
-      href="{base}/"
+      href={localizeHref(`${base}/`)}
       class="grid w-full grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-2 overflow-hidden"
     >
       <img
@@ -43,10 +43,10 @@
     <div class="my-auto ml-6 shrink-0">
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 lg:flex">
-        <a href="{base}/post" class="shrink-0 transition-colors hover:text-accent">
+        <a href={localizeHref(`${base}/post`)} class="shrink-0 transition-colors hover:text-accent">
           {m.post_list()}
         </a>
-        <a href="{base}/post/about" class="shrink-0 transition-colors hover:text-accent">
+        <a href={localizeHref(`${base}/post/about`)} class="shrink-0 transition-colors hover:text-accent">
           {m.about()}
         </a>
         <a href="https://ctf.tnfshcec.com" class="shrink-0 transition-colors hover:text-accent">
@@ -117,14 +117,14 @@
 
             <a
               class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/post"
+              href={localizeHref(`${base}/post`)}
             >
               <Star class="h-4 w-4" />
               {m.post_list()}
             </a>
             <a
               class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
-              href="{base}/post/about"
+              href={localizeHref(`${base}/post/about`)}
             >
               <Info class="h-4 w-4" />
               {m.about()}

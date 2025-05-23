@@ -5,6 +5,7 @@
   import CenteredPage from "$lib/components/CenteredPage.svelte";
   import PostCard from "$lib/components/homepage/PostCard.svelte";
   import { m } from "$paraglide/messages";
+  import { localizeHref } from "$paraglide/runtime.js";
 
   let { data } = $props();
 
@@ -50,7 +51,7 @@
       <a
         class="btn-accent whitespace-nowrap
           {currentTags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
-        href={base + getToggledHref(tag)}
+        href={localizeHref(base + getToggledHref(tag))}
       >
         #{tag}
       </a>
@@ -75,7 +76,7 @@
             <a
               class="btn-accent whitespace-nowrap
                   {currentTags.includes(tag) ? '' : 'border-accent/40 text-accent/60'}"
-              href={base + getToggledHref(tag)}
+              href={localizeHref(base + getToggledHref(tag))}
             >
               #{tag}
             </a>
