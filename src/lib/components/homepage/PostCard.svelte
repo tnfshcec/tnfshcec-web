@@ -2,9 +2,10 @@
 <script lang="ts">
   import Pin from "~icons/mdi/pin";
   import { base } from "$app/paths";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import { fly } from "svelte/transition";
   import { localeDate } from "$lib/utils/date";
-  import { goto } from "$app/navigation";
 
   interface Props {
     post: App.PostData;
@@ -17,7 +18,9 @@
 
   function gotoTag(event: MouseEvent, tag: string) {
     event.preventDefault();
-    goto(`${base}/post?tags=${tag}`);
+    const url = page.url;
+    url.searchParams.set("tags", tag)
+    goto(url);
   }
 </script>
 

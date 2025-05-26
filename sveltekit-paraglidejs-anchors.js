@@ -1,26 +1,54 @@
+import path from "path";
 import { parse } from "svelte/compiler";
 import { walk } from "estree-walker";
 import MagicString from "magic-string";
 
-/** @returns {import("svelte/compiler").PreprocessorGroup} */
-export function paraglideAnchors() {
+/**
+ * @typedef {object} ParaglideAnchorsOptions
+ * @property {string} paraglideRuntimePath
+ * @property {string} localizeFuncImportName
+ * @property {string[]} transformElements,
+ * @property {string[]} transformComponents,
+ * @property {boolean} excludeExternalModules
+ * @property {(filename: string) => boolean} excludeExternalModulesPredicate
+ * @property {boolean} skipLocalizedHref
+ * @property {(expression: string) => boolean} skipLocalizedHrefPredicate
+ */
+
+/**
+ *  @param {ParaglideAnchorsOptions} options
+ *  @returns {import("svelte/compiler").PreprocessorGroup}
+ */
+export function paraglideAnchors(options = {}) {
+  const {
+    paraglideRuntimePath = "$lib/paraglide/runtime",
+    localizeFuncImportName = "_paraglidejs_anchors_localizeHref",
+    transformElements = ["a"],
+    transformComponents = [],
+    excludeExternalModules = true,
+    excludeExternalModulesPredicate = (filename) => filename.includes("/node_modules/"),
+    skipLocalizedHref = true,
+    skipLocalizedHrefPredicate = (expression) => expression.includes("localizeHref(")
+  } = options;
+
   return {
     name: "paraglide-anchors",
     markup: ({ content, filename }) => {
+      if (excludeExternalModules && excludeExternalModulesPredicate(filename)) {
+        return;
+      }
+
       const ast = parse(content, { filename, modern: true });
       const s = new MagicString(content);
 
+      let transformedHref = false;
+
       walk(ast, {
-        enter: (
-          /** @type {import("svelte/compiler").AST.SvelteNode | import("svelte/compiler").AST.Script} */ node
-        ) => {
-          if (node.type === "Script" && node.context === "default") {
-            s.appendLeft(
-              node.content.start,
-              '\nimport { localizeHref as _paraglidejs_anchors_localizeHref } from "$paraglide/runtime";'
-            );
-          }
-          if (node.type === "RegularElement" && node.name === "a") {
+        enter: (/** @type {import("svelte/compiler").AST.SvelteNode} */ node) => {
+          if (
+            (node.type === "RegularElement" && transformElements.includes(node.name)) ||
+            (node.type === "Component" && transformComponents.includes(node.name))
+          ) {
             const hrefAttr = node.attributes.find((a) => a.name === "href");
             if (!hrefAttr) return;
 
@@ -32,7 +60,10 @@ export function paraglideAnchors() {
               // href={expression} or {href}
               let expressionContent = "";
 
-              if (s.slice(hrefValue.start, hrefValue.end).includes("localizeHref")) {
+              if (
+                skipLocalizedHref &&
+                skipLocalizedHrefPredicate(s.slice(hrefValue.start + 1, hrefValue.end - 1))
+              ) {
                 // assume it is localized
                 return;
               } else if (hrefValue.start - hrefAttr.start <= 1) {
@@ -46,9 +77,10 @@ export function paraglideAnchors() {
               s.update(
                 hrefAttr.start,
                 hrefAttr.end,
-                `href={_paraglidejs_anchors_localizeHref(${expressionContent})}`
+                `href={${localizeFuncImportName}(${expressionContent})}`
               );
 
+              transformedHref = true;
               // console.log(s.slice(hrefAttr.start, hrefAttr.end));
             } else if (hrefValue.length) {
               // href="something"
@@ -72,11 +104,25 @@ export function paraglideAnchors() {
                 `{_paraglidejs_anchors_localizeHref(\`${reconstruct}\`)}`
               );
 
+              transformedHref = true;
               // console.log(s.slice(leftQuote, rightQuote));
             }
           }
         }
       });
+
+      if (transformedHref) {
+        walk(ast, {
+          enter: (/** @type {import("svelte/compiler").AST.Script} */ node) => {
+            if (node.type === "Script" && node.context === "default") {
+              s.appendLeft(
+                node.content.start,
+                `\nimport { localizeHref as ${localizeFuncImportName} } from "${paraglideRuntimePath}";`
+              );
+            }
+          }
+        });
+      }
 
       return {
         code: s.toString(),
