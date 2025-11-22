@@ -1,13 +1,14 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { createTableOfContents } from "@melt-ui/svelte";
-  import { scrollOffset } from "$lib/utils/scrollOffset";
   import Tree from "./Tree.svelte";
   import ChevronUp from "~icons/mdi/chevron-up";
   import * as m from "$paraglide/messages";
+  import type { MouseEventHandler } from "svelte/elements";
 
   interface Props {
     selector: string;
+    onclick?: MouseEventHandler<HTMLAnchorElement>;
   }
 
   let { selector }: Props = $props();
@@ -34,7 +35,7 @@
 
 <nav>
   {#key $headingsTree}
-    <Tree tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} on:click />
+    <Tree tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} onclick />
   {/key}
 
   {#if scrollY > 500}

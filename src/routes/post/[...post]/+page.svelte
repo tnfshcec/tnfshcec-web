@@ -22,7 +22,7 @@
   let Content = $derived(post.content);
   let locDate = $derived(localeDate(metadata.date));
 
-  let infoText: string | undefined = $state();
+  let infoText = $state<string | undefined>();
   $effect(() => {
     if (metadata.author && metadata.date) {
       infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
@@ -60,7 +60,7 @@
       class="border-text/20 bg-background rounded rounded-t-none border border-t-0 px-4 py-2"
       transition:fly={{ duration: 150, y: -10 }}
     >
-      <TableOfContents selector="#post-content" on:click={() => (tableOfContentsOpen = false)} />
+      <TableOfContents selector="#post-content" onclick={() => (tableOfContentsOpen = false)} />
     </div>
   </Collapsible.Content>
 </Collapsible.Root>
