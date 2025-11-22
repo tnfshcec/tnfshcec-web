@@ -29,7 +29,7 @@
           href="#{heading.id}"
           use:melt={$item(heading.id)}
           class="inline-flex items-center justify-center gap-2 text-text/60 no-underline transition-colors
-                 hover:!text-accent data-[active]:text-text"
+                 hover:text-accent! data-active:text-text"
           onclick={bubble('click')}
         >
           <!--

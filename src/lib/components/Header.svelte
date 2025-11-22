@@ -23,7 +23,7 @@
 </script>
 
 <header
-  class="sticky top-0 z-50 h-14 w-full border-b border-text/10 bg-background/60 px-4 backdrop-blur"
+  class="sticky top-0 z-50 h-14 w-full border-b border-text/10 bg-background/60 px-4 backdrop-blur-sm"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a
@@ -72,7 +72,7 @@
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content
-            class="z-top max-w-xs rounded border border-text/20 bg-background/60 backdrop-blur"
+            class="z-top max-w-xs rounded border border-text/20 bg-background/60 backdrop-blur-sm"
             sideOffset={4}
             preventScroll={false}
           >

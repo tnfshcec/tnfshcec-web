@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.postcss";
+  import "../app.css";
 
   import { page } from "$app/state";
   import { uwu } from "$lib/utils/uwu.svelte";
@@ -38,11 +38,11 @@
 
 <ModeWatcher />
 
-  <Header />
+<Header />
 
-  <main>
-    {@render children?.()}
-  </main>
+<main>
+  {@render children?.()}
+</main>
 
 <!--
     NOTE: This is what the ParaglideJS docs recommends to
@@ -50,8 +50,7 @@
     We were previously using <link>s; now this is using invisible <a>s.
 -->
 <div style="display:none">
-	{#each locales as locale}
-		<a href={localizeHref(page.url.pathname, { locale })}>{locale}</a>
-	{/each}
+  {#each locales as locale}
+    <a href={localizeHref(page.url.pathname, { locale })}>{locale}</a>
+  {/each}
 </div>
-  

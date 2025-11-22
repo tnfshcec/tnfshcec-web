@@ -28,7 +28,7 @@
 {/snippet}
 
 <section class="w-full items-center p-4">
-  <div class="relative mx-auto min-h-[60vh] max-w-screen-xl">
+  <div class="relative mx-auto min-h-[60vh] max-w-(--breakpoint-xl)">
     <div
       class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
@@ -78,9 +78,9 @@
 <!-- news -->
 <section class="w-full px-4 py-16" id="news">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
+    class="mx-auto flex h-full max-w-(--breakpoint-xl) flex-col items-center justify-between gap-4 md:flex-row"
   >
-    <div class="max-w-lg flex-grow basis-80 space-y-4">
+    <div class="max-w-lg grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{m.home_news_title()}</header>
       <div class="text-lg">{m.home_news_description()}</div>
       <a class="btn-accent icon-flex mx-auto w-fit" href="{base}/post">
@@ -99,9 +99,9 @@
 <!-- activities -->
 <section class="w-full px-4 py-16" id="interests">
   <div
-    class="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between gap-4 md:flex-row"
+    class="mx-auto flex h-full max-w-(--breakpoint-xl) flex-col items-center justify-between gap-4 md:flex-row"
   >
-    <div class="max-w-lg flex-grow basis-80 space-y-4">
+    <div class="max-w-lg grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{m.home_interests_title()}</header>
       <div class="whitespace-pre-wrap text-lg">{m.home_interests_description()}</div>
     </div>
@@ -127,7 +127,7 @@
 
 <!-- comments -->
 <section class="w-full px-4 py-16" id="comments">
-  <div class="mx-auto flex h-full max-w-screen-xl flex-col items-center gap-4">
+  <div class="mx-auto flex h-full max-w-(--breakpoint-xl) flex-col items-center gap-4">
     <div class="text-2xl font-bold">{m.home_comments_title()}</div>
 
     <div class="flex max-w-full snap-x snap-proximity gap-4 overflow-x-auto">

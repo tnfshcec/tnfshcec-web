@@ -63,7 +63,7 @@
 <div class="relative aspect-square h-96">
   <svg class="h-full w-full">
     <!-- inset drop shadows from https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters -->
-    <filter id="inset-shadow">
+    <filter id="inset-shadow-sm">
       <!-- Shadow offset -->
       <feOffset dx="0" dy="0" />
 

@@ -34,7 +34,7 @@
   </div>
 
   <div
-    class="relative flex w-full min-w-0 max-w-screen-md flex-col gap-4 break-words [&_*]:max-w-full"
+    class="relative flex w-full min-w-0 max-w-(--breakpoint-md) flex-col gap-4 wrap-break-word **:max-w-full"
   >
     <!-- page title -->
     <nav class="flex flex-col justify-center">

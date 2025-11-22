@@ -50,7 +50,7 @@
     <div class="col-span-full flex gap-2 overflow-clip text-text/80" id="tags-container">
       {#each post.tags as tag}
         <button
-          class="flex-shrink-0 transition-colors hover:text-text hover:underline"
+          class="shrink-0 transition-colors hover:text-text hover:underline"
           onclick={(event) => gotoTag(event, tag)}
         >
           #{tag}
