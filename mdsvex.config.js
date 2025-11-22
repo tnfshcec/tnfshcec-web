@@ -60,7 +60,8 @@ const rehypeImage = () => (tree) => {
     return url;
   }
   visit(tree, "element", (node, index, parent) => {
-    if (node.tagName != "p" || !node.children?.some((child) => child?.tagName === "Components.img")) return;
+    if (node.tagName != "p" || !node.children?.some((child) => child?.tagName === "Components.img"))
+      return;
 
     let lastIndex = index;
 

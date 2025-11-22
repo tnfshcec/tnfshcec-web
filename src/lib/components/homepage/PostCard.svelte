@@ -19,38 +19,38 @@
   function gotoTag(event: MouseEvent, tag: string) {
     event.preventDefault();
     const url = page.url;
-    url.searchParams.set("tags", tag)
+    url.searchParams.set("tags", tag);
     goto(url);
   }
 </script>
 
 <a
-  class="grid w-full grid-cols-[1fr_fit-content(40%)] gap-2 rounded bg-secondary px-4 py-6 transition-all hover:shadow-glow hover:shadow-secondary/80 motion-safe:hover:scale-[1.01]"
+  class="bg-secondary hover:shadow-glow hover:shadow-secondary/80 grid w-full grid-cols-[1fr_fit-content(40%)] gap-2 rounded px-4 py-6 transition-all motion-safe:hover:scale-[1.01]"
   href="{base}/post/{post.slug}"
   transition:fly={{ y: 10, duration: 250 }}
 >
   <header class="icon-flex text-lg font-bold">
     {#if post.pinned}
-      <Pin class="h-5 w-5 text-primary" />
+      <Pin class="text-primary h-5 w-5" />
     {/if}
     {post.title}
   </header>
 
-  <div class="row-span-2 text-end text-text/60">
+  <div class="text-text/60 row-span-2 text-end">
     <div>{post.author ?? ""}</div>
     <div>{date ?? ""}</div>
   </div>
 
   <div>
-    <span class="font-bold italic text-text">{post.unlisted ? "（設定隱藏）" : ""}</span>
+    <span class="text-text font-bold italic">{post.unlisted ? "（設定隱藏）" : ""}</span>
     {post.desc ?? ""}
   </div>
 
   {#if displayTags && post.tags}
-    <div class="col-span-full flex gap-2 overflow-clip text-text/80" id="tags-container">
+    <div class="text-text/80 col-span-full flex gap-2 overflow-clip" id="tags-container">
       {#each post.tags as tag}
         <button
-          class="flex-shrink-0 transition-colors hover:text-text hover:underline"
+          class="hover:text-text shrink-0 transition-colors hover:underline"
           onclick={(event) => gotoTag(event, tag)}
         >
           #{tag}

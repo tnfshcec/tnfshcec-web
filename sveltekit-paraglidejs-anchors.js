@@ -1,4 +1,11 @@
-import path from "path";
+// NOTE: ParaglideJS v2 no longer translates anchor hrefs,
+// so this is an attempt to automatically add localizeHref() to links by parsing the AST.
+// It works now but things may break with unhandled edge cases.
+// (And I'm not interested in handling those cases as well :P)
+// REF:
+// - https://inlang.com/m/gerre34r/library-inlang-paraglideJs/basics#routing
+// - https://github.com/opral/inlang-paraglide-js/issues/485#issuecomment-2751992602
+
 import { parse } from "svelte/compiler";
 import { walk } from "estree-walker";
 import MagicString from "magic-string";

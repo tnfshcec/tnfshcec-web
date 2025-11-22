@@ -10,7 +10,7 @@
 
   import { base } from "$app/paths";
   import { fly } from "svelte/transition";
-  import { m}  from "$paraglide/messages";
+  import { m } from "$paraglide/messages";
   import { getLocale } from "$paraglide/runtime.js";
   import { localeDate } from "$lib/utils/date";
 
@@ -22,7 +22,7 @@
   let Content = $derived(post.content);
   let locDate = $derived(localeDate(metadata.date));
 
-  let infoText: string | undefined = $state();
+  let infoText = $state<string | undefined>();
   $effect(() => {
     if (metadata.author && metadata.date) {
       infoText = `${m.post_posted_by({ user: metadata.author })} / ${locDate}`;
@@ -44,7 +44,7 @@
 <!-- table of contents on mobile view -->
 <Collapsible.Root class="sticky top-14 z-10" bind:open={tableOfContentsOpen}>
   <Collapsible.Trigger
-    class="icon-flex z-20 w-full border border-secondary bg-background px-4 py-1 lg:hidden"
+    class="icon-flex border-secondary bg-background z-20 w-full border px-4 py-1 lg:hidden"
   >
     <List class="h-4 w-4" />
     <span>{m.post_table_of_contents()}</span>
@@ -55,12 +55,12 @@
     {/if}
   </Collapsible.Trigger>
 
-  <Collapsible.Content class="absolute left-0 right-0 top-full">
+  <Collapsible.Content class="absolute top-full right-0 left-0">
     <div
-      class="rounded rounded-t-none border border-t-0 border-text/20 bg-background px-4 py-2"
+      class="border-text/20 bg-background rounded rounded-t-none border border-t-0 px-4 py-2"
       transition:fly={{ duration: 150, y: -10 }}
     >
-      <TableOfContents selector="#post-content" on:click={() => (tableOfContentsOpen = false)} />
+      <TableOfContents selector="#post-content" onclick={() => (tableOfContentsOpen = false)} />
     </div>
   </Collapsible.Content>
 </Collapsible.Root>
@@ -78,7 +78,7 @@
   {#snippet belowTitle()}
     <div class="icon-flex">
       {#if metadata.pinned}
-        <Pin class="h-4 w-4 text-primary" />
+        <Pin class="text-primary h-4 w-4" />
       {/if}
       {#if infoText}
         <span>{infoText}</span>
@@ -92,14 +92,14 @@
       <img
         src={metadata.image}
         alt={metadata.title}
-        class="max-h-80 w-full rounded object-cover shadow-glow shadow-primary/20"
+        class="shadow-glow shadow-primary/20 max-h-80 w-full rounded object-cover"
       />
     </div>
   {/if}
 
   <!-- language notice -->
   {#if metadata.lang && metadata.lang !== getLocale()}
-    <div class="icon-flex rounded border border-primary p-4 font-bold">
+    <div class="icon-flex border-primary rounded border p-4 font-bold">
       <Alert class="h-4 w-4" />
       {m.post_lang_notice()}
     </div>
@@ -111,7 +111,7 @@
   </article>
 
   {#if metadata.tags}
-    <hr class="w-full text-text/20" />
+    <hr class="text-text/20 w-full" />
     <div class="flex flex-wrap gap-2">
       {#each metadata.tags as tag}
         <a class="btn-accent" href="{base}/post?tags={tag}">

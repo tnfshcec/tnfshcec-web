@@ -8,7 +8,7 @@
 
   interface Props {
     title: keyof typeof titlesInfo;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   }
 
   let { title, children }: Props = $props();

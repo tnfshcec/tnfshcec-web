@@ -82,7 +82,7 @@
 
   {#each activities as act}
     <div
-      class="btn-accent absolute cursor-grab select-none whitespace-nowrap"
+      class="btn-accent absolute cursor-grab whitespace-nowrap select-none"
       style:left="{act.labelPosition[0]}rem"
       style:top="{act.labelPosition[1]}rem"
       role="presentation"
@@ -93,7 +93,7 @@
   {/each}
 
   <a
-    class="btn-accent absolute select-none whitespace-nowrap"
+    class="btn-accent absolute whitespace-nowrap select-none"
     style:left="19.21rem"
     style:top="3.89rem"
     href={uwu.enabled ? `${base}/?uwu=0` : `${base}/?uwu`}

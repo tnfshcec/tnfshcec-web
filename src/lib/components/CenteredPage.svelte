@@ -33,14 +33,12 @@
     {@render left?.()}
   </div>
 
-  <div
-    class="relative flex w-full min-w-0 max-w-screen-md flex-col gap-4 break-words [&_*]:max-w-full"
-  >
+  <div class="relative flex w-full max-w-3xl min-w-0 flex-col gap-4 wrap-break-word **:max-w-full">
     <!-- page title -->
     <nav class="flex flex-col justify-center">
       <span>
         {#each breadcrumb as page}
-          <span class="transition-colors hover:text-accent">
+          <span class="hover:text-accent transition-colors">
             <a href={breadcrumbPages[page].url}>
               {breadcrumbPages[page].name}
             </a>

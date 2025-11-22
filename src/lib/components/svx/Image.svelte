@@ -9,7 +9,7 @@
 </script>
 
 <figure>
-  <img {src} {alt} {title} class="w-full min-w-24 max-w-lg" />
+  <img {src} {alt} {title} class="w-full max-w-lg min-w-24" />
 
   {#if title}
     <figcaption class="italic">{title}</figcaption>
