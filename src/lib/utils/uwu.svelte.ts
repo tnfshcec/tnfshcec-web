@@ -1,1 +1,1 @@
-export const uwu = $state({enabled: false})
+export const uwu = $state({ enabled: false });

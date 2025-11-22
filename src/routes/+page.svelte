@@ -23,14 +23,14 @@
 
 {#snippet socialIcon(name: string, href: string, Icon: Component)}
   <a {href} target="_blank" rel="noopener noreferrer" aria-label={m.home_social_link({ name })}>
-    <Icon class="h-8 w-8 text-text/80 transition-colors hover:text-accent" />
+    <Icon class="text-text/80 hover:text-accent h-8 w-8 transition-colors" />
   </a>
 {/snippet}
 
 <section class="w-full items-center p-4">
   <div class="relative mx-auto min-h-[60vh] max-w-(--breakpoint-xl)">
     <div
-      class="absolute left-0 top-1/2 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
+      class="absolute top-1/2 left-0 z-10 flex max-w-lg -translate-y-1/2 flex-col items-start gap-4"
     >
       <div class="space-y-4">
         <header class="text-4xl font-bold">
@@ -50,7 +50,7 @@
           aria-label={m.home_tnfsh_link()}
         >
           <div
-            class="h-8 w-8 bg-text/80 transition-colors hover:bg-accent"
+            class="bg-text/80 hover:bg-accent h-8 w-8 transition-colors"
             style:mask="url({TNFSH_emblem}) center / contain no-repeat"
             style:-webkit-mask="url({TNFSH_emblem}) center / contain no-repeat"
           ></div>
@@ -69,7 +69,7 @@
 <!-- more -->
 <section class="flex h-72 w-full flex-col items-center gap-4 px-16 py-24">
   <div class="max-w-4xl sm:text-lg">{m.home_quote()}</div>
-  <a class="icon-flex transition-colors hover:text-accent" href="#news" use:anchorScroll>
+  <a class="icon-flex hover:text-accent transition-colors" href="#news" use:anchorScroll>
     <ArrowDown class="h-4 w-4" />
     <span>{m.home_more_info()}</span>
   </a>
@@ -88,7 +88,7 @@
         <span>{m.home_news_more()}</span>
       </a>
     </div>
-    <div class="flex min-w-80 max-w-lg flex-1 flex-col items-center justify-center gap-4">
+    <div class="flex max-w-lg min-w-80 flex-1 flex-col items-center justify-center gap-4">
       {#each data.posts.slice(0, 3) as post}
         <PostCard {post} />
       {/each}
@@ -103,14 +103,14 @@
   >
     <div class="max-w-lg grow basis-80 space-y-4">
       <header class="text-center text-2xl font-bold">{m.home_interests_title()}</header>
-      <div class="whitespace-pre-wrap text-lg">{m.home_interests_description()}</div>
+      <div class="text-lg whitespace-pre-wrap">{m.home_interests_description()}</div>
     </div>
     <ActivityFigure />
   </div>
 </section>
 
 {#snippet comment(username: string, handle: string, comment: string)}
-  <div class="flex w-72 flex-col gap-2 rounded bg-secondary px-4 py-2">
+  <div class="bg-secondary flex w-72 flex-col gap-2 rounded px-4 py-2">
     <div class="flex items-center gap-2">
       <div class="comment-pfp h-8 w-8 rounded-full"></div>
       <div>

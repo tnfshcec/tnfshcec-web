@@ -40,7 +40,7 @@
 </script>
 
 <CenteredPage title={m.post_list()} breadcrumb={["home"]}>
-  <div class="whitespace-pre-wrap text-xl">
+  <div class="text-xl whitespace-pre-wrap">
     {m.post_list_description()}
   </div>
 

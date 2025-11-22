@@ -1,7 +1,7 @@
 /* Write your global styles here, in PostCSS syntax */
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@config '../tailwind.config.ts';
+@config "../tailwind.config.ts";
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -23,13 +23,13 @@
 
 @utility btn-accent {
   @apply rounded p-2 transition-[border-color,shadow];
-  @apply border border-accent/80 text-accent;
+  @apply border-accent/80 text-accent border;
   @apply hover:border-accent hover:shadow-glow hover:shadow-accent/40 active:shadow-accent/60;
 }
 
 @utility btn-text {
   @apply rounded p-2 transition-[border-color,shadow];
-  @apply border border-text/80 text-text;
+  @apply border-text/80 text-text border;
   @apply hover:border-text hover:shadow-glow hover:shadow-text/40 active:shadow-text/60;
 }
 
@@ -64,7 +64,7 @@
 }
 
 :root {
-  @apply scroll-pt-20 overflow-auto bg-background text-text motion-safe:scroll-smooth;
+  @apply bg-background text-text scroll-pt-20 overflow-auto motion-safe:scroll-smooth;
 }
 
 ::selection {
@@ -78,7 +78,7 @@
 }
 
 .prose input[type="checkbox"] {
-  @apply rounded border-text/60 bg-transparent checked:bg-primary focus:ring-accent/60;
+  @apply border-text/60 checked:bg-primary focus:ring-accent/60 rounded bg-transparent;
 }
 
 .prose ul.contains-task-list {
@@ -94,16 +94,16 @@
 }
 
 .prose code > span.line.highlighted {
-  @apply -mx-4 inline-block w-[calc(100%+2rem)] bg-primary/20 px-4;
+  @apply bg-primary/20 -mx-4 inline-block w-[calc(100%+2rem)] px-4;
 }
 
 .prose code > span.line.diff.remove {
-  @apply -mx-4 inline-block w-[calc(100%+2rem)] bg-error/20 px-4;
-  @apply after:absolute after:left-1 after:text-error after:content-['-'];
+  @apply bg-error/20 -mx-4 inline-block w-[calc(100%+2rem)] px-4;
+  @apply after:text-error after:absolute after:left-1 after:content-['-'];
 }
 .prose code > span.line.diff.add {
-  @apply -mx-4 inline-block w-[calc(100%+2rem)] bg-success/20 px-4;
-  @apply after:absolute after:left-1 after:text-success after:content-['+'];
+  @apply bg-success/20 -mx-4 inline-block w-[calc(100%+2rem)] px-4;
+  @apply after:text-success after:absolute after:left-1 after:content-['+'];
 }
 
 .prose span.spoiler {
@@ -142,5 +142,3 @@
   display: inline-block;
   text-align: right;
 }
-
-/* vim: set ft=css: */

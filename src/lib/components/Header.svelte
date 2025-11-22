@@ -23,7 +23,7 @@
 </script>
 
 <header
-  class="sticky top-0 z-50 h-14 w-full border-b border-text/10 bg-background/60 px-4 backdrop-blur-sm"
+  class="border-text/10 bg-background/60 sticky top-0 z-50 h-14 w-full border-b px-4 backdrop-blur-sm"
 >
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between">
     <a
@@ -35,26 +35,27 @@
         class="col-start-1 row-span-2 row-start-1"
         alt="TNFSHCEC icon"
       />
-      <div class="col-start-2 whitespace-nowrap font-bold">{m.title()}</div>
-      <div class="col-start-2 whitespace-nowrap text-lg font-bold" id="header-name">{m.name()}</div>
+      <div class="col-start-2 font-bold whitespace-nowrap">{m.title()}</div>
+      <div class="col-start-2 text-lg font-bold whitespace-nowrap" id="header-name">{m.name()}</div>
     </a>
 
     <!-- disable flex-shrink, so only the title above shrinks -->
     <div class="my-auto ml-6 shrink-0">
       <!-- navbar buttons for larger screens -->
       <div class="hidden items-center gap-6 lg:flex">
-        <a href="{base}/post" class="shrink-0 transition-colors hover:text-accent">
+        <a href="{base}/post" class="hover:text-accent shrink-0 transition-colors">
           {m.post_list()}
         </a>
-        <a href="{base}/post/about" class="shrink-0 transition-colors hover:text-accent">
+        <a href="{base}/post/about" class="hover:text-accent shrink-0 transition-colors">
           {m.about()}
         </a>
-        <a href="https://ctf.tnfshcec.com" class="shrink-0 transition-colors hover:text-accent">
-          GCUP CTF
-        </a>
+        <!-- NOTE: GCUP CTF DEAD -->
+        <!-- <a href="https://ctf.tnfshcec.com" class="shrink-0 transition-colors hover:text-accent"> -->
+        <!--   GCUP CTF -->
+        <!-- </a> -->
 
         <!-- theme toggle button -->
-        <button class="rounded-sm p-2 transition-colors hover:bg-primary/20" onclick={toggleMode}>
+        <button class="hover:bg-primary/20 rounded-sm p-2 transition-colors" onclick={toggleMode}>
           {#if $mode === "light"}
             <Night class="h-8 w-8" aria-label={m.dark_theme()} id="night" />
           {:else}
@@ -65,20 +66,20 @@
         <!-- language change button -->
         <DropdownMenu.Root>
           <DropdownMenu.Trigger
-            class="flex items-center rounded-sm border border-text/20 p-1 transition-colors hover:bg-primary/20"
+            class="border-text/20 hover:bg-primary/20 flex items-center rounded-sm border p-1 transition-colors"
           >
             <Earth class="h-8 w-8" aria-label={m.language()} />
             <ChevronDown class="h-6 w-6" />
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content
-            class="z-top max-w-xs rounded border border-text/20 bg-background/60 backdrop-blur-sm"
+            class="z-top border-text/20 bg-background/60 max-w-xs rounded border backdrop-blur-sm"
             sideOffset={4}
             preventScroll={false}
           >
             {#each locales as locale}
               <DropdownMenu.Item
-                class="px-4 py-2 transition-colors first:rounded-t last:rounded-b hover:bg-primary/20"
+                class="hover:bg-primary/20 px-4 py-2 transition-colors first:rounded-t last:rounded-b"
                 aria-current={locale === getLocale() ? "page" : undefined}
               >
                 <a
@@ -109,38 +110,38 @@
         <Drawer.Portal>
           <Drawer.Overlay class="fixed inset-0 bg-[black]/20" />
           <Drawer.Content
-            class="fixed bottom-0 right-0 top-0 z-top flex w-80 max-w-[90%] flex-col rounded-l border border-text/20 bg-background py-4 shadow-lg"
+            class="z-top border-text/20 bg-background fixed top-0 right-0 bottom-0 flex w-80 max-w-[90%] flex-col rounded-l border py-4 shadow-lg"
           >
             <Drawer.Title class="px-4 text-lg font-bold">{m.menu()}</Drawer.Title>
 
-            <hr class="my-2 w-full text-text/20" />
+            <hr class="text-text/20 my-2 w-full" />
 
             <a
-              class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+              class="icon-flex hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               href="{base}/post"
             >
               <Star class="h-4 w-4" />
               {m.post_list()}
             </a>
             <a
-              class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+              class="icon-flex hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               href="{base}/post/about"
             >
               <Info class="h-4 w-4" />
               {m.about()}
             </a>
             <a
-              class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+              class="icon-flex hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               href="https://ctf.tnfshcec.com"
             >
               <Flag class="h-4 w-4" />
               GCUP CTF
             </a>
 
-            <hr class="my-2 w-full text-text/20" />
+            <hr class="text-text/20 my-2 w-full" />
 
             <button
-              class="icon-flex w-full px-4 py-2 transition-colors hover:bg-primary/20"
+              class="icon-flex hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               onclick={toggleMode}
             >
               {#if $mode === "light"}
@@ -154,7 +155,7 @@
 
             <Collapsible.Root>
               <Collapsible.Trigger
-                class="icon-flex group w-full px-4 py-2 transition-colors hover:bg-primary/20"
+                class="icon-flex group hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               >
                 <Earth class="h-4 w-4" />
                 <span>{m.language()}</span>
@@ -163,10 +164,10 @@
                 />
               </Collapsible.Trigger>
 
-              <Collapsible.Content class="rounded-b border-b border-text/20">
+              <Collapsible.Content class="border-text/20 rounded-b border-b">
                 {#each locales as locale}
                   <a
-                    class="flex w-full items-center gap-2 whitespace-nowrap px-4 py-2 transition-colors last:rounded-b hover:bg-primary/20"
+                    class="hover:bg-primary/20 flex w-full items-center gap-2 px-4 py-2 whitespace-nowrap transition-colors last:rounded-b"
                     href={localizeHref(page.url.pathname, { locale })}
                     hreflang={locale}
                     aria-current={locale === getLocale() ? "page" : undefined}

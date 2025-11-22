@@ -15,7 +15,7 @@
 </script>
 
 <div
-  class="absolute right-0 top-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
+  class="absolute top-0 right-0 aspect-square h-full max-w-full opacity-80 blur-[160px]"
   style:--size="{breath * 20 + 90}%"
   style:--rotate="{rotation * 30 - 15}deg"
   id="hero-gradient"
