@@ -120,7 +120,8 @@ const rehypeImage = () => (tree) => {
 /** @type import("mdsvex").MdsvexOptions */
 export default {
   extensions: [".svx", ".md"],
-  layout: "./src/lib/components/MdsvexLayout.svelte",
+  // workaround for relative paths in mdsvex. REF: https://github.com/pngwn/MDsveX/issues/720
+  layout: import.meta.dirname + "/src/lib/components/MdsvexLayout.svelte",
   highlight: {
     highlighter: async (code, lang, meta) => {
       const html = await codeToHtml(code, {
