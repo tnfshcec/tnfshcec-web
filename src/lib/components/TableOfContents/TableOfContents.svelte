@@ -11,7 +11,7 @@
     onclick?: MouseEventHandler<HTMLAnchorElement>;
   }
 
-  let { selector }: Props = $props();
+  let { selector, onclick }: Props = $props();
 
   const {
     elements: { item },
@@ -35,7 +35,7 @@
 
 <nav>
   {#key $headingsTree}
-    <Tree tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} onclick />
+    <Tree tree={$headingsTree} activeHeadingIdxs={$activeHeadingIdxs} {item} {onclick} />
   {/key}
 
   {#if scrollY > 500}

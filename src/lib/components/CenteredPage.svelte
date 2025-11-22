@@ -33,9 +33,7 @@
     {@render left?.()}
   </div>
 
-  <div
-    class="relative flex w-full max-w-(--breakpoint-md) min-w-0 flex-col gap-4 wrap-break-word **:max-w-full"
-  >
+  <div class="relative flex w-full max-w-3xl min-w-0 flex-col gap-4 wrap-break-word **:max-w-full">
     <!-- page title -->
     <nav class="flex flex-col justify-center">
       <span>

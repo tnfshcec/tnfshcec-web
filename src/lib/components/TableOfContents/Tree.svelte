@@ -34,7 +34,7 @@
           {@html heading.node.innerHTML}
         </a>
         {#if heading.children && heading.children.length}
-          <Tree tree={heading.children} level={level + 1} {activeHeadingIdxs} {item} on:click />
+          <Tree tree={heading.children} level={level + 1} {activeHeadingIdxs} {item} {onclick} />
         {/if}
       </li>
     {/each}
