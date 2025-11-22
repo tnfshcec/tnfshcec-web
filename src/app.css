@@ -1,26 +1,7 @@
-/* Write your global styles here, in PostCSS syntax */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-@config "../tailwind.config.ts";
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-}
-
+/* NOTE: bad practice */
 @utility btn-accent {
   @apply rounded p-2 transition-[border-color,shadow];
   @apply border-accent/80 text-accent border;
@@ -71,9 +52,66 @@
   @apply bg-primary/60;
 }
 
+@theme {
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-sm: 0.5rem;
+  --radius: 1rem;
+  --radius-lg: 2rem;
+  --radius-full: 9999px;
+
+  --color-*: initial;
+  --color-text: rgb(var(--text));
+  --color-background: rgb(var(--background));
+  --color-primary: rgb(var(--primary));
+  --color-secondary: rgb(var(--secondary));
+  --color-accent: rgb(var(--accent));
+  --color-success: rgb(var(--success));
+  --color-warning: rgb(var(--warning));
+  --color-error: rgb(var(--error));
+  --color-transparent: transparent;
+  --color-inherit: inherit;
+
+  --text-sm: 0.75rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 3rem;
+  --text-4xl: 4rem;
+
+  --shadow-glow: 0 0 16px rgba(0, 0, 0, 0.25);
+  --shadow-glow-sm: 0 0 8px rgba(0, 0, 0, 0.25);
+
+  --z-top: 9999;
+
+  /* NOTE: moved Noto Color Emoji before Segoe. personal preference :) */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Noto Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 /* markdown content styles */
 
 .prose {
+  --tw-prose-body: rgb(var(--text));
+  --tw-prose-headings: rgb(var(--text));
+  --tw-prose-lead: rgb(var(--text));
+  --tw-prose-links: rgb(var(--accent));
+  --tw-prose-bold: rgb(var(--text));
+  --tw-prose-counters: rgb(var(--primary));
+  --tw-prose-bullets: rgb(var(--primary));
+  --tw-prose-hr: rgb(var(--text) / 50%);
+  --tw-prose-quotes: rgb(var(--text));
+  --tw-prose-quote-borders: rgb(var(--primary) / 50%);
+  --tw-prose-captions: rgb(var(--text) / 80%);
+  --tw-prose-kbd: rgb(var(--text));
+  --tw-prose-code: rgb(var(--text));
+  --tw-prose-pre-code: rgb(var(--text));
+  --tw-prose-pre-bg: rgb(var(--secondary));
+  --tw-prose-kbd-shadows: var(--text);
+  --tw-prose-th-borders: rgb(var(--text) / 50%);
+  --tw-prose-td-borders: rgb(var(--text) / 50%);
+
   @apply prose-blockquote:text-xl prose-pre:my-0;
 }
 
