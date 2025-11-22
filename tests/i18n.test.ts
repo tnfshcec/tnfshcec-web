@@ -4,6 +4,9 @@ import { locales } from "$paraglide/runtime";
 
 test("has anchors prefixed with locales", async ({ page }) => {
   for (const locale of locales) {
+    // skip zh-tw. no prefix should be added for this locale.
+    if (locale == "zh-tw") continue;
+
     await page.goto(`/${locale}`);
     const anchors = await page.locator("a").all();
 
