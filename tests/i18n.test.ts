@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { locales } from "$paraglide/runtime";
+import { locales } from "../src/paraglide/runtime";
 
 test("has anchors prefixed with locales", async ({ page }) => {
   for (const locale of locales) {
