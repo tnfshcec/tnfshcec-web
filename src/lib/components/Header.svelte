@@ -56,7 +56,7 @@
 
         <!-- theme toggle button -->
         <button class="hover:bg-primary/20 rounded-sm p-2 transition-colors" onclick={toggleMode}>
-          {#if $mode === "light"}
+          {#if mode.current === "light"}
             <Night class="h-8 w-8" aria-label={m.dark_theme()} id="night" />
           {:else}
             <Sunny class="h-8 w-8" aria-label={m.light_theme()} />
@@ -144,7 +144,7 @@
               class="icon-flex hover:bg-primary/20 w-full px-4 py-2 transition-colors"
               onclick={toggleMode}
             >
-              {#if $mode === "light"}
+              {#if mode.current === "light"}
                 <Night class="h-4 w-4" />
                 <span>{m.dark_theme()}</span>
               {:else}
@@ -194,8 +194,7 @@
   /* styles for external links */
   a[href^="http://"]:not([href^="http://www.tnfshcec.com"])::after,
   a[href^="https://"]:not([href^="https://www.tnfshcec.com"])::after,
-  a[href^="//"]:not([href^="//www.tnfshcec.com"])::after
-  {
+  a[href^="//"]:not([href^="//www.tnfshcec.com"])::after {
     content: "";
     position: relative;
     display: inline-block;
